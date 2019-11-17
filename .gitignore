@@ -1,0 +1,13 @@
+# Ignore folders
+.idea
+project-code/cmake-build-debug
+
+#Ignore files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+*.so
