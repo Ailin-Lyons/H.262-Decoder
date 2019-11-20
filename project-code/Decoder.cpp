@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <strings.h>
+#include <string.h>
 
 // SPEC - global constants
 // DESIGN - use builtin math
