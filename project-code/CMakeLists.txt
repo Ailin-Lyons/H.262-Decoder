@@ -3,4 +3,4 @@ project(project-code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(decoder Pes_Packet.cpp TSParser.h)
+add_executable(decoder Pes_Packet.cpp Decoder.cpp TransportPacket.cpp TransportPacket.h TSParser.h)
