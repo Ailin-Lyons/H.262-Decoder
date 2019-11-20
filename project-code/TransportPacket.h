@@ -23,8 +23,6 @@ class TransportPacket {
         unsigned char transport_scrambling_control;
         unsigned char adaptation_field_control;
         unsigned char continuity_counter;
-
-
 };
 
 
