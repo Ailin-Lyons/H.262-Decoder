@@ -35,7 +35,7 @@ private:
         unsigned char transport_scrambling_control = packet[3] >> 6 & 0x3;
         unsigned char adaptation_field_control = packet[3] >> 4 & 0x3;
         unsigned char continuity_counter = packet[3] & 0xF;
-        printf("Stuff%x|%x|%x|%x|%x|%x|%x|%x\n", sync_byte, transport_error_indicator, payload_unit_start_indicator,
+        printf("Header fields%x|%x|%x|%x|%x|%x|%x|%x\n", sync_byte, transport_error_indicator, payload_unit_start_indicator,
               transport_priority, pid, transport_scrambling_control, continuity_counter);
         // TODO initialize these values
         return TransportPacket(sync_byte, transport_error_indicator, payload_unit_start_indicator,

@@ -52,7 +52,7 @@ int displayMetaData() {
 int main(int argc, char** argv) {
 
     openStream(nullptr, nullptr); // stub
-    char fileName[] = "C:\\Users\\elnsa\\OneDrive\\XPCDOCUMENTS\\GitHub\\Directed-Studies\\test files\\testvideo_noaudio.ts";
+    char fileName[] = "..\\..\\test files\\testvideo_noaudio.ts";
     char* fn = fileName;
     TSParser::ParseFileIntoPackets(fn); // TODO remove this line | its just for testing
     // TODO: split the file into 3 parts
