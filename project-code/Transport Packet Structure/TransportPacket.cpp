@@ -15,9 +15,10 @@ TransportPacket::TransportPacket(unsigned char sb, unsigned char tei, unsigned c
     transport_scrambling_control = getTSC(tsc);
     adaptation_field_control = getAFC(afc);
     continuity_counter = cc;
-    //TODO adaptationField initialization
+    adaptationField = nullptr;
+    //TODO: adaptationField initialization
 }
 
-TransportPacket::~TransportPacket() {
-    //TODO free the adaptationField resources
-}
+TransportPacket::~TransportPacket() = default;// {
+    //TODO: free the adaptationField resources
+//}

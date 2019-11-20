@@ -46,7 +46,7 @@ private:
      * @return PID
      */
 
-    PID getPID(unsigned short parsed_pid) {
+    static PID getPID(unsigned short parsed_pid) {
         if (parsed_pid == 0x0) {
             return PID::ProgramAssociationTable;
         } else if (parsed_pid == 0x1) {
@@ -67,7 +67,7 @@ private:
      * @return TSC
      */
 
-    TSC getTSC(unsigned char parsed_tsc) {
+    static TSC getTSC(unsigned char parsed_tsc) {
         if (parsed_tsc == 0) {
             return TSC::NotScrambled;
         } else {
@@ -82,7 +82,7 @@ private:
      * @return
      */
 
-    AFC getAFC(unsigned char parsed_afc) {
+    static AFC getAFC(unsigned char parsed_afc) {
         switch (parsed_afc) {
             case 0:
                 return AFC::Reserved;
