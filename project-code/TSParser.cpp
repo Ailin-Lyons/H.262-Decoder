@@ -28,8 +28,8 @@ bool TSParser::isValidFile(char *relativePath) {
     }
 }
 
-TransportPacket* TSParser::buildTransportPacket(char *packet) {
-    unsigned char sync_byte;
+TransportPacket TSParser::buildTransportPacket(char *packet) {
+    unsigned char sync_byte; // TODO initialize these values
     unsigned char transport_error_indicator;
     unsigned char payload_unit_start_indicator;
     unsigned char transport_priority;
@@ -37,10 +37,11 @@ TransportPacket* TSParser::buildTransportPacket(char *packet) {
     unsigned char transport_scrambling_control;
     unsigned char adaptation_field_control;
     unsigned char continuity_counter;
-    return nullptr; // TODO
+    return TransportPacket(sync_byte,transport_error_indicator,payload_unit_start_indicator,
+            transport_priority,pid,transport_scrambling_control,adaptation_field_control,continuity_counter);
 }
 
-TransportPacket **TSParser::ParseFileIntoPackets(char *relativePath) {
+TransportPacket *TSParser::ParseFileIntoPackets(char *relativePath) {
     relativePath = "test files/testvideo_noaudio.ts"; // TODO remove this line
     ifstream rf(relativePath,
                 ios::out | ios::binary);
@@ -58,7 +59,7 @@ TransportPacket **TSParser::ParseFileIntoPackets(char *relativePath) {
             cout << "Error occurred at reading time!" << endl; // TODO turn this into an exception and throw
             return nullptr;
         }
-        TransportPacket **out = (TransportPacket **) malloc(sizeof(TransportPacket*) * numPackets);
+        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket*) * numPackets);
         for (int i = 0; i < numPackets; i++) {
             out[i] = buildTransportPacket(&(fileBuffer[i * 188]));
         }
