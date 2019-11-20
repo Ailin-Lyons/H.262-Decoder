@@ -15,6 +15,14 @@ private:
 
     static bool isValidFile(char *relativePath);
 
+    static TransportPacket buildTransportPacket(char* packet);
+
 public:
-    static TransportPacket *ParseFileIntoPackets(char *fileName, char *path);
+    /**
+     * Parses a .ts file and returns a set of TransportPacket objects representing each packet in the file
+     * Will throw an exception if there is an issue
+     * @param relativePath the relativePath of the .ts file to be read
+     * @return an array of TransportPackets. the caller is responsible for freeing
+     */
+    static TransportPacket *ParseFileIntoPackets(char *relativePath);
 };

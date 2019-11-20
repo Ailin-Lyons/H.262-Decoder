@@ -9,3 +9,4 @@ project-code/cmake-build-debug
 *.exe
 *.o
 *.so
+!.idea

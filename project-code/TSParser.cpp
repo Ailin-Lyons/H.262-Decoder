@@ -28,15 +28,44 @@ static class TSParser {
         }
     }
 
+    static TransportPacket buildTransportPacket(char *packet) {
+        unsigned char sync_byte;
+        unsigned char transport_error_indicator;
+        unsigned char payload_unit_start_indicator;
+        unsigned char transport_priority;
+        unsigned short pid;
+        unsigned char transport_scrambling_control;
+        unsigned char adaptation_field_control;
+        unsigned char continuity_counter;
+        return TransportPacket(); // TODO
+    }
+
     static TransportPacket *ParseFileIntoPackets(char *relativePath) {
-        ifstream rf("test files/testvideo_noaudio.ts",
-                    ios::out | ios::binary); // TODO replace filename with relativePath
-        if (isValidFile(relativePath)) { // TODO replace filename with relativePath
-            int numPackets = getFileSize(relativePath) % 188;
-        } else {
-            // TODO throw a invalid file exception
+        relativePath = "test files/testvideo_noaudio.ts"; // TODO remove this line
+        ifstream rf(relativePath,
+                    ios::out | ios::binary);
+        int fileSize = getFileSize(relativePath);
+        if (!rf) {
+            cout << "Cannot open file!" << endl; // TODO turn this into an exception and throw
+            return nullptr;
         }
-        return nullptr; // TODO
+        if (isValidFile(relativePath)) {
+            int numPackets = fileSize % 188;
+            char *fileBuffer = new char[fileSize];
+            rf.read((char *) &fileBuffer, fileSize);
+            rf.close();
+            if (!rf.good()) {
+                cout << "Error occurred at reading time!" << endl; // TODO turn this into an exception and throw
+                return nullptr;
+            }
+            TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket) * numPackets);
+            for (int i = 0; i < numPackets; i++) {
+                out[i] = buildTransportPacket(&(fileBuffer[i * 188]));
+            }
+            return out;
+        } else {
+            return nullptr; // TODO throw a invalid file exception
+        }
     }
 };
 
