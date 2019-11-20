@@ -10,5 +10,11 @@
 #endif //PROJECT_CODE_TSPARSER_H
 
 static class TSParser {
-public: static TransportPacket* ParseFileIntoPackets(char* fileName, char* path);
+private:
+    static int getFileSize(char *relativePath);
+
+    static bool isValidFile(char *relativePath);
+
+public:
+    static TransportPacket *ParseFileIntoPackets(char *fileName, char *path);
 };
