@@ -12,8 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="785d0d8e-138d-4a5a-8709-4f6f65d00074" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-code/TransportPacket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TransportPacket.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project-code/TransportPacket.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TransportPacket.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,6 +66,14 @@
       <workItem from="1574036580280" duration="618000" />
       <workItem from="1574200108057" duration="5508000" />
     </task>
+    <task id="LOCAL-00001" summary="modified git ignore">
+      <created>1574213655584</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574213655584</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -83,5 +91,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="modified git ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified git ignore" />
   </component>
 </project>
