@@ -14,7 +14,7 @@
 class TransportPacket {
     private:
         unsigned char syncByte;
-        unsigned
+        // unsigned
 
 };
 

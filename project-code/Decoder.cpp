@@ -4,7 +4,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <strings.h>
+#include <string.h>
 
 // SPEC - global constants
 // DESIGN - use builtin math
@@ -24,7 +24,7 @@ const static double e = 2.71828182845;
  */
 
 int openStream(char* fileName, char* path) {
-
+    return -1; // TODO
 }
 
 /* TODO: display the information in part 1
@@ -41,11 +41,11 @@ int openStream(char* fileName, char* path) {
  *
  */
 int parseMetaData() {
-
+    return -1; // TODO
 }
 
 int displayMetaData() {
-
+    return -1; // TODO
 }
 
 int main(int argc, char** argv) {
