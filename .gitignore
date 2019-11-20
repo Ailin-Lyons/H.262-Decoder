@@ -4,8 +4,9 @@ project-code/cmake-build-debug
 
 #Ignore files
 *.com
-*.class
+*.classw
 *.dll
 *.exe
 *.o
 *.so
+*.xml
