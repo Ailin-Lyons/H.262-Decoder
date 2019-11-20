@@ -12,9 +12,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="785d0d8e-138d-4a5a-8709-4f6f65d00074" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-code/TransportPacket.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TransportPacket.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-code/TSParser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TSParser.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-code/TSParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TSParser.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
