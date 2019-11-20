@@ -18,7 +18,7 @@ int TSParser::getFileSize(char *relativePath) {
 }
 
 bool TSParser::isValidFile(char *relativePath) {
-    int filesize = getFileSize(relativePath);
+    int filesize = TSParser::getFileSize(relativePath);
     if (filesize == -1) {
         return false; // Error getting file size
     } else if (filesize % 188 != 0) {
@@ -49,7 +49,7 @@ TransportPacket *TSParser::ParseFileIntoPackets(char *relativePath) {
         cout << "Cannot open file!" << endl; // TODO turn this into an exception and throw
         return nullptr;
     }
-    if (isValidFile(relativePath)) {
+    if (TSParser::isValidFile(relativePath)) {
         int numPackets = fileSize % 188;
         char *fileBuffer = new char[fileSize];
         rf.read((char *) &fileBuffer, fileSize);

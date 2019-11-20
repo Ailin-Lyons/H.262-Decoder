@@ -9,7 +9,7 @@
 
 #endif //PROJECT_CODE_TSPARSER_H
 
-static class TSParser {
+class TSParser {
 private:
     static int getFileSize(char *relativePath);
 
