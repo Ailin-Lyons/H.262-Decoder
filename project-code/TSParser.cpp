@@ -18,7 +18,7 @@ int TSParser::getFileSize(char *relativePath) {
 }
 
 bool TSParser::isValidFile(char *relativePath) {
-    int filesize = getFileSize(relativePath);
+    int filesize = TSParser::getFileSize(relativePath);
     if (filesize == -1) {
         return false; // Error getting file size
     } else if (filesize % 188 != 0) {
@@ -28,7 +28,7 @@ bool TSParser::isValidFile(char *relativePath) {
     }
 }
 
-TransportPacket TSParser::buildTransportPacket(char *packet) {
+TransportPacket* TSParser::buildTransportPacket(char *packet) {
     unsigned char sync_byte;
     unsigned char transport_error_indicator;
     unsigned char payload_unit_start_indicator;
@@ -37,10 +37,10 @@ TransportPacket TSParser::buildTransportPacket(char *packet) {
     unsigned char transport_scrambling_control;
     unsigned char adaptation_field_control;
     unsigned char continuity_counter;
-    return TransportPacket(); // TODO
+    return nullptr; // TODO
 }
 
-TransportPacket *TSParser::ParseFileIntoPackets(char *relativePath) {
+TransportPacket **TSParser::ParseFileIntoPackets(char *relativePath) {
     relativePath = "test files/testvideo_noaudio.ts"; // TODO remove this line
     ifstream rf(relativePath,
                 ios::out | ios::binary);
@@ -49,7 +49,7 @@ TransportPacket *TSParser::ParseFileIntoPackets(char *relativePath) {
         cout << "Cannot open file!" << endl; // TODO turn this into an exception and throw
         return nullptr;
     }
-    if (isValidFile(relativePath)) {
+    if (TSParser::isValidFile(relativePath)) {
         int numPackets = fileSize % 188;
         char *fileBuffer = new char[fileSize];
         rf.read((char *) &fileBuffer, fileSize);
@@ -58,7 +58,7 @@ TransportPacket *TSParser::ParseFileIntoPackets(char *relativePath) {
             cout << "Error occurred at reading time!" << endl; // TODO turn this into an exception and throw
             return nullptr;
         }
-        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket) * numPackets);
+        TransportPacket **out = (TransportPacket **) malloc(sizeof(TransportPacket*) * numPackets);
         for (int i = 0; i < numPackets; i++) {
             out[i] = buildTransportPacket(&(fileBuffer[i * 188]));
         }

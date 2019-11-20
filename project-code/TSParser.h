@@ -9,13 +9,13 @@
 
 #endif //PROJECT_CODE_TSPARSER_H
 
-static class TSParser {
+class TSParser {
 private:
     static int getFileSize(char *relativePath);
 
     static bool isValidFile(char *relativePath);
 
-    static TransportPacket buildTransportPacket(char* packet);
+    static TransportPacket* buildTransportPacket(char* packet);
 
 public:
     /**
@@ -24,5 +24,5 @@ public:
      * @param relativePath the relativePath of the .ts file to be read
      * @return an array of TransportPackets. the caller is responsible for freeing
      */
-    static TransportPacket *ParseFileIntoPackets(char *relativePath);
+    static TransportPacket **ParseFileIntoPackets(char *relativePath);
 };
