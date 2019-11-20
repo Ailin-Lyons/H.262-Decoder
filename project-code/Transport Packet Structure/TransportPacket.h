@@ -108,10 +108,11 @@ private:
     AFC adaptation_field_control;
     unsigned char continuity_counter;
     AdaptationField* adaptationField;
+    char* data;
 
 public:
     TransportPacket(unsigned char sb, unsigned char tei, unsigned char pusi, unsigned char tp,
-            unsigned short pid, unsigned char tsc, unsigned char afc, unsigned char cc);
+            unsigned short pid, unsigned char tsc, unsigned char afc, unsigned char cc, AdaptationField* af, char* d);
     ~TransportPacket();
 
 

@@ -6,7 +6,7 @@
 
 
 TransportPacket::TransportPacket(unsigned char sb, unsigned char tei, unsigned char pusi, unsigned char tp,
-                                 unsigned short pid, unsigned char tsc, unsigned char afc, unsigned char cc) {
+                                 unsigned short pid, unsigned char tsc, unsigned char afc, unsigned char cc, AdaptationField* af, char* d) {
     sync_byte = sb;
     transport_error_indicator = tei;
     payload_unit_start_indicator = pusi;
@@ -16,6 +16,8 @@ TransportPacket::TransportPacket(unsigned char sb, unsigned char tei, unsigned c
     adaptation_field_control = getAFC(afc);
     continuity_counter = cc;
     adaptationField = nullptr;
+    adaptationField = af;
+    data = d;
     //TODO: adaptationField initialization
 }
 

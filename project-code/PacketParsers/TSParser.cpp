@@ -1,10 +1,14 @@
-#include "Transport Packet Structure/TransportPacket.h"
+#include "../Transport Packet Structure/TransportPacket.h"
 #include<iostream>
 #include<fstream>
 #include <sys/stat.h>
+#include "AFParser.cpp"
 
 using namespace std;
 
+//
+// Created by elnsa on 2019-11-19.
+//
 class TSParser {
 private:
     static int getFileSize(char *relativePath) {
@@ -26,7 +30,7 @@ private:
         }
     }
 
-    static TransportPacket buildTransportPacket(const char *packet) {
+    static TransportPacket buildTransportPacket(char *packet) {
         unsigned char sync_byte = packet[0];
         unsigned char transport_error_indicator = (packet[1] >> 7) & 0x1;
         unsigned char payload_unit_start_indicator = packet[1] >> 6 & 0x1;
@@ -35,12 +39,20 @@ private:
         unsigned char transport_scrambling_control = packet[3] >> 6 & 0x3;
         unsigned char adaptation_field_control = packet[3] >> 4 & 0x3;
         unsigned char continuity_counter = packet[3] & 0xF;
-        printf("Header fields%x|%x|%x|%x|%x|%x|%x|%x\n", sync_byte, transport_error_indicator, payload_unit_start_indicator,
-              transport_priority, pid, transport_scrambling_control, continuity_counter);
-        // TODO initialize these values
+        char *index = (char *) &(packet[4]);
+        AdaptationField *adaptationField;
+        if (adaptation_field_control == 0x2 || adaptation_field_control == 0x3) {
+            index = AFParser::generateAdaptationField(&packet[4], adaptationField);
+        }
+        char *data = (char *) malloc(sizeof(char) * (188 - (index - packet)));
+        if (adaptation_field_control == 0x1 || adaptation_field_control == 0x3) {
+            for (int i = 0; i < (188 - (index - packet)); i++) {
+                data[i] = index[i];
+            }
+        }
         return TransportPacket(sync_byte, transport_error_indicator, payload_unit_start_indicator,
                                transport_priority, pid, transport_scrambling_control, adaptation_field_control,
-                               continuity_counter);
+                               continuity_counter, adaptationField, data);
     }
 
 public:
