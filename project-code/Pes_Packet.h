@@ -5,6 +5,10 @@
 #ifndef DIRECTED_STUDIES_PES_PACKET_H
 #define DIRECTED_STUDIES_PES_PACKET_H
 
+/*
+ * Class for representing the structure of a Pes_Packet
+ *
+ */
 
 class Pes_Packet {
 
