@@ -14,15 +14,20 @@
 
 
 class TransportPacket {
-    private:
-        unsigned char sync_byte;
-        unsigned char transport_error_indicator;
-        unsigned char payload_unit_start_indicator;
-        unsigned char transport_priority;
-        unsigned short pid;
-        unsigned char transport_scrambling_control;
-        unsigned char adaptation_field_control;
-        unsigned char continuity_counter;
+private:
+    unsigned char sync_byte;
+    unsigned char transport_error_indicator;
+    unsigned char payload_unit_start_indicator;
+    unsigned char transport_priority;
+    unsigned short pid;
+    unsigned char transport_scrambling_control;
+    unsigned char adaptation_field_control;
+    unsigned char continuity_counter;
+public:
+    TransportPacket();
+    ~TransportPacket();
+
+
 };
 
 

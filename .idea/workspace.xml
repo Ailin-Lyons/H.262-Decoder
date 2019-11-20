@@ -12,8 +12,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="785d0d8e-138d-4a5a-8709-4f6f65d00074" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/project-code/TSParser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TSParser.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-code/TSParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TSParser.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-code/TransportPacket.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/TransportPacket.h" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,6 +26,13 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
