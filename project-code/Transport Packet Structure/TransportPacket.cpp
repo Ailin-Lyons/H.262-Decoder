@@ -2,6 +2,7 @@
 // Created by bhave on 11/19/2019.
 //
 
+#include <cstdio>
 #include "TransportPacket.h"
 
 
@@ -18,6 +19,7 @@ TransportPacket::TransportPacket(unsigned char sb, unsigned char tei, unsigned c
     adaptationField = nullptr;
     adaptationField = af;
     data = d;
+    std::printf("sync: %hhx, tei: %hhx, pusi: %hhx, tp: %hhx, pid: %hx, tsc: %hhx, afc: %hhx, cc: %hhx, afptr: %x, dataptr: %x\n",sb,tei,pusi,tp,this->pid,tsc,afc,cc,af,d);
     //TODO: adaptationField initialization
 }
 
