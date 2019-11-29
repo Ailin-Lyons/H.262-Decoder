@@ -35,7 +35,6 @@ int openStream(char *file_name, char *path) {
 */
 
 /**
- * @deprecated
  * @return
  */
 int parseMetaData() {
