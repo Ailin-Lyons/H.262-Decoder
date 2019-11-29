@@ -13,10 +13,9 @@
 
 class TransportPacket {
 
-private:
-
-    /**
-     * Defining private enums for Transport packet
+public:
+/**
+     * Defining enums for Transport packet
      */
 
     enum class PID {
@@ -39,12 +38,12 @@ private:
         AFieldPayload
     };
 
-    /**
-     * Returns the correct PID given parsed_pid
-     *
-     * @param parsed_pid
-     * @return PID
-     */
+/**
+ * Returns the correct PID given parsed_pid
+ *
+ * @param parsed_pid
+ * @return PID
+ */
 
     static PID getPID(unsigned short parsed_pid) {
         if (parsed_pid == 0x0) {
@@ -53,19 +52,19 @@ private:
             return PID::ConditionalAccessTable;
         } else if (parsed_pid == 0x1fff) {
             return PID::NullPacket;
-        } else if (parsed_pid <= 0x000F){
+        } else if (parsed_pid <= 0x000F) {
             return PID::Reserved;
         } else {
             return PID::Misc;
         }
     }
 
-    /**
-     * Returns the correct TSC given parsed_afc
-     *
-     * @param parsed_tsc
-     * @return TSC
-     */
+/**
+ * Returns the correct TSC given parsed_afc
+ *
+ * @param parsed_tsc
+ * @return TSC
+ */
 
     static TSC getTSC(unsigned char parsed_tsc) {
         if (parsed_tsc == 0) {
@@ -75,12 +74,12 @@ private:
         }
     }
 
-    /**
-     * Returns the correct AFC given the parsed_afc
-     *
-     * @param parsed_afc
-     * @return
-     */
+/**
+ * Returns the correct AFC given the parsed_afc
+ *
+ * @param parsed_afc
+ * @return
+ */
 
     static AFC getAFC(unsigned char parsed_afc) {
         switch (parsed_afc) {
@@ -95,23 +94,37 @@ private:
         }
     }
 
+/**
+ * Struct that contains all transport packet header fields
+ */
+    struct transport_header_fields {
+        unsigned char sync_byte;
+        unsigned char transport_error_indicator;
+        unsigned char payload_unit_start_indicator;
+        unsigned char transport_priority;
+        PID pid;
+        TSC transport_scrambling_control;
+        AFC adaptation_field_control;
+        unsigned char continuity_counter;
+    };
+
+
     /**
      * Fields for the Transport Packet
      */
-
-    unsigned char sync_byte;
-    unsigned char transport_error_indicator;
-    unsigned char payload_unit_start_indicator;
-    unsigned char transport_priority;
-    PID pid;
-    TSC transport_scrambling_control;
-    AFC adaptation_field_control;
-    unsigned char continuity_counter;
-    AdaptationField* adaptationField;
+    transport_header_fields header_fields;
+    AdaptationField *adaptationField;
+    char *data;
 
 public:
-    TransportPacket(unsigned char sb, unsigned char tei, unsigned char pusi, unsigned char tp,
-            unsigned short pid, unsigned char tsc, unsigned char afc, unsigned char cc);
+    /**
+     * Constructor
+     * @param thf a transport_header_field struct containing all TS packet header fields
+     * @param af a pointer to an adaptationField object
+     * @param d an array of bytes representing data
+     */
+    TransportPacket(transport_header_fields thf, AdaptationField *af, char *d);
+
     ~TransportPacket();
 
 
