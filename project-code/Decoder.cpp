@@ -7,7 +7,7 @@
 #include <string.h>
 #include "TSParser.cpp"
 
-// SPEC - global constants
+// note - global constants
 // DESIGN - use builtin math
 
 const static double pi = 3.14159265359;
@@ -34,12 +34,9 @@ int openStream(char* fileName, char* path) {
  *         display and parse separately
 */
 
-/*
- * SPEC -
- *      input:
- *      output:
- *      errors:
- *
+/**
+ * @deprecated
+ * @return
  */
 int parseMetaData() {
     return -1; // TODO

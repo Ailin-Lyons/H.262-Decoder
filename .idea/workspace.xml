@@ -13,8 +13,7 @@
   <component name="ChangeListManager">
     <list default="true" id="785d0d8e-138d-4a5a-8709-4f6f65d00074" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-code/Transport Packet Structure/TransportPacket.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/Transport Packet Structure/TransportPacket.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-code/Transport Packet Structure/TransportPacket.h" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/Transport Packet Structure/TransportPacket.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-code/Decoder.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/project-code/Decoder.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,6 +39,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -70,7 +70,23 @@
       <updated>1574036577886</updated>
       <workItem from="1574036580280" duration="618000" />
       <workItem from="1574200108057" duration="5508000" />
+      <workItem from="1574281437135" duration="559000" />
     </task>
+    <task id="LOCAL-00001" summary="transport packet cpp updated">
+      <created>1574222405705</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1574222405705</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fixed a couple warnings">
+      <created>1574222581252</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1574222581252</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,5 +104,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="transport packet cpp updated" />
+    <MESSAGE value="fixed a couple warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed a couple warnings" />
   </component>
 </project>
