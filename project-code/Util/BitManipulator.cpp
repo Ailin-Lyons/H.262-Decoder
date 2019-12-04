@@ -1,9 +1,7 @@
-#include <cstdio>
-
 //
 // Created by elnsa on 2019-12-03.
 //
-class BitManipulator { // TODO properly test this class
+class BitManipulator { // TODO thoroughly test this class as it is essential throughout.
 public:
     /**
      * Reads numBits bits starting at index and returns them as a long long

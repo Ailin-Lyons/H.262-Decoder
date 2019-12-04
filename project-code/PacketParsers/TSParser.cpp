@@ -104,13 +104,13 @@ private:
     TransportPacket buildTransportPacket(unsigned char *packet) {
         TransportPacket::transport_header_fields thf_out;
         thf_out.sync_byte = packet[0];
-        thf_out.transport_error_indicator = (packet[1] >> 7) & 0x1; // TODO clean all these up with BitManipulator::ReadNOffset
-        thf_out.payload_unit_start_indicator = packet[1] >> 6 & 0x1;
-        thf_out.transport_priority = packet[1] >> 5 & 0x1;
-        thf_out.pid = TransportPacket::getPID(packet[2] + ((packet[1] & 0x1F) << 8));
-        thf_out.transport_scrambling_control = TransportPacket::getTSC(packet[3] >> 6 & 0x3);
-        thf_out.adaptation_field_control = TransportPacket::getAFC(packet[3] >> 4 & 0x3);
-        thf_out.continuity_counter = packet[3] & 0xF;
+        thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[1], 1);
+        thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[1], 1, 1);
+        thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[1], 2, 1);
+        thf_out.pid = TransportPacket::getPID(BitManipulator::ReadNBitsOffset(&packet[1], 3, 13));
+        thf_out.transport_scrambling_control = TransportPacket::getTSC(BitManipulator::ReadNBits(&packet[3], 2));
+        thf_out.adaptation_field_control = TransportPacket::getAFC(BitManipulator::ReadNBitsOffset(&packet[3], 2, 2));
+        thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[3], 4, 4);
         unsigned char *index = (unsigned char *) &(packet[4]);
         AdaptationField *adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
