@@ -104,7 +104,7 @@ private:
     TransportPacket buildTransportPacket(unsigned char *packet) {
         TransportPacket::transport_header_fields thf_out;
         thf_out.sync_byte = packet[0];
-        thf_out.transport_error_indicator = (packet[1] >> 7) & 0x1;
+        thf_out.transport_error_indicator = (packet[1] >> 7) & 0x1; // TODO clean all these up with BitManipulator::ReadNOffset
         thf_out.payload_unit_start_indicator = packet[1] >> 6 & 0x1;
         thf_out.transport_priority = packet[1] >> 5 & 0x1;
         thf_out.pid = TransportPacket::getPID(packet[2] + ((packet[1] & 0x1F) << 8));

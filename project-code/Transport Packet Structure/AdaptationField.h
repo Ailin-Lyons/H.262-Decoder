@@ -21,18 +21,22 @@ public:
     unsigned char adaptation_field_extension_flag;
     unsigned long long program_clock_reference_base;
     unsigned long long program_clock_reference_extension;
-    unsigned long long original_program_clock_reference;
+    unsigned long long original_program_clock_reference_base;
+    unsigned long long original_program_clock_reference_extension;
     unsigned char splice_countdown;
     unsigned char transport_private_data_length;
-    char* private_data_byte;
+    unsigned char* private_data_byte;
     unsigned char adaptation_field_extension_length;
     unsigned char ltw_flag;
     unsigned char piecewise_rate_flag;
+    unsigned char seamless_splice_flag;
     unsigned char ltw_valid_flag;
-    unsigned short lt_offset;
+    unsigned short ltw_offset;
     unsigned int piecewise_rate;
     unsigned char splice_type;
-    unsigned long long DTS_next_AU;
+    unsigned long long DTS_next_AU_32_30;
+    unsigned long long DTS_next_AU_29_15;
+    unsigned long long DTS_next_AU_14_0;
 
 public:
 
