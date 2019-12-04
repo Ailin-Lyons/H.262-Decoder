@@ -21,8 +21,8 @@ public:
             out.transport_private_data_flag = (packet[1] >> 1) & 0x1;
             out.adaptation_field_extension_flag = packet[1] & 0x1;
             if (out.PCR_flag == 1) {
-                out.program_clock_reference_base = BitManipulator::readNBits(&packet[2], 33);
-                out.program_clock_reference_extension = BitManipulator::readNBitsOffset(&packet[5], 7, 9);
+                out.program_clock_reference_base = BitManipulator::ReadNBits(&packet[2], 33);
+                out.program_clock_reference_extension = BitManipulator::ReadNBitsOffset(&packet[5], 7, 9);
             }
             if (out.OPCR_flag == 1) {
                 // TODO
