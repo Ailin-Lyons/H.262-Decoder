@@ -10,3 +10,4 @@ project-code/cmake-build-debug
 *.o
 *.so
 *.xml
+.idea/workspace.xml
