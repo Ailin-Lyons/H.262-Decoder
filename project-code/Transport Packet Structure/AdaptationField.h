@@ -8,9 +8,10 @@
 
 class AdaptationField {
 
-private:
+public:
 
     unsigned char adaptation_field_length;
+    unsigned char discontinuity_indicator;
     unsigned char random_access_indicator;
     unsigned char elementary_stream_priority_indicator;
     unsigned char PCR_flag;
@@ -18,7 +19,8 @@ private:
     unsigned char splicing_point_flag;
     unsigned char transport_private_data_flag;
     unsigned char adaptation_field_extension_flag;
-    unsigned long long program_clock_reference;
+    unsigned long long program_clock_reference_base;
+    unsigned long long program_clock_reference_extension;
     unsigned long long original_program_clock_reference;
     unsigned char splice_countdown;
     unsigned char transport_private_data_length;

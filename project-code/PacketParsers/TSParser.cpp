@@ -56,7 +56,7 @@ public:
             return nullptr;
         }
         TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
-        out[0] = buildTransportPacket(file_buffer);
+        out[0] = buildTransportPacket((unsigned char *) file_buffer);
         return out;
     }
 
@@ -101,7 +101,7 @@ private:
      * @param packet: TS Packet in binary form
      * @return a TransPortPacket Object containing all fields and data from binary packet
      */
-    TransportPacket buildTransportPacket(char *packet) {
+    TransportPacket buildTransportPacket(unsigned char *packet) {
         TransportPacket::transport_header_fields thf_out;
         thf_out.sync_byte = packet[0];
         thf_out.transport_error_indicator = (packet[1] >> 7) & 0x1;
@@ -111,7 +111,7 @@ private:
         thf_out.transport_scrambling_control = TransportPacket::getTSC(packet[3] >> 6 & 0x3);
         thf_out.adaptation_field_control = TransportPacket::getAFC(packet[3] >> 4 & 0x3);
         thf_out.continuity_counter = packet[3] & 0xF;
-        char *index = (char *) &(packet[4]);
+        unsigned char *index = (unsigned char *) &(packet[4]);
         AdaptationField *adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
