@@ -40,7 +40,7 @@ public:
      * @return true iff current there are additional packets in file
      */
     bool HasNextPacket() {
-        return index < num_packets - 1;
+        return index < num_packets;
     }
 
     /**
@@ -49,7 +49,6 @@ public:
      * @return a TransportPacket object || a null pointer if there was an error loading packet
      */
     TransportPacket *GetNextPacket() {
-        index++;
         rf->read(file_buffer, 188);
         if (!rf->good()) {
             cout << "TSParser:: Error occurred at reading time!" << endl; // TODO throw exception
@@ -57,6 +56,7 @@ public:
         }
         TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         out[0] = buildTransportPacket((unsigned char *) file_buffer);
+        index++;
         return out;
     }
 

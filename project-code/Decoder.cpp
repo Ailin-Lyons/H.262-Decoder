@@ -46,7 +46,7 @@ int displayMetaData() {
 }
 
 int main(int argc, char **argv) {
-    char relative_path[] = "..\\..\\test files\\testvideo_noaudio.ts";
+    char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
     char *path = relative_path;
     TSParser *tsParser = new TSParser(path);
     while (tsParser->HasNextPacket()) {
