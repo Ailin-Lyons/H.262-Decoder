@@ -117,7 +117,7 @@ private:
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
             index = AFParser::generateAdaptationField(&packet[4], adaptationField);
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - (index - packet)));
+        char *data = (char *) malloc(sizeof(char) * (188 - (index - packet))); // TODO make sure this is freed
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; i < (188 - (index - packet)); i++) {
