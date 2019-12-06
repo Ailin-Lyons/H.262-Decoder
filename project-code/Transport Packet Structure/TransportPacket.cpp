@@ -19,7 +19,7 @@ TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField *a
     adaptationField = af;    //TODO: adaptationField initialization
     data = d;
     std::printf(
-            "sync: %hhx, tei: %hhx, pusi: %hhx, tp: %hhx, pid: %hx, tsc: %hhx, afc: %hhx, cc: %hhx, afptr: %x, dataptr: %x\n",
+            "TransportHeader:\nsync: %hhx, tei: %hhx, pusi: %hhx, tp: %hhx, pid: %hx, tsc: %hhx, afc: %hhx, cc: %hhx, afptr: %x, dataptr: %x\n \n",
             header_fields.sync_byte, header_fields.transport_error_indicator,
             header_fields.payload_unit_start_indicator, header_fields.transport_priority,
             header_fields.pid, header_fields.transport_scrambling_control, header_fields.adaptation_field_control,

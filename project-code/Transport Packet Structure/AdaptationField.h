@@ -19,13 +19,10 @@ public:
     unsigned char splicing_point_flag;
     unsigned char transport_private_data_flag;
     unsigned char adaptation_field_extension_flag;
-    unsigned long long program_clock_reference_base;
-    unsigned long long program_clock_reference_extension;
-    unsigned long long original_program_clock_reference_base;
-    unsigned long long original_program_clock_reference_extension;
+    unsigned long long program_clock_reference;
+    unsigned long long original_program_clock_reference;
     unsigned char splice_countdown;
-    unsigned char transport_private_data_length;
-    unsigned char* private_data_byte;
+    unsigned char transport_private_data_length; // transport_private_data is not handled
     unsigned char adaptation_field_extension_length;
     unsigned char ltw_flag;
     unsigned char piecewise_rate_flag;
@@ -33,10 +30,8 @@ public:
     unsigned char ltw_valid_flag;
     unsigned short ltw_offset;
     unsigned int piecewise_rate;
-    unsigned char splice_type;
-    unsigned long long DTS_next_AU_32_30;
-    unsigned long long DTS_next_AU_29_15;
-    unsigned long long DTS_next_AU_14_0;
+    unsigned char splice_type; //TODO make splice_type an enum?
+    unsigned long long DTS_next_AU;
 
 public:
 
