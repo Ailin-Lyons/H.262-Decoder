@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include "PacketParsers/TSParser.cpp"
 
-// SPEC - global constants
+// note - global constants
 // DESIGN - use builtin math
 
 const static double pi = 3.14159265359;
@@ -23,8 +24,8 @@ const static double e = 2.71828182845;
  * Output: file* or memory map
  */
 
-int openStream(char* fileName, char* path) {
-    return -1; // TODO
+int openStream(char *file_name, char *path) {
+    return -1; // TODO return appropriate ints depending on whether constructor was successful
 }
 
 /* TODO: display the information in part 1
@@ -33,12 +34,8 @@ int openStream(char* fileName, char* path) {
  *         display and parse separately
 */
 
-/*
- * SPEC -
- *      input:
- *      output:
- *      errors:
- *
+/**
+ * @return
  */
 int parseMetaData() {
     return -1; // TODO
@@ -48,9 +45,14 @@ int displayMetaData() {
     return -1; // TODO
 }
 
-int main(int argc, char** argv) {
-
-    openStream(nullptr, nullptr); // stub
+int main(int argc, char **argv) {
+    //char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
+    char relative_path[] = "..\\..\\test files\\testvideo_noaudio.ts";
+    char *path = relative_path;
+    TSParser *tsParser = new TSParser(path);
+    while (tsParser->HasNextPacket()) {
+        tsParser->GetNextPacket();
+    }
     // TODO: split the file into 3 parts
 
 
