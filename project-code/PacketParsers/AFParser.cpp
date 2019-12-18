@@ -78,7 +78,7 @@ public:
                     long long DTS_next_AU_29_15 = BitManipulator::ReadNBits(&packet[index], 15);
                     index += 2;
                     long long DTS_next_AU_14_0 = BitManipulator::ReadNBits(&packet[index], 15);
-                    index += 2;
+                    //index += 2; Design - no need as it is not used after this
                     out.DTS_next_AU = (DTS_next_AU_32_30 << 30) + (DTS_next_AU_29_15 << 15) + DTS_next_AU_14_0;
                 }
                 // TODO: This is where final reserved bytes would be handled.
@@ -90,15 +90,18 @@ public:
 
         //Todo - Change to Overriding standard library printf
 
+        out.toString();
 
-        std::printf(
-                "AdaptationField:\nafl: %hhx, di: %hhx, rai: %hhx, espi: %hhx, pcrf: %hhx, opcrf: %hhx, spf: %hhx, tpdf: %hhx, afef: %hhx, pcr: %llx,\n opcr: %llx, sc: %hhx, tpdl: %hhx, afel: %hhx, ltwf: %hhx, prf: %hhx, ssf: %hhx, ltwvf: %hhx,\n ltwo: %hx, pr: %x, st: %hhx, DTSAU: %llx \n \n",
-                out.adaptation_field_length, out.discontinuity_indicator, out.random_access_indicator,
-                out.elementary_stream_priority_indicator, out.PCR_flag, out.OPCR_flag, out.splicing_point_flag,
-                out.transport_private_data_flag, out.adaptation_field_extension_flag, out.program_clock_reference,
-                out.original_program_clock_reference, out.splice_countdown, out.transport_private_data_length,
-                out.adaptation_field_extension_length, out.ltw_flag, out.piecewise_rate_flag, out.seamless_splice_flag,
-                out.ltw_valid_flag, out.ltw_offset, out.piecewise_rate, out.splice_type, out.DTS_next_AU);
+//        std::printf(
+//                "AdaptationField:\nafl: %hhx, di: %hhx, rai: %hhx, espi: %hhx, pcrf: %hhx, opcrf: %hhx, spf: %hhx, tpdf: %hhx, afef: %hhx, pcr: %llx,\n opcr: %llx, sc: %hhx, tpdl: %hhx, afel: %hhx, ltwf: %hhx, prf: %hhx, ssf: %hhx, ltwvf: %hhx,\n ltwo: %hx, pr: %x, st: %hhx, DTSAU: %llx \n \n",
+//                out.adaptation_field_length, out.discontinuity_indicator, out.random_access_indicator,
+//                out.elementary_stream_priority_indicator, out.PCR_flag, out.OPCR_flag, out.splicing_point_flag,
+//                out.transport_private_data_flag, out.adaptation_field_extension_flag, out.program_clock_reference,
+//                out.original_program_clock_reference, out.splice_countdown, out.transport_private_data_length,
+//                out.adaptation_field_extension_length, out.ltw_flag, out.piecewise_rate_flag, out.seamless_splice_flag,
+//                out.ltw_valid_flag, out.ltw_offset, out.piecewise_rate, out.splice_type, out.DTS_next_AU);
         return packet + 1 + out.adaptation_field_length;
     }
+
+
 };

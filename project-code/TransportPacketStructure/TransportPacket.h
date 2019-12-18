@@ -125,6 +125,8 @@ public:
      */
     TransportPacket(transport_header_fields thf, AdaptationField *af, char *d);
 
+    void toString();
+
     ~TransportPacket();
 
 
