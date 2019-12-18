@@ -69,6 +69,7 @@ import sys
 
 import common
 
+
 # Wiki pages that shouldn't be branched for every gtest/gmock release.
 GTEST_UNVERSIONED_WIKIS = ['DevGuide.wiki']
 GMOCK_UNVERSIONED_WIKIS = [

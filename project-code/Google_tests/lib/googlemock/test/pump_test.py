@@ -31,8 +31,8 @@
 
 """Tests for the Pump meta-programming tool."""
 
-import google3.third_party.googletest.googlemock.scripts.pump
 from google3.testing.pybase import googletest
+import google3.third_party.googletest.googlemock.scripts.pump
 
 pump = google3.third_party.googletest.googlemock.scripts.pump
 Convert = pump.ConvertFromPumpSource

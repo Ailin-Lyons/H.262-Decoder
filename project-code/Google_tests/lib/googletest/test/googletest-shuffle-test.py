@@ -31,7 +31,6 @@
 """Verifies that test shuffling works."""
 
 import os
-
 import gtest_test_utils
 
 # Command to run the googletest-shuffle-test_ program.

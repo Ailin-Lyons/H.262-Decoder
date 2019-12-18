@@ -11,8 +11,8 @@ set(SOURCE_FILES
 add_executable(decoder ${SOURCE_FILES})
 
 
-#TODO - adding AllTests
-add_subdirectory(AllTests)
+#TODO - adding Google_tests
+#add_subdirectory(Google_tests)
 
 
 # adding the PacketParsers
@@ -29,8 +29,3 @@ target_link_libraries(decoder "TSPacket")
 include_directories("PesPacket")
 add_subdirectory("PesPacket")
 target_link_libraries(decoder "PesPacket")
-
-# adding the Util
-include_directories(Util)
-add_subdirectory(Util)
-target_link_libraries(decoder Util)
