@@ -1,8 +1,7 @@
 //
 // Created by elnsa on 2019-12-03.
 //
-
-class BitManipulator { // TODO test this class
+class BitManipulator { // TODO thoroughly test this class as we will use it a lot
 public:
     /**
      * Reads numBits bits starting at index and returns them as a long long
