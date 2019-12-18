@@ -5,10 +5,16 @@
 #include <cstdlib>
 #include <cstdio>
 #include "../Util/BitManipulator.cpp"
-#include "../Transport Packet Structure/AdaptationField.h"
+#include "../TransportPacketStructure/AdaptationField.h"
 
 class AFParser {    // TODO test this class
 public:
+    /**
+     *
+     * @param packet - pointer to packet data
+     * @param adaptation_field - TODO why do we need this?
+     * @return unsigned char * TODO - change to size_t
+     */
     static unsigned char *generateAdaptationField(unsigned char *packet, AdaptationField *adaptation_field) {
         AdaptationField out = AdaptationField();
         int index = 0;
@@ -75,10 +81,16 @@ public:
                     index += 2;
                     out.DTS_next_AU = (DTS_next_AU_32_30 << 30) + (DTS_next_AU_29_15 << 15) + DTS_next_AU_14_0;
                 }
-                // This is where final reserved bytes would be handled.
+                // TODO: This is where final reserved bytes would be handled.
             }
         }
+        // TODO - what is this referring to???
         // +1 for adaptation_field_length see H.222 2.4.3.5
+
+
+        //Todo - Change to Overriding standard library printf
+
+
         std::printf(
                 "AdaptationField:\nafl: %hhx, di: %hhx, rai: %hhx, espi: %hhx, pcrf: %hhx, opcrf: %hhx, spf: %hhx, tpdf: %hhx, afef: %hhx, pcr: %llx,\n opcr: %llx, sc: %hhx, tpdl: %hhx, afel: %hhx, ltwf: %hhx, prf: %hhx, ssf: %hhx, ltwvf: %hhx,\n ltwo: %hx, pr: %x, st: %hhx, DTSAU: %llx \n \n",
                 out.adaptation_field_length, out.discontinuity_indicator, out.random_access_indicator,

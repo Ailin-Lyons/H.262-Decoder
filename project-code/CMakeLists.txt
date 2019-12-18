@@ -3,4 +3,29 @@ project(project-code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(decoder Pes_Packet.cpp Decoder.cpp "Transport Packet Structure/TransportPacket.cpp" "Transport Packet Structure/TransportPacket.h" PacketParsers/TSParser.cpp "Transport Packet Structure/AdaptationField.cpp" "Transport Packet Structure/AdaptationField.h" PacketParsers/AFParser.cpp Util/BitManipulator.cpp)
+
+set(SOURCE_FILES
+        Decoder.cpp
+        Util/BitManipulator.cpp)
+
+add_executable(decoder ${SOURCE_FILES})
+
+
+#TODO - adding Google_tests
+#add_subdirectory(Google_tests)
+
+
+# adding the PacketParsers
+include_directories("PacketParsers")
+add_subdirectory("PacketParsers")
+target_link_libraries(decoder "PacketParsers")
+
+# adding the TransportPacketStructure
+include_directories("TransportPacketStructure")
+add_subdirectory("TransportPacketStructure")
+target_link_libraries(decoder "TSPacket")
+
+# adding the PesPacket
+include_directories("PesPacket")
+add_subdirectory("PesPacket")
+target_link_libraries(decoder "PesPacket")

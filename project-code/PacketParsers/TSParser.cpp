@@ -1,34 +1,37 @@
-#include "../Transport Packet Structure/TransportPacket.h"
+#include "../TransportPacketStructure/TransportPacket.h"
 #include<iostream>
 #include<fstream>
 #include <sys/stat.h>
 #include "AFParser.cpp"
 
-using namespace std;
+//using namespace std;
 
 //
 // Created by elnsa on 2019-11-19.
 //
 class TSParser {
-    ifstream *rf;
+    std::ifstream *rf;
     int file_size;
     int num_packets;
     char *file_buffer;
     int index = 0;
 
 public:
+
     /**
-     * Constructor
+     * Explicit Constructor
      */
-    TSParser(char *relative_path) {
-        rf = new ifstream(relative_path, ios::in | ios::binary);
+    explicit TSParser(char *relative_path) {
+        rf = new std::ifstream(relative_path, std::ios::in | std::ios::binary);
         file_size = getFileSize(relative_path);
+        // TODO - change to using the builtin error checking to throw the exceptions
         if (!(*rf)) {
-            cout << "TSParser::Cannot open file!" << endl; // TODO throw exception
+            std::cout << "TSParser::Cannot open file!" << std::endl; // TODO throw exception
             return;
         }
+        // TODO - check valid before reading?
         if (!isValidFile(relative_path)) {
-            cout << "TSParser::Invalid File!" << endl; // TODO throw exception
+            std::cout << "TSParser::Invalid File!" << std::endl; // TODO throw exception
             return;
         }
         num_packets = file_size / 188;
@@ -37,11 +40,14 @@ public:
 
     /**
      * Must be called before calling getNextPacket to avoid errors
-     * @return true iff current there are additional packets in file
+     * @return true iff there are additional packets in file
      */
     bool HasNextPacket() {
         return index < num_packets;
     }
+
+
+    // DESIGN - maybe just call HasNextPacket in GetNextPacket as well and throw an exception
 
     /**
      * HasNextPacket must be called and return true before calling this function
@@ -51,7 +57,7 @@ public:
     TransportPacket *GetNextPacket() {
         rf->read(file_buffer, 188);
         if (!rf->good()) {
-            cout << "TSParser:: Error occurred at reading time!" << endl; // TODO throw exception
+            std::cout << "TSParser:: Error occurred at reading time!" << std::endl; // TODO throw exception
             return nullptr;
         }
         TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
@@ -69,7 +75,7 @@ public:
 private:
     /**
      * A helper function that determines the length of a file in bytes
-     * @param relative_path of the file
+     * @param relative_path - path of the file
      * @return length of file in bytes || -1 if error
      */
     int getFileSize(char *relative_path) {
@@ -82,7 +88,7 @@ private:
 
     /**
      * A helper function that verifies that the input file is valid
-     * @param relative_path path of the input file
+     * @param relative_path - path of the input file
      * @return true iff file exists and is multiple of 188 bytes
      */
     bool isValidFile(char *relative_path) {
@@ -97,7 +103,7 @@ private:
     }
 
     /**
-     * helper function that creates a TransportPacket object given a TS packet in binary data
+     * Helper function that creates a TransportPacket object given a TS packet in binary data
      * @param packet: TS Packet in binary form
      * @return a TransPortPacket Object containing all fields and data from binary packet
      */
