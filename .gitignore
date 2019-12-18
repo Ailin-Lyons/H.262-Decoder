@@ -1,6 +1,7 @@
 # Ignore folders
 .idea
 project-code/cmake-build-debug
+project-code/AllTests/cmake-build-debug
 
 #Ignore files
 *.com
