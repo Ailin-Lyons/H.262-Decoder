@@ -13,9 +13,9 @@ TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af
     data = d;
 }
 
-TransportPacket::~TransportPacket() = default;// {
-//TODO: free the adaptationField resources
-//}
+TransportPacket::~TransportPacket() {
+    free(data);
+}
 
 void TransportPacket::toString() {
     std::printf(

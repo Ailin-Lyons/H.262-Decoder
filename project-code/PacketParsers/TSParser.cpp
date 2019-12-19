@@ -30,7 +30,6 @@ public:
             std::cout << "TSParser::Cannot open file!" << std::endl; // TODO throw exception
             return;
         }
-        // TODO - check valid before reading?
         if (!isValidFile(relative_path)) {
             std::cout << "TSParser::Invalid File!" << std::endl; // TODO throw exception
             return;
@@ -106,7 +105,7 @@ private:
     /**
      * Helper function that creates a TransportPacket object given a TS packet in binary data
      * @param packet: TS Packet in binary form
-     * @return a TransPortPacket Object containing all fields and data from binary packet
+     * @return a TransportPacket Object containing all fields and data from binary packet
      */
     TransportPacket buildTransportPacket(unsigned char *packet) {
         size_t index = 0;
@@ -129,7 +128,7 @@ private:
             adaptationField = AFParser::generateAdaptationField(&packet[index]);
             index += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - index)); // TODO make sure this is freed
+        char *data = (char *) malloc(sizeof(char) * (188 - index));
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; index < 188; i++) {
