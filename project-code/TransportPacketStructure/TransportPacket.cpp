@@ -2,7 +2,7 @@
 // Created by bhave on 11/19/2019.
 //
 
-#include <cstdio>
+#include <iostream>
 #include "TransportPacket.h"
 
 
@@ -23,6 +23,6 @@ void TransportPacket::toString() {
             header_fields.sync_byte, header_fields.transport_error_indicator,
             header_fields.payload_unit_start_indicator, header_fields.transport_priority,
             header_fields.pid, header_fields.transport_scrambling_control, header_fields.adaptation_field_control,
-            header_fields.continuity_counter, adaptationField, data);
+            header_fields.continuity_counter, &adaptationField, data);
     adaptationField.toString();
 }
