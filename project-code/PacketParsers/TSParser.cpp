@@ -109,29 +109,33 @@ private:
      * @return a TransPortPacket Object containing all fields and data from binary packet
      */
     TransportPacket buildTransportPacket(unsigned char *packet) {
+        size_t index = 0;
         TransportPacket::transport_header_fields thf_out;
-        thf_out.sync_byte = packet[0];
-        thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[1], 1);
-        thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[1], 1, 1);
-        thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[1], 2, 1);
-        thf_out.pid = TransportPacket::getPID(BitManipulator::ReadNBitsOffset(&packet[1], 3, 13));
-        thf_out.transport_scrambling_control = TransportPacket::getTSC(BitManipulator::ReadNBits(&packet[3], 2));
-        thf_out.adaptation_field_control = TransportPacket::getAFC(BitManipulator::ReadNBitsOffset(&packet[3], 2, 2));
-        thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[3], 4, 4);
-        unsigned char *index = (unsigned char *) &(packet[4]);
+        thf_out.sync_byte = packet[index];
+        index++;
+        thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[index], 1);
+        thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[index], 1, 1);
+        thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[index], 2, 1);
+        thf_out.pid = TransportPacket::getPID(BitManipulator::ReadNBitsOffset(&packet[index], 3, 13));
+        index += 2;
+        thf_out.transport_scrambling_control = TransportPacket::getTSC(BitManipulator::ReadNBits(&packet[index], 2));
+        thf_out.adaptation_field_control = TransportPacket::getAFC(
+                BitManipulator::ReadNBitsOffset(&packet[index], 2, 2));
+        thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[index], 4, 4);
+        index++;
         AdaptationField adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
-            index = AFParser::generateAdaptationField(&packet[4], &adaptationField);
+            index += AFParser::generateAdaptationField(&packet[index], &adaptationField);
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - (index - packet))); // TODO make sure this is freed
+        char *data = (char *) malloc(sizeof(char) * (188 - index)); // TODO make sure this is freed
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
-            for (int i = 0; i < (188 - (index - packet)); i++) {
-                data[i] = index[i];
+            for (int i = 0; index < 188; i++) {
+                data[i] = packet[index];
+                index++;
             }
         }
         return TransportPacket(thf_out, adaptationField, data);
     }
 };
-

@@ -13,9 +13,9 @@ public:
      *
      * @param packet - pointer to packet data
      * @param adaptation_field - TODO why do we need this?
-     * @return unsigned char * TODO - change to size_t
+     * @return unsigned size_t The number of bits taken up by this packet
      */
-    static unsigned char *generateAdaptationField(unsigned char *packet, AdaptationField *adaptation_field) {
+    static size_t generateAdaptationField(unsigned char *packet, AdaptationField *adaptation_field) {
         int index = 0;
         adaptation_field->adaptation_field_length = packet[index];
         index++;
@@ -43,8 +43,8 @@ public:
                 index += 3;
                 long long opcr_ext = BitManipulator::ReadNBitsOffset(&packet[index], 7, 9);
                 index += 2;
-                adaptation_field->original_program_clock_reference = (opcr_base * 300 + opcr_ext) & 0x3FFFFFFFFFF;
-                //cast to a 42-bit field
+                adaptation_field->original_program_clock_reference =
+                        (opcr_base * 300 + opcr_ext) & 0x3FFFFFFFFFF; //cast to a 42-bit field
             }
             if (adaptation_field->splicing_point_flag == 1) {
                 adaptation_field->splice_countdown = packet[index];
@@ -79,19 +79,11 @@ public:
                     long long DTS_next_AU_29_15 = BitManipulator::ReadNBits(&packet[index], 15);
                     index += 2;
                     long long DTS_next_AU_14_0 = BitManipulator::ReadNBits(&packet[index], 15);
-                    //index += 2; Design - no need as it is not used after this
                     adaptation_field->DTS_next_AU =
                             (DTS_next_AU_32_30 << 30) + (DTS_next_AU_29_15 << 15) + DTS_next_AU_14_0;
                 }
-                // TODO: This is where final reserved bytes would be handled.
             }
         }
-        //Todo - Change to Overriding standard library printf
-
-        return packet + 1 +
-               adaptation_field->adaptation_field_length;        // +1 for adaptation_field_length see H.222 2.4.3.5
-
+        return adaptation_field->adaptation_field_length + 1; // +1 for adaptation_field_length see H.222 2.4.3.5
     }
-
-
 };
