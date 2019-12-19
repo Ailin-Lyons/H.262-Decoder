@@ -10,7 +10,7 @@ AdaptationField::AdaptationField() {
 }
 
 AdaptationField::~AdaptationField() {
-        // TODO free private_data_byte if malloc'd
+    // TODO free private_data_byte if malloc'd
 }
 
 void AdaptationField::toString() {

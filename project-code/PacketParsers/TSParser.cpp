@@ -1,4 +1,5 @@
 #include "../TransportPacketStructure/TransportPacket.h"
+#include "../TransportPacketStructure/AdaptationField.h"
 #include<iostream>
 #include<fstream>
 #include <sys/stat.h>
@@ -118,10 +119,10 @@ private:
         thf_out.adaptation_field_control = TransportPacket::getAFC(BitManipulator::ReadNBitsOffset(&packet[3], 2, 2));
         thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[3], 4, 4);
         unsigned char *index = (unsigned char *) &(packet[4]);
-        AdaptationField *adaptationField;
+        AdaptationField adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
-            index = AFParser::generateAdaptationField(&packet[4], adaptationField);
+            index = AFParser::generateAdaptationField(&packet[4], &adaptationField);
         }
         char *data = (char *) malloc(sizeof(char) * (188 - (index - packet))); // TODO make sure this is freed
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||

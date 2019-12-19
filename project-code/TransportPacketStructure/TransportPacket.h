@@ -113,7 +113,7 @@ public:
      * Fields for the Transport Packet
      */
     transport_header_fields header_fields;
-    AdaptationField *adaptationField;
+    AdaptationField adaptationField;
     char *data;
 
 public:
@@ -123,7 +123,7 @@ public:
      * @param af a pointer to an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(transport_header_fields thf, AdaptationField *af, char *d);
+    TransportPacket(transport_header_fields thf, AdaptationField af, char *d);
 
     void toString();
 
