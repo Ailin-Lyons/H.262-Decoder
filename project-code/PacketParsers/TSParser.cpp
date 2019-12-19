@@ -126,7 +126,8 @@ private:
         AdaptationField adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
-            index += AFParser::generateAdaptationField(&packet[index], &adaptationField);
+            adaptationField = AFParser::generateAdaptationField(&packet[index]);
+            index += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
         }
         char *data = (char *) malloc(sizeof(char) * (188 - index)); // TODO make sure this is freed
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
