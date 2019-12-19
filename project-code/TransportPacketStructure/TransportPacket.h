@@ -4,10 +4,6 @@
 
 #ifndef PROJECT_CODE_TRANSPORTPACKET_H
 #define PROJECT_CODE_TRANSPORTPACKET_H
-
-//#include <unistd.h>
-
-
 #include "AdaptationField.h"
 
 
@@ -113,17 +109,17 @@ public:
      * Fields for the Transport Packet
      */
     transport_header_fields header_fields;
-    AdaptationField *adaptationField;
+    AdaptationField adaptationField;
     char *data;
 
 public:
     /**
      * Constructor
      * @param thf a transport_header_field struct containing all TS packet header fields
-     * @param af a pointer to an adaptationField object
+     * @param af an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(transport_header_fields thf, AdaptationField *af, char *d);
+    TransportPacket(transport_header_fields thf, AdaptationField af, char *d);
 
     void toString();
 

@@ -6,7 +6,7 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 
 set(TEST_FILES
-        UtilTest/BitManipulatorTest.cpp)
+        UtilTest/BitManipulatorTest.cpp DecoderTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
 #target_link_libraries(AllTests Util)

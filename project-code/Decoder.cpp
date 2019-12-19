@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
     char *path = relative_path;
     TSParser *tsParser = new TSParser(path);
     while (tsParser->HasNextPacket()) {
-        tsParser->GetNextPacket();
+        *tsParser->GetNextPacket()->toString();
     }
     // TODO: split the file into 3 parts
 
