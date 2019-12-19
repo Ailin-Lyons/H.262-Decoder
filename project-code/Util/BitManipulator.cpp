@@ -5,7 +5,7 @@ class BitManipulator { // TODO thoroughly test this class as we will use it a lo
 public:
     /**
      * Reads numBits bits starting at index and returns them as a long long
-     * If numBits is larger than sizeof(long long) this will return the lower digits
+     * If numBits is larger than sizeof(long long) this will return the numBits lower order digits
      * @param address: address from which to start reading
      * @param numBits: positive number of bits to be read
      * @return a long long containing number in lowest n bits
@@ -24,7 +24,7 @@ public:
 
     /**
      * Reads numBits bits starting at index+offset and returns them as long long
-     * If numBits is larger than sizeof(long long) this will return the lower digits
+     * If numBits is larger than sizeof(long long) this will return the numBits lower order digits
      * @param address: address from which to start reading
      * @param numBits: a positive number of bits to be read
      * @param offset: 0-7: bits to offset from index
