@@ -10,9 +10,9 @@
 class AFParser {    // TODO test this class
 public:
     /**
-     *
-     * @param packet - pointer to packet data from which to generate an AdaptationField
-     * @return an AdaptationField built from data starting at packet
+     * Builds an instance of AdaptationField from a TS Packet.
+     * @param packet - pointer to position in TS from which to start reading
+     * @return an instance AdaptationField
      */
     static AdaptationField generateAdaptationField(unsigned char *packet) {
         AdaptationField adaptation_field = AdaptationField();

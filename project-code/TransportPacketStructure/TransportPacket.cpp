@@ -11,7 +11,6 @@ TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af
     header_fields = thf;
     adaptationField = af;
     data = d;
-    toString();
 }
 
 TransportPacket::~TransportPacket() = default;// {
@@ -25,4 +24,5 @@ void TransportPacket::toString() {
             header_fields.payload_unit_start_indicator, header_fields.transport_priority,
             header_fields.pid, header_fields.transport_scrambling_control, header_fields.adaptation_field_control,
             header_fields.continuity_counter, adaptationField, data);
+    adaptationField.toString();
 }
