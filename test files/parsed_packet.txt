@@ -1,0 +1,43 @@
+Full  Packet:
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    00000000: 47 40 64 30 07 10 00 00 00 12 FE 00 00 00 01 E0    G@d0......~....`
+    00000010: 00 00 84 80 05 21 00 03 19 41 00 00 01 B3 50 02    .....!...A...3P.
+    00000020: D0 33 01 F4 26 20 00 00 01 B5 14 6A 00 01 00 80    P3.t&....5.j....
+    00000030: 00 00 01 B5 2B 05 01 05 14 02 16 80 00 00 01 B8    ...5+..........8
+    00000040: 00 08 00 40 00 00 01 00 00 0F FF F8 00 00 01 B5    ...@.......x...5
+    00000050: 8F FF F3 41 80 00 00 01 01 1B F6 7C 03 32 61 37    ..sA......v|.2a7
+    00000060: E0 1B 93 10 FC F4 A1 44 EB 22 09 9F A3 70 13 74    `...|t!Dk"..#p.t
+    00000070: 30 12 FD 89 EB B7 10 C0 1D 00 EF 67 42 1C 3E B9    0.}.k7.@..ogB.>9
+    00000080: 1C 0A 80 E9 2A 1A 8E 3A E1 B7 BE 48 0D C3 12 05    ...i*..:a7>H.C..
+    00000090: 89 A8 49 49 16 70 77 AC 26 80 EB 92 50 DF 5A 03    .(II.pw,&.k.P_Z.
+    000000a0: 00 2F 1A 10 43 46 48 B3 6C 41 84 D4 7D 80 C2 43    ./..CFH3lA.T}.BC
+    000000b0: BC 45 DA 52 4B 26 1C AB 9A 03 A0 18                <EZRK&.+....
+
+TS Header:
+
+    Address Variable        Value (hex) #Comments
+    00:     8-bit sync_byte 47          #Checks that sync_byte is 47 otherwise tosses packet
+    01:     1-bit tei       0           #No errors
+    01.1:   1-bit pusi      1
+    01.2:   1-bit tp        0
+    01.3:   13-bit PID      64
+    03:     2-bit tsc       0           #Not scrambled
+    03.2:   2-bit afc       3           #this packet has Adaptation Field followed by Payload
+    03.4:   4-bit cc        0
+
+Adaptation Field:
+    Address Variable        Value (hex) #Comments
+    04:     8-bit afl       07          #Adaptation Field is 7 Bytes long (this field not included)
+    05:     1-bit di        0
+    05.1:   1-bit rai       0
+    05.2:   1-bit espi      0
+    05.3:   1-bit PCRf      1           #PCR field exists
+    05.4:   1-bit OPCRf     0
+    05.5:   1-bit spf       0
+    05.6:   1-bit tpdf      0
+    05.7:   1-bit afef      0
+
+    06:     33-bit PCR_base 25          # OPCR(i)  = OPCR_base(i)  ×  300  + OPCR_ext(i)
+    0a.7:   9-bit PCR_ext   0           # => OPCR = 2B5C
+
+... To be Continued!
