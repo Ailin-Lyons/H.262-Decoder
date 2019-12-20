@@ -8,4 +8,4 @@ set(HEADER_FILES
         AdaptationField.h
         TransportPacket.h)
 
-add_library(TSPacket STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_library(TransportPacket STATIC ${SOURCE_FILES} ${HEADER_FILES})

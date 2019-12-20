@@ -33,7 +33,7 @@ public:
     static long long ReadNBitsOffset(unsigned char *address, int offset, int numBits) {
         unsigned long long out = 0;
         for (int o = offset; o < 8; o++) {
-            out = (out << 1) + ((address[0] >> (7 - offset)) & 0x1);
+            out = (out << 1) + ((address[0] >> (7 - o)) & 0x1);
             numBits--;
             if(numBits <= 0){
                 return out;
