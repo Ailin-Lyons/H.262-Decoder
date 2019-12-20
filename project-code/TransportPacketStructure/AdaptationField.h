@@ -39,7 +39,9 @@ public:
         }
     }
 
-    //TODO - document and condense
+    /**
+     * The AdaptationField header fields in order. See H222.0 Table 2-6
+     */
 
     unsigned char adaptation_field_length = 0;
     unsigned char discontinuity_indicator = 0;
@@ -61,7 +63,7 @@ public:
     unsigned char ltw_valid_flag = 0;
     unsigned short ltw_offset = 0;
     unsigned int piecewise_rate = 0;
-    ST splice_type = ST::splice_decoding_delay_other; //TODO make splice_type an enum?
+    ST splice_type = ST::splice_decoding_delay_other;
     unsigned long long DTS_next_AU = 0;
 
 public:

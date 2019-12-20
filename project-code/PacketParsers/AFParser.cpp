@@ -7,7 +7,7 @@
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/AdaptationField.h"
 
-class AFParser {    // TODO test this class
+class AFParser {
 public:
     /**
      * Builds an instance of AdaptationField from a TS Packet.

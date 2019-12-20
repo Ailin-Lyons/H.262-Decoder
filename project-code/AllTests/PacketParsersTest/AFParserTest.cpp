@@ -36,7 +36,6 @@ TEST(AllTest, AFParserAllFieldsSet) {
                                0x02, 0xEE, 0xEE, 0x0C, 0xFF, 0xC0, 0x01, 0x2A, 0xAA, 0xAA, 0x6F, 0xFF, 0xFF, 0xFF, 0xFF,
                                0xFF, 0xFF};
     AdaptationField af = AFParser::generateAdaptationField(testVal);
-    af.toString();
     ASSERT_EQ(0x1E, af.adaptation_field_length);
     ASSERT_EQ(0x1, af.discontinuity_indicator);
     ASSERT_EQ(0x1, af.random_access_indicator);
