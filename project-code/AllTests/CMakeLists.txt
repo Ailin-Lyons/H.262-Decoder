@@ -5,7 +5,7 @@ add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 set(TEST_FILES
-        UtilTest/BitManipulatorTest.cpp PacketParsersTest/AFParserTest.cpp)
+        UtilTest/BitManipulatorTest.cpp PacketParsersTest/AFParserTest.cpp PacketParsersTest/TSParserTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
 #target_link_libraries(AllTests Util)

@@ -40,4 +40,38 @@ Adaptation Field:
     06:     33-bit PCR_base 25          # OPCR(i)  = OPCR_base(i)  ×  300  + OPCR_ext(i)
     0a.7:   9-bit PCR_ext   0           # => OPCR = 2B5C
 
+PES Packet 1:
+    0c:     24-bit pscp     1           # packet_start_code_prefix must equal "0000 0000 0000 0000 0000 0001"
+    0F:     8-bit stream_id E0          # ITU-T Rec. H.262 | ISO/IEC 13818-2 or ISO/IEC 11172-2video stream number "0000"
+    10:     16-bit pplength 0           # A  value  of  0  indicates  that  the  PES  packet  length  is  neither  specified  nor  bounded  and  is  allowed  only  in PES packets whose payload consists of bytes from a video elementary stream contained in Transport Stream packets.
+    12:     2-bit   '10'    2
+    12.2:   2-bit PES_sc    0           # PES_scrambling_control
+    12.4:   1-bit PES_pr    0           # PES_priority
+    12.5:   1-bit dai       1           # data_alignment_indicator
+    12.6:   1-bit copyright 0           # my cat is public domain
+    12.7:   1-bit ooc       0           # original_or_copy
+    13:     2-bit PTSDTSf   2           # PTS_DTS_flags
+    13.2:   1-bit ESCR_f    0           # ESCR_flag
+    13.3:   1-bit ES_rate_f 0           # ES_rate_flag
+    13.4:   1-bit DSMtmf    0           # DSM_trick_mode_flag
+    13.5:   1-bit acif      0           # additional_copy_info_flag
+    13.6:   1-bit PESCRCf   0           # PES_CRC_flag
+    13.7:   1-bit PESextf   0           # PES_extension_flag
+    14:     8-bit PEShdl    5           # PES_header_data_length = 5 bytes
+
+    if (PTS_DTS_flags == ’10’)
+    15:     4-bit   "0010"  2           # must be "0010"
+    15.4:   3-bit PTSupper  0           # PTS [32..30]
+    16:     15-bit PTSmid   2           # PTS [29..15]
+    18:     15-bit PTSlower 1940        # PTS [14..0]
+
+PES Packet 2:
+    0A:     24-bit pscp     1           # packet_start_code_prefix must equal "0000 0000 0000 0000 0000 0001"
+    0F:     8-bit stream_id B3          # ITU-T Rec. H.262 | ISO/IEC 13818-2 or ISO/IEC 11172-2video stream number "0000"
+
+                            B3 means we are in H.262 Territory now
+
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+                                                     B3 50 02    .....!...A...3P.
+    00000020: D0 33 01 F4 26 20 00 00 01 B5 14 6A 00 01 00 80    P3.t&....5.j....
 ... To be Continued!
