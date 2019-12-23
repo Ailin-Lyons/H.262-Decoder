@@ -6,11 +6,11 @@
 #define DIRECTED_STUDIES_PES_PACKET_H
 
 /*
- * Class for representing the structure of a PesPacket
+ * Class for representing the structure of a PESPacket
  *
  */
 
-class PesPacket {
+class PESPacket {
 
 };
 

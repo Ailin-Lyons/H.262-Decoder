@@ -3,9 +3,9 @@ project(PesPacket)
 project(TSPacket)
 
 set(SOURCE_FILES
-        PesPacket.cpp)
+        PESPacket.cpp)
 
 set(HEADER_FILES
-        PesPacket.h)
+        PESPacket.h)
 
 add_library(PesPacket STATIC ${SOURCE_FILES} ${HEADER_FILES})
