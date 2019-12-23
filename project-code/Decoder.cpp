@@ -2,9 +2,7 @@
 // Created by bhave on 11/19/2019.
 //
 
-#include <stdio.h>
 #include <iostream>
-#include <string.h>
 #include "PacketParsers/TSParser.cpp"
 
 // note - global constants
@@ -47,7 +45,7 @@ int displayMetaData() {
 
 int main(int argc, char **argv) {
     //char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
-    char relative_path[] = "..\\..\\test files\\testvideo_noaudio.ts";
+    char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
     char *path = relative_path;
     TSParser *tsParser = new TSParser(path);
     while (tsParser->HasNextPacket()) {

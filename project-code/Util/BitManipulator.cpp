@@ -1,7 +1,7 @@
 //
 // Created by elnsa on 2019-12-03.
 //
-class BitManipulator { // TODO thoroughly test this class as we will use it a lot
+class BitManipulator {
 public:
     /**
      * Reads numBits bits starting at index and returns them as a long long
@@ -23,7 +23,7 @@ public:
     }
 
     /**
-     * Reads numBits bits starting at index+offset and returns them as long long
+     * Reads numBits bits starting at address+offset and returns them as long long
      * If numBits is larger than sizeof(long long) this will return the numBits lower order digits
      * @param address: address from which to start reading
      * @param numBits: a positive number of bits to be read
@@ -33,7 +33,7 @@ public:
     static long long ReadNBitsOffset(unsigned char *address, int offset, int numBits) {
         unsigned long long out = 0;
         for (int o = offset; o < 8; o++) {
-            out = (out << 1) + ((address[0] >> (7 - offset)) & 0x1);
+            out = (out << 1) + ((address[0] >> (7 - o)) & 0x1);
             numBits--;
             if(numBits <= 0){
                 return out;

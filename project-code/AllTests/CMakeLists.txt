@@ -5,9 +5,13 @@ add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 
-set(TEST_FILES
-        UtilTest/BitManipulatorTest.cpp DecoderTest.cpp)
+set(UTIL_TEST_FILES
+        UtilTest/BitManipulatorTest.cpp)
 
-add_executable(AllTests ${TEST_FILES})
-#target_link_libraries(AllTests Util)
+#TODO - include other test files as well
+set(OTHER_TEST_FILES
+        DecoderTest.cpp)
+
+add_executable(AllTests ${UTIL_TEST_FILES})
+target_link_libraries(AllTests Util)
 target_link_libraries(AllTests gtest gtest_main)
