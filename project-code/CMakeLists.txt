@@ -22,7 +22,7 @@ target_link_libraries(decoder "PacketParsers")
 # adding the TransportPacketStructure
 include_directories("TransportPacketStructure")
 add_subdirectory("TransportPacketStructure")
-target_link_libraries(decoder "TransportPacketStructure")
+target_link_libraries(decoder "TransportPacket")
 
 # adding the PesPacket
 include_directories("PesPacket")

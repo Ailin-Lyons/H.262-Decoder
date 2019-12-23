@@ -8,7 +8,14 @@ set(TEST_FILES
         UtilTest/BitManipulatorTest.cpp PacketParsersTest/AFParserTest.cpp PacketParsersTest/TSParserTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
+
+#include_directories(../Util)
+
+add_dependencies(AllTests Util)
+add_dependencies(AllTests TransportPacket)
+add_dependencies(AllTests PacketParsers)
+
 target_link_libraries(AllTests Util)
 target_link_libraries(AllTests gtest gtest_main)
-target_link_libraries(AllTests "PacketParsers")
-target_link_libraries(AllTests "TransportPacket")
+target_link_libraries(AllTests PacketParsers)
+target_link_libraries(AllTests TransportPacket)
