@@ -27,12 +27,12 @@ public:
         file_size = getFileSize(relative_path);
         // TODO - change to using the builtin error checking to throw the exceptions
         if (!(*rf)) {
-            std::cout << "TSParser::Cannot open file!" << std::endl; // TODO throw exception
-            return;
+            std::cerr << "TSParser::Cannot open file!" << std::endl;
+            throw;
         }
         if (!isValidFile(relative_path)) {
-            std::cout << "TSParser::Invalid File!" << std::endl; // TODO throw exception
-            return;
+            std::cerr << "TSParser::Invalid File!" << std::endl;
+            throw;
         }
         num_packets = file_size / 188;
         file_buffer = new char[188];
@@ -40,9 +40,13 @@ public:
 
     /**
      * Must be called before calling getNextPacket to avoid errors
+     * Closes the file if no more packets are available
      * @return true iff there are additional packets in file
      */
     bool HasNextPacket() {
+        if(index>=num_packets){
+            rf->close();
+        }
         return index < num_packets;
     }
 
@@ -57,20 +61,14 @@ public:
     TransportPacket *GetNextPacket() {
         rf->read(file_buffer, 188);
         if (!rf->good()) {
-            std::cout << "TSParser:: Error occurred at reading time!" << std::endl; // TODO throw exception
-            return nullptr;
+            std::cerr << "TSParser:: Error occurred at reading time!" << std::endl;
+            throw;
         }
         TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         out[0] = buildTransportPacket((unsigned char *) file_buffer);
         index++;
         return out;
     }
-
-    /**
-     * // TODO
-     * rf.close(); in a destructor
-     */
-
 
 private:
     /**

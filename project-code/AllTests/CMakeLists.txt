@@ -4,14 +4,11 @@ project(AllTests)
 add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
+set(TEST_FILES
+        UtilTest/BitManipulatorTest.cpp PacketParsersTest/AFParserTest.cpp)
 
-set(UTIL_TEST_FILES
-        UtilTest/BitManipulatorTest.cpp)
-
-#TODO - include other test files as well
-set(OTHER_TEST_FILES
-        DecoderTest.cpp)
-
-add_executable(AllTests ${UTIL_TEST_FILES})
+add_executable(AllTests ${TEST_FILES})
 target_link_libraries(AllTests Util)
 target_link_libraries(AllTests gtest gtest_main)
+target_link_libraries(AllTests "PacketParsers")
+target_link_libraries(AllTests "TransportPacket")

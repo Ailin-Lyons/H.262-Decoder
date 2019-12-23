@@ -14,7 +14,7 @@ add_executable(decoder ${SOURCE_FILES})
 add_subdirectory(AllTests)
 
 
-# adding the PacketParsers
+# adding the PacketParsersTest
 include_directories("PacketParsers")
 add_subdirectory("PacketParsers")
 target_link_libraries(decoder "PacketParsers")
@@ -22,7 +22,7 @@ target_link_libraries(decoder "PacketParsers")
 # adding the TransportPacketStructure
 include_directories("TransportPacketStructure")
 add_subdirectory("TransportPacketStructure")
-target_link_libraries(decoder "TSPacket")
+target_link_libraries(decoder "TransportPacketStructure")
 
 # adding the PesPacket
 include_directories("PesPacket")

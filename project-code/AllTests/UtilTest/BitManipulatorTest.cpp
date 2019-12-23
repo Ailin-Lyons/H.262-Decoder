@@ -12,11 +12,18 @@ class BitManipulatorTest : public ::testing::Test {
 protected:
     void SetUp() override {
         //TODO - setup mock testing values
+
     }
+
+    unsigned char testVal0[2] = {'A', 'F'};
+    unsigned char testVal1[] = {};
+    unsigned char testVal2[] = {};
+    unsigned char testVal3[] = {};
+    unsigned char testVal4[] = {};
+    unsigned char testVal5[] = {};
 };
 
 
 TEST_F(BitManipulatorTest, FixtureTest) {
-    unsigned char testVal[] = {'A', 'F'};
-    ASSERT_EQ(4, BitManipulator::ReadNBits(testVal, 4));
+    ASSERT_EQ(4, BitManipulator::ReadNBits(testVal0, 4));
 }
