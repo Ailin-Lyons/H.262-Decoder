@@ -44,14 +44,14 @@ public:
      * @return true iff there are additional packets in file
      */
     bool HasNextPacket() {
-        if(index>=num_packets){
+        if (index >= num_packets) {
             rf->close();
         }
         return index < num_packets;
     }
 
 
-    // DESIGN - maybe just call HasNextPacket in GetNextPacket as well and throw an exception
+    // TODO DESIGN - maybe just call HasNextPacket in GetNextPacket as well and throw an exception -> yes! good idea.
 
     /**
      * HasNextPacket must be called and return true before calling this function
@@ -109,7 +109,11 @@ private:
         size_t index = 0;
         TransportPacket::transport_header_fields thf_out;
         thf_out.sync_byte = packet[index];
-        index++;
+        if (thf_out.sync_byte != 0x47){
+            std::cerr << "TSParser::Invalid Sync_Byte!" << std::endl;
+            throw;
+        }
+            index++;
         thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[index], 1);
         thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[index], 1, 1);
         thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[index], 2, 1);
