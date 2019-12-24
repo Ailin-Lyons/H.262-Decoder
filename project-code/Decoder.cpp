@@ -3,7 +3,9 @@
 //
 
 #include <iostream>
+#include <PESPacket.h>
 #include "PacketParsers/TSParser.cpp"
+#include "PacketParsers/PESParser.cpp"
 
 // note - global constants
 // DESIGN - use builtin math
@@ -49,7 +51,12 @@ int main(int argc, char **argv) {
     char *path = relative_path;
     TSParser *tsParser = new TSParser(path);
     while (tsParser->HasNextPacket()) {
-        tsParser->GetNextPacket()->toString();
+        TransportPacket* tp = tsParser->GetNextPacket();
+        tp->toString();
+        PESParser::pes_parser_struct pps = PESParser::parseTransportPacket(tp);
+        for(int i = 0; i < pps.num_packets; i++){
+            pps.packet_array[i].toString();
+        }
     }
     // TODO: split the file into 3 parts
 

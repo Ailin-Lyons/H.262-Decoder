@@ -12,6 +12,9 @@
 
 class PESPacket {
 
+public:
+    void toString();
+
 };
 
 

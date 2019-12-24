@@ -109,11 +109,11 @@ private:
         size_t index = 0;
         TransportPacket::transport_header_fields thf_out;
         thf_out.sync_byte = packet[index];
-        if (thf_out.sync_byte != 0x47){
+        if (thf_out.sync_byte != 0x47) {
             std::cerr << "TSParser::Invalid Sync_Byte!" << std::endl;
             throw;
         }
-            index++;
+        index++;
         thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[index], 1);
         thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[index], 1, 1);
         thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[index], 2, 1);
@@ -130,14 +130,17 @@ private:
             adaptationField = AFParser::generateAdaptationField(&packet[index]);
             index += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - index));
+        unsigned int data_length = 188 - index;
+        unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char) * data_length);
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; index < 188; i++) {
                 data[i] = packet[index];
                 index++;
             }
+        } else {
+            data_length = 0;
         }
-        return TransportPacket(thf_out, adaptationField, data);
+        return TransportPacket(thf_out, adaptationField, data_length, data);
     }
 };
