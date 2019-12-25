@@ -110,7 +110,8 @@ public:
      */
     transport_header_fields header_fields;
     AdaptationField adaptationField;
-    char *data;
+    unsigned int data_length;
+    unsigned char *data;
 
 public:
     /**
@@ -119,7 +120,7 @@ public:
      * @param af an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(transport_header_fields thf, AdaptationField af, char *d);
+    TransportPacket(transport_header_fields thf, AdaptationField af, unsigned int dl, unsigned char *d);
 
     void toString();
 

@@ -24,7 +24,7 @@ include_directories("TransportPacketStructure")
 add_subdirectory("TransportPacketStructure")
 target_link_libraries(decoder "TransportPacket")
 
-# adding the PesPacket
+# adding the PESPacket
 include_directories("PesPacket")
 add_subdirectory("PesPacket")
 target_link_libraries(decoder "PesPacket")

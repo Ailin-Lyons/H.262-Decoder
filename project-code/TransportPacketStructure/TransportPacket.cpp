@@ -6,8 +6,8 @@
 #include "TransportPacket.h"
 
 
-TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af,
-                                 char *d) {
+TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af, unsigned int dl,
+                                 unsigned char *d) {
     header_fields = thf;
     adaptationField = af;
     data = d;

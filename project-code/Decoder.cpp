@@ -2,13 +2,19 @@
 // Created by bhave on 11/19/2019.
 //
 
+#include <iostream>
+#include <PESPacket.h>
 #include "PacketParsers/TSParser.cpp"
-//#include "Util/FileInterface.cpp"
+#include "PacketParsers/PESParser.cpp"
+
+
 // note - global constants
 // DESIGN - use builtin math
 
 const static double pi = 3.14159265359;
 const static double e = 2.71828182845;
+
+// TODO: Use namepsace std??
 
 
 
@@ -43,10 +49,10 @@ int displayMetaData() {
 int main(int argc, char **argv) {
     //char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
     char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
-    FileInterface* fileInterface = FileInterface::getInstance();
-    fileInterface->setInstance(relative_path);
-    while (fileInterface->HasNextPacket()) {
-        TSParser::GetNextPacket()->toString();
+    char *path = relative_path;
+    TSParser *tsParser = new TSParser(path);
+    while (tsParser->HasNextPacket()) {
+        tsParser->GetNextPacket()->toString();
     }
     // TODO: split the file into 3 parts
 
