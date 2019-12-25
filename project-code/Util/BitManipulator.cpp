@@ -2,7 +2,6 @@
 // Created by elnsa on 2019-12-03.
 //
 
-#include<iostream>
 class BitManipulator {
 public:
     /**
@@ -10,7 +9,7 @@ public:
      * If numBits is larger than sizeof(long long) this will return the numBits lower order digits
      * @param address: address from which to start reading
      * @param numBits: number of bits to be read
-     * @return a long long containing number in lowest n bits
+     * @return a long long containing lowest order n bits
      */
     static long long ReadNBits(unsigned char *address, unsigned int numBits) {
         unsigned long long out = 0;
@@ -30,7 +29,7 @@ public:
      * @param address: address from which to start reading
      * @param numBits: a positive number of bits to be read
      * @param offset: 0-7: bits to offset from index
-     * @returna a long long containing number in lowest n bits
+     * @returna a long long containing lowest order n bits
      */
     static long long ReadNBitsOffset(unsigned char *address, unsigned int offset, unsigned int numBits) {
         unsigned long long out = 0;

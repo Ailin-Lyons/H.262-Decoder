@@ -12,9 +12,13 @@
 class BitManipulatorTest : public ::testing::Test {
 protected:
 //    void SetUp() override {
-//        //TODO - setup mock testing values
+//        //DESIGN - SetUp not required
 //
 //    }
+
+//    void TearDown() override {
+//       //DESIGN - TearDown not required
+//}
 
     unsigned char testVal0[2] = {'A', 'F'};
     unsigned char testVal1[8] = {'H', 'E', 'L', 'L', 'O', 'M', 'E', 'N'};
@@ -47,6 +51,7 @@ TEST_F(BitManipulatorTest, OffsetTest) {
 
 TEST_F(BitManipulatorTest, readMoreThan64) {
     long long readVal = BitManipulator::ReadNBits(testVal2, 16*8);
-
     ASSERT_EQ(readVal, 0x494a4b4c4d4e4f50);
+    readVal = BitManipulator::ReadNBits(testVal2, 9*8+4);
+    ASSERT_EQ(readVal, 0x2434445464748494);
 }

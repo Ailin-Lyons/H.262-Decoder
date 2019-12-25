@@ -6,7 +6,7 @@
 #include "../../PacketParsers/TSParser.cpp"
 
 TEST(AllTest, TSParser_Test) {
-    char relative_path[] = "..\\..\\..\\test files\\single_packet_hasAF.ts";
+    char relative_path[] = R"(..\..\..\test files\single_packet_hasAF.ts)";
     char *path = relative_path;
     TSParser tp = TSParser(path);
     ASSERT_TRUE(tp.HasNextPacket());
