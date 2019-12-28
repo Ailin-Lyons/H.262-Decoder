@@ -10,6 +10,7 @@ TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af
                                  unsigned char *d) {
     header_fields = thf;
     adaptationField = af;
+    data_length = dl;
     data = d;
 }
 

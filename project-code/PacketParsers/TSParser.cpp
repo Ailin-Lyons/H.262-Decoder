@@ -60,7 +60,7 @@ public:
     static TransportPacket *GetNextPacket() {
         unsigned char file_buffer[188];
         auto *out = (TransportPacket *) malloc(sizeof(TransportPacket));
-        FileInterface::getInstance()->getNextPacketData((char*)file_buffer);
+        FileInterface::getInstance()->getNextPacketData((char *) file_buffer);
         out[0] = buildTransportPacket(file_buffer);
         return out;
     }
@@ -101,16 +101,17 @@ private:
         size_t packetIndex = 0;
         TransportPacket::transport_header_fields thf_out{};
         thf_out.sync_byte = packet[packetIndex];
-        if (thf_out.sync_byte != 0x47){
+        if (thf_out.sync_byte != 0x47) {
             throw PacketException("TSParser::buildTransportPacket: sync_byte error");
         }
-            packetIndex++;
+        packetIndex++;
         thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[packetIndex], 1);
         thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 1, 1);
         thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 2, 1);
         thf_out.pid = TransportPacket::getPID(BitManipulator::ReadNBitsOffset(&packet[packetIndex], 3, 13));
         packetIndex += 2;
-        thf_out.transport_scrambling_control = TransportPacket::getTSC(BitManipulator::ReadNBits(&packet[packetIndex], 2));
+        thf_out.transport_scrambling_control = TransportPacket::getTSC(
+                BitManipulator::ReadNBits(&packet[packetIndex], 2));
         thf_out.adaptation_field_control = TransportPacket::getAFC(
                 BitManipulator::ReadNBitsOffset(&packet[packetIndex], 2, 2));
         thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 4, 4);
@@ -121,7 +122,8 @@ private:
             adaptationField = AFParser::generateAdaptationField(&packet[packetIndex]);
             packetIndex += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - packetIndex));
+        unsigned char *data = (unsigned char *) malloc(sizeof(char) * (188 - packetIndex));
+        unsigned int data_length = 188 - packetIndex;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; packetIndex < 188; i++) {
@@ -129,6 +131,6 @@ private:
                 packetIndex++;
             }
         }
-        return TransportPacket(thf_out, adaptationField, data);
+        return TransportPacket(thf_out, adaptationField, data_length, data);
     }
 };
