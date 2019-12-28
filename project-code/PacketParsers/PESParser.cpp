@@ -19,7 +19,7 @@ public:
     };
 
     /**
-     * //TODO stub
+     * //TODO write a beautiful descriptions
      */
     static pes_parser_struct parseTransportPacket(TransportPacket *tp) {
         pes_parser_struct out; //TODO build this struct and return at end. It should contain all PES packets
