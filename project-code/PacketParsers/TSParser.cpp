@@ -2,7 +2,7 @@
 #include "../TransportPacketStructure/AdaptationField.h"
 #include <sys/stat.h>
 #include "AFParser.cpp"
-//#include "PacketException.cpp"
+#include "PacketException.cpp"
 #include "../Util/FileInterface.cpp"
 
 //using namespace std;
@@ -37,7 +37,7 @@ public:
 //    }
 
 //    /**
-//     * Must be called before calling getNextPacket to avoid PacketException
+//     * Must be called before calling GetNextPacket to avoid PacketException
 //     * Closes the file if no more packets are available
 //     * @return true iff there are additional packets in file
 //     */

@@ -13,7 +13,11 @@
 class PESPacket {
 
 public:
-
+    /**
+     * The 8-bit start_code determines how the packet is to be interpreted
+     * This enum contains all interpretations described in H.222.0 and H.262
+     * Only some of these packet types are handled
+     */
     enum class start_code {
         picture,                // 0x00
         slice,                  // 0x01-0xAF
@@ -44,8 +48,6 @@ public:
         program_stream_directory,//0xFF
     };
 
-
-    unsigned int packet_start_code_prefix;
     unsigned char stream_id;
     start_code packet_type;
     unsigned short PES_packet_length;
@@ -53,6 +55,9 @@ public:
 public:
     void toString();
 
+    static start_code GetStartCode(unsigned char id);
+
+    static bool IsHandled(start_code sc);
 };
 
 
