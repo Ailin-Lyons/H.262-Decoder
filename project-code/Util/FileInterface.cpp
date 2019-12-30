@@ -2,58 +2,53 @@
 // Created by bhave on 12/23/2019.
 //
 
-#include <iostream>
-#include <fstream>
-#include <sys/stat.h>
-#include "FileException.cpp"
-#include "../PacketParsers/PacketException.cpp"
-#include "InitializationException.cpp"
+#include "FileInterface.h"
+//
+//class FileInterface {
+//private:
+//    std::ifstream *rf;
+//    int file_size;
+//    int num_packets;
+//    int index = 0;
+//    static FileInterface *instance;
+//
+//    FileInterface() = default;
+//
+//
+//    /**
+//    * A helper function that determines the length of a file in bytes
+//    * @param relative_path: relative path to load the file from with respect to TSParser.cpp
+//    * @return length of file in bytes || -1 if error
+//    */
+//    static int getFileSize(char *relative_path) {
+//        struct stat results;
+//
+//        if (stat(relative_path, &results) == 0)
+//            return results.st_size;
+//        else return -1;
+//    }
+//
 
-class FileInterface {
-private:
-    std::ifstream *rf;
-    int file_size;
-    int num_packets;
-    int index = 0;
-    static FileInterface *instance;
-
-    FileInterface() = default;
-
-
-    /**
-    * A helper function that determines the length of a file in bytes
-    * @param relative_path: relative path to load the file from with respect to TSParser.cpp
-    * @return length of file in bytes || -1 if error
-    */
-    static int getFileSize(char *relative_path) {
-        struct stat results;
-
-        if (stat(relative_path, &results) == 0)
-            return results.st_size;
-        else return -1;
-    }
+//    /**
+//     * Function to return a pointer to the singleton instance
+//     * @return FileInterface* instance
+//     */
+//    static FileInterface *getInstance() {
+//        if (!instance) {
+//            instance = new FileInterface();
+//        }
+//        return instance;
+//    }
 
 
-public:
-
-    /**
-     * Function to return a pointer to the singleton instance
-     * @return FileInterface* instance
-     */
-    static FileInterface *getInstance() {
-        if (!instance) {
-            instance = new FileInterface();
-        }
-        return instance;
-    }
-
+    FileInterface* FileInterface::instance = nullptr;
 
     /**
      * Setter to initialize the singleton instance.
      * @param relative_path: relative path to load the file from with respect to FileInterface.cpp
      * @throws FileException: if file cannot be opened or the file has invalid size
      */
-    void setInstance(char *relativePath) {
+    void FileInterface::setInstance(char *relativePath) {
         if (relativePath) {
 //            if (!instance) {
 //                getInstance();
@@ -75,7 +70,7 @@ public:
      * Check if more packets are available. Closes the file if no more packets are available
      * @return true iff there are additional packets in file
      */
-    bool HasNextPacket() {
+    bool FileInterface::HasNextPacket() {
         if (index >= num_packets) {
             if (rf->is_open()) {
                 rf->close();
@@ -90,7 +85,7 @@ public:
      * @throws PacketException: if HasNextPacket returns false
      *         FileException: if rf->good() returns false
      */
-    void getNextPacketData(char *file_buffer) {
+    void FileInterface::getNextPacketData(char *file_buffer) {
         if (!HasNextPacket()) {
             throw PacketException("FileInterface::getNextPacketData: HasNextPacket returned false");
         }
@@ -101,5 +96,5 @@ public:
             throw FileException("FileInterface::getNextPacketData: rf->good() check failed");
         }
     }
-};
+
 

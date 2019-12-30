@@ -104,11 +104,11 @@ public:
         unsigned char continuity_counter;
     };
 
-
+//private:
     /**
      * Fields for the Transport Packet
      */
-    transport_header_fields header_fields;
+    transport_header_fields header_fields{};
     AdaptationField adaptationField;
     unsigned int data_length;
     unsigned char *data;
