@@ -3,44 +3,8 @@
 //
 
 #include "FileInterface.h"
-//
-//class FileInterface {
-//private:
-//    std::ifstream *rf;
-//    int file_size;
-//    int num_packets;
-//    int index = 0;
-//    static FileInterface *instance;
-//
-//    FileInterface() = default;
-//
-//
-//    /**
-//    * A helper function that determines the length of a file in bytes
-//    * @param relative_path: relative path to load the file from with respect to TSParser.cpp
-//    * @return length of file in bytes || -1 if error
-//    */
-//    static int getFileSize(char *relative_path) {
-//        struct stat results;
-//
-//        if (stat(relative_path, &results) == 0)
-//            return results.st_size;
-//        else return -1;
-//    }
-//
 
-//    /**
-//     * Function to return a pointer to the singleton instance
-//     * @return FileInterface* instance
-//     */
-//    static FileInterface *getInstance() {
-//        if (!instance) {
-//            instance = new FileInterface();
-//        }
-//        return instance;
-//    }
-
-
+    // Linker needs to know where to allocate memory for the static instance
     FileInterface* FileInterface::instance = nullptr;
 
     /**
@@ -50,9 +14,6 @@
      */
     void FileInterface::setInstance(char *relativePath) {
         if (relativePath) {
-//            if (!instance) {
-//                getInstance();
-//            }
             rf = new std::ifstream(relativePath, std::ios::in | std::ios::binary);
             file_size = getFileSize(relativePath);
             if (!(*rf)) {

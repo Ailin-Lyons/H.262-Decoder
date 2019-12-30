@@ -5,51 +5,12 @@
 #include "PacketException.cpp"
 #include "../Util/FileInterface.cpp"
 
-//using namespace std;
-
 //
 // Created by elnsa on 2019-11-19.
 //
 class TSParser {
-//    std::ifstream *rf;
-//    int file_size;
-//    int num_packets;
-//    char *file_buffer;
-//    int index = 0;
 
 public:
-
-//    /**
-//     * Explicit Constructor
-//     * @param relative_path: relative path to load the file from with respect to TSParser.cpp
-//     */
-//    explicit TSParser(char *relative_path) {
-//        rf = new std::ifstream(relative_path, std::ios::in | std::ios::binary);
-//        file_size = getFileSize(relative_path);
-//        if (!(*rf)) {
-//            throw FileException("TSParser::Cannot open file!");
-//        }
-//        if (!isValidFile(relative_path)) {
-//            throw FileException("TSParser::Invalid file!");
-//        }
-//        num_packets = file_size / 188;
-//        file_buffer = new char[188];
-//    }
-
-//    /**
-//     * Must be called before calling GetNextPacket to avoid PacketException
-//     * Closes the file if no more packets are available
-//     * @return true iff there are additional packets in file
-//     */
-//    bool HasNextPacket() {
-//        if (index >= num_packets) {
-//            if (rf->is_open()) {
-//                rf->close();
-//            }
-//        }
-//        return index < num_packets;
-//    }
-
 
     /**
      * Returns the next TS Stream packet from the file as a TransportPacket object
@@ -66,30 +27,6 @@ public:
     }
 
 private:
-//    /**
-//     * A helper function that determines the length of a file in bytes
-//     * @param relative_path: relative path to load the file from with respect to TSParser.cpp
-//     * @return length of file in bytes || -1 if error
-//     */
-//    static int getFileSize(char *relative_path) {
-//        struct stat results;
-//
-//        if (stat(relative_path, &results) == 0)
-//            return results.st_size;
-//        else return -1;
-//    }
-
-//    /**
-//     * A helper function that verifies that the input file is valid
-//     * @param relative_path: relative path to load the file from with respect to TSParser.cpp
-//     * @return true iff file exists and is multiple of 188 bytes
-//     */
-//    bool isValidFile(char *relative_path) {
-//        //int file_size = TSParser::getFileSize(relative_path);
-//        if (file_size == -1) {
-//            return false; // Error getting file size
-//        } else return file_size % 188 == 0;
-//    }
 
     /**
      * Helper function that creates a TransportPacket object given a TS packet in binary data
