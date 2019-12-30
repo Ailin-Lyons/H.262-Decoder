@@ -27,9 +27,6 @@ private:
 public:
     void toString();
 
-    static PESPayload::start_code GetStartCode(unsigned char id);
-
-    static bool IsHandled(PESPayload::start_code sc);
 };
 
 
