@@ -9,6 +9,8 @@
 
 class PESPayload {
 public:
+    PESPacket::start_code payload_type;
+    void toString();
     /**
      * The 8-bit start_code determines how the packet is to be interpreted
      * This enum contains all interpretations described in H.222.0 and H.262
