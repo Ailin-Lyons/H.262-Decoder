@@ -1,6 +1,8 @@
 //
 // Created by elnsa on 2019-12-03.
 //
+#ifndef __BITMANIPULATOR
+#define __BITMANIPULATOR
 
 class BitManipulator {
 public:
@@ -46,4 +48,6 @@ public:
         return out;
     }
 };
+
+#endif
 

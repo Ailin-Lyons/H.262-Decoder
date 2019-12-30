@@ -2,7 +2,8 @@
 // Created by bhave on 12/23/2019.
 //
 
-
+#ifndef __PACKETEXCEPTION
+#define __PACKETEXCEPTION
 
 #include <string>
 #include <utility>
@@ -15,7 +16,9 @@ public:
         message = std::move(msg);
     }
 
-    const char* what() const noexcept override {
+    const char *what() const noexcept override {
         return message.c_str();
     }
 };
+
+#endif

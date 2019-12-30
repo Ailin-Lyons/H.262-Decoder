@@ -4,148 +4,105 @@
 #include "../PesPacket/PESPacket.h"
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/TransportPacket.h"
-#include <iostream>
+//#include <iostream>
+#include "PacketException.cpp"
 
-class PESParser { //TODO this class will have a switch statement and delegate individual packets
 
+#define MAXPACKETS 46
+
+class PESParser {
 public:
-
     /**
     * Struct that contains all return fields of parsePESPackets
     */
-    struct pes_parser_struct {
+    struct pes_packet_array {
         unsigned char num_packets; // size of array
-        PESPacket *packet_array; // array of PESPackets of size num_packets
+        PESPacket **packet_array; // array of PESPackets of size num_packets
     };
 
     /**
-     * //TODO stub
+     * Parses the data field from tp into individual PES Packets.
+     * Ignores any packets not handled by this decoder.
+     * @param tp a pointer to a valid TransportPacket
+     * @return a struct of type pes_packet_array that contains num_packets PESPacket* in packet_array
+     * Caller is responsible for freeing each PESPacket as well as packet_array
      */
-    static pes_parser_struct parseTransportPacket(TransportPacket *tp) {
-        pes_parser_struct out; //TODO build this struct and return at end. It should contain all PES packets
+    static pes_packet_array ParseTransportPacketData(TransportPacket *tp) {
+        pes_packet_array out;
         unsigned char *currPosition = tp->data;
-        unsigned int numBytesLeft = tp->data_length;
-        while (numBytesLeft > 0) {
-            if (HasNextPacket(currPosition, numBytesLeft)) {
-                currPosition += 3; //Bypass packet_start_code_prefix
-                numBytesLeft -= 3;
-                unsigned char start_code = BitManipulator::ReadNBits(currPosition, 8);
-                if (start_code >= 0x01 && start_code <= 0xAF) {
-                    //TODO handle slice()
-                } else if (start_code >= 0xC0 && start_code <= 0xDF) {
-                    //TODO make stub for handling audio
-                } else if (start_code >= 0xE0 && start_code <= 0xEF) {
-                    //TODO handle video stream
-                } else if (start_code >= 0xFA && start_code <= 0xFE) {
-                    //TODO stub for reserved data stream
-                } else {
-                    switch (start_code) {
-                        case 0x00 :
-                            //TODO handle picture_start_code
-                            break;
-                        case 0xB0 :
-                        case 0xB1 :
-                            //TODO stub for reserved
-                            break;
-                        case 0xB2 :
-                            //TODO handle user_data?
-                            break;
-                        case 0xB3 :
-                            //TODO handle sequence_header_code
-                            break;
-                        case 0xB4 :
-                            //TODO handle sequence_error_code?
-                            break;
-                        case 0xB5 :
-                            //TODO handle extension_start_code
-                            break;
-                        case 0xB6 :
-                            //TODO stub for reserved
-                            break;
-                        case 0xB7 :
-                            //TODO handle sequence_end_code?
-                            break;
-                        case 0xB8 :
-                            //TODO handle group_start_code?
-                            break;
-                        case 0xBC :
-                            //TODO handle program_stream_map?
-                            break;
-                        case 0xBD :
-                            //TODO stub for private_stream_1?
-                            break;
-                        case 0xBE :
-                            //TODO handle padding_stream?
-                            break;
-                        case 0xBF :
-                            //TODO stub for private_stream_2?
-                            break;
-                        case 0xF0 :
-                            //TODO stub for ECM_stream?
-                            break;
-                        case 0xF1 :
-                            //TODO stub for EMM_stream?
-                            break;
-                        case 0xF2 :
-                            //TODO stub for ITU-T Rec. H.222.0 | ISO/IEC 13818-1 Annex B or ISO/IEC 13818-6_DSMCC_stream?
-                            break;
-                        case 0xF3 :
-                            //TODO stub for ISO/IEC_13522_stream?
-                            break;
-                        case 0xF4 :
-                            //TODO stub for ITU-T Rec. H.222.1 type A?
-                            break;
-                        case 0xF5 :
-                            //TODO stub for ITU-T Rec. H.222.1 type B?
-                            break;
-                        case 0xF6 :
-                            //TODO stub for ITU-T Rec. H.222.1 type C?
-                            break;
-                        case 0xF7 :
-                            //TODO stub for ITU-T Rec. H.222.1 type D?
-                            break;
-                        case 0xF8 :
-                            //TODO stub for ITU-T Rec. H.222.1 type E?
-                            break;
-                        case 0xF9 :
-                            //TODO stub for ancillary_stream?
-                            break;
-                        case 0xFF :
-                            //TODO stub for program_stream_directory?
-                            break;
-                        default :
-                            std::cerr << "PESParser::Unexpected start_code in TransportPacket: " << start_code
-                                      << std::endl;
-                            throw;
-                    }
+        unsigned char *endPosition = tp->data + tp->data_length;
+        PESPacket *tempArray[MAXPACKETS];
+        unsigned int numPackets = 0;
+        while (currPosition + 5 < endPosition) {
+            unsigned int packet_start_code_prefix = BitManipulator::ReadNBits(currPosition, 24);
+            currPosition += 3;
+            if (packet_start_code_prefix != 0x000001) {
+                throw PacketException("PESParser::Invalid packet_start_code_prefix!");
+            }
+            unsigned char stream_id = BitManipulator::ReadNBits(currPosition, 8);
+            currPosition++;
+            PESPacket::start_code packet_type = PESPacket::GetStartCode(stream_id);
+            unsigned short PES_packet_length = BitManipulator::ReadNBits(currPosition, 16);
+            currPosition += 2;
+            if (currPosition + PES_packet_length <= endPosition && PESPacket::IsHandled(packet_type)) {
+                tempArray[numPackets] = GetNextPacket(packet_type, stream_id, PES_packet_length, currPosition);
+                numPackets++;
+                if (numPackets > MAXPACKETS) {
+                    throw PacketException("PESParser::MAXPACKETS exceeded!");
                 }
-            } else if (BitManipulator::ReadNBits(currPosition, 8) == 0xFF) { // Remove stuffing byte
-                currPosition++;
-                numBytesLeft--;
-            } else {
-                std::cerr << "PESParser::Unexpected Data in TransportPacket!" << std::endl;
-                throw;
             }
         }
-        return out;
+        out.num_packets = numPackets;
+        out.packet_array = (PESPacket **) malloc(sizeof(PESPacket *) * numPackets);
+        for (int i = 0; i < numPackets; i++) {
+            out.packet_array[i] = tempArray[i];
+        }
     }
 
 private:
 
-/**
- * //TODO might need a function like this?
- */
-    static bool HasNextPacket(unsigned char *currPosition, unsigned int numBytesLeft) {
-        if (numBytesLeft < 4) {
-            return false; //Not enough space for another packet;
+    static PESPacket *GetPESPicture(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetPESSlice(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetPESSequenceHeader(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetPESExtension(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetPESGroup(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetPESVideoStream(unsigned char id, unsigned short length, unsigned char *start_pos) {
+        return nullptr; // TODO implement
+    }
+
+    static PESPacket *GetNextPacket(PESPacket::start_code scode, unsigned char stream_id, unsigned short packet_length,
+                                    unsigned char *start_pos) {
+        switch (scode) {
+            case PESPacket::start_code::picture:
+                return GetPESPicture(stream_id, packet_length, start_pos);
+            case PESPacket::start_code::slice:
+                return GetPESSlice(stream_id, packet_length, start_pos);
+            case PESPacket::start_code::sequence_header:
+                return GetPESSequenceHeader(stream_id, packet_length, start_pos);
+            case PESPacket::start_code::extension:
+                return GetPESExtension(stream_id, packet_length, start_pos);
+            case PESPacket::start_code::group:
+                return GetPESGroup(stream_id, packet_length, start_pos);
+            case PESPacket::start_code::video_stream:
+                return GetPESVideoStream(stream_id, packet_length, start_pos);
+            default:
+                throw PacketException("PESParser::GetNextPacket:: Invalid Packet type");
         }
-        if (numBytesLeft >= 4) { //4 is minimum bytes needed to
-            if (BitManipulator::ReadNBits(currPosition, 24) == 0x000001) {
-                return true;
-            }
-            HasNextPacket(currPosition, numBytesLeft);
-        }
-        return false;
     }
 
 };
