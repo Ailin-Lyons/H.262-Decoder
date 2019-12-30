@@ -28,7 +28,7 @@ public:
      * Caller is responsible for freeing each PESPacket as well as packet_array
      */
     static pes_packet_array ParseTransportPacketData(TransportPacket *tp) {
-        pes_packet_array out;
+        pes_packet_array out = {};
         unsigned char *currPosition = tp->data;
         unsigned char *endPosition = tp->data + tp->data_length;
         PESPacket *tempArray[MAXPACKETS];
