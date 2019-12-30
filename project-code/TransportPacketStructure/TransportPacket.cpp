@@ -6,13 +6,6 @@
 #include "TransportPacket.h"
 
 
-TransportPacket::TransportPacket(transport_header_fields thf, AdaptationField af, unsigned int dl,
-                                 unsigned char *d) {
-    header_fields = thf;
-    adaptationField = af;
-    data = d;
-}
-
 TransportPacket::~TransportPacket() {
     free(data);
 }
@@ -25,4 +18,11 @@ void TransportPacket::toString() {
             header_fields.pid, header_fields.transport_scrambling_control, header_fields.adaptation_field_control,
             header_fields.continuity_counter, &adaptationField, data);
     adaptationField.toString();
+}
+
+TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d) {
+    header_fields = thf;
+    adaptationField = af;
+    data = d;
+    data_length = dl;
 }

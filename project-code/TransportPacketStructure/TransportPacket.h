@@ -120,7 +120,7 @@ public:
      * @param af an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(transport_header_fields thf, AdaptationField af, unsigned int dl, unsigned char *d);
+    TransportPacket(transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d);
 
     void toString();
 

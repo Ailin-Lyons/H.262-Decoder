@@ -121,14 +121,14 @@ private:
             adaptationField = AFParser::generateAdaptationField(&packet[packetIndex]);
             packetIndex += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
         }
-        char *data = (char *) malloc(sizeof(char) * (188 - packetIndex));
+        auto *data = (unsigned char *) malloc(sizeof(char) * (188 - packetIndex));
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; packetIndex < 188; i++) {
-                data[i] = (char) packet[packetIndex];
+                data[i] = (unsigned char) packet[packetIndex];
                 packetIndex++;
             }
         }
-        return TransportPacket(thf_out, adaptationField, data);
+        return TransportPacket(thf_out, adaptationField, packetIndex, data);
     }
 };

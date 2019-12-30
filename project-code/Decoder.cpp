@@ -49,11 +49,11 @@ int displayMetaData() {
 int main(int argc, char **argv) {
     //char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
     char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
-    char *path = relative_path;
-    TSParser *tsParser = new TSParser(path);
-    while (tsParser->HasNextPacket()) {
-        tsParser->GetNextPacket()->toString();
-    }
+    //char *path = relative_path;
+//    TSParser *tsParser = new TSParser(path);
+//    while (tsParser->HasNextPacket()) {
+//        tsParser->GetNextPacket()->toString();
+//    }
     // TODO: split the file into 3 parts
 
 

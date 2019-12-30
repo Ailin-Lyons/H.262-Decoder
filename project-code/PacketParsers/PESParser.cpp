@@ -4,6 +4,7 @@
 #include "../PesPacket/PESPacket.h"
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/TransportPacket.h"
+#include <iostream>
 
 class PESParser { //TODO this class will have a switch statement and delegate individual packets
 
