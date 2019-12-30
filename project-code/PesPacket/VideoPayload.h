@@ -37,7 +37,7 @@ public:
         unsigned char PES_extension_field_length; //7-bit
     };
 
-    PESPacket::start_code payload_type = PESPacket::start_code::video_stream;
+    PESPayload::start_code payload_type = PESPayload::start_code::video_stream;
     unsigned char PES_scrambling_control; //2-bit
     unsigned char PES_priority; //1-bit
     unsigned char data_alignment_indicator; //1-bit

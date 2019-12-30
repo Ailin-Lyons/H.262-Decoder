@@ -41,7 +41,7 @@ public:
             }
             unsigned char stream_id = BitManipulator::ReadNBits(currPosition, 8);
             currPosition++;
-            PESPacket::start_code packet_type = PESPacket::GetStartCode(stream_id);
+            PESPayload::start_code packet_type = PESPacket::GetStartCode(stream_id);
             unsigned short PES_packet_length = BitManipulator::ReadNBits(currPosition, 16);
             currPosition += 2;
             if (currPosition + PES_packet_length <= endPosition && PESPacket::IsHandled(packet_type)) {
@@ -85,20 +85,20 @@ private:
         return nullptr; // TODO implement
     }
 
-    static PESPacket *GetNextPacket(PESPacket::start_code scode, unsigned char stream_id, unsigned short packet_length,
+    static PESPacket *GetNextPacket(PESPayload::start_code scode, unsigned char stream_id, unsigned short packet_length,
                                     unsigned char *start_pos) {
         switch (scode) {
-            case PESPacket::start_code::picture:
+            case PESPayload::start_code::picture:
                 return GetPESPicture(stream_id, packet_length, start_pos);
-            case PESPacket::start_code::slice:
+            case PESPayload::start_code::slice:
                 return GetPESSlice(stream_id, packet_length, start_pos);
-            case PESPacket::start_code::sequence_header:
+            case PESPayload::start_code::sequence_header:
                 return GetPESSequenceHeader(stream_id, packet_length, start_pos);
-            case PESPacket::start_code::extension:
+            case PESPayload::start_code::extension:
                 return GetPESExtension(stream_id, packet_length, start_pos);
-            case PESPacket::start_code::group:
+            case PESPayload::start_code::group:
                 return GetPESGroup(stream_id, packet_length, start_pos);
-            case PESPacket::start_code::video_stream:
+            case PESPayload::start_code::video_stream:
                 return GetPESVideoStream(stream_id, packet_length, start_pos);
             default:
                 throw PacketException("PESParser::GetNextPacket:: Invalid Packet type");
