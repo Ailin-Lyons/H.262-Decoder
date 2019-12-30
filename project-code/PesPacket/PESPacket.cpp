@@ -18,7 +18,6 @@ PESPayload::start_code PESPacket::GetStartCode(unsigned char id) {
         case 0x00 :
             return PESPayload::start_code::picture;
         case 0xB0 :
-            return PESPayload::start_code::reserved_code;
         case 0xB1 :
             return PESPayload::start_code::reserved_code;
         case 0xB2 :
