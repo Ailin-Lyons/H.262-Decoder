@@ -41,10 +41,10 @@ public:
             }
             unsigned char stream_id = BitManipulator::ReadNBits(currPosition, 8);
             currPosition++;
-            PESPayload::start_code packet_type = PESPacket::GetStartCode(stream_id);
+            PESPayload::start_code packet_type = PESPayload::GetStartCode(stream_id);
             unsigned short PES_packet_length = BitManipulator::ReadNBits(currPosition, 16);
             currPosition += 2;
-            if (currPosition + PES_packet_length <= endPosition && PESPacket::IsHandled(packet_type)) {
+            if (currPosition + PES_packet_length <= endPosition && PESPayload::IsHandled(packet_type)) {
                 tempArray[numPackets] = GetNextPacket(packet_type, stream_id, PES_packet_length, currPosition);
                 numPackets++;
                 if (numPackets > MAXPACKETS) {
