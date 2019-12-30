@@ -10,5 +10,6 @@
 class PESPayload {
 public:
     PESPacket::start_code payload_type;
+    void toString();
 };
 #endif //PROJECT_CODE_PESPAYLOAD_H

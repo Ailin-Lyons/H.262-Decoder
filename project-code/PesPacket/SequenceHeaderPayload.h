@@ -1,0 +1,14 @@
+//
+// Created by elnsa on 2019-12-29.
+//
+
+#ifndef DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
+#define DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
+
+
+class SequenceHeaderPayload : public PESPayload {
+
+};
+
+
+#endif //DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
