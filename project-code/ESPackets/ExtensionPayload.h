@@ -5,8 +5,9 @@
 #ifndef DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 #define DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 
+#include "ESPacket.h"
 
-class ExtensionPayload : public PESPayload {
+class ExtensionPayload : public ESPacket {
 
 };
 

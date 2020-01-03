@@ -14,7 +14,7 @@
  *
  */
 
-class PESPacket {
+class PESPacket : public ESPacket {
 
 public:
 
@@ -22,7 +22,7 @@ private:
     unsigned char stream_id;
     ESPacket::start_code packet_type;
     unsigned short PES_packet_length;
-    ESPacket* pesPayload;
+    ESPacket *pesPayload;
 public:
     void toString();
 };

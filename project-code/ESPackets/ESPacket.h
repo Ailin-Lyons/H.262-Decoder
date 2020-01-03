@@ -5,9 +5,8 @@
 #ifndef PROJECT_CODE_ESPACKET_H
 #define PROJECT_CODE_ESPACKET_H
 
-//#include "PESPacket.h"
-
 #include <iostream>
+
 /**
  * This is an interface for all elementary stream packets.
  */
@@ -128,9 +127,6 @@ public:
         }
 
     }
-
-private:
-    start_code payload_type;
 };
 
 

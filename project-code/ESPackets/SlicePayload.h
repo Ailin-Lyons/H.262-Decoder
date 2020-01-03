@@ -5,8 +5,9 @@
 #ifndef DIRECTED_STUDIES_SLICEPAYLOAD_H
 #define DIRECTED_STUDIES_SLICEPAYLOAD_H
 
+#include "ESPacket.h"
 
-class SlicePayload : public PESPayload {
+class SlicePayload : public ESPacket {
 
 };
 

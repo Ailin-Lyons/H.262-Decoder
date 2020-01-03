@@ -2,8 +2,6 @@
 // Created by elnsa on 2019-11-20.
 //
 
-#include <cstdlib>
-#include <cstdio>
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/AdaptationField.h"
 

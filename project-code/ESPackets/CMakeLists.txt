@@ -8,4 +8,4 @@ set(SOURCE_FILES
 set(HEADER_FILES
         PESPacket.h ESPacket.h VideoPayload.cpp VideoPayload.h)
 
-add_library(PesPacket STATIC ${SOURCE_FILES} ${HEADER_FILES})
+add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})

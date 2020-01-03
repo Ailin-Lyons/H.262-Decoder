@@ -5,8 +5,9 @@
 #ifndef DIRECTED_STUDIES_PICTUREPAYLOAD_H
 #define DIRECTED_STUDIES_PICTUREPAYLOAD_H
 
+#include "ESPacket.h"
 
-class PicturePayload : public PESPayload {
+class PicturePayload : public ESPacket {
 
 };
 
