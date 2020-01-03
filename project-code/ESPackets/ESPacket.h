@@ -127,6 +127,10 @@ public:
         }
 
     }
+
+protected:
+    start_code packet_type;
+    unsigned char stream_id;
 };
 
 
