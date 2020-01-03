@@ -7,7 +7,7 @@
 
 #include "ESPacket.h"
 
-class ExtensionPayload : public ESPacket {
+class ExtensionPacket : public ESPacket {
 
 };
 

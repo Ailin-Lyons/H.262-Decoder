@@ -7,7 +7,7 @@
 
 #include "ESPacket.h"
 
-class GroupPayload : public ESPacket {
+class GroupPacket : public ESPacket {
 
 };
 

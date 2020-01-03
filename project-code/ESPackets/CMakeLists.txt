@@ -3,9 +3,9 @@ project(PesPacket)
 project(TSPacket)
 
 set(SOURCE_FILES
-        PESPacket.cpp)
+        PESPacket.cpp ExtensionPacket.cpp GroupPacket.cpp PESPacket.cpp PicturePacket.cpp SequenceHeaderPacket.cpp SlicePacket.cpp)
 
 set(HEADER_FILES
-        PESPacket.h ESPacket.h PESPacket.cpp PESPacket.h)
+        ESPacket.h ExtensionPacket.h GroupPacket.h PESPacket.h PicturePacket.h SequenceHeaderPacket.h SlicePacket.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})

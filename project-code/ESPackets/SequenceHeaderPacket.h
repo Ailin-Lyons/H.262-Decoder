@@ -7,7 +7,7 @@
 
 #include "ESPacket.h"
 
-class SequenceHeaderPayload : public ESPacket {
+class SequenceHeaderPacket : public ESPacket {
 
 };
 
