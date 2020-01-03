@@ -2,12 +2,16 @@
 // Created by bhave on 12/25/2019.
 //
 
+/**
+ * Sample Exception class setup
+ */
+
 #include <string>
 
-class InitializationException : public std::exception {
+class SampleException : public std::exception {
     std::string message;
 public:
-    explicit InitializationException(std::string msg) {
+    explicit SampleException(std::string msg) {
         message = std::move(msg);
     }
     const char* what() const noexcept override {

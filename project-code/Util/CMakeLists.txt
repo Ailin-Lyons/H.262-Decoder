@@ -6,6 +6,6 @@ set(HEADER_FILES
 set(SOURCE_FILES
         BitManipulator.cpp
         FileInterface.cpp
-        FileException.cpp InitializationException.cpp)
+        FileException.cpp)
 
 add_library(Util STATIC ${SOURCE_FILES} ${HEADER_FILES})

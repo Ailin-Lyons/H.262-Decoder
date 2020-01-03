@@ -9,7 +9,7 @@
 
     /**
      * Setter to initialize the singleton instance.
-     * @param relative_path: relative path to load the file from with respect to FileInterface.cpp
+     * @param relativePath: relative path to load the file from with respect to FileInterface.cpp
      * @throws FileException: if file cannot be opened or the file has invalid size
      */
     void FileInterface::setInstance(char *relativePath) {
@@ -23,7 +23,6 @@
                 throw FileException("FileInterface::setInstance: Invalid file!");
             }
             num_packets = file_size / 188;
-
         }
     }
 

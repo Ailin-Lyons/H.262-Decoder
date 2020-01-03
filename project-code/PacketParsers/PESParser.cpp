@@ -57,6 +57,7 @@ public:
         for (int i = 0; i < numPackets; i++) {
             out.packet_array[i] = tempArray[i];
         }
+        return out;
     }
 
 private:

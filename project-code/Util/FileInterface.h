@@ -11,7 +11,6 @@
 #include <sys/stat.h>
 #include "FileException.cpp"
 #include "../PacketParsers/PacketException.cpp"
-#include "InitializationException.cpp"
 
 
 class FileInterface {
@@ -54,7 +53,7 @@ public:
 
     /**
      * Setter to initialize the singleton instance.
-     * @param relative_path: relative path to load the file from with respect to FileInterface.cpp
+     * @param relativePath: relative path to load the file from with respect to FileInterface.cpp
      * @throws FileException: if file cannot be opened or the file has invalid size
      */
     void setInstance(char *relativePath);
