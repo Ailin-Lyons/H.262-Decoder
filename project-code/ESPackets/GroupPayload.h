@@ -5,8 +5,9 @@
 #ifndef DIRECTED_STUDIES_GROUPPAYLOAD_H
 #define DIRECTED_STUDIES_GROUPPAYLOAD_H
 
+#include "ESPacket.h"
 
-class GroupPayload : public PESPayload {
+class GroupPayload : public ESPacket {
 
 };
 

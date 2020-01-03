@@ -6,9 +6,9 @@
 #define PROJECT_CODE_VIDEOPAYLOAD_H
 
 
-#include "PESPayload.h"
+#include "ESPacket.h"
 
-class VideoPayload : public PESPayload {
+class VideoPayload : public ESPacket {
 public:
     struct pts_dts_fields {
         unsigned long long PTS; //30-bit
@@ -37,7 +37,7 @@ public:
         unsigned char PES_extension_field_length; //7-bit
     };
 
-    PESPayload::start_code payload_type = PESPayload::start_code::video_stream;
+    ESPacket::start_code payload_type = ESPacket::start_code::video_stream;
     unsigned char PES_scrambling_control; //2-bit
     unsigned char PES_priority; //1-bit
     unsigned char data_alignment_indicator; //1-bit

@@ -5,8 +5,9 @@
 #ifndef DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
 #define DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
 
+#include "ESPacket.h"
 
-class SequenceHeaderPayload : public PESPayload {
+class SequenceHeaderPayload : public ESPacket {
 
 };
 

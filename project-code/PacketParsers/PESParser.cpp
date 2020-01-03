@@ -1,10 +1,9 @@
 //
 // Created by elnsa on 2019-12-23.
 //
-#include "../PesPacket/PESPacket.h"
+#include "../ESPackets/PESPacket.h"
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/TransportPacket.h"
-//#include <iostream>
 #include "PacketException.cpp"
 
 
@@ -28,7 +27,7 @@ public:
      * Caller is responsible for freeing each PESPacket as well as packet_array
      */
     static pes_packet_array ParseTransportPacketData(TransportPacket *tp) {
-        pes_packet_array out;
+        pes_packet_array out = {};
         unsigned char *currPosition = tp->data;
         unsigned char *endPosition = tp->data + tp->data_length;
         PESPacket *tempArray[MAXPACKETS];
@@ -38,13 +37,14 @@ public:
             currPosition += 3;
             if (packet_start_code_prefix != 0x000001) {
                 throw PacketException("PESParser::Invalid packet_start_code_prefix!");
+                // We may want to deliberatly clean out stuffing bytes in future
             }
             unsigned char stream_id = BitManipulator::ReadNBits(currPosition, 8);
             currPosition++;
-            PESPayload::start_code packet_type = PESPayload::GetStartCode(stream_id);
+            ESPacket::start_code packet_type = ESPacket::GetStartCode(stream_id);
             unsigned short PES_packet_length = BitManipulator::ReadNBits(currPosition, 16);
             currPosition += 2;
-            if (currPosition + PES_packet_length <= endPosition && PESPayload::IsHandled(packet_type)) {
+            if (currPosition + PES_packet_length <= endPosition && ESPacket::IsHandled(packet_type)) {
                 tempArray[numPackets] = GetNextPacket(packet_type, stream_id, PES_packet_length, currPosition);
                 numPackets++;
                 if (numPackets > MAXPACKETS) {
@@ -86,20 +86,20 @@ private:
         return nullptr; // TODO implement
     }
 
-    static PESPacket *GetNextPacket(PESPayload::start_code scode, unsigned char stream_id, unsigned short packet_length,
+    static PESPacket *GetNextPacket(ESPacket::start_code scode, unsigned char stream_id, unsigned short packet_length,
                                     unsigned char *start_pos) {
         switch (scode) {
-            case PESPayload::start_code::picture:
+            case ESPacket::start_code::picture:
                 return GetPESPicture(stream_id, packet_length, start_pos);
-            case PESPayload::start_code::slice:
+            case ESPacket::start_code::slice:
                 return GetPESSlice(stream_id, packet_length, start_pos);
-            case PESPayload::start_code::sequence_header:
+            case ESPacket::start_code::sequence_header:
                 return GetPESSequenceHeader(stream_id, packet_length, start_pos);
-            case PESPayload::start_code::extension:
+            case ESPacket::start_code::extension:
                 return GetPESExtension(stream_id, packet_length, start_pos);
-            case PESPayload::start_code::group:
+            case ESPacket::start_code::group:
                 return GetPESGroup(stream_id, packet_length, start_pos);
-            case PESPayload::start_code::video_stream:
+            case ESPacket::start_code::video_stream:
                 return GetPESVideoStream(stream_id, packet_length, start_pos);
             default:
                 throw PacketException("PESParser::GetNextPacket:: Invalid Packet type");
