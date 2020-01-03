@@ -7,7 +7,7 @@
 
 #include "ESPacket.h"
 
-class PicturePayload : public ESPacket {
+class PicturePacket : public ESPacket {
 
 };
 

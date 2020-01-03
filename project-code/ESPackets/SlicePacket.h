@@ -7,7 +7,7 @@
 
 #include "ESPacket.h"
 
-class SlicePayload : public ESPacket {
+class SlicePacket : public ESPacket {
 
 };
 
