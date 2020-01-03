@@ -6,7 +6,7 @@
 #define DIRECTED_STUDIES_PES_PACKET_H
 
 
-#include "PESPayload.h"
+#include "ESPacket.h"
 #include <iostream>
 
 /*
@@ -20,13 +20,11 @@ public:
 
 private:
     unsigned char stream_id;
-    PESPayload::start_code packet_type;
+    ESPacket::start_code packet_type;
     unsigned short PES_packet_length;
-    PESPayload* pesPayload;
-
+    ESPacket* pesPayload;
 public:
     void toString();
-
 };
 
 

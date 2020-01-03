@@ -2,14 +2,16 @@
 // Created by elnsa on 2019-12-29.
 //
 
-#ifndef PROJECT_CODE_PESPAYLOAD_H
-#define PROJECT_CODE_PESPAYLOAD_H
+#ifndef PROJECT_CODE_ESPACKET_H
+#define PROJECT_CODE_ESPACKET_H
 
 //#include "PESPacket.h"
 
 #include <iostream>
-
-class PESPayload {
+/**
+ * This is an interface for all elementary stream packets.
+ */
+class ESPacket {
 public:
     /**
      * The 8-bit start_code determines how the packet is to be interpreted
@@ -49,60 +51,60 @@ public:
     virtual void toString() = 0;
 
     static start_code GetStartCode(unsigned char id) {
-        if (id >= 0x01 && id <= 0xAF) return PESPayload::start_code::slice;
-        if (id >= 0xC0 && id <= 0xDF) return PESPayload::start_code::audio_stream;
-        if (id >= 0xE0 && id <= 0xEF) return PESPayload::start_code::video_stream;
-        if (id >= 0xFA && id <= 0xFE) return PESPayload::start_code::reserved_data_stream;
+        if (id >= 0x01 && id <= 0xAF) return ESPacket::start_code::slice;
+        if (id >= 0xC0 && id <= 0xDF) return ESPacket::start_code::audio_stream;
+        if (id >= 0xE0 && id <= 0xEF) return ESPacket::start_code::video_stream;
+        if (id >= 0xFA && id <= 0xFE) return ESPacket::start_code::reserved_data_stream;
         switch (id) {
             case 0x00 :
-                return PESPayload::start_code::picture;
+                return ESPacket::start_code::picture;
             case 0xB0 :
             case 0xB1 :
-                return PESPayload::start_code::reserved_code;
+                return ESPacket::start_code::reserved_code;
             case 0xB2 :
-                return PESPayload::start_code::user_data;
+                return ESPacket::start_code::user_data;
             case 0xB3 :
-                return PESPayload::start_code::sequence_header;
+                return ESPacket::start_code::sequence_header;
             case 0xB4 :
-                return PESPayload::start_code::sequence_error;
+                return ESPacket::start_code::sequence_error;
             case 0xB5 :
-                return PESPayload::start_code::extension;
+                return ESPacket::start_code::extension;
             case 0xB6 :
-                return PESPayload::start_code::reserved_code;
+                return ESPacket::start_code::reserved_code;
             case 0xB7 :
-                return PESPayload::start_code::sequence_end;
+                return ESPacket::start_code::sequence_end;
             case 0xB8 :
-                return PESPayload::start_code::group;
+                return ESPacket::start_code::group;
             case 0xBC :
-                return PESPayload::start_code::program_stream_map;
+                return ESPacket::start_code::program_stream_map;
             case 0xBD :
-                return PESPayload::start_code::private_stream_1;
+                return ESPacket::start_code::private_stream_1;
             case 0xBE :
-                return PESPayload::start_code::padding_stream;
+                return ESPacket::start_code::padding_stream;
             case 0xBF :
-                return PESPayload::start_code::private_stream_2;
+                return ESPacket::start_code::private_stream_2;
             case 0xF0 :
-                return PESPayload::start_code::ECM_stream;
+                return ESPacket::start_code::ECM_stream;
             case 0xF1 :
-                return PESPayload::start_code::EMM_stream;
+                return ESPacket::start_code::EMM_stream;
             case 0xF2 :
-                return PESPayload::start_code::DSMCC_stream;
+                return ESPacket::start_code::DSMCC_stream;
             case 0xF3 :
-                return PESPayload::start_code::MMHM_stream;
+                return ESPacket::start_code::MMHM_stream;
             case 0xF4 :
-                return PESPayload::start_code::MMATM_A_stream;
+                return ESPacket::start_code::MMATM_A_stream;
             case 0xF5 :
-                return PESPayload::start_code::MMATM_B_stream;
+                return ESPacket::start_code::MMATM_B_stream;
             case 0xF6 :
-                return PESPayload::start_code::MMATM_C_stream;
+                return ESPacket::start_code::MMATM_C_stream;
             case 0xF7 :
-                return PESPayload::start_code::MMATM_D_stream;
+                return ESPacket::start_code::MMATM_D_stream;
             case 0xF8 :
-                return PESPayload::start_code::MMATM_E_stream;
+                return ESPacket::start_code::MMATM_E_stream;
             case 0xF9 :
-                return PESPayload::start_code::ancillary_stream;
+                return ESPacket::start_code::ancillary_stream;
             case 0xFF :
-                return PESPayload::start_code::program_stream_directory;
+                return ESPacket::start_code::program_stream_directory;
             default :
                 std::cerr << "PESPacket::Unexpected stream_id: " << id << std::endl;
                 throw; // TODO throw an error
@@ -110,18 +112,18 @@ public:
     }
 
 /*
- * Only returns true if sc is a PESPayload::start_code that is handled by this decoder
+ * Only returns true if sc is a ESPacket::start_code that is handled by this decoder
  */
-    static bool IsHandled(PESPayload::start_code sc) {
+    static bool IsHandled(ESPacket::start_code sc) {
         switch (sc) {
             default:
                 return false;
-            case PESPayload::start_code::picture:
-            case PESPayload::start_code::slice:
-            case PESPayload::start_code::sequence_header:
-            case PESPayload::start_code::extension:
-            case PESPayload::start_code::group:
-            case PESPayload::start_code::video_stream:
+            case ESPacket::start_code::picture:
+            case ESPacket::start_code::slice:
+            case ESPacket::start_code::sequence_header:
+            case ESPacket::start_code::extension:
+            case ESPacket::start_code::group:
+            case ESPacket::start_code::video_stream:
                 return true;
         }
 
@@ -132,4 +134,4 @@ private:
 };
 
 
-#endif //PROJECT_CODE_PESPAYLOAD_H
+#endif //PROJECT_CODE_ESPACKET_H
