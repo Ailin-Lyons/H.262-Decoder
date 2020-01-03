@@ -1,11 +1,10 @@
-project(PesPacket)
+project(ESPackets)
 
-project(TSPacket)
 
 set(SOURCE_FILES
-        PESPacket.cpp ExtensionPacket.cpp GroupPacket.cpp PESPacket.cpp PicturePacket.cpp SequenceHeaderPacket.cpp SlicePacket.cpp)
+        PESPacket.cpp RegularStartCodes/ExtensionPacket.cpp RegularStartCodes/GroupPacket.cpp PESPacket.cpp RegularStartCodes/PicturePacket.cpp RegularStartCodes/SequenceHeaderPacket.cpp RegularStartCodes/SlicePacket.cpp)
 
 set(HEADER_FILES
-        ESPacket.h ExtensionPacket.h GroupPacket.h PESPacket.h PicturePacket.h SequenceHeaderPacket.h SlicePacket.h)
+        ESPacket.h RegularStartCodes/ExtensionPacket.h RegularStartCodes/GroupPacket.h PESPacket.h RegularStartCodes/PicturePacket.h RegularStartCodes/SequenceHeaderPacket.h RegularStartCodes/SlicePacket.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})
