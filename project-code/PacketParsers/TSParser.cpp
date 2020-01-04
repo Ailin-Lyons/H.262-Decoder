@@ -15,10 +15,10 @@ public:
     /**
      * Returns the next TS Stream packet from the file as a TransportPacket object
      * @return a TransportPacket object || a null pointer if there was an error loading packet
-     * @throws PacketException: if HasNextPacket returns false
+     * @throws PacketException: if hasNextPacket returns false
      *         FileException: if rf->good() returns false
      */
-    static TransportPacket *GetNextPacket() {
+    static TransportPacket *getNextPacket() {
         unsigned char file_buffer[188];
         auto *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         FileInterface::getInstance()->getNextPacketData((char *) file_buffer);
@@ -42,16 +42,16 @@ private:
             throw PacketException("TSParser::buildTransportPacket: sync_byte error");
         }
         packetIndex++;
-        thf_out.transport_error_indicator = BitManipulator::ReadNBits(&packet[packetIndex], 1);
-        thf_out.payload_unit_start_indicator = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 1, 1);
-        thf_out.transport_priority = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 2, 1);
-        thf_out.pid = TransportPacket::getPID(BitManipulator::ReadNBitsOffset(&packet[packetIndex], 3, 13));
+        thf_out.transport_error_indicator = BitManipulator::readNBits(&packet[packetIndex], 1);
+        thf_out.payload_unit_start_indicator = BitManipulator::readNBitsOffset(&packet[packetIndex], 1, 1);
+        thf_out.transport_priority = BitManipulator::readNBitsOffset(&packet[packetIndex], 2, 1);
+        thf_out.pid = TransportPacket::getPID(BitManipulator::readNBitsOffset(&packet[packetIndex], 3, 13));
         packetIndex += 2;
         thf_out.transport_scrambling_control = TransportPacket::getTSC(
-                BitManipulator::ReadNBits(&packet[packetIndex], 2));
+                BitManipulator::readNBits(&packet[packetIndex], 2));
         thf_out.adaptation_field_control = TransportPacket::getAFC(
-                BitManipulator::ReadNBitsOffset(&packet[packetIndex], 2, 2));
-        thf_out.continuity_counter = BitManipulator::ReadNBitsOffset(&packet[packetIndex], 4, 4);
+                BitManipulator::readNBitsOffset(&packet[packetIndex], 2, 2));
+        thf_out.continuity_counter = BitManipulator::readNBitsOffset(&packet[packetIndex], 4, 4);
         packetIndex++;
         AdaptationField adaptationField;
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||

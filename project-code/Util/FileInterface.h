@@ -62,12 +62,12 @@ public:
      * Check if more packets are available. Closes the file if no more packets are available
      * @return true iff there are additional packets in file
      */
-    bool HasNextPacket();
+    bool hasNextPacket();
 
 
     /**
      * Reads the data of the next packet into the file_buffer
-     * @throws PacketException: if HasNextPacket returns false
+     * @throws PacketException: if hasNextPacket returns false
      *         FileException: if rf->good() returns false
      */
     void getNextPacketData(char *file_buffer);

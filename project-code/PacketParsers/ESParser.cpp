@@ -31,7 +31,7 @@ ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char
 }
 
 void ESParser::loadNextTSPacket() {
-    currTP = TSParser::GetNextPacket();
+    currTP = TSParser::getNextPacket();
     currPos = currTP->data;
     endPos = currTP->data + currTP->data_length;
 }
@@ -41,7 +41,7 @@ void ESParser::findNextStartCode() {
         loadNextTSPacket();
         return findNextStartCode();
     } else {
-        if (BitManipulator::ReadNBits(currPos, 24) == 0x000001) {
+        if (BitManipulator::readNBits(currPos, 24) == 0x000001) {
             currPos += 3;
             return;
         }
@@ -52,9 +52,9 @@ void ESParser::findNextStartCode() {
 
 void ESParser::findNextValidPacket() {
     findNextStartCode();
-    unsigned char stream_id = BitManipulator::ReadNBits(currPos, 8);
-    ESPacket::start_code packet_type = ESPacket::GetStartCode(stream_id);
-    if (ESPacket::IsHandled(packet_type)) {
+    unsigned char stream_id = BitManipulator::readNBits(currPos, 8);
+    ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
+    if (ESPacket::isHandled(packet_type)) {
         return;
     }
     currPos += 1;
@@ -63,15 +63,15 @@ void ESParser::findNextValidPacket() {
 
 ESPacket *ESParser::getNextPacket() {
     findNextValidPacket();
-    unsigned char stream_id = BitManipulator::ReadNBits(currPos, 8);
+    unsigned char stream_id = BitManipulator::readNBits(currPos, 8);
     currPos++;
-    ESPacket::start_code packet_type = ESPacket::GetStartCode(stream_id);
+    ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (isVideoStream) {
         return getNextVideoPacket(packet_type, stream_id);
     } else {
         //TODO call PESPacketParser here and create PESPacket
         //TODO update ESParser::currVideoStreamID if necessary
-//        unsigned short PES_packet_length = BitManipulator::ReadNBits(currPos, 16);
+//        unsigned short PES_packet_length = BitManipulator::readNBits(currPos, 16);
 //        currPos += 2;
         return nullptr;
     }

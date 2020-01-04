@@ -30,7 +30,7 @@
      * Check if more packets are available. Closes the file if no more packets are available
      * @return true iff there are additional packets in file
      */
-    bool FileInterface::HasNextPacket() {
+    bool FileInterface::hasNextPacket() {
         if (index >= num_packets) {
             if (rf->is_open()) {
                 rf->close();
@@ -42,12 +42,12 @@
 
     /**
      * Reads the data of the next packet into the file_buffer
-     * @throws PacketException: if HasNextPacket returns false
+     * @throws PacketException: if hasNextPacket returns false
      *         FileException: if rf->good() returns false
      */
     void FileInterface::getNextPacketData(char *file_buffer) {
-        if (!HasNextPacket()) {
-            throw PacketException("FileInterface::getNextPacketData: HasNextPacket returned false");
+        if (!hasNextPacket()) {
+            throw PacketException("FileInterface::getNextPacketData: hasNextPacket returned false");
         }
         if (rf->good()) {
             rf->read(file_buffer, 188);

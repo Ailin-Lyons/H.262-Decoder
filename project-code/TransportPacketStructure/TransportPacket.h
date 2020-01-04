@@ -10,10 +10,9 @@
 class TransportPacket {
 
 public:
-/**
+    /**
      * Defining enums for Transport packet
      */
-
     enum class PID {
         ProgramAssociationTable,
         ConditionalAccessTable,
@@ -34,13 +33,12 @@ public:
         AFieldPayload
     };
 
-/**
- * Returns the correct PID given parsed_pid
- *
- * @param parsed_pid
- * @return PID
- */
-
+    /**
+     * Returns the correct PID given parsed_pid
+     *
+     * @param parsed_pid
+     * @return PID
+     */
     static PID getPID(unsigned short parsed_pid) {
         if (parsed_pid == 0x0) {
             return PID::ProgramAssociationTable;
@@ -55,13 +53,12 @@ public:
         }
     }
 
-/**
- * Returns the correct TSC given parsed_afc
- *
- * @param parsed_tsc
- * @return TSC
- */
-
+    /**
+     * Returns the correct TSC given parsed_afc
+     *
+     * @param parsed_tsc
+     * @return TSC
+     */
     static TSC getTSC(unsigned char parsed_tsc) {
         if (parsed_tsc == 0) {
             return TSC::NotScrambled;
@@ -70,13 +67,12 @@ public:
         }
     }
 
-/**
- * Returns the correct AFC given the parsed_afc
- *
- * @param parsed_afc
- * @return
- */
-
+    /**
+     * Returns the correct AFC given the parsed_afc
+     *
+     * @param parsed_afc
+     * @return
+     */
     static AFC getAFC(unsigned char parsed_afc) {
         switch (parsed_afc) {
             case 0:
@@ -90,9 +86,9 @@ public:
         }
     }
 
-/**
- * Struct that contains all transport packet header fields
- */
+    /**
+     * Struct that contains all transport packet header fields
+     */
     struct transport_header_fields {
         unsigned char sync_byte;
         unsigned char transport_error_indicator;
@@ -104,7 +100,6 @@ public:
         unsigned char continuity_counter;
     };
 
-//private:
     /**
      * Fields for the Transport Packet
      */
@@ -113,7 +108,6 @@ public:
     unsigned int data_length;
     unsigned char *data;
 
-public:
     /**
      * Constructor
      * @param thf a transport_header_field struct containing all TS packet header fields
@@ -126,8 +120,6 @@ public:
 
     ~TransportPacket();
 
-
 };
-
 
 #endif //PROJECT_CODE_TRANSPORTPACKET_H

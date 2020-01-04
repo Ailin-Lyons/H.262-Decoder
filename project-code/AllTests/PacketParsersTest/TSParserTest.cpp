@@ -9,8 +9,8 @@ TEST(AllTest, TSParser_Test) {
     char relative_path[] = R"(..\..\..\test files\single_packet_hasAF.ts)";
     FileInterface* fileInterface = FileInterface::getInstance();
     fileInterface->setInstance(relative_path);
-    ASSERT_TRUE(fileInterface->HasNextPacket());
-    TransportPacket* pack = TSParser::GetNextPacket();
+    ASSERT_TRUE(fileInterface->hasNextPacket());
+    TransportPacket* pack = TSParser::getNextPacket();
     ASSERT_EQ(0x47,pack->header_fields.sync_byte);
     ASSERT_EQ(0x0,pack->header_fields.transport_error_indicator);
     ASSERT_EQ(0x1,pack->header_fields.payload_unit_start_indicator);

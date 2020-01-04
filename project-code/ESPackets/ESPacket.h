@@ -49,7 +49,7 @@ public:
 
     virtual void toString() = 0;
 
-    static start_code GetStartCode(unsigned char id) {
+    static start_code getStartCode(unsigned char id) {
         if (id >= 0x01 && id <= 0xAF) return ESPacket::start_code::slice;
         if (id >= 0xC0 && id <= 0xDF) return ESPacket::start_code::audio_stream;
         if (id >= 0xE0 && id <= 0xEF) return ESPacket::start_code::video_stream;
@@ -113,7 +113,7 @@ public:
 /*
  * Only returns true if sc is a ESPacket::start_code that is handled by this decoder
  */
-    static bool IsHandled(ESPacket::start_code sc) {
+    static bool isHandled(ESPacket::start_code sc) {
         switch (sc) {
             default:
                 return false;
