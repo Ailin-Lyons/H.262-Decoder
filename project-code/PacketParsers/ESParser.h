@@ -16,7 +16,7 @@
 
 #define MAXPACKETS 46
 
-class ESParser {
+class ESParser { //TODO test this entire class
 public:
     TransportPacket* currTP;
     unsigned char* currPos;
@@ -45,8 +45,7 @@ public:
      * @return a struct of type pes_packet_array that contains num_packets PESPacket* in packet_array
      * Caller is responsible for freeing each PESPacket as well as packet_array
      */
-    ESPacket* GetNextPacket();
-    ESPacket *GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
+    ESPacket* getNextPacket();
 
     /**
      * Gives the next TransportPacket if requested by a parser and updates the corresponding
@@ -56,5 +55,10 @@ public:
     TransportPacket* giveNextPacket();
 
     ESParser();
+private:
+    ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
+    void findNextStartCode();
+    void findNextValidPacket();
+    void loadNextTSPacket();
 };
 #endif //PROJECT_CODE_ESPARSER_H
