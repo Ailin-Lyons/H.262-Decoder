@@ -30,9 +30,6 @@ ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char
     }
 }
 
-/**
- * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data
- */
 void ESParser::loadNextTSPacket() {
     currTP = TSParser::GetNextPacket();
     currPos = currTP->data;
@@ -64,11 +61,6 @@ void ESParser::findNextValidPacket() {
     return findNextValidPacket();
 }
 
-/**
- * Returns the next elementary stream packet if it
- * Ignores any packets not handled by this decoder.
- * @return one of many possible packets that implements the ESPacket interface.
- */
 ESPacket *ESParser::getNextPacket() {
     findNextValidPacket();
     unsigned char stream_id = BitManipulator::ReadNBits(currPos, 8);
@@ -78,6 +70,7 @@ ESPacket *ESParser::getNextPacket() {
         return getNextVideoPacket(packet_type, stream_id);
     } else {
         //TODO call PESPacketParser here and create PESPacket
+        //TODO update ESParser::currVideoStreamID if necessary
 //        unsigned short PES_packet_length = BitManipulator::ReadNBits(currPos, 16);
 //        currPos += 2;
         return nullptr;

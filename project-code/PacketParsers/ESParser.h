@@ -4,25 +4,23 @@
 
 #ifndef PROJECT_CODE_ESPARSER_H
 #define PROJECT_CODE_ESPARSER_H
-//
-// Created by elnsa on 2019-12-23.
-//
+
 #include "../ESPackets/PESPacket.h"
 #include "TSParser.cpp"
 #include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/TransportPacket.h"
 #include "PacketException.cpp"
 
-
-#define MAXPACKETS 46
-
+/**
+ * ESParser parses the Elementary stream, drops unhandled packets and parses elementary stream packets into ESPacket objects
+ */
 class ESParser { //TODO test this entire class
 public:
-    TransportPacket* currTP;
-    unsigned char* currPos;
-    unsigned char* endPos;
-    bool isVideoStream;
-    char currVideoStreamID;
+    TransportPacket *currTP; //The TransportPacket currently being parsed
+    unsigned char *currPos; //The address of currTP that will be parsed next
+    unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
+    bool isVideoStream; //if Elementary stream is a video_stream this boolean is true
+    char currVideoStreamID; //if isVideoStream then this is the id of the stream
 
     static ESParser *instance;
 
@@ -39,26 +37,43 @@ public:
 
 
     /**
-     * Returns the next elementary stream packet if it exists
-     * Ignores any packets not handled by this decoder.
-     * @param tp a pointer to a valid TransportPacket
-     * @return a struct of type pes_packet_array that contains num_packets PESPacket* in packet_array
-     * Caller is responsible for freeing each PESPacket as well as packet_array
-     */
-    ESPacket* getNextPacket();
+    * Returns the next elementary stream packet if it
+    * Ignores any packets not handled by this decoder.
+    * @return one of many possible packets that implements the ESPacket interface.
+    */
+    ESPacket *getNextPacket();
 
     /**
      * Gives the next TransportPacket if requested by a parser and updates the corresponding
      * private fields
      * @return TransportPacket* - next Transport Packet in sequence;
      */
-    TransportPacket* giveNextPacket();
+    TransportPacket *giveNextPacket();
 
+    //TODO @ bhavesh. shouldnt this constructor be private?
     ESParser();
+
 private:
+    /**
+     * Searches the TS for the next ESPacket that is handled.
+     * Parses and returns that packet
+     */
     ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
+
+    /**
+     * Searches the TS for the next startCode
+     */
     void findNextStartCode();
+
+    /**
+     * finds the beginning of the next Packet that is handled by the decoder
+     */
     void findNextValidPacket();
+
+    /**
+    * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data
+    */
     void loadNextTSPacket();
 };
+
 #endif //PROJECT_CODE_ESPARSER_H
