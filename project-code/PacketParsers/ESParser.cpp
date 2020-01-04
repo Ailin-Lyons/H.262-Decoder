@@ -3,12 +3,34 @@
 //
 // Created by elnsa on 2019-12-23.
 //
+
+// Linker needs to know where to allocate memory for the static instance
+ESParser *ESParser::instance = nullptr;
+
 ESParser::ESParser() {
     currTP = TSParser::GetNextPacket();
     currPos = currTP->data;
     endPos = currTP->data + currTP->data_length;
     isVideoStream = false;
     currVideoStreamID = 0;
+}
+
+ESPacket *ESParser::GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id) {
+    switch (scode) {
+        case ESPacket::start_code::picture:
+            //TODO
+        case ESPacket::start_code::slice:
+            //TODO
+        case ESPacket::start_code::sequence_header:
+            //TODO
+        case ESPacket::start_code::extension:
+            //TODO
+        case ESPacket::start_code::group:
+            //TODO
+        default:
+            throw PacketException("ESParser::GetNextVideoPacket:: Invalid Packet type");
+    }
+    throw; //TODO
 }
 
 /**
@@ -45,23 +67,5 @@ ESPacket *ESParser::GetNextPacket() {
             return nullptr; //TODO call 262 Parser class and return ESPacket
         }
     }
+    throw;//TODO
 }
-
-PESPacket *GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id) {
-    switch (scode) {
-        case ESPacket::start_code::picture:
-            //TODO
-        case ESPacket::start_code::slice:
-            //TODO
-        case ESPacket::start_code::sequence_header:
-            //TODO
-        case ESPacket::start_code::extension:
-            //TODO
-        case ESPacket::start_code::group:
-            //TODO
-        default:
-            throw PacketException("ESParser::GetNextVideoPacket:: Invalid Packet type");
-    }
-    throw; //TODO
-}
-

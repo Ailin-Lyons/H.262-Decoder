@@ -24,7 +24,19 @@ public:
     bool isVideoStream;
     char currVideoStreamID;
 
-    ESParser();
+    static ESParser *instance;
+
+    /**
+    * Function to return a pointer to the singleton instance
+    * @return ESParser* instance
+    */
+    static ESParser *getInstance() {
+        if (!instance) {
+            instance = new ESParser();
+        }
+        return instance;
+    }
+
 
     /**
      * Returns the next elementary stream packet if it exists
@@ -34,9 +46,15 @@ public:
      * Caller is responsible for freeing each PESPacket as well as packet_array
      */
     ESPacket* GetNextPacket();
+    ESPacket *GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
 
-private:
-    PESPacket *GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
+    /**
+     * Gives the next TransportPacket if requested by a parser and updates the corresponding
+     * private fields
+     * @return TransportPacket* - next Transport Packet in sequence;
+     */
+    TransportPacket* giveNextPacket();
 
+    ESParser();
 };
 #endif //PROJECT_CODE_ESPARSER_H
