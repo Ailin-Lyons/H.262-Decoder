@@ -7,4 +7,7 @@ set(SOURCE_FILES
         ESParser.cpp
         )
 
-add_library(PacketParsers STATIC ${SOURCE_FILES})
+set(HEADER_FILES
+        ESParser.h)
+
+add_library(PacketParsers STATIC ${SOURCE_FILES} ${HEADER_FILES})
