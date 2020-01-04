@@ -30,7 +30,7 @@ ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char
     }
 }
 
-void ESParser::loadNextTSPacket() {
+void ESParser::loadNextTSPacket() { //TODO wrap this into peekNbytes and popNbytes to abstract away packet borders
     currTP = TSParser::getNextPacket();
     currPos = currTP->data;
     endPos = currTP->data + currTP->data_length;
