@@ -62,11 +62,13 @@ private:
 
     /**
      * Searches the TS for the next startCode
+     * and updates currPos to that index
      */
     void findNextStartCode();
 
     /**
      * finds the beginning of the next Packet that is handled by the decoder
+     * and updates currPos to that index
      */
     void findNextValidPacket();
 
