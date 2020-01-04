@@ -37,6 +37,7 @@ public:
         unsigned char PES_extension_field_length; //7-bit
     };
 
+    void toString() override;
 
 protected:
     unsigned char PES_scrambling_control; //2-bit
@@ -58,7 +59,11 @@ protected:
     dsm_trick_mode_fields dsm_trick_mode;
     unsigned char additional_copy_info; //7-bit
     unsigned short previous_PES_packet_CRC; //16-bit
+    PES_extension_fields pes_extension_fields;
 
+    /**
+     * data_length - indicates how many PES_Packet_data_bytes are read/found
+     */
     unsigned int data_length; //TODO how to handle elementary stream packets: state machine or children?
     unsigned char *data;
 
