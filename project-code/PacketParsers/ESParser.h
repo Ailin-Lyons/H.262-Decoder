@@ -33,29 +33,10 @@ public:
      * @return a struct of type pes_packet_array that contains num_packets PESPacket* in packet_array
      * Caller is responsible for freeing each PESPacket as well as packet_array
      */
-    ESPacket GetNextPacket();
+    ESPacket* GetNextPacket();
 
 private:
-
-    static PESPacket *GetPESPicture(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-    static PESPacket *GetPESSlice(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-
-    static PESPacket *GetPESSequenceHeader(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-
-    static PESPacket *GetPESExtension(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-
-    static PESPacket *GetPESGroup(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-
-    static PESPacket *GetPESVideoStream(unsigned char id, unsigned short length, unsigned char *start_pos);
-
-
-    static PESPacket *GetNextPacket(ESPacket::start_code scode, unsigned char stream_id, unsigned short packet_length,
-                                    unsigned char *start_pos);
+    PESPacket *GetNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
 
 };
 #endif //PROJECT_CODE_ESPARSER_H
