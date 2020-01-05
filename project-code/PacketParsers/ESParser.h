@@ -17,7 +17,7 @@
 class ESParser { //TODO test this entire class
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
-    TransportPacket *nextTP = 0;
+    TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead
     unsigned char *currPos; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index
     unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
@@ -87,12 +87,29 @@ private:
      */
     void next_start_code();
 
+    /**
+     * Checks if current index is byte aligned
+     * @return true iff currOffset = 0
+     */
     bool bytealigned();
 
+    /**
+     * Counts how many bits remain in current Transport Packet
+     * @return the number of Bits remaining in the current packet
+     */
     unsigned int numBitsRemaining();
 
+    /**
+     * Read bits from the next packet without shifting index from current packet
+     * @param numBits
+     * @return
+     */
     unsigned long long peekNextPacket(unsigned int numBits);
 
+    /**
+     * Increments the currIndex and currOffset to point numBits further
+     * @param numBits the number of bits to shift the index by
+     */
     void incrementOffset(unsigned int numBits);
 
     /**
