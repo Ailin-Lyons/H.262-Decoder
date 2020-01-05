@@ -46,13 +46,6 @@ public:
     ESPacket *getNextPacket();
 
     /**
-     * Gives the next TransportPacket if requested by a parser and updates the corresponding
-     * private fields
-     * @return TransportPacket* - next Transport Packet in sequence;
-     */
-    TransportPacket *giveNextPacket();
-
-    /**
      * Returns the next numBits bits from the Elementary stream
      * @param numBits up to 64, the number of bits to be read
      * @return
@@ -66,7 +59,6 @@ public:
      * @return
      */
     unsigned long long popNBits(unsigned int numBits);
-
 
 private:
     /**
@@ -122,6 +114,7 @@ private:
     * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data
     */
     void loadNextTSPacket();
+
 };
 
 #endif //PROJECT_CODE_ESPARSER_H

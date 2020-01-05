@@ -5,7 +5,7 @@ set(SOURCE_FILES
         TSParser.cpp
         PacketException.cpp
         ESParser.cpp
-        )
+        PESParser.cpp)
 
 set(HEADER_FILES
         ESParser.h)
