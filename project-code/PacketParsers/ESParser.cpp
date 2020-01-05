@@ -76,3 +76,7 @@ ESPacket *ESParser::getNextPacket() {
         return nullptr;
     }
 }
+
+unsigned long long ESParser::readNBits(unsigned int numBits) {
+    return 0; //TODO
+}

@@ -44,7 +44,7 @@ public:
         MMATM_E_stream,         // 0xF8         ITU-T Rec. H.222.1 type E
         ancillary_stream,       // 0xF9
         reserved_data_stream,   // 0xFA-0xFE
-        program_stream_directory,//0xFF
+        program_stream_directory//0xFF
     };
 
     virtual void toString() = 0;

@@ -44,14 +44,11 @@ public:
     ESPacket *getNextPacket();
 
     /**
-     * Gives the next TransportPacket if requested by a parser and updates the corresponding
-     * private fields
-     * @return TransportPacket* - next Transport Packet in sequence;
+     * Reads and returns the next numBits from the TransportPackets
+     * @param numBits - number of bits to be read
+     * @return unsigned long long - lowest order 64 bits as requested
      */
-    TransportPacket *giveNextPacket();
-
-    //TODO @ bhavesh. shouldnt this constructor be private?
-    ESParser();
+    static unsigned long long readNBits(unsigned int numBits);
 
 private:
     /**
@@ -76,6 +73,11 @@ private:
     * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data
     */
     void loadNextTSPacket();
+
+    /**
+     *  Constructor
+     */
+    ESParser();
 };
 
 #endif //PROJECT_CODE_ESPARSER_H
