@@ -1,63 +1,18 @@
-First Packet:
+Second Packet:
       Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-    00000000: 47 40 00 30 A6 00 FF FF FF FF FF FF FF FF FF FF    G@.0&...........
-    00000010: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000020: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000030: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000040: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000060: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000070: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000080: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    00000090: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
-    000000a0: FF FF FF FF FF FF FF FF FF FF FF 00 00 B0 0D 93    .............0..
-    000000b0: 91 CD 00 00 00 01 E0 20 F4 13 3B 84
-
-    TS Header:
-        0 1 0 0000000000000 00 11 0000
-        Address Variable        Value (hex) #Comments
-        00:     8-bit sync_byte 47          #Checks that sync_byte is 47 otherwise tosses packet
-        01:     1-bit tei       0           #No errors
-        01.1:   1-bit pusi      1
-        01.2:   1-bit tp        0
-        01.3:   13-bit PID      0
-        03:     2-bit tsc       0           #Not scrambled
-        03.2:   2-bit afc       3           #this packet has Adaptation Field followed by Payload
-        03.4:   4-bit cc        0
-
-    Adaptation Field:
-        10100110 0 0 0 0 0 0 0 0
-        Address Variable        Value (hex) #Comments
-        04:     8-bit afl       A6          #Adaptation Field is 166 Bytes long (this field not included)
-        05:     1-bit di        0
-        05.1:   1-bit rai       0
-        05.2:   1-bit espi      0
-        05.3:   1-bit PCRf      0
-        05.4:   1-bit OPCRf     0
-        05.5:   1-bit spf       0
-        05.6:   1-bit tpdf      0
-        05.7:   1-bit afef      0
-        06-ab: 166 bytes of stuffing FF's
-
-    Elementary Stream:
-      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
-    000000a0:                                  00 00 B0 0D 93    .............0..
-    000000b0: 91 CD 00 00 00 01 E0 20 F4 13 3B 84
-        //TODO handle pointer field
-        Variable                    Value (hex) #Comments
-        table_id                    00          # This PSI contains a program_association_section
-        section_syntax_indicator    0           # H222 - 2.4.4.5 says this field should be a 1
-        '0'                         0
-        reserved                    0
-        section_length              B0          # length is 176 bytes
-        transport_stream_id         0D93
-        reserved                    2           #idk what this means
-        version_number              8           # //TODO find out what this means
-        current_next_indicator      1
-        section_number              CD
-        last_section_number         00
-
-
+                                                  47 40 20 30    .M....`.t.;.G@.0
+    000000c0: 9B 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    000000d0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    000000e0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    000000f0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000100: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000110: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000120: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000130: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000140: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF    ................
+    00000150: FF FF FF FF FF FF FF FF FF FF FF FF 00 02 B0 18    ..............0.
+    00000160: 00 01 FD 00 00 E0 64 F0 00 02 E0 64 F0 06 0A 04    ..}..`dp..`dp...
+    00000170: 65 6E 67 00 AA 98 01 62
 
   Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
                                               47 40 20 30    .M....`.t.;.G@.0
