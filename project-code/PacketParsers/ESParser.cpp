@@ -82,7 +82,7 @@ ESPacket *ESParser::getNextPacket() {
 }
 
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
-    if (numBits > 64) throw;
+    if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes");
     if (numBits < numBitsRemaining()) {
         return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
     } else {
@@ -94,7 +94,7 @@ unsigned long long ESParser::peekNBits(unsigned int numBits) {
 }
 
 unsigned long long ESParser::popNBits(unsigned int numBits) {
-    if (numBits > 64) throw;
+    if (numBits > 64) throw PacketException("ESParser::popNBits: requesting too many bytes");
     if (numBits < numBitsRemaining()) {
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
         incrementOffset(numBits);
@@ -109,9 +109,11 @@ unsigned long long ESParser::popNBits(unsigned int numBits) {
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
         loadNextTSPacket();
         if (numBits > (currTP->data_length * 8)) {
-            throw;
+            throw PacketException("ESParser::popNBits: next packet is too short");
         }
-        return (out << part2) + BitManipulator::readNBitsOffset(currPos, currOffset, part2);
+        out = (out << part2) + BitManipulator::readNBitsOffset(currPos, currOffset, part2);
+        incrementOffset(part2);
+        return out;
     }
 }
 
@@ -124,7 +126,8 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         nextTP = TSParser::getNextPacket();
     }
     if (numBits > (nextTP->data_length * 8)) {
-        throw;
+        nextTP->toString();
+        throw PacketException("ESParser::peekNextPacket: next packet is too short");
     }
     return BitManipulator::readNBits(nextTP->data, numBits);
 }
