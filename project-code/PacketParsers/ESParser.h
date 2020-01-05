@@ -12,12 +12,14 @@
 #include "PacketException.cpp"
 
 /**
- * ESParser parses the Elementary stream, drops unhandled packets and parses elementary stream packets into ESPacket objects
+ * ESParser is a singleton that parses the Elementary stream, drops unhandled packets and parses elementary stream packets into ESPacket objects
  */
 class ESParser { //TODO test this entire class
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
+    TransportPacket *nextTP = 0;
     unsigned char *currPos; //The address of currTP that will be parsed next
+    unsigned short currOffset; //The bit offset of the current index
     unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
     bool isVideoStream; //if Elementary stream is a video_stream this boolean is true
     char currVideoStreamID; //if isVideoStream then this is the id of the stream
@@ -50,10 +52,28 @@ public:
      */
     TransportPacket *giveNextPacket();
 
-    //TODO @ bhavesh. shouldnt this constructor be private?
-    ESParser();
+    /**
+     * Returns the next numBits bits from the Elementary stream
+     * @param numBits up to 64, the number of bits to be read
+     * @return
+     */
+    unsigned long long peekNBits(unsigned int numBits);
+
+    /**
+     * Returns the next numBits bits from the Elementary stream
+     * Also increments the index of the Elementary stream
+     * @param numBits up to 64, the number of bits to be read
+     * @return
+     */
+    unsigned long long popNBits(unsigned int numBits);
+
 
 private:
+    /**
+     * A private constructor for the singleton
+     */
+    ESParser();
+
     /**
      * Searches the TS for the next ESPacket that is handled.
      * Parses and returns that packet
@@ -61,10 +81,19 @@ private:
     ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
 
     /**
+     * See H.262 5.2.3
      * Searches the TS for the next startCode
      * and updates currPos to that index
      */
-    void findNextStartCode();
+    void next_start_code();
+
+    bool bytealigned();
+
+    unsigned int numBitsRemaining();
+
+    unsigned long long peekNextPacket(unsigned int numBits);
+
+    void incrementOffset(unsigned int numBits);
 
     /**
      * finds the beginning of the next Packet that is handled by the decoder

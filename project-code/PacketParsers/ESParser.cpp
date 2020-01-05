@@ -30,49 +30,110 @@ ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char
     }
 }
 
-void ESParser::loadNextTSPacket() { //TODO wrap this into peekNbytes and popNbytes to abstract away packet borders
-    currTP = TSParser::getNextPacket();
+void ESParser::loadNextTSPacket() {
+    if (nextTP != 0) {
+        currTP = nextTP;
+        nextTP = 0;
+    } else {
+        currTP = TSParser::getNextPacket();
+    }
     currPos = currTP->data;
+    currOffset = 0;
     endPos = currTP->data + currTP->data_length;
 }
 
-void ESParser::findNextStartCode() {
-    if (currPos + 4 >= endPos) {
-        loadNextTSPacket();
-        return findNextStartCode();
-    } else {
-        if (BitManipulator::readNBits(currPos, 24) == 0x000001) {
-            currPos += 3;
-            return;
-        }
-        currPos++;
-        return findNextStartCode();
+void ESParser::next_start_code() {
+    while (!bytealigned()) {
+        popNBits(1);
     }
+    while (peekNBits(24) != 0x000001) {
+        popNBits(8);
+    }
+    popNBits(24); //
+}
+
+bool ESParser::bytealigned() {
+    return currOffset == 0;
 }
 
 void ESParser::findNextValidPacket() {
-    findNextStartCode();
-    unsigned char stream_id = BitManipulator::readNBits(currPos, 8);
+    next_start_code();
+    unsigned char stream_id = peekNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (ESPacket::isHandled(packet_type)) {
         return;
     }
-    currPos += 1;
+    std::printf("Unhandled PESPacket has been dropped: %x\n",stream_id);
     return findNextValidPacket();
 }
 
 ESPacket *ESParser::getNextPacket() {
     findNextValidPacket();
-    unsigned char stream_id = BitManipulator::readNBits(currPos, 8);
-    currPos++;
+    unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
+    std::printf("PESPacket code: %x\n",stream_id);
     if (isVideoStream) {
         return getNextVideoPacket(packet_type, stream_id);
     } else {
         //TODO call PESPacketParser here and create PESPacket
         //TODO update ESParser::currVideoStreamID if necessary
-//        unsigned short PES_packet_length = BitManipulator::readNBits(currPos, 16);
-//        currPos += 2;
         return nullptr;
     }
+}
+
+unsigned long long ESParser::peekNBits(unsigned int numBits) {
+    if (numBits > 64) throw;
+    if (numBits < numBitsRemaining()) {
+        return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
+    } else {
+        unsigned int part1 = numBitsRemaining();
+        unsigned int part2 = numBits - part1;
+        unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
+        return (out << part2) + peekNextPacket(part2);
+    }
+}
+
+unsigned long long ESParser::popNBits(unsigned int numBits) {
+    if (numBits > 64) throw;
+    if (numBits < numBitsRemaining()) {
+        unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
+        incrementOffset(numBits);
+        return out;
+    } else if (numBits == numBitsRemaining()) {
+        unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
+        loadNextTSPacket();
+        return out;
+    } else {
+        unsigned int part1 = numBitsRemaining();
+        unsigned int part2 = numBits - part1;
+        unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
+        loadNextTSPacket();
+        if (numBits > (currTP->data_length * 8)) {
+            throw;
+        }
+        return (out << part2) + BitManipulator::readNBitsOffset(currPos, currOffset, part2);
+    }
+}
+
+unsigned int ESParser::numBitsRemaining() {
+    return (endPos - currPos) * 8 - currOffset;
+}
+
+unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
+    if (nextTP == 0) {
+        nextTP = TSParser::getNextPacket();
+    }
+    if (numBits > (nextTP->data_length * 8)) {
+        throw;
+    }
+    return BitManipulator::readNBits(nextTP->data, numBits);
+}
+
+void ESParser::incrementOffset(unsigned int numBits) {
+    if (currOffset != 0) {
+        numBits -= (8 - currOffset);
+        currPos++;
+    }
+    currPos += (numBits / 8);
+    currOffset = numBits % 8;
 }

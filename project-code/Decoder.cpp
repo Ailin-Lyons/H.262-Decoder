@@ -48,8 +48,9 @@ int displayMetaData() {
 int main(int argc, char **argv) {
     char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
+    ESParser* esp = ESParser::getInstance();
     while (FileInterface::getInstance()->hasNextPacket()) {
-        TSParser::getNextPacket()->toString();
+        esp->getNextPacket();
     }
     // TODO: split the file into 3 parts
 
