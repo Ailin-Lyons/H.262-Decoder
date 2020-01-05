@@ -94,7 +94,8 @@ public:
         unsigned char transport_error_indicator;
         unsigned char payload_unit_start_indicator;
         unsigned char transport_priority;
-        PID pid;
+        unsigned int pid;
+        PID pid_type;
         TSC transport_scrambling_control;
         AFC adaptation_field_control;
         unsigned char continuity_counter;

@@ -40,20 +40,24 @@ First Packet:
         06-ab: 166 bytes of stuffing FF's
 
     Elementary Stream:
-        00 00 B0 0D 93 91 CD    #I am not sure what these bytes mean since they don't start with a start-code
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    000000a0:                                  00 00 B0 0D 93    .............0..
+    000000b0: 91 CD 00 00 00 01 E0 20 F4 13 3B 84
+        //TODO handle pointer field
+        Variable                    Value (hex) #Comments
+        table_id                    00          # This PSI contains a program_association_section
+        section_syntax_indicator    0           # H222 - 2.4.4.5 says this field should be a 1
+        '0'                         0
+        reserved                    0
+        section_length              B0          # length is 176 bytes
+        transport_stream_id         0D93
+        reserved                    2           #idk what this means
+        version_number              8           # //TODO find out what this means
+        current_next_indicator      1
+        section_number              CD
+        last_section_number         00
 
-        start_code_prefix       00 00 00 01
-        stream_id               E0              # Startcode E0 meaning an H.262 stream with id 0
-        PES_packet_length       20F4            # This would mean this packet is 8436bytes????
-        00010011
-        '10'
-        PES_scrambling_control
-        PES_priority
-        data_alignment_indicator
-        copyright
-        original_or_copy
-        PTS_DTS_flags
-        13 3B 84
+
 
   Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
                                               47 40 20 30    .M....`.t.;.G@.0

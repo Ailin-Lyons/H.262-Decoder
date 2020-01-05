@@ -45,7 +45,8 @@ private:
         thf_out.transport_error_indicator = BitManipulator::readNBits(&packet[packetIndex], 1);
         thf_out.payload_unit_start_indicator = BitManipulator::readNBitsOffset(&packet[packetIndex], 1, 1);
         thf_out.transport_priority = BitManipulator::readNBitsOffset(&packet[packetIndex], 2, 1);
-        thf_out.pid = TransportPacket::getPID(BitManipulator::readNBitsOffset(&packet[packetIndex], 3, 13));
+        thf_out.pid = BitManipulator::readNBitsOffset(&packet[packetIndex], 3, 13);
+        thf_out.pid_type = TransportPacket::getPID(thf_out.pid);
         packetIndex += 2;
         thf_out.transport_scrambling_control = TransportPacket::getTSC(
                 BitManipulator::readNBits(&packet[packetIndex], 2));
