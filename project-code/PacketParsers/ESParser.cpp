@@ -81,11 +81,6 @@ ESPacket *ESParser::getNextPacket() {
     }
 }
 
-
-unsigned long long ESParser::readNBits(unsigned int numBits) {
-    return 0; //TODO
-}
-
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
     if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes");
     if (numBits < numBitsRemaining()) {

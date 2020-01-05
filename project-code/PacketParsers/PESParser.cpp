@@ -5,7 +5,8 @@
 #include "ESParser.h"
 
 // TODO - convert macros to compilation flag based
-#define read(n) (ESParser::readNBits((n)))
+// TODO - check to make sure that all the reserved, stuffing, marker buts are correctly skipped
+#define read(n) (ESParser::getInstance()->popNBits((n)))
 #define marker(x, y) (valueChecks((x), (y), __func__))
 #define mark1 (valueChecks(1, 1, __func__))
 
@@ -14,14 +15,11 @@ public:
 
     /**
      * Parses the next packet as a PESPacket if possible
-     * @param bytePos - current byte level offset being parsed
-     * @param offset - current bit-level offset being parsed
-     * @param endPos - end of the the current packet
      * @return PESPacket* - parsed packet
      * @throws PacketException - if packet is not a H.222.0 video stream packet : stream_id/start_code = E0-EF ||
      * start_code_prefix != 0x000001 || called functions throw the error
      */
-    static PESPacket* getNextPesPacket(unsigned char* bytePos, unsigned char* endPos, unsigned int offset) {
+    static PESPacket* getNextPesPacket() {
         auto returnPacket = (PESPacket*) malloc(sizeof(PESPacket));
         if (read(24) == 0x000001) {
             unsigned char stream_id = read(8);
@@ -55,6 +53,7 @@ public:
                 unsigned char additional_copy_info = handleCopyInfo(additional_copy_info_flag);  //7-bit
                 unsigned short previous_PES_packet_CRC = PES_CRC_flag == 0x1 ? read(16) : 0; //16-bit
                 PESPacket::PES_extension_fields pes_extension_fields = handlePESExtension(PES_extension_flag);
+                //TODO - stuffing and data
             } else {
                 //TODO - this is where we have the branching case for the other start_codes
                 // for now throw an exception
@@ -63,13 +62,11 @@ public:
         } else {
             throw PacketException("PESParser::getNextPesPacket: packet_start_code_prefix != 0x000001");
         }
-
-
         return returnPacket;
     }
 
 private:
-    static void valueChecks(unsigned int numBits, unsigned int expectedVal, const std::string& funcName) {
+    static void valueChecks(unsigned int numBits, unsigned long long expectedVal, const std::string& funcName) {
         if(read(numBits) != expectedVal) {
             std::string s = "PESParser::";
             s.append(funcName);
@@ -88,7 +85,96 @@ private:
 
     static PESPacket::PES_extension_fields handlePESExtension(unsigned char flag) {
         PESPacket::PES_extension_fields out{};
+        if (flag == 0x1) {
+            out.PES_private_data_flag = read(1);
+            out.pack_header_field_flag = read(1);
+            out.program_packet_sequence_counter_flag = read(1);
+            out.P_STD_buffer_flag = read(1);
+            marker(3, 0b111);
+            out.PES_extension_flag_2 = read(1);
+            if (out.PES_private_data_flag == 0x1) {read(128);}
+            if (out.pack_header_field_flag == 0x1) {
+                out.pack_field_length = read(8);
+                out.pack_header = parsePackHeader();
+            }
+            if (out.program_packet_sequence_counter_flag == 0x1) {
+                mark1;
+                out.program_packet_sequence_counter = read(7);
+                mark1;
+                out.MPEG1_MPEG2_identifier = read(1);
+                out.original_stuff_length = read(6);
+            }
+            if (out.P_STD_buffer_flag == 0x1) {
+                marker(2, 0b01);
+                out.P_STD_buffer_scale = read(1);
+                out.P_STD_buffer_size = read(13);
+            }
+            if (out.PES_extension_flag_2 == 0x1) {
+                mark1;
+                out.PES_extension_field_length = read(7);
+                for (unsigned int i = 0; i < out.PES_extension_field_length; i++) {
+                    marker(8, 0xFF);
+                }
+            }
+        }
+        return out;
     }
+
+    static PESPacket::pack_header parsePackHeader() {
+        PESPacket::pack_header out{};
+        if (read(32) != 0x000001BA) {
+            throw PacketException("PESParser::parsePackHeader: pack_start_code != 0x000001BA");
+        }
+        marker(2, 0b01);
+        out.system_clock_reference = read(3);
+        mark1;
+        out.system_clock_reference = out.system_clock_reference << 15 + read(15);
+        mark1;
+        out.system_clock_reference = out.system_clock_reference << 15 + read(15);
+        mark1;
+        out.system_clock_reference = out.system_clock_reference * 300 + read(9); //Equation 2-19
+        mark1;
+        out.program_mux_rate = read(22);
+        marker(7, 0b1111111);
+        unsigned char pack_stuffing_length = read(3);
+        for (unsigned int i = 0; i < pack_stuffing_length; i++) {
+            marker(8, 0xFF);
+        }
+        out.system_header = parseSystemHeader();
+        return out;
+    }
+
+    static PESPacket::system_header parseSystemHeader() {
+        PESPacket::system_header out{};
+        if (read(32) != 0x000001BB) {
+            throw PacketException("PESParser::parsePackHeader: system_header_start_code != 0x000001BB");
+        }
+        out.header_length = read(16);
+        mark1;
+        out.rate_bound = read(1);
+        mark1;
+        out.audio_bound = read(6);
+        out.fixed_flag = read(1);
+        out.CSPS_flag = read(1);
+        out.system_audio_lock_flag = read(1);
+        out.system_video_lock_flag = read(1);
+        mark1;
+        out.video_bound = read(5);
+        out.packet_rate_restriction_flag = read(1);
+        marker(7, 0x7F);
+        size_t malloc_size = ((out.header_length * 8) - 47) / 25; // TODO - check calc
+        out.p_std = (PESPacket::P_STD*) malloc(sizeof(PESPacket::P_STD) * malloc_size);
+        unsigned int index = 0;
+        while (read(1) == 0x1 && index < malloc_size) {
+            out.p_std[index].stream_id = ESPacket::getStartCode(read(8));
+            marker(2, 0b11);
+            out.p_std[index].P_STD_buffer_bound_scale = read(1);
+            out.p_std[index].P_STD_buffer_size_bound = read(13);
+            index++;
+        }
+        return out;
+    }
+
     //TODO - implement the decoding based on the equations 2-11 and 2-12
     static PESPacket::pts_dts_fields handlePTSDTSFlags(unsigned short flag) {
         PESPacket::pts_dts_fields out{0,0};

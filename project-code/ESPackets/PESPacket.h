@@ -46,8 +46,27 @@ public:
         unsigned char frequency_truncation; //2-bit
         unsigned char rep_cntrl; //5-bit
     };
+    struct P_STD {
+        ESPacket::start_code stream_id;
+        unsigned char P_STD_buffer_bound_scale;
+        unsigned short P_STD_buffer_size_bound;
+    };
+    struct system_header {
+        unsigned short header_length;
+        unsigned int rate_bound;
+        unsigned char audio_bound;
+        unsigned char fixed_flag;
+        unsigned char CSPS_flag;
+        unsigned char system_audio_lock_flag;
+        unsigned char system_video_lock_flag;
+        unsigned char video_bound;
+        unsigned char packet_rate_restriction_flag;
+        PESPacket::P_STD* p_std;
+    };
     struct pack_header {
-
+        unsigned long long system_clock_reference;
+        unsigned int program_mux_rate;
+        PESPacket::system_header system_header{};
     };
     struct PES_extension_fields {
         unsigned char PES_private_data_flag; //1-bit
@@ -56,7 +75,7 @@ public:
         unsigned char P_STD_buffer_flag; //1-bit
         unsigned char PES_extension_flag_2; //1-bit
         unsigned char pack_field_length; //8-bit
-        PESPacket::pack_header pack_header; //TODO make a struct
+        PESPacket::pack_header pack_header{};
         unsigned char program_packet_sequence_counter; //7-bit
         unsigned char MPEG1_MPEG2_identifier; //1-bit
         unsigned char original_stuff_length; //6-bit

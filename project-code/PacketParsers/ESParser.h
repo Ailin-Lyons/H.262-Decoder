@@ -46,14 +46,6 @@ public:
     ESPacket *getNextPacket();
 
     /**
-     * Reads and returns the next numBits from the TransportPackets
-     * @param numBits - number of bits to be read
-     * @return unsigned long long - lowest order 64 bits as requested
-     */
-    static unsigned long long readNBits(unsigned int numBits);
-
-
-    /**
      * Returns the next numBits bits from the Elementary stream
      * @param numBits up to 64, the number of bits to be read
      * @return
@@ -123,10 +115,6 @@ private:
     */
     void loadNextTSPacket();
 
-    /**
-     *  Constructor
-     */
-    ESParser();
 };
 
 #endif //PROJECT_CODE_ESPARSER_H
