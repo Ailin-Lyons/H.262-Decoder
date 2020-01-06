@@ -24,6 +24,11 @@ include_directories("TransportPacketStructure")
 add_subdirectory("TransportPacketStructure")
 target_link_libraries(decoder "TransportPacket")
 
+# adding the TSPayloadPackets
+include_directories("TSPayloadPackets")
+add_subdirectory("TSPayloadPackets")
+target_link_libraries(decoder "TSPayloadPackets")
+
 # adding the ESPackets
 include_directories("ESPackets")
 add_subdirectory("ESPackets")
