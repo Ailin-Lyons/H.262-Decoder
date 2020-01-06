@@ -15,7 +15,7 @@ TEST(AllTest, TSParser_Test) {
     ASSERT_EQ(0x0,pack->header_fields.transport_error_indicator);
     ASSERT_EQ(0x1,pack->header_fields.payload_unit_start_indicator);
     ASSERT_EQ(0x0,pack->header_fields.transport_priority);
-    ASSERT_EQ(TransportPacket::PID::Misc,pack->header_fields.pid);
+    ASSERT_EQ(TransportPacket::PID::Misc,pack->header_fields.pid_type);
     ASSERT_EQ(TransportPacket::TSC::NotScrambled,pack->header_fields.transport_scrambling_control);
     ASSERT_EQ(TransportPacket::AFC::AFieldPayload,pack->header_fields.adaptation_field_control);
     ASSERT_EQ(0x0,pack->header_fields.continuity_counter);
