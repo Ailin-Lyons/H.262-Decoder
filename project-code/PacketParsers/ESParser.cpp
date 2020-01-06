@@ -1,4 +1,6 @@
 #include "ESParser.h"
+#include "PASParser.cpp"
+#include "PMSParser.cpp"
 
 //
 // Created by elnsa on 2019-12-23.
@@ -14,13 +16,18 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
-    program_pid = 0x20;// = loadPAS(); TODO load the PAS
-    loadNextTSPacket();
-    program_pid = 0x64;// = loadPMS(); TODO loadPMS
+    pasPacket = PASParser::getPASPacket(currTP);
+    program_pid = 0x20;// = pasPacket->program_1->pid TODO
+    loadNextTSPacket(); //TODO remove this line
+    pmsPacket = PMSParser::getPMSPacket(currTP);
+    program_pid = 0x64;// pmsPacket->program_1->pid; TODO
+    loadNextTSPacket(); //TODO remove this line
 }
 
 ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id) {
     switch (scode) {
+        case ESPacket::start_code::video_stream:
+            return nullptr;//TODO
         case ESPacket::start_code::picture:
             return nullptr;//TODO
         case ESPacket::start_code::slice:
@@ -78,18 +85,19 @@ ESPacket *ESParser::getNextPacket() {
     unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     std::printf("PESPacket code: %x\n", stream_id);
-    //TODO handle incoming packets here
+    return getNextVideoPacket(packet_type,stream_id);
 }
 
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
     if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes");
-    if (numBits < numBitsRemaining()) {
+    if (numBits <= numBitsRemaining()) {
         return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
     } else {
         unsigned int part1 = numBitsRemaining();
         unsigned int part2 = numBits - part1;
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
-        return (out << part2) + peekNextPacket(part2);
+        out = (out << part2) + peekNextPacket(part2);
+        return out;
     }
 }
 

@@ -5,6 +5,8 @@
 #ifndef PROJECT_CODE_ESPARSER_H
 #define PROJECT_CODE_ESPARSER_H
 
+#include <../TSPayloadPackets/PASPacket.h>
+#include <../TSPayloadPackets/PMSPacket.h>
 #include "../ESPackets/PESPacket.h"
 #include "TSParser.cpp"
 #include "../Util/BitManipulator.cpp"
@@ -18,6 +20,8 @@ class ESParser { //TODO test this entire class
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
     TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead
+    PASPacket* pasPacket;
+    PMSPacket* pmsPacket;
     unsigned char *currPos; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index
     unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched

@@ -7,7 +7,13 @@
 
 
 class PMSPacket {
-
+    TSPayloadPacket::ts_payload_header_fields headerFields;
+    unsigned short program_number;
+    TSPayloadPacket::ts_payload_version_section_fields versionSectionFields;
+    unsigned short PCR_PID;
+    unsigned short program_info_length;
+    unsigned char* program_info;
+    // TODO continue here
 };
 
 
