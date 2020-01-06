@@ -14,7 +14,8 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
-    program_pid = 0x02;// = loadPAS(); TODO load the PAS
+    program_pid = 0x20;// = loadPAS(); TODO load the PAS
+    loadNextTSPacket();
     program_pid = 0x64;// = loadPMS(); TODO loadPMS
 }
 
