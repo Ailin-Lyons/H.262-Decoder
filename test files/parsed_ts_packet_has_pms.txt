@@ -53,7 +53,7 @@ Second Packet:
             '0'                         0
             reserved                    3
             section_length              18          # length is 24 bytes
-            program_number           0001           # the number of the program described by this packet
+            program_number              0001        # the number of the program described by this packet
             reserved                    2           #
             version_number              1E          # This number is incremented by 1 every time there is a change to data
                                                         # so you don't keep reloading packets that contain repeat info

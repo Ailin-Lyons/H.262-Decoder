@@ -8,9 +8,14 @@
 ESParser *ESParser::instance = nullptr;
 
 ESParser::ESParser() {
+    program_pid = 0x00;
     loadNextTSPacket();
-    isVideoStream = false;
-    currVideoStreamID = 0;
+    initiateStream();
+}
+
+void ESParser::initiateStream() {
+    program_pid = 0x02;// = loadPAS(); TODO load the PAS
+    program_pid = 0x64;// = loadPMS(); TODO loadPMS
 }
 
 ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id) {
@@ -35,7 +40,7 @@ void ESParser::loadNextTSPacket() {
         currTP = nextTP;
         nextTP = 0;
     } else {
-        currTP = TSParser::getNextPacket();
+        currTP = findNextTSPacket();
     }
     currPos = currTP->data;
     currOffset = 0;
@@ -63,7 +68,7 @@ void ESParser::findNextValidPacket() {
     if (ESPacket::isHandled(packet_type)) {
         return;
     }
-    std::printf("Unhandled PESPacket has been dropped: %x\n",stream_id);
+    std::printf("Unhandled PESPacket has been dropped: %x\n", stream_id);
     return findNextValidPacket();
 }
 
@@ -71,14 +76,8 @@ ESPacket *ESParser::getNextPacket() {
     findNextValidPacket();
     unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
-    std::printf("PESPacket code: %x\n",stream_id);
-    if (isVideoStream) {
-        return getNextVideoPacket(packet_type, stream_id);
-    } else {
-        //TODO call PESPacketParser here and create PESPacket
-        //TODO update ESParser::currVideoStreamID if necessary
-        return nullptr;
-    }
+    std::printf("PESPacket code: %x\n", stream_id);
+    //TODO handle incoming packets here
 }
 
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
@@ -123,7 +122,7 @@ unsigned int ESParser::numBitsRemaining() {
 
 unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
     if (nextTP == 0) {
-        nextTP = TSParser::getNextPacket();
+        nextTP = findNextTSPacket();
     }
     if (numBits > (nextTP->data_length * 8)) {
         nextTP->toString();
@@ -139,4 +138,13 @@ void ESParser::incrementOffset(unsigned int numBits) {
     }
     currPos += (numBits / 8);
     currOffset = numBits % 8;
+}
+
+TransportPacket * ESParser::findNextTSPacket() {
+    TransportPacket *out = TSParser::getNextPacket();
+    while (out->header_fields.pid != program_pid) {
+        std::printf("Discarded TSPacket with pid: %x\n", out->header_fields.pid);
+        out = TSParser::getNextPacket();
+    }
+    return out;
 }

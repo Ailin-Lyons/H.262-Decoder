@@ -21,8 +21,7 @@ public:
     unsigned char *currPos; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index
     unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
-    bool isVideoStream; //if Elementary stream is a video_stream this boolean is true
-    char currVideoStreamID; //if isVideoStream then this is the id of the stream
+    unsigned int program_pid; //the PID of the program being decoded
 
     static ESParser *instance;
 
@@ -115,6 +114,17 @@ private:
     */
     void loadNextTSPacket();
 
+    /**
+     * Searches for a Program Assosciation Section and picks the first program
+     * Then searches for the corresponding program map section and uses it to initialize ESParser fields
+     */
+    void initiateStream();
+
+    /**
+     * Will discard TSPackets until it finds one with PID == program_pid and returns it
+     * @return
+     */
+    TransportPacket * findNextTSPacket();
 };
 
 #endif //PROJECT_CODE_ESPARSER_H
