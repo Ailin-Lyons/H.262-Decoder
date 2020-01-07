@@ -5,8 +5,8 @@
 #ifndef PROJECT_CODE_ESPARSER_H
 #define PROJECT_CODE_ESPARSER_H
 
-#include <ProgramAssosciationSection.h>
-#include <ProgramMapSection.h>
+#include "../TSPayloadSections/ProgramAssosciationSection.h"
+#include "../TSPayloadSections/ProgramMapSection.h"
 #include "../ESPackets/PESPacket.h"
 #include "TSParser.cpp"
 #include "../Util/BitManipulator.cpp"

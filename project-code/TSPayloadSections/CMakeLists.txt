@@ -1,4 +1,4 @@
-project(TSPayloadPackets)
+project(TSPayloadSections)
 
 set(SOURCE_FILES
         ProgramAssosciationSection.cpp
@@ -10,4 +10,4 @@ set(HEADER_FILES
         ProgramMapSection.h
         Descriptor.h)
 
-add_library(TSPayloadPackets ${SOURCE_FILES} ${HEADER_FILES})
+add_library(TSPayloadSections ${SOURCE_FILES} ${HEADER_FILES})

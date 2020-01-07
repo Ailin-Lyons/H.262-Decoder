@@ -3,7 +3,7 @@
 //
 
 #include "../TransportPacketStructure/TransportPacket.h"
-#include "../TSPayloadPackets/ProgramAssosciationSection.h"
+#include "../TSPayloadSections/ProgramAssosciationSection.h"
 
 class PASParser {
 public:
