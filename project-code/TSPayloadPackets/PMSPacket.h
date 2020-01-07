@@ -6,6 +6,7 @@
 #define PROJECT_CODE_PMSPACKET_H
 
 #include "TSPayloadPacket.h"
+#include "Descriptor.h"
 
 class PMSPacket {
     /**
@@ -76,16 +77,16 @@ class PMSPacket {
         unsigned short elementary_PID;
         unsigned short ES_info_length;
         unsigned int numDescriptors;
-        //descriptor* descriptors; // TODO make descriptor classes
+        Descriptor* descriptors;
     };
     TSPayloadPacket::ts_payload_header_fields headerFields;
     unsigned short program_number;
     TSPayloadPacket::ts_payload_version_section_fields versionSectionFields;
     unsigned short PCR_PID;
     unsigned short program_info_length;
-    unsigned char* program_info;
-    unsigned int numDescriptors;
-    //descriptor* descriptors; // TODO make descriptor classes
+    Descriptor program_info;
+    unsigned int numElements;
+    program_element* program_elements;
 };
 
 
