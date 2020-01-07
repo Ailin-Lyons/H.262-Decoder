@@ -20,10 +20,8 @@ public:
      */
     static TransportPacket *getNextPacket() {
         unsigned char file_buffer[188];
-        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         FileInterface::getInstance()->getNextPacketData((char *) file_buffer);
-        buildTransportPacket(out, file_buffer);
-        return out;
+        return buildTransportPacket(file_buffer);
     }
 
 private:
@@ -33,7 +31,7 @@ private:
      * @param packet: points to a TS Packet in binary form
      * @throws PacketException: if sync_byte != 0x47
      */
-    static void buildTransportPacket(TransportPacket* out, unsigned char *packet) {
+    static TransportPacket* buildTransportPacket(unsigned char *packet) {
         size_t packetIndex = 0;
         TransportPacket::transport_header_fields thf_out{};
         thf_out.sync_byte = packet[packetIndex];
@@ -68,6 +66,8 @@ private:
                 packetIndex++;
             }
         }
+        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         *out = TransportPacket(thf_out, adaptationField, data_length, data);
+        return out;
     }
 };
