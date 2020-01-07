@@ -6,6 +6,7 @@
 #define PROJECT_CODE_ESPACKET_H
 
 #include <iostream>
+#include "../PacketParsers/PacketException.cpp"
 
 /**
  * This is an interface for all elementary stream packets.
@@ -105,8 +106,7 @@ public:
             case 0xFF :
                 return ESPacket::start_code::program_stream_directory;
             default :
-                std::cerr << "PESPacket::Unexpected stream_id: " << id << std::endl;
-                throw; // TODO throw an error
+                throw PacketException("PESPacket::Unexpected stream_id");
         }
     }
 

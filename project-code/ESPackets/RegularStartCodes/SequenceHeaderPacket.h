@@ -8,7 +8,7 @@
 #include "ESPacket.h"
 
 class SequenceHeaderPacket : public ESPacket {
-
+// TODO implement this class
 };
 
 

@@ -20,9 +20,9 @@ public:
      */
     static TransportPacket *getNextPacket() {
         unsigned char file_buffer[188];
-        auto *out = (TransportPacket *) malloc(sizeof(TransportPacket));
+        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         FileInterface::getInstance()->getNextPacketData((char *) file_buffer);
-        out[0] = buildTransportPacket(file_buffer);
+        *out = buildTransportPacket(file_buffer);
         return out;
     }
 

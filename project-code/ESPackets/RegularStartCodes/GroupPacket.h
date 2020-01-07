@@ -8,7 +8,7 @@
 #include "ESPacket.h"
 
 class GroupPacket : public ESPacket {
-
+// TODO implement this class
 };
 
 

@@ -120,7 +120,6 @@ public:
     void toString();
 
     ~TransportPacket();
-
 };
 
 #endif //PROJECT_CODE_TRANSPORTPACKET_H

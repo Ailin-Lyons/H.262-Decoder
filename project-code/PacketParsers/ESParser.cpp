@@ -21,26 +21,6 @@ void ESParser::initiateStream() {
     loadNextTSPacket(); //TODO remove this line
     pmsPacket = PMSParser::getPMSPacket(currTP);
     program_pid = 0x64;// pmsPacket->program_1->pid; TODO
-    loadNextTSPacket(); //TODO remove this line
-}
-
-ESPacket *ESParser::getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id) {
-    switch (scode) {
-        case ESPacket::start_code::video_stream:
-            return nullptr;//TODO
-        case ESPacket::start_code::picture:
-            return nullptr;//TODO
-        case ESPacket::start_code::slice:
-            return nullptr;//TODO
-        case ESPacket::start_code::sequence_header:
-            return nullptr;//TODO
-        case ESPacket::start_code::extension:
-            return nullptr;//TODO
-        case ESPacket::start_code::group:
-            return nullptr;//TODO
-        default:
-            throw PacketException("ESParser::getNextVideoPacket:: Invalid Packet type");
-    }
 }
 
 void ESParser::loadNextTSPacket() {
@@ -85,7 +65,22 @@ ESPacket *ESParser::getNextPacket() {
     unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     std::printf("PESPacket code: %x\n", stream_id);
-    return getNextVideoPacket(packet_type,stream_id);
+    switch (packet_type) {
+        case ESPacket::start_code::video_stream:
+            return nullptr;//TODO
+        case ESPacket::start_code::picture:
+            return nullptr;//TODO
+        case ESPacket::start_code::slice:
+            return nullptr;//TODO
+        case ESPacket::start_code::sequence_header:
+            return nullptr;//TODO
+        case ESPacket::start_code::extension:
+            return nullptr;//TODO
+        case ESPacket::start_code::group:
+            return nullptr;//TODO
+        default:
+            throw PacketException("ESParser::getNextVideoPacket:: Invalid Packet type");
+    }
 }
 
 unsigned long long ESParser::peekNBits(unsigned int numBits) {

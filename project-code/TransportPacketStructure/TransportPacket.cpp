@@ -22,6 +22,6 @@ void TransportPacket::toString() {
 TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d) {
     header_fields = thf;
     adaptationField = af;
-    data = d;
     data_length = dl;
+    data = d;
 }
