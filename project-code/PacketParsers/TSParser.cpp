@@ -22,19 +22,18 @@ public:
         unsigned char file_buffer[188];
         TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
         FileInterface::getInstance()->getNextPacketData((char *) file_buffer);
-        *out = buildTransportPacket(file_buffer);
+        buildTransportPacket(out, file_buffer);
         return out;
     }
 
 private:
 
     /**
-     * Helper function that creates a TransportPacket object given a TS packet in binary data
-     * @param packet: TS Packet in binary form
-     * @return a TransportPacket Object containing all fields and data from binary packet
+     * Helper function that creates a TransportPacket at *out
+     * @param packet: points to a TS Packet in binary form
      * @throws PacketException: if sync_byte != 0x47
      */
-    static TransportPacket buildTransportPacket(unsigned char *packet) {
+    static void buildTransportPacket(TransportPacket* out, unsigned char *packet) {
         size_t packetIndex = 0;
         TransportPacket::transport_header_fields thf_out{};
         thf_out.sync_byte = packet[packetIndex];
@@ -69,6 +68,6 @@ private:
                 packetIndex++;
             }
         }
-        return TransportPacket(thf_out, adaptationField, data_length, data);
+        *out = TransportPacket(thf_out, adaptationField, data_length, data);
     }
 };
