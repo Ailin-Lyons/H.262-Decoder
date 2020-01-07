@@ -17,7 +17,7 @@ class PASPacket {
     unsigned short transport_stream_id;
     TSPayloadPacket::ts_payload_version_section_fields versionSectionFields;
     unsigned int numPasPrograms;
-    pas_program* pasProgram;
+    pas_program *pasProgram;
 };
 
 
