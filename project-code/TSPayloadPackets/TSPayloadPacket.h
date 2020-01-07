@@ -4,6 +4,8 @@
 #ifndef PROJECT_CODE_TSPAYLOADPACKET_H
 #define PROJECT_CODE_TSPAYLOADPACKET_H
 
+#include "../PacketParsers/PacketException.cpp"
+
 /**
  * This class contains structs and enums found across TSPayloadPackets
  */
@@ -12,21 +14,38 @@ public:
     /**
      * Categories to interpret table_id
      */
-    enum class table_id_type {
+    enum class TableIDType {
         program_association_section,
         conditional_access_section,
         TS_program_map_section,
         reserved,
-        user_private,
-        forbidden
-    }; // TODO static assign class
+        user_private
+    };
+
+    static TableIDType getTableID(unsigned char table_id) {
+        switch (table_id) {
+            case 0x00:
+                return TableIDType::program_association_section   ;
+            case 0x01:
+                return TableIDType::conditional_access_section;
+            case 0x02:
+                return TableIDType::TS_program_map_section;
+            case 0xFF:
+                throw PacketException("TSPayloadPacket::getTableID Forbidden table_id");
+            default:
+                if(0x03 <= table_id <= 0x3F){
+                    return TableIDType::reserved;
+                }
+        }
+        return TableIDType::user_private;
+    }
 
     /**
      * Header fields found in all TSPayloadPackets
      */
     struct ts_payload_header_fields {
         unsigned char table_id; // 8-bit, describes packet type
-        table_id_type t_id_type;
+        TableIDType t_id_type;
         unsigned char section_syntax_indicator; // 1-bit
         unsigned int section_length; // 12-bit
     };

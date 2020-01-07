@@ -63,7 +63,7 @@ Second Packet:
 
             PCR_PID                     64          # This is a 13-bit field indicating the PID of the Transport Stream packets which shall contain the PCR fieldsvalid  for  the  program  specified  by  program_number.
             program_info_length         0           # specify the number of bytes of the descriptors immediately following the program_info_length field.
-            stream_type                 02          # All packets with PID 64 will be ITU-T Rec. H.262 | ISO/IEC 13818-2 Video or ISO/IEC 11172-2 constrained parameter video stream
+            StreamType                 02          # All packets with PID 64 will be ITU-T Rec. H.262 | ISO/IEC 13818-2 Video or ISO/IEC 11172-2 constrained parameter video stream
             elementary_PID              64
             ES_info_length              06
             descriptor()
