@@ -3,15 +3,15 @@
 //
 
 #include "../TransportPacketStructure/TransportPacket.h"
-#include "../TSPayloadPackets/PMSPacket.h"
+#include "../TSPayloadPackets/ProgramMapSection.h"
 
 class PMSParser{
 public:
     /**
-     * Parses the next TransportPacket as a PMSPacket if possible and if necessary reads additional TransportPackets
-     * @return a PMSPacket representing the PMSPacket that starts in tPacket
+     * Parses the next TransportPacket as a ProgramMapSection if possible and if necessary reads additional TransportPackets
+     * @return a ProgramMapSection representing the ProgramMapSection that starts in tPacket
      */
-    static PMSPacket* getPMSPacket(TransportPacket* tPacket) {
+    static ProgramMapSection* getPMSPacket(TransportPacket* tPacket) {
         return nullptr; // TODO
     }
 };

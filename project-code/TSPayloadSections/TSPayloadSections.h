@@ -1,15 +1,15 @@
 //
 // Created by elnsa on 2020-01-05.
 //
-#ifndef PROJECT_CODE_TSPAYLOADPACKET_H
-#define PROJECT_CODE_TSPAYLOADPACKET_H
+#ifndef PROJECT_CODE_TSPAYLOADSECTIONS_H
+#define PROJECT_CODE_TSPAYLOADSECTIONS_H
 
 #include "../PacketParsers/PacketException.cpp"
 
 /**
- * This class contains structs and enums found across TSPayloadPackets
+ * This class contains structs and enums found across TSPayloadSections
  */
-class TSPayloadPacket {
+class TSPayloadSections {
 public:
     /**
      * Categories to interpret table_id
@@ -31,7 +31,7 @@ public:
             case 0x02:
                 return TableIDType::TS_program_map_section;
             case 0xFF:
-                throw PacketException("TSPayloadPacket::getTableID Forbidden table_id");
+                throw PacketException("TSPayloadSections::getTableID Forbidden table_id");
             default:
                 if(0x03 <= table_id <= 0x3F){
                     return TableIDType::reserved;
@@ -41,7 +41,7 @@ public:
     }
 
     /**
-     * Header fields found in all TSPayloadPackets
+     * Header fields found in all TSPayloadSections
      */
     struct ts_payload_header_fields {
         unsigned char table_id; // 8-bit, describes packet type
@@ -51,7 +51,7 @@ public:
     };
 
     /**
-     * Fields found in some TSPayloadPackets such as PMS and PAS
+     * Fields found in some TSPayloadSections such as PMS and PAS
      */
     struct ts_payload_version_section_fields {
         unsigned char version_number; // 5-bit a number that is incremented each time the contents of packet changes
@@ -61,4 +61,4 @@ public:
     };
 };
 
-#endif //PROJECT_CODE_TSPAYLOADPACKET_H
+#endif //PROJECT_CODE_TSPAYLOADSECTIONS_H

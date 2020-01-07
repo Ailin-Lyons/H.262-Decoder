@@ -2,13 +2,13 @@
 // Created by elnsa on 2020-01-05.
 //
 
-#ifndef PROJECT_CODE_PMSPACKET_H
-#define PROJECT_CODE_PMSPACKET_H
+#ifndef PROJECT_CODE_PROGRAMMAPSECTION_H
+#define PROJECT_CODE_PROGRAMMAPSECTION_H
 
-#include "TSPayloadPacket.h"
+#include "TSPayloadSections.h"
 #include "Descriptor.h"
 
-class PMSPacket {
+class ProgramMapSection {
     /**
      * H.222.0, Table 2-29 - Stream type assignments
      */
@@ -79,9 +79,9 @@ class PMSPacket {
         unsigned int numDescriptors;
         Descriptor* descriptors;
     };
-    TSPayloadPacket::ts_payload_header_fields headerFields;
+    TSPayloadSections::ts_payload_header_fields headerFields;
     unsigned short program_number;
-    TSPayloadPacket::ts_payload_version_section_fields versionSectionFields;
+    TSPayloadSections::ts_payload_version_section_fields versionSectionFields;
     unsigned short PCR_PID;
     unsigned short program_info_length;
     Descriptor program_info;
@@ -90,4 +90,4 @@ class PMSPacket {
 };
 
 
-#endif //PROJECT_CODE_PMSPACKET_H
+#endif //PROJECT_CODE_PROGRAMMAPSECTION_H

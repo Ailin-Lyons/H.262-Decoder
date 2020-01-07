@@ -3,15 +3,15 @@
 //
 
 #include "../TransportPacketStructure/TransportPacket.h"
-#include "../TSPayloadPackets/PASPacket.h"
+#include "../TSPayloadPackets/ProgramAssosciationSection.h"
 
 class PASParser {
 public:
     /**
-     * Parses the next packet as a PASPacket if possible and if necessary reads additional TSPackets
-     * @return a PASPacket representing the the PASPacket that starts in tPacket
+     * Parses the next packet as a ProgramAssosciationSection if possible and if necessary reads additional TSPackets
+     * @return a ProgramAssosciationSection representing the the ProgramAssosciationSection that starts in tPacket
      */
-    static PASPacket *getPASPacket(TransportPacket *tPacket) {
+    static ProgramAssosciationSection *getPASPacket(TransportPacket *tPacket) {
         return nullptr; // TODO
     }
 };
