@@ -1,6 +1,8 @@
 #include "ESParser.h"
 #include "PASParser.cpp"
 #include "PMSParser.cpp"
+#include "../TSPayloadSections/ProgramAssociationSection.h"
+#include "../TSPayloadSections/ProgramMapSection.h"
 
 //
 // Created by elnsa on 2019-12-23.
@@ -16,11 +18,9 @@ ESParser::ESParser() {
 
 void ESParser::initiateStream() {
     pasPacket = PASParser::getPASPacket();
-    program_pid = 0x20;// = pasPacket->program_1->pid TODO
-    loadNextTSPacket();
+    program_pid = pasPacket->getProgramPID();
     pmsPacket = PMSParser::getPMSPacket();
-    pmsPacket->toString();
-    program_pid = 0x64;// pmsPacket->program_1->pid; TODO
+    program_pid = pmsPacket->getVideoStreamPID();
 }
 
 void ESParser::loadNextTSPacket() {
@@ -104,7 +104,7 @@ unsigned long long ESParser::popNBits(unsigned int numBits) {
         return out;
     } else if (numBits == numBitsRemaining()) {
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
-        loadNextTSPacket();
+        incrementOffset(numBits);
         return out;
     } else {
         unsigned int part1 = numBitsRemaining();
@@ -139,13 +139,13 @@ void ESParser::incrementOffset(unsigned int numBits) {
     while (numBits > 0 && currOffset != 0) {
         numBits--;
         currOffset++;
-        if(currOffset == 8){
+        if (currOffset == 8) {
             currOffset = 0;
             currPos++;
         }
     }
     currPos += (numBits / 8);
-    if(numBits!=0){
+    if (numBits != 0) {
         currOffset = numBits % 8;
     }
 }

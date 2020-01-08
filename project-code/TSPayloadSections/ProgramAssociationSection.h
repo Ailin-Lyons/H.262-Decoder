@@ -22,6 +22,8 @@ public:
 
     void print();
 
+    unsigned int getProgramPID();
+
 private:
     TSPayloadSections::ts_payload_header_fields headerFields{};
     unsigned short transport_stream_id;

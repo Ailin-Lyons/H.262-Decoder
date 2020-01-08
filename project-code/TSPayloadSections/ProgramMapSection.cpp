@@ -24,3 +24,7 @@ void ProgramMapSection::toString() {
             headerFields.table_id,headerFields.section_syntax_indicator,headerFields.section_length,program_number,versionSectionFields.version_number,versionSectionFields.current_next_indicator,versionSectionFields.section_number,versionSectionFields.last_section_number,PCR_PID,program_info_length);
     //TODO finish toString
 }
+
+unsigned int ProgramMapSection::getVideoStreamPID(){
+    return 0x64;//TODO
+};
