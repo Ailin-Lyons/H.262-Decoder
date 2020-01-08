@@ -1,3 +1,4 @@
+#include <cmath>
 #include "../TSPayloadSections/Descriptor.h"
 #include "ESParser.h"
 
@@ -11,7 +12,7 @@
 class DescriptorParser{
 public:
     static Descriptor::decriptor_struct buildDescriptors(unsigned short total_descriptor_length){
-        auto descriptors = (Descriptor*) malloc(sizeof(char) * total_descriptor_length);
+        auto descriptors = (Descriptor*) malloc(sizeof(Descriptor) * ceil(total_descriptor_length / 3.0));
         unsigned int numDescriptorsKept = 0;
         unsigned int numDescriptorsDropped = 0;
         unsigned int bytesKept = 0;
@@ -27,7 +28,7 @@ public:
             bytesRead += 2 + descriptor->getLength();
             free(descriptor);
         }
-        descriptors = (Descriptor*) realloc(descriptors, sizeof(char) * bytesKept);
+        descriptors = (Descriptor*) realloc(descriptors, sizeof(Descriptor) * numDescriptorsKept);
         return Descriptor::decriptor_struct{numDescriptorsKept, numDescriptorsDropped, descriptors};
     }
 
