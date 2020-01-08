@@ -31,7 +31,7 @@ public:
         }
         esParser->popNBits(2); //reserved
         headerFields.section_length = esParser->popNBits(12);
-        unsigned int remainingSectionBytes = headerFields.section_length;
+        int remainingSectionBytes = headerFields.section_length;
         unsigned short program_number = esParser->popNBits(16);
         esParser->popNBits(2); //reserved
         TSPayloadSections::ts_payload_version_section_fields versionSectionFields = {};
