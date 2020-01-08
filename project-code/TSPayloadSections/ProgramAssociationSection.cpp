@@ -32,3 +32,7 @@ void ProgramAssociationSection::print() {
         }
     }
 }
+
+unsigned int ProgramAssociationSection::getProgramPID() {
+    return 0x20; //TODO
+}

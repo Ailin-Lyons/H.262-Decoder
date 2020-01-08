@@ -97,6 +97,8 @@ public:
                       unsigned short pi_length, Descriptor::decriptor_struct proginf, program_element progel);
 
     void toString();
+
+    unsigned int getVideoStreamPID();
 };
 
 
