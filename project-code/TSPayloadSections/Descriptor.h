@@ -9,6 +9,7 @@
  * This class only handles video_stream_descriptors. All other descriptors will end up as stubs
  */
 class Descriptor{
+public:
     enum class descriptor_type{
         video_stream_descriptor,
         unhandled_desriptor_type
@@ -20,7 +21,13 @@ class Descriptor{
             default:
                 return descriptor_type::unhandled_desriptor_type;
         }
-
+    };
+    /**
+     * This struct contains an array of numDescriptors pointers to Descriptors
+     */
+    struct decriptor_struct{
+        unsigned int numDescriptors;
+        Descriptor** descriptors;
     };
 
     unsigned char descriptor_tag; // 8-bit

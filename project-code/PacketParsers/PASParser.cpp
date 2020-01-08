@@ -11,7 +11,7 @@ public:
      * Parses the next packet as a ProgramAssosciationSection if possible and if necessary reads additional TSPackets
      * @return a ProgramAssosciationSection representing the the ProgramAssosciationSection that starts in tPacket
      */
-    static ProgramAssosciationSection *getPASPacket(TransportPacket *tPacket) {
+    static ProgramAssosciationSection *getPASPacket() {
         return nullptr; // TODO
     }
 };

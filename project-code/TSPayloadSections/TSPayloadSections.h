@@ -38,7 +38,7 @@ public:
                 }
         }
         return TableIDType::user_private;
-    }
+    };
 
     /**
      * Header fields found in all TSPayloadSections

@@ -63,6 +63,12 @@ public:
      */
     unsigned long long popNBits(unsigned int numBits);
 
+    /**
+    * Searches for a Program Assosciation Section and picks the first program
+    * Then searches for the corresponding program map section and uses it to initialize ESParser fields
+    */
+    void initiateStream();
+
 private:
     /**
      * A private constructor for the singleton
@@ -117,12 +123,6 @@ private:
     * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data
     */
     void loadNextTSPacket();
-
-    /**
-     * Searches for a Program Assosciation Section and picks the first program
-     * Then searches for the corresponding program map section and uses it to initialize ESParser fields
-     */
-    void initiateStream();
 
     /**
      * Will discard TSPackets until it finds one with PID == program_pid and returns it

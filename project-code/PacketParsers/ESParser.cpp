@@ -12,14 +12,14 @@ ESParser *ESParser::instance = nullptr;
 ESParser::ESParser() {
     program_pid = 0x00;
     loadNextTSPacket();
-    initiateStream();
 }
 
 void ESParser::initiateStream() {
-    pasPacket = PASParser::getPASPacket(currTP);
+    pasPacket = PASParser::getPASPacket();
     program_pid = 0x20;// = pasPacket->program_1->pid TODO
-    loadNextTSPacket(); //TODO remove this line
-    pmsPacket = PMSParser::getPMSPacket(currTP);
+    loadNextTSPacket();
+    pmsPacket = PMSParser::getPMSPacket();
+    pmsPacket->toString();
     program_pid = 0x64;// pmsPacket->program_1->pid; TODO
 }
 
@@ -136,15 +136,21 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
 }
 
 void ESParser::incrementOffset(unsigned int numBits) {
-    if (currOffset != 0) {
-        numBits -= (8 - currOffset);
-        currPos++;
+    while (numBits > 0 && currOffset != 0) {
+        numBits--;
+        currOffset++;
+        if(currOffset == 8){
+            currOffset = 0;
+            currPos++;
+        }
     }
     currPos += (numBits / 8);
-    currOffset = numBits % 8;
+    if(numBits!=0){
+        currOffset = numBits % 8;
+    }
 }
 
-TransportPacket * ESParser::findNextTSPacket() {
+TransportPacket *ESParser::findNextTSPacket() {
     TransportPacket *out = TSParser::getNextPacket();
     while (out->header_fields.pid != program_pid) {
         std::printf("Discarded TSPacket with pid: %x\n", out->header_fields.pid);

@@ -7,7 +7,8 @@ set(SOURCE_FILES
         ESParser.cpp
         PESParser.cpp
         PASParser.cpp
-        PMSParser.cpp)
+        PMSParser.cpp
+        DescriptorParser.cpp)
 
 set(HEADER_FILES
         ESParser.h)

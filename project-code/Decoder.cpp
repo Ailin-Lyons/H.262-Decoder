@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
     char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser* esp = ESParser::getInstance();
+    esp->initiateStream();
     while (FileInterface::getInstance()->hasNextPacket()) {
 //        TSParser::getNextPacket()->toString();
         esp->getNextPacket();
