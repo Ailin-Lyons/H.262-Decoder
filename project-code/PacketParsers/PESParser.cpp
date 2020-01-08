@@ -68,10 +68,14 @@ public:
 
 private:
     static void valueChecks(unsigned int numBits, unsigned long long expectedVal, const std::string& funcName) {
-        if(read(numBits) != expectedVal) {
-            std::string s = "PESParser::";
+        unsigned long long readVal = read(numBits);
+        if(readVal != expectedVal) {
+            std::string s = "PASParser::";
             s.append(funcName);
-            s.append(": bad packet!");
+            s.append(": bad packet! Expected value = ");
+            s.append(std::to_string(expectedVal));
+            s.append(", ReadVal = ");
+            s.append(std::to_string(readVal));
             throw PacketException(s);
         }
     }
