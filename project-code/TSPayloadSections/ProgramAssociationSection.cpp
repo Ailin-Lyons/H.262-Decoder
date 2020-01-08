@@ -38,5 +38,8 @@ ProgramAssociationSection::~ProgramAssociationSection() {
     free(this->pasProgram);//TODO
 }
 unsigned int ProgramAssociationSection::getProgramPID() {
-    return 0x20; //TODO
+    if(numPasPrograms > 0){
+        return pasProgram->assosciated_pid;
+    }
+    throw PacketException("ProgramAssosciationSection::getProgramPID could not find a video PID");
 }

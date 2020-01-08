@@ -17,10 +17,12 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
-    pasPacket = PASParser::getPASPacket();
-    program_pid = pasPacket->getProgramPID();
-    pmsPacket = PMSParser::getPMSPacket();
-    program_pid = pmsPacket->getVideoStreamPID();
+    programAssociationSection = PASParser::getPASPacket();
+    programAssociationSection->print();
+    program_pid = programAssociationSection->getProgramPID();
+    programMapSection = PMSParser::getPMSPacket();
+    programMapSection->toString();
+    program_pid = programMapSection->getVideoStreamPID();
 }
 
 void ESParser::loadNextTSPacket() {

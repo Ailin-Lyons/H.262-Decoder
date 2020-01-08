@@ -26,5 +26,5 @@ void ProgramMapSection::toString() {
 }
 
 unsigned int ProgramMapSection::getVideoStreamPID(){
-    return 0x64;//TODO
+    return video_stream_element.elementary_PID;
 };
