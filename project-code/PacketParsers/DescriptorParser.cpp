@@ -16,7 +16,7 @@ public:
         unsigned int numDescriptorsDropped = 0;
         unsigned int bytesKept = 0;
         unsigned int bytesRead = 0;
-        while (bytesRead < total_descriptor_length) {
+        while (bytesRead <= total_descriptor_length) {
             Descriptor* descriptor = buildDescriptor();
             if (descriptor->getTag() == Descriptor::descriptor_type::video_stream_descriptor) {
                 descriptors[numDescriptorsKept++] = *descriptor;
