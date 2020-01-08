@@ -26,11 +26,22 @@ public:
      * This struct contains an array of numDescriptors pointers to Descriptors
      */
     struct decriptor_struct{
-        unsigned int numDescriptors;
-        Descriptor** descriptors;
+        unsigned int numDescriptorsKept;
+        unsigned int numDescriptorsDropped;
+        Descriptor* descriptors;
     };
 
-    unsigned char descriptor_tag; // 8-bit
+    Descriptor(Descriptor::descriptor_type tag, unsigned char length, unsigned char mf_rate_flag, unsigned char rate_code,
+               unsigned char MPEG1_flag, unsigned char param_flag, unsigned char picture_flag, unsigned char pl_ind,
+               unsigned char cf, unsigned char ext_flag);
+    //~Descriptor();
+
+    Descriptor::descriptor_type getTag();
+    unsigned char getLength();
+
+
+private:
+    Descriptor::descriptor_type descriptor_tag; // 8-bit
     unsigned char descriptor_length; // 8-bit
     unsigned char multiple_frame_rate_flag; // 1-bit
     unsigned char frame_rate_code; // 4-bit

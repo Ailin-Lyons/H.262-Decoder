@@ -18,6 +18,7 @@ public:
     ProgramAssociationSection(TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields, unsigned char transport_stream_id,
                               TSPayloadSections::ts_payload_version_section_fields versionSectionFields, unsigned int numPasPrograms,
                               pas_program* pas_program);
+    ~ProgramAssociationSection();
 
     void print();
 

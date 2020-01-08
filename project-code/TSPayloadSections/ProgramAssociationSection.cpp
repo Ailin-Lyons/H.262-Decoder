@@ -33,6 +33,10 @@ void ProgramAssociationSection::print() {
     }
 }
 
+
+ProgramAssociationSection::~ProgramAssociationSection() {
+    free(this->pasProgram);//TODO
+}
 unsigned int ProgramAssociationSection::getProgramPID() {
     if(numPasPrograms > 0){
         return pasProgram->assosciated_pid;
