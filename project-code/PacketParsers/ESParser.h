@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_ESPARSER_H
 #define PROJECT_CODE_ESPARSER_H
 
-#include "../TSPayloadSections/ProgramAssosciationSection.h"
+#include "../TSPayloadSections/ProgramAssociationSection.h"
 #include "../TSPayloadSections/ProgramMapSection.h"
 #include "../ESPackets/PESPacket.h"
 #include "TSParser.cpp"
@@ -20,7 +20,7 @@ class ESParser { //TODO test this entire class
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
     TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead
-    ProgramAssosciationSection* pasPacket;
+    ProgramAssociationSection* pasPacket;
     ProgramMapSection* pmsPacket;
     unsigned char *currPos; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index

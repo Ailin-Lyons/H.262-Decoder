@@ -47,7 +47,7 @@ public:
         unsigned char table_id; // 8-bit, describes packet type
         TableIDType t_id_type;
         unsigned char section_syntax_indicator; // 1-bit
-        unsigned int section_length; // 12-bit
+        unsigned short section_length; // 12-bit
     };
 
     /**

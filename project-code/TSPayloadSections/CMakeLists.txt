@@ -1,12 +1,12 @@
 project(TSPayloadSections)
 
 set(SOURCE_FILES
-        ProgramAssosciationSection.cpp
+        ProgramAssociationSection.cpp
         ProgramMapSection.cpp)
 
 set(HEADER_FILES
         TSPayloadSections.h
-        ProgramAssosciationSection.h
+        ProgramAssociationSection.h
         ProgramMapSection.h
         Descriptor.h)
 

@@ -5,10 +5,10 @@
 #include "ESParser.h"
 
 // TODO - convert macros to compilation flag based
-// TODO - check to make sure that all the reserved, stuffing, marker buts are correctly skipped
+// TODO - check to make sure that all the reserved, stuffing, marker bits are correctly skipped
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define marker(x, y) (valueChecks((x), (y), __func__))
-#define mark1 (valueChecks(1, 1, __func__))
+#define mark1 (valueChecks(1, 0b1, __func__))
 
 class PESParser{
 public:
@@ -21,6 +21,7 @@ public:
      */
     static PESPacket* getNextPesPacket() {
         auto returnPacket = (PESPacket*) malloc(sizeof(PESPacket));
+        // TODO - remove the 0x000001 and start code reading
         if (read(24) == 0x000001) {
             unsigned char stream_id = read(8);
             ESPacket::start_code start_code = ESPacket::getStartCode(stream_id);
