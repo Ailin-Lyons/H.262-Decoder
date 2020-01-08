@@ -2,10 +2,8 @@
 // Created by elnsa on 2020-01-05.
 //
 
-//#include "../TransportPacketStructure/TransportPacket.h"
 #include "../TSPayloadSections/ProgramAssociationSection.h"
 #include "ESParser.h"
-#include <assert.h>
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define marker(x, y) (valueChecks((x), (y), __func__))
@@ -42,7 +40,7 @@ public:
                                                                                            current_text_indicator,
                                                                                            section_number,
                                                                                            last_section_number};
-        unsigned int numPASPrograms = (section_length*8 - (16 + 2 + 5 + 1 + 8 + 8 + 32)) / (16 + 3 + 13);
+        unsigned int numPASPrograms = (section_length * 8 - (16 + 2 + 5 + 1 + 8 + 8 + 32)) / (16 + 3 + 13);
         auto PASPrograms = (ProgramAssociationSection::pas_program *) malloc(sizeof(ProgramAssociationSection::pas_program) * numPASPrograms);
         for (unsigned int i = 0; i < numPASPrograms; i++) {
             PASPrograms[i].program_number = read(16);

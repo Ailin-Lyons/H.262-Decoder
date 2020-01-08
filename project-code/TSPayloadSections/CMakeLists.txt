@@ -2,7 +2,7 @@ project(TSPayloadSections)
 
 set(SOURCE_FILES
         ProgramAssociationSection.cpp
-        ProgramMapSection.cpp)
+        ProgramMapSection.cpp Descriptor.cpp)
 
 set(HEADER_FILES
         TSPayloadSections.h

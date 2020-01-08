@@ -32,3 +32,7 @@ void ProgramAssociationSection::print() {
         }
     }
 }
+
+ProgramAssociationSection::~ProgramAssociationSection() {
+    free(this->pasProgram);//TODO
+}
