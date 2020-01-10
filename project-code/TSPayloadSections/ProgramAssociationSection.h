@@ -29,7 +29,7 @@ private:
     unsigned short transport_stream_id;
     TSPayloadSections::ts_payload_version_section_fields versionSectionFields{};
     unsigned int numPasPrograms;
-    pas_program *pasProgram;
+    pas_program *pasPrograms;
 
 };
 

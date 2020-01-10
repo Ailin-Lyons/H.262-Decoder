@@ -2,8 +2,8 @@
 // Created by bhave on 12/30/2019.
 //
 
-#ifndef PROJECT_CODE_FILEEXCEPTION_H
-#define PROJECT_CODE_FILEEXCEPTION_H
+#ifndef PROJECT_CODE_FILEINTERFACE_H
+#define PROJECT_CODE_FILEINTERFACE_H
 
 
 #include <iostream>
@@ -73,9 +73,6 @@ public:
     void getNextPacketData(char *file_buffer);
 
 
-
 };
 
-
-
-#endif //PROJECT_CODE_FILEEXCEPTION_H
+#endif //PROJECT_CODE_FILEINTERFACE_H

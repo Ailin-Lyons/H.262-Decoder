@@ -1,4 +1,4 @@
-project(TSPacket)
+project(TransportPacket)
 
 set(SOURCE_FILES
         AdaptationField.cpp

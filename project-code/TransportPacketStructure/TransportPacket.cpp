@@ -5,9 +5,9 @@
 #include <iostream>
 #include "TransportPacket.h"
 
-//TransportPacket::~TransportPacket() {
-//    free(data);
-//}
+TransportPacket::~TransportPacket() {
+    free(data);
+}
 
 void TransportPacket::toString() {
     std::printf(

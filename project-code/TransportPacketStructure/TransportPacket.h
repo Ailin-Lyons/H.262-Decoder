@@ -119,7 +119,7 @@ public:
 
     void toString();
 
-    //~TransportPacket(); //TODO fix TSParser and then un-comment
+    ~TransportPacket(); //TODO fix TSParser and then un-comment
 };
 
 #endif //PROJECT_CODE_TRANSPORTPACKET_H

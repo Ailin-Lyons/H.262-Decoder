@@ -3,7 +3,7 @@
 #include <sys/stat.h>
 #include "AFParser.cpp"
 #include "PacketException.cpp"
-#include "../Util/FileInterface.cpp"
+#include "../Util/FileInterface.h"
 
 //
 // Created by elnsa on 2019-11-19.
@@ -66,8 +66,6 @@ private:
                 packetIndex++;
             }
         }
-        TransportPacket *out = (TransportPacket *) malloc(sizeof(TransportPacket));
-        *out = TransportPacket(thf_out, adaptationField, data_length, data);
-        return out;
+        return new TransportPacket(thf_out, adaptationField, data_length, data);
     }
 };

@@ -11,7 +11,7 @@ ProgramAssociationSection::ProgramAssociationSection(
 
     this->headerFields = tsPayloadHeaderFields;
     this->numPasPrograms = numPasPrograms;
-    this->pasProgram = pas_program;
+    this->pasPrograms = pas_program;
     this->transport_stream_id = transport_stream_id;
     this->versionSectionFields = versionSectionFields;
 }
@@ -25,21 +25,21 @@ void ProgramAssociationSection::print() {
                 "numPASPrograms = %u\n", headerFields.table_id, headerFields.section_syntax_indicator, headerFields.section_length,
                 transport_stream_id, versionSectionFields.version_number, versionSectionFields.current_next_indicator,
                 versionSectionFields.section_number, versionSectionFields.last_section_number, numPasPrograms);
-    if (pasProgram != nullptr) {
+    if (pasPrograms != nullptr) {
         for (unsigned int i = 0; i < numPasPrograms; i++) {
             std::printf("PAS_Program[%u]: \n\t"
-                        "program_number = %hu, associated_pid = %hu\n", i, pasProgram[i].program_number, pasProgram[i].assosciated_pid);
+                        "program_number = %hu, associated_pid = %hu\n", i, pasPrograms[i].program_number, pasPrograms[i].assosciated_pid);
         }
     }
 }
 
 
 ProgramAssociationSection::~ProgramAssociationSection() {
-    free(this->pasProgram);//TODO
+    free(this->pasPrograms);//TODO
 }
 unsigned int ProgramAssociationSection::getProgramPID() {
     if(numPasPrograms > 0){
-        return pasProgram->assosciated_pid;
+        return pasPrograms->assosciated_pid;
     }
     throw PacketException("ProgramAssosciationSection::getProgramPID could not find a video PID");
 }
