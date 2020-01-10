@@ -47,7 +47,7 @@ public:
         Descriptor::decriptor_struct program_info_descriptors = DescriptorParser::buildDescriptors(program_info_length);
         remainingSectionBytes -= program_info_length;//Num bytes for pi_descriptors
         ProgramMapSection::program_element el;
-        while (remainingSectionBytes > 0) {
+        while (remainingSectionBytes > 4) { // >4 because there is a 4 byte CRC after this section
             unsigned char stream_type_value = esParser->popNBits(8);
             ProgramMapSection::StreamType stream_type = ProgramMapSection::getStreamType(stream_type_value);
             esParser->popNBits(3); //reserved
@@ -60,11 +60,12 @@ public:
                 el.elementary_PID = elementary_PID;
                 el.ES_info_length = ES_info_length;
                 unsigned short ES_info_remaining = el.ES_info_length;
-                el.descriptors = DescriptorParser::buildDescriptors(program_info_length);
+                el.descriptors = DescriptorParser::buildDescriptors(ES_info_length);
             }
             remainingSectionBytes -= 5;
             remainingSectionBytes -= ES_info_length;
         }
+        esParser->popNBits(32); //Skip CRC
         ProgramMapSection *out = (ProgramMapSection *) malloc(sizeof(ProgramMapSection));
         *out = ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length,
                                  program_info_descriptors, el);

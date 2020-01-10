@@ -47,19 +47,19 @@ Second Packet:
     00000170: 65 6E 67 00 AA 98 01 62
 
     Variable                    Value (hex) #Comments
-            pointer_field               00          # see H.222.0 2.4.4. A value of 0 indicates that section follows immediatly after
-            table_id                    02          # This PSI contains a TS_program_map_section
-            section_syntax_indicator    1           # H222 - 2.4.4.5 says this field should be a 1
-            '0'                         0
-            reserved                    3
-            section_length              18          # length is 24 bytes
-            program_number              0001        # the number of the program described by this packet
-            reserved                    2           #
-            version_number              0          # This number is incremented by 1 every time there is a change to data
+            pointer_field   8           00          # see H.222.0 2.4.4. A value of 0 indicates that section follows immediatly after
+            table_id        8           02          # This PSI contains a TS_program_map_section
+            section_syntax_indicator 1  1           # H222 - 2.4.4.5 says this field should be a 1
+            '0'                      1  0
+            reserved        2           3
+            section_length  12          18          # length is 24 bytes
+            program_number  16          0001        # the number of the program described by this packet
+            reserved        2           2           #
+            version_number  5           0          # This number is incremented by 1 every time there is a change to data
                                                         # so you don't keep reloading packets that contain repeat info
-            current_next_indicator      1           # This version is current
-            section_number              00          #
-            last_section_number         00          # This is the only section
+            current_next_indicator  1   1           # This version is current
+            section_number          8   00          #
+            last_section_number     8   00          # This is the only section
 
             PCR_PID                     64          # This is a 13-bit field indicating the PID of the Transport Stream packets which shall contain the PCR fieldsvalid  for  the  program  specified  by  program_number.
             program_info_length         0           # specify the number of bytes of the descriptors immediately following the program_info_length field.

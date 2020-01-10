@@ -29,7 +29,9 @@ public:
             free(descriptor);
         }
         descriptors = (Descriptor*) realloc(descriptors, sizeof(Descriptor) * numDescriptorsKept);
-        return Descriptor::decriptor_struct{numDescriptorsKept, numDescriptorsDropped, descriptors};
+        //return Descriptor::decriptor_struct{numDescriptorsKept, numDescriptorsDropped, descriptors};
+        return Descriptor::decriptor_struct{0, 0, 0}; //TODO this is a temp fix
+
     }
 
 private:
