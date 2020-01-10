@@ -48,7 +48,7 @@ public:
         program_stream_directory//0xFF
     };
 
-    virtual void toString() = 0;
+    virtual void print();
 
     static start_code getStartCode(unsigned char id) {
         if (id >= 0x01 && id <= 0xAF) return ESPacket::start_code::slice;

@@ -40,6 +40,8 @@ public:
     unsigned char getLength();
 
 
+    void print();
+
 private:
     Descriptor::descriptor_type descriptor_tag; // 8-bit
     unsigned char descriptor_length; // 8-bit

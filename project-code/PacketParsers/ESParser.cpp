@@ -21,7 +21,7 @@ void ESParser::initiateStream() {
     programAssociationSection->print();
     program_pid = programAssociationSection->getProgramPID();
     programMapSection = PMSParser::getPMSPacket();
-    programMapSection->toString();
+    programMapSection->print();
     program_pid = programMapSection->getVideoStreamPID();
 }
 
@@ -131,7 +131,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         nextTP = findNextTSPacket();
     }
     if (numBits > (nextTP->data_length * 8)) {
-        nextTP->toString();
+        nextTP->print();
         throw PacketException("ESParser::peekNextPacket: next packet is too short");
     }
     return BitManipulator::readNBits(nextTP->data, numBits);

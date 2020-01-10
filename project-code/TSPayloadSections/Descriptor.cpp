@@ -2,6 +2,7 @@
 // Created by bhave on 1/7/2020.
 //
 
+#include <cstdio>
 #include "Descriptor.h"
 
 //Descriptor::~Descriptor() = 0;//TODO
@@ -28,4 +29,11 @@ Descriptor::descriptor_type Descriptor::getTag() {
 
 unsigned char Descriptor::getLength() {
     return this->descriptor_length;
+}
+
+void Descriptor::print() {
+    std::printf(
+            "Descriptor: tag %x, length %hhx, mf_rate %hhx, rate_code %hhx, MP1_flag %hhx, pflag %hhx, pl_ind %hhx, cf %hhx, extf %hhx",
+            descriptor_tag, descriptor_length, multiple_frame_rate_flag, frame_rate_code, MPEG_1_only_flag,
+            still_picture_flag, profile_and_level_indication, frame_rate_extension_flag);
 }

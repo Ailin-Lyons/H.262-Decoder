@@ -18,17 +18,17 @@ ProgramAssociationSection::ProgramAssociationSection(
 
 void ProgramAssociationSection::print() {
     std::printf("TS_payload_header_fields: \n\t"
-                "table_id = %u, t_id_type = program_association_section, section_syntax_indicator %u, section_length = %hu\n"
-                "transport_stream_id = %hu\n"
+                "table_id = %x, t_id_type = program_association_section, section_syntax_indicator %x, section_length = %hx\n"
+                "transport_stream_id = %hx\n"
                 "TS_payload_version_section_fields \n\t"
-                "version_number = %u, current_next_indicator = %u, section_number = %u, last_section_number = %u\n"
-                "numPASPrograms = %u\n", headerFields.table_id, headerFields.section_syntax_indicator, headerFields.section_length,
+                "version_number = %x, current_next_indicator = %x, section_number = %x, last_section_number = %x\n"
+                "numPASPrograms = %x\n", headerFields.table_id, headerFields.section_syntax_indicator, headerFields.section_length,
                 transport_stream_id, versionSectionFields.version_number, versionSectionFields.current_next_indicator,
                 versionSectionFields.section_number, versionSectionFields.last_section_number, numPasPrograms);
     if (pasPrograms != nullptr) {
         for (unsigned int i = 0; i < numPasPrograms; i++) {
-            std::printf("PAS_Program[%u]: \n\t"
-                        "program_number = %hu, associated_pid = %hu\n", i, pasPrograms[i].program_number, pasPrograms[i].assosciated_pid);
+            std::printf("PAS_Program[%x]: \n\t"
+                        "program_number = %hx, associated_pid = %hx\n", i, pasPrograms[i].program_number, pasPrograms[i].assosciated_pid);
         }
     }
 }

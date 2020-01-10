@@ -12,7 +12,7 @@ AdaptationField::AdaptationField() {
 AdaptationField::~AdaptationField() {
 }
 
-void AdaptationField::toString() {
+void AdaptationField::print() {
     if (adaptation_field_length > 0) {
         std::printf(
                 "AdaptationField:\nafl: %hhx, di: %hhx, rai: %hhx, espi: %hhx, pcrf: %hhx, opcrf: %hhx, spf: %hhx, tpdf: %hhx, afef: %hhx, pcr: %llx,\n opcr: %llx, sc: %hhx, tpdl: %hhx, afel: %hhx, ltwf: %hhx, prf: %hhx, ssf: %hhx, ltwvf: %hhx,\n ltwo: %hx, pr: %x, st: %hhx, DTSAU: %llx \n \n",

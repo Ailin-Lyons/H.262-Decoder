@@ -5,7 +5,7 @@
 #include "PESPacket.h"
 
 
-void PESPacket::toString() {
+void PESPacket::print() {
     //TODO
 }
 

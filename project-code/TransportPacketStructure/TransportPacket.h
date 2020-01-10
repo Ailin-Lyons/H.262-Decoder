@@ -117,7 +117,7 @@ public:
      */
     TransportPacket(transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d);
 
-    void toString();
+    void print();
 
     ~TransportPacket(); //TODO fix TSParser and then un-comment
 };

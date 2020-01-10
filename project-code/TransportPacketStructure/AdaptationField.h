@@ -68,7 +68,7 @@ public:
 
 public:
 
-    void toString();
+    void print();
     AdaptationField();
     ~AdaptationField();
 };

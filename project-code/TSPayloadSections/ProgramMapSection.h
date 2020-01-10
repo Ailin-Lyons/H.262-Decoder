@@ -96,7 +96,7 @@ public:
                       TSPayloadSections::ts_payload_version_section_fields vsf, unsigned short pcrpid,
                       unsigned short pi_length, Descriptor::decriptor_struct proginf, program_element progel);
 
-    void toString();
+    void print();
 
     unsigned int getVideoStreamPID();
 };

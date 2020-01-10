@@ -84,7 +84,7 @@ public:
         unsigned char PES_extension_field_length; //7-bit
     };
 
-    void toString() override;
+    void print();
 
     PESPacket(start_code packet_type, unsigned char stream_id, unsigned short PES_packet_length,
             unsigned char PES_scrambling_control, unsigned char PES_priority, unsigned char data_alignment_indicator,
