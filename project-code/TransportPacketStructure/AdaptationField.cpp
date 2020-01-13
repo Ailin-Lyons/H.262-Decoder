@@ -24,3 +24,32 @@ void AdaptationField::print() {
                 ltw_valid_flag, ltw_offset, piecewise_rate, splice_type, DTS_next_AU);
     }
 }
+
+bool AdaptationField::operator==(const AdaptationField &rhs) const {
+    return adaptation_field_length == rhs.adaptation_field_length &&
+           discontinuity_indicator == rhs.discontinuity_indicator &&
+           random_access_indicator == rhs.random_access_indicator &&
+           elementary_stream_priority_indicator == rhs.elementary_stream_priority_indicator &&
+           PCR_flag == rhs.PCR_flag &&
+           OPCR_flag == rhs.OPCR_flag &&
+           splicing_point_flag == rhs.splicing_point_flag &&
+           transport_private_data_flag == rhs.transport_private_data_flag &&
+           adaptation_field_extension_flag == rhs.adaptation_field_extension_flag &&
+           program_clock_reference == rhs.program_clock_reference &&
+           original_program_clock_reference == rhs.original_program_clock_reference &&
+           splice_countdown == rhs.splice_countdown &&
+           transport_private_data_length == rhs.transport_private_data_length &&
+           adaptation_field_extension_length == rhs.adaptation_field_extension_length &&
+           ltw_flag == rhs.ltw_flag &&
+           piecewise_rate_flag == rhs.piecewise_rate_flag &&
+           seamless_splice_flag == rhs.seamless_splice_flag &&
+           ltw_valid_flag == rhs.ltw_valid_flag &&
+           ltw_offset == rhs.ltw_offset &&
+           piecewise_rate == rhs.piecewise_rate &&
+           splice_type == rhs.splice_type &&
+           DTS_next_AU == rhs.DTS_next_AU;
+}
+
+bool AdaptationField::operator!=(const AdaptationField &rhs) const {
+    return !(rhs == *this);
+}

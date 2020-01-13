@@ -71,6 +71,10 @@ public:
     void print();
     AdaptationField();
     ~AdaptationField();
+
+    bool operator==(const AdaptationField &rhs) const;
+
+    bool operator!=(const AdaptationField &rhs) const;
 };
 
 

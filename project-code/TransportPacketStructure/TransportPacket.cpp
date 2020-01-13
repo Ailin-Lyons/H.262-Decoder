@@ -19,9 +19,35 @@ void TransportPacket::print() {
     adaptationField.print();
 }
 
-TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d) {
+TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &af,
+                                 unsigned int dl, unsigned char *d) {
     header_fields = thf;
     adaptationField = af;
     data_length = dl;
     data = d;
+}
+
+bool TransportPacket::operator==(const TransportPacket &rhs) const {
+    bool eq = header_fields.sync_byte == rhs.header_fields.sync_byte &&
+              header_fields.transport_error_indicator == rhs.header_fields.transport_error_indicator &&
+              header_fields.payload_unit_start_indicator == rhs.header_fields.payload_unit_start_indicator &&
+              header_fields.transport_priority == rhs.header_fields.transport_priority &&
+              header_fields.pid == rhs.header_fields.pid &&
+              header_fields.pid_type == rhs.header_fields.pid_type &&
+              header_fields.transport_scrambling_control == rhs.header_fields.transport_scrambling_control &&
+              header_fields.adaptation_field_control == rhs.header_fields.adaptation_field_control &&
+              header_fields.continuity_counter == rhs.header_fields.continuity_counter &&
+              adaptationField == rhs.adaptationField &&
+              data_length == rhs.data_length;
+    if (!eq) return eq;
+    for (int i = 0; i < data_length; i++) {
+        if (data[i] != rhs.data[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool TransportPacket::operator!=(const TransportPacket &rhs) const {
+    return !(rhs == *this);
 }

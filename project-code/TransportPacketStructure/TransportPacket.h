@@ -119,6 +119,10 @@ public:
 
     void print();
 
+    bool operator==(const TransportPacket &rhs) const;
+
+    bool operator!=(const TransportPacket &rhs) const;
+
     ~TransportPacket(); //TODO fix TSParser and then un-comment
 };
 

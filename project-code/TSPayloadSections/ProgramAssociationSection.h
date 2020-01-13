@@ -24,6 +24,10 @@ public:
 
     unsigned int getProgramPID();
 
+    bool operator==(const ProgramAssociationSection &rhs) const;
+
+    bool operator!=(const ProgramAssociationSection &rhs) const;
+
 private:
     TSPayloadSections::ts_payload_header_fields headerFields{};
     unsigned short transport_stream_id;

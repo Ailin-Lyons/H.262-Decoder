@@ -4,57 +4,57 @@
 
 #include "gtest/gtest.h"
 #include "../../PacketParsers/AFParser.cpp"
-#include "../../TransportPacketStructure/AdaptationField.h"
 
 TEST(AllTest, AFParser_Test) {
     unsigned char testVal[] = {0x07, 0x10, 0x00, 0x00, 0x00, 0x12, 0xFE, 0x00, 0x00, 0x00, 0x01, 0xE0};
-    AdaptationField af = AFParser::generateAdaptationField(testVal);
-    ASSERT_EQ(0x7, af.adaptation_field_length);
-    ASSERT_EQ(0x0, af.discontinuity_indicator);
-    ASSERT_EQ(0x0, af.random_access_indicator);
-    ASSERT_EQ(0x0, af.elementary_stream_priority_indicator);
-    ASSERT_EQ(0x1, af.PCR_flag);
-    ASSERT_EQ(0x0, af.OPCR_flag);
-    ASSERT_EQ(0x0, af.splicing_point_flag);
-    ASSERT_EQ(0x0, af.transport_private_data_flag);
-    ASSERT_EQ(0x0, af.adaptation_field_extension_flag);
-    ASSERT_EQ(0x2B5C, af.program_clock_reference);
-    ASSERT_EQ(0x0, af.original_program_clock_reference);
-    ASSERT_EQ(0x0, af.splice_countdown);
-    ASSERT_EQ(0x0, af.transport_private_data_length);
-    ASSERT_EQ(0x0, af.adaptation_field_extension_length);
-    ASSERT_EQ(0x0, af.ltw_flag);
-    ASSERT_EQ(0x0, af.piecewise_rate_flag);
-    ASSERT_EQ(0x0, af.seamless_splice_flag);
-    ASSERT_EQ(0x0, af.ltw_offset);
-    ASSERT_EQ(0x0, af.piecewise_rate);
-    ASSERT_EQ(0x0, af.DTS_next_AU);
+    AdaptationField actual = AFParser::generateAdaptationField(testVal);
+    AdaptationField expected = AdaptationField();
+    expected.adaptation_field_length = 0x7;
+    expected.discontinuity_indicator = 0x0;
+    expected.random_access_indicator = 0x0;
+    expected.elementary_stream_priority_indicator = 0x0;
+    expected.PCR_flag = 0x1;
+    expected.OPCR_flag = 0x0;
+    expected.splicing_point_flag = 0x0;
+    expected.transport_private_data_flag = 0x0;
+    expected.adaptation_field_extension_flag = 0x0;
+    expected.program_clock_reference = 0x2B5C;
+    expected.original_program_clock_reference = 0x0;
+    expected.splice_countdown = 0x0;
+    expected.transport_private_data_length = 0x0;
+    expected.adaptation_field_extension_length = 0x0;
+    expected.ltw_offset = 0x0;
+    expected.piecewise_rate = 0x0;
+    expected.DTS_next_AU = 0x0;
+    ASSERT_EQ(actual, expected);
 }
 
 TEST(AllTest, AFParserAllFieldsSet) {
     unsigned char testVal[] = {0x1E, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xAE,
                                0x02, 0xEE, 0xEE, 0x0C, 0xFF, 0xC0, 0x01, 0x2A, 0xAA, 0xAA, 0x6F, 0xFF, 0xFF, 0xFF, 0xFF,
                                0xFF, 0xFF};
-    AdaptationField af = AFParser::generateAdaptationField(testVal);
-    ASSERT_EQ(0x1E, af.adaptation_field_length);
-    ASSERT_EQ(0x1, af.discontinuity_indicator);
-    ASSERT_EQ(0x1, af.random_access_indicator);
-    ASSERT_EQ(0x1, af.elementary_stream_priority_indicator);
-    ASSERT_EQ(0x1, af.PCR_flag);
-    ASSERT_EQ(0x1, af.OPCR_flag);
-    ASSERT_EQ(0x1, af.splicing_point_flag);
-    ASSERT_EQ(0x1, af.transport_private_data_flag);
-    ASSERT_EQ(0x1, af.adaptation_field_extension_flag);
-    ASSERT_EQ(0x258000000D3, af.program_clock_reference);
-    ASSERT_EQ(0x258000000D3, af.original_program_clock_reference);
-    ASSERT_EQ(0xAE, af.splice_countdown);
-    ASSERT_EQ(0x2, af.transport_private_data_length);
-    ASSERT_EQ(0x0C, af.adaptation_field_extension_length);
-    ASSERT_EQ(0x1, af.ltw_flag);
-    ASSERT_EQ(0x1, af.piecewise_rate_flag);
-    ASSERT_EQ(0x1, af.seamless_splice_flag);
-    ASSERT_EQ(0x1, af.ltw_valid_flag);
-    ASSERT_EQ(0x4001, af.ltw_offset);
-    ASSERT_EQ(0x2AAAAA, af.piecewise_rate);
-    ASSERT_EQ(0x1FFFFFFFF, af.DTS_next_AU);
+    AdaptationField actual = AFParser::generateAdaptationField(testVal);
+    AdaptationField expected = AdaptationField();
+    expected.adaptation_field_length = 0x1E;
+    expected.discontinuity_indicator = 0x1;
+    expected.random_access_indicator = 0x1;
+    expected.elementary_stream_priority_indicator = 0x1;
+    expected.PCR_flag = 0x1;
+    expected.OPCR_flag = 0x1;
+    expected.splicing_point_flag = 0x1;
+    expected.transport_private_data_flag = 0x1;
+    expected.adaptation_field_extension_flag = 0x1;
+    expected.program_clock_reference = 0x258000000D3;
+    expected.original_program_clock_reference = 0x258000000D3;
+    expected.splice_countdown = 0xAE;
+    expected.transport_private_data_length = 0x2;
+    expected.adaptation_field_extension_length = 0x0C;
+    expected.ltw_flag = 0x1;
+    expected.ltw_valid_flag = 0x1;
+    expected.piecewise_rate_flag = 0x1;
+    expected.seamless_splice_flag = 0x1;
+    expected.ltw_offset = 0x4001;
+    expected.piecewise_rate = 0x2AAAAA;
+    expected.DTS_next_AU = 0x1FFFFFFFF;
+    ASSERT_EQ(actual, expected);
 }

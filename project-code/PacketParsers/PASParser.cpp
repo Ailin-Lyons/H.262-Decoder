@@ -27,7 +27,7 @@ public:
         marker(3,0b011);
         unsigned short section_length = read(12);
         TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields{table_id,
-                                                                          TSPayloadSections::TableIDType::program_association_section,
+                                                                          TSPayloadSections::getTableID(table_id),
                                                                           section_syntax_indicator,
                                                                           section_length};
         unsigned short transport_stream_id = read(16);

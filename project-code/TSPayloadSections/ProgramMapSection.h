@@ -99,6 +99,10 @@ public:
     void print();
 
     unsigned int getVideoStreamPID();
+
+    bool operator==(const ProgramMapSection &rhs) const;
+
+    bool operator!=(const ProgramMapSection &rhs) const;
 };
 
 
