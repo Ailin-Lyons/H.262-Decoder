@@ -55,7 +55,7 @@ Second Packet:
             section_length  12          18          # length is 24 bytes
             program_number  16          0001        # the number of the program described by this packet
             reserved        2           2           #
-            version_number  5           0          # This number is incremented by 1 every time there is a change to data
+            version_number  5           1E          # This number is incremented by 1 every time there is a change to data
                                                         # so you don't keep reloading packets that contain repeat info
             current_next_indicator  1   1           # This version is current
             section_number          8   00          #
