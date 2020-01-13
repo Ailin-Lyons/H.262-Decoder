@@ -6,7 +6,6 @@
 #define PROJECT_CODE_PROGRAMMAPSECTION_H
 
 #include "TSPayloadSections.h"
-#include "Descriptor.h"
 
 class ProgramMapSection {
 public:
@@ -78,7 +77,6 @@ public:
         StreamType stream_type;
         unsigned short elementary_PID;
         unsigned short ES_info_length;
-        Descriptor::decriptor_struct descriptors;
     };
 
     /**
@@ -89,12 +87,11 @@ public:
     TSPayloadSections::ts_payload_version_section_fields versionSectionFields;
     unsigned short PCR_PID;
     unsigned short program_info_length;
-    Descriptor::decriptor_struct program_info_descriptors;
     program_element video_stream_element; //This decoder discards all elements that don't have stream_type video
 
     ProgramMapSection(TSPayloadSections::ts_payload_header_fields hfs, unsigned short prognum,
                       TSPayloadSections::ts_payload_version_section_fields vsf, unsigned short pcrpid,
-                      unsigned short pi_length, Descriptor::decriptor_struct proginf, program_element progel);
+                      unsigned short pi_length, program_element progel);
 
     void print();
 

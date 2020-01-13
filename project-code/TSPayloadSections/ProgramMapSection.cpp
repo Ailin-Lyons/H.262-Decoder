@@ -7,14 +7,12 @@
 
 ProgramMapSection::ProgramMapSection(TSPayloadSections::ts_payload_header_fields hfs, unsigned short prognum,
                                      TSPayloadSections::ts_payload_version_section_fields vsf, unsigned short pcrpid,
-                                     unsigned short pi_length, Descriptor::decriptor_struct proginf,
-                                     ProgramMapSection::program_element progels) {
+                                     unsigned short pi_length, ProgramMapSection::program_element progels) {
     headerFields = hfs;
     program_number = prognum;
     versionSectionFields = vsf;
     PCR_PID = pcrpid;
     program_info_length = pi_length;
-    program_info_descriptors = proginf;
     video_stream_element = progels;
 }
 
@@ -25,14 +23,8 @@ void ProgramMapSection::print() {
             versionSectionFields.version_number, versionSectionFields.current_next_indicator,
             versionSectionFields.section_number, versionSectionFields.last_section_number, PCR_PID,
             program_info_length);
-    for (int i = 0; i < program_info_descriptors.numDescriptorsKept; i++) {
-        program_info_descriptors.descriptors->print();
-    }
     std::printf("\tVideo stream elements:\n");
     std::printf("\tType: %x, PID: %hhx\n", video_stream_element.stream_type, video_stream_element.elementary_PID);
-    for (int i = 0; i < video_stream_element.descriptors.numDescriptorsKept; i++) {
-        video_stream_element.descriptors.descriptors->print();
-    }
 }
 
 unsigned int ProgramMapSection::getVideoStreamPID() {

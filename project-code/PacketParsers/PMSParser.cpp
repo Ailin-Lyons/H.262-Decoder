@@ -5,7 +5,6 @@
 #include "../TransportPacketStructure/TransportPacket.h"
 #include "../TSPayloadSections/ProgramMapSection.h"
 #include "ESParser.h"
-#include "DescriptorParser.cpp"
 
 class PMSParser {
 public:
@@ -16,7 +15,7 @@ public:
     static ProgramMapSection *getPMSPacket() {
         ESParser *esParser = ESParser::getInstance();
         unsigned char pointer_length = esParser->popNBits(8);
-        for(int i = 0; i < pointer_length; i++){
+        for (int i = 0; i < pointer_length; i++) {
             esParser->popNBits(8);
         }
         TSPayloadSections::ts_payload_header_fields headerFields = {};
@@ -44,7 +43,10 @@ public:
         esParser->popNBits(4); //reserved
         unsigned short program_info_length = esParser->popNBits(12);
         remainingSectionBytes -= 9; //Num bytes so far
-        Descriptor::decriptor_struct program_info_descriptors = DescriptorParser::buildDescriptors(program_info_length);
+        for (int i = 0;
+             i < program_info_length; i++) { //Bypassing the Descriptor() as it is not handled by this decoder
+            esParser->popNBits(8);
+        }
         remainingSectionBytes -= program_info_length;//Num bytes for pi_descriptors
         ProgramMapSection::program_element el;
         while (remainingSectionBytes > 4) { // >4 because there is a 4 byte CRC after this section
@@ -60,15 +62,17 @@ public:
                 el.elementary_PID = elementary_PID;
                 el.ES_info_length = ES_info_length;
                 unsigned short ES_info_remaining = el.ES_info_length;
-                el.descriptors = DescriptorParser::buildDescriptors(ES_info_length);
+                for (int i = 0;
+                     i < ES_info_length; i++) { //Bypassing the Descriptor() as it is not handled by this decoder
+                    esParser->popNBits(8);
+                }
             }
             remainingSectionBytes -= 5;
             remainingSectionBytes -= ES_info_length;
         }
         esParser->popNBits(32); //Skip CRC
         ProgramMapSection *out = (ProgramMapSection *) malloc(sizeof(ProgramMapSection));
-        *out = ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length,
-                                 program_info_descriptors, el);
+        *out = ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length, el);
         return out;
     }
 };
