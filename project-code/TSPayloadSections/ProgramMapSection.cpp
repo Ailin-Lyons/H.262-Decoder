@@ -18,13 +18,13 @@ ProgramMapSection::ProgramMapSection(TSPayloadSections::ts_payload_header_fields
 
 void ProgramMapSection::print() {
     std::printf(
-            "ProgramMapSection:\n\ttable_id: %hhx, ssi: %hhx, section_length: %x, prognum: %hx, version: %hhx, currnext: %hhx, section: %hhx, last_section: %hhx, PCR_PID: %hx, pi_length: %hx\n",
+            "ProgramMapSection:\n\ttable_id: %hhx, ssi: %hhx, section_length: %x, prognum: %hx, version: %hhx, currnext: %hhx, section: %hhx, last_section: %hhx, PCR_PID: %x, pi_length: %hx\n",
             headerFields.table_id, headerFields.section_syntax_indicator, headerFields.section_length, program_number,
             versionSectionFields.version_number, versionSectionFields.current_next_indicator,
             versionSectionFields.section_number, versionSectionFields.last_section_number, PCR_PID,
             program_info_length);
     std::printf("\tVideo stream elements:\n");
-    std::printf("\tType: %x, PID: %hhx\n", video_stream_element.stream_type, video_stream_element.elementary_PID);
+    std::printf("\tType: %x, PID: %x\n", video_stream_element.stream_type, video_stream_element.elementary_PID);
 }
 
 unsigned int ProgramMapSection::getVideoStreamPID() {

@@ -44,8 +44,6 @@ TEST(AllTest, PASPMSParser_Test) {
                                                    (unsigned short) 0x64, (unsigned short) 0, expected_el);
     ESParser::getInstance()->initiateStream();
     ASSERT_EQ(*(ESParser::getInstance()->programAssociationSection), PASexpected);
-    ProgramMapSection temp = *(ESParser::getInstance()->programMapSection);
-    bool xyz = temp == PMSexpected;
     ASSERT_EQ(*(ESParser::getInstance()->programMapSection), PMSexpected);
 }
 

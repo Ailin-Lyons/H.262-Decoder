@@ -11,17 +11,20 @@
 ESParser *ESParser::instance = nullptr;
 
 ESParser::ESParser() {
-    program_pid = 0x00;
-    loadNextTSPacket();
+    currOffset = 0;
 }
 
 void ESParser::initiateStream() {
+    program_pid = 0x00;
+    loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
     programAssociationSection->print();
     program_pid = programAssociationSection->getProgramPID();
+    loadNextTSPacket();
     programMapSection = PMSParser::getPMSPacket();
     programMapSection->print();
     program_pid = programMapSection->getVideoStreamPID();
+    loadNextTSPacket();
 }
 
 void ESParser::loadNextTSPacket() {
