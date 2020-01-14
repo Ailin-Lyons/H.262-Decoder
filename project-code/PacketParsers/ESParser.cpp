@@ -15,6 +15,7 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
+    nextTP = 0;
     program_pid = 0x00;
     loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
