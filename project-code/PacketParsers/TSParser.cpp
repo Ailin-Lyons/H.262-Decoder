@@ -51,11 +51,11 @@ private:
                 BitManipulator::readNBitsOffset(&packet[packetIndex], 2, 2));
         thf_out.continuity_counter = BitManipulator::readNBitsOffset(&packet[packetIndex], 4, 4);
         packetIndex++;
-        AdaptationField adaptationField;
+        AdaptationField adaptationField(AdaptationField::initializerStruct{});
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldOnly ||
             thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload) {
             adaptationField = AFParser::generateAdaptationField(&packet[packetIndex]);
-            packetIndex += adaptationField.adaptation_field_length + 1; // see H.222 2.4.3.5
+            packetIndex += adaptationField.getAdaptationFieldLength() + 1; // see H.222 2.4.3.5
         }
         auto *data = (unsigned char *) malloc(sizeof(char) * (188 - packetIndex));
         unsigned int data_length = 188 - packetIndex;

@@ -11,14 +11,6 @@
  */
 class BitManipulatorTest : public ::testing::Test {
 protected:
-//    void SetUp() override {
-//        //DESIGN - SetUp not required
-//
-//    }
-
-//    void TearDown() override {
-//       //DESIGN - TearDown not required
-//}
 
     unsigned char testVal0[2] = {'A', 'F'};
     unsigned char testVal1[8] = {'H', 'E', 'L', 'L', 'O', 'M', 'E', 'N'};

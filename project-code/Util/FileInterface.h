@@ -13,6 +13,10 @@
 #include "../PacketParsers/PacketException.cpp"
 
 
+/**
+ * Singleton class that deals with I/O operations
+ */
+
 class FileInterface {
 private:
     std::ifstream *rf;
@@ -22,10 +26,11 @@ private:
     static FileInterface *instance;
 
     FileInterface() = default;
+    ~FileInterface();
 
     /**
     * A helper function that determines the length of a file in bytes
-    * @param relative_path: relative path to load the file from with respect to TSParser.cpp
+    * @param relative_path: relative path to load the file from with respect to FileInterface.h
     * @return length of file in bytes || -1 if error
     */
     static int getFileSize(char *relative_path) {
@@ -52,7 +57,7 @@ public:
 
 
     /**
-     * Setter to initialize the singleton instance.
+     * Setter to initialize the singleton instance. Closes the previous instance if already initialized
      * @param relativePath: relative path to load the file from with respect to FileInterface.cpp
      * @throws FileException: if file cannot be opened or the file has invalid size
      */

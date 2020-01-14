@@ -21,7 +21,7 @@ TEST(AllTest, TSParser_Test) {
     exphead.transport_scrambling_control = TransportPacket::TSC::NotScrambled;
     exphead.adaptation_field_control = TransportPacket::AFC::AFieldPayload;
     exphead.continuity_counter = 0x0;
-    AdaptationField expaf = AdaptationField();
+    AdaptationField::initializerStruct expaf{};
     expaf.adaptation_field_length = 0x7;
     expaf.discontinuity_indicator = 0x0;
     expaf.random_access_indicator = 0x0;
@@ -57,7 +57,7 @@ TEST(AllTest, TSParser_Test) {
                                   0x26, 0x80, 0xEB, 0x92, 0x50, 0xDF, 0x5A, 0x03, 0x00, 0x2F, 0x1A, 0x10, 0x43, 0x46,
                                   0x48, 0xB3, 0x6C, 0x41, 0x84, 0xD4, 0x7D, 0x80, 0xC2, 0x43, 0xBC, 0x45, 0xDA, 0x52,
                                   0x4B, 0x26, 0x1C, 0xAB, 0x9A, 0x03, 0xA0, 0x18};
-    TransportPacket *expected = new TransportPacket(exphead, expaf, (unsigned int) 176, (unsigned char *) &expdata);
+    auto expected = new TransportPacket(exphead, AdaptationField(expaf), (unsigned int) 176, (unsigned char *) &expdata);
     ASSERT_EQ(*actual, *expected);
     free(actual);
     free(expected);

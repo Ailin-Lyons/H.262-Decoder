@@ -5,12 +5,6 @@
 #include <iostream>
 #include "AdaptationField.h"
 
-AdaptationField::AdaptationField() {
-
-}
-
-AdaptationField::~AdaptationField() {
-}
 
 void AdaptationField::print() {
     if (adaptation_field_length > 0) {
@@ -52,4 +46,34 @@ bool AdaptationField::operator==(const AdaptationField &rhs) const {
 
 bool AdaptationField::operator!=(const AdaptationField &rhs) const {
     return !(rhs == *this);
+}
+
+AdaptationField::AdaptationField(AdaptationField::initializerStruct init) {
+
+    this->adaptation_field_length = init.adaptation_field_length;
+    this->discontinuity_indicator = init.discontinuity_indicator;
+    this->random_access_indicator = init.random_access_indicator;
+    this->elementary_stream_priority_indicator = init.elementary_stream_priority_indicator;
+    this->PCR_flag = init.PCR_flag;
+    this->OPCR_flag = init.OPCR_flag;
+    this->splicing_point_flag = init.splicing_point_flag;
+    this->transport_private_data_flag = init.transport_private_data_flag;
+    this->adaptation_field_extension_flag = init.adaptation_field_extension_flag;
+    this->program_clock_reference = init.program_clock_reference;
+    this->original_program_clock_reference = init.original_program_clock_reference;
+    this->splice_countdown = init.splice_countdown;
+    this->transport_private_data_length = init.transport_private_data_length; // transport_private_data is not handled
+    this->adaptation_field_extension_length = init.adaptation_field_extension_length;
+    this->ltw_flag = init.ltw_flag;
+    this->piecewise_rate_flag = init.piecewise_rate_flag;
+    this->seamless_splice_flag = init.seamless_splice_flag;
+    this->ltw_valid_flag = init.ltw_valid_flag;
+    this->ltw_offset = init.ltw_offset;
+    this->piecewise_rate = init.piecewise_rate;
+    this->splice_type = init.splice_type;
+    this->DTS_next_AU = init.DTS_next_AU;
+}
+
+unsigned char AdaptationField::getAdaptationFieldLength() const {
+    return adaptation_field_length;
 }

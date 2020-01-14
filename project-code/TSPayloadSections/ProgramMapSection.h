@@ -79,6 +79,7 @@ public:
         unsigned short ES_info_length;
     };
 
+protected:
     /**
      * ProgramMapSection Fields
      */
@@ -89,6 +90,7 @@ public:
     unsigned short program_info_length;
     program_element video_stream_element; //This decoder discards all elements that don't have stream_type video
 
+public:
     ProgramMapSection(TSPayloadSections::ts_payload_header_fields hfs, unsigned short prognum,
                       TSPayloadSections::ts_payload_version_section_fields vsf, unsigned short pcrpid,
                       unsigned short pi_length, program_element progel);

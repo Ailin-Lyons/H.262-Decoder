@@ -8,7 +8,7 @@
 TEST(AllTest, AFParser_Test) {
     unsigned char testVal[] = {0x07, 0x10, 0x00, 0x00, 0x00, 0x12, 0xFE, 0x00, 0x00, 0x00, 0x01, 0xE0};
     AdaptationField actual = AFParser::generateAdaptationField(testVal);
-    AdaptationField expected = AdaptationField();
+    AdaptationField::initializerStruct expected{};
     expected.adaptation_field_length = 0x7;
     expected.discontinuity_indicator = 0x0;
     expected.random_access_indicator = 0x0;
@@ -26,7 +26,7 @@ TEST(AllTest, AFParser_Test) {
     expected.ltw_offset = 0x0;
     expected.piecewise_rate = 0x0;
     expected.DTS_next_AU = 0x0;
-    ASSERT_EQ(actual, expected);
+    ASSERT_EQ(actual, AdaptationField(expected));
 }
 
 TEST(AllTest, AFParserAllFieldsSet) {
@@ -34,7 +34,7 @@ TEST(AllTest, AFParserAllFieldsSet) {
                                0x02, 0xEE, 0xEE, 0x0C, 0xFF, 0xC0, 0x01, 0x2A, 0xAA, 0xAA, 0x6F, 0xFF, 0xFF, 0xFF, 0xFF,
                                0xFF, 0xFF};
     AdaptationField actual = AFParser::generateAdaptationField(testVal);
-    AdaptationField expected = AdaptationField();
+    AdaptationField::initializerStruct expected{};
     expected.adaptation_field_length = 0x1E;
     expected.discontinuity_indicator = 0x1;
     expected.random_access_indicator = 0x1;
@@ -56,5 +56,5 @@ TEST(AllTest, AFParserAllFieldsSet) {
     expected.ltw_offset = 0x4001;
     expected.piecewise_rate = 0x2AAAAA;
     expected.DTS_next_AU = 0x1FFFFFFFF;
-    ASSERT_EQ(actual, expected);
+    ASSERT_EQ(actual, AdaptationField(expected));
 }

@@ -14,7 +14,10 @@ FileInterface *FileInterface::instance = nullptr;
  */
 void FileInterface::setInstance(char *relativePath) {
     if (relativePath) {
-        //TODO close previous file if it exists.
+        if (rf && rf->is_open()) {
+            rf->close();
+            rf = nullptr;
+        }
         rf = new std::ifstream(relativePath, std::ios::in | std::ios::binary);
         file_size = getFileSize(relativePath);
         if (!(*rf)) {
@@ -57,4 +60,13 @@ void FileInterface::getNextPacketData(char *file_buffer) {
     } else {
         throw FileException("FileInterface::getNextPacketData: rf->good() check failed");
     }
+}
+
+FileInterface::~FileInterface() {
+    if (instance && instance->rf->is_open()) {
+        instance->rf->close();
+        instance->rf = nullptr;
+    }
+    delete instance;
+    instance = nullptr;
 }

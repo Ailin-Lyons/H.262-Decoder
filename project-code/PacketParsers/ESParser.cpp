@@ -35,9 +35,9 @@ void ESParser::loadNextTSPacket() {
     } else {
         currTP = findNextTSPacket();
     }
-    currPos = currTP->data;
+    currPos = currTP->getData();
     currOffset = 0;
-    endPos = currTP->data + currTP->data_length;
+    endPos = currTP->getData() + currTP->getDataLength();
 }
 
 void ESParser::next_start_code() {
@@ -116,7 +116,7 @@ unsigned long long ESParser::popNBits(unsigned int numBits) {
         unsigned int part2 = numBits - part1;
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
         loadNextTSPacket();
-        if (numBits > (currTP->data_length * 8)) {
+        if (numBits > (currTP->getDataLength() * 8)) {
             throw PacketException("ESParser::popNBits: next packet is too short");
         }
         out = (out << part2) + BitManipulator::readNBitsOffset(currPos, currOffset, part2);
@@ -130,14 +130,14 @@ unsigned int ESParser::numBitsRemaining() {
 }
 
 unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
-    if (nextTP == 0) {
+    if (nextTP == nullptr) {
         nextTP = findNextTSPacket();
     }
-    if (numBits > (nextTP->data_length * 8)) {
+    if (numBits > (nextTP->getDataLength() * 8)) {
         nextTP->print();
         throw PacketException("ESParser::peekNextPacket: next packet is too short");
     }
-    return BitManipulator::readNBits(nextTP->data, numBits);
+    return BitManipulator::readNBits(nextTP->getData(), numBits);
 }
 
 void ESParser::incrementOffset(unsigned int numBits) {
@@ -157,8 +157,8 @@ void ESParser::incrementOffset(unsigned int numBits) {
 
 TransportPacket *ESParser::findNextTSPacket() {
     TransportPacket *out = TSParser::getNextPacket();
-    while (out->header_fields.pid != program_pid) {
-        std::printf("Discarded TSPacket with pid: %x\n", out->header_fields.pid);
+    while (out->getPacketPID() != program_pid) {
+        std::printf("Discarded TSPacket with pid: %x\n", out->getPacketPID());
         out = TSParser::getNextPacket();
     }
     return out;

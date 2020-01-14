@@ -71,7 +71,7 @@ public:
      * Returns the correct AFC given the parsed_afc
      *
      * @param parsed_afc
-     * @return
+     * @return AFC
      */
     static AFC getAFC(unsigned char parsed_afc) {
         switch (parsed_afc) {
@@ -101,6 +101,8 @@ public:
         unsigned char continuity_counter;
     };
 
+
+private:
     /**
      * Fields for the Transport Packet
      */
@@ -109,13 +111,15 @@ public:
     unsigned int data_length;
     unsigned char *data;
 
+public:
     /**
      * Constructor
      * @param thf a transport_header_field struct containing all TS packet header fields
      * @param af an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(transport_header_fields thf, const AdaptationField& af, unsigned int dl, unsigned char *d);
+    TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField, unsigned int dl,
+                    unsigned char *d);
 
     void print();
 
@@ -123,7 +127,13 @@ public:
 
     bool operator!=(const TransportPacket &rhs) const;
 
-    ~TransportPacket(); //TODO fix TSParser and then un-comment
+    unsigned int getDataLength() const;
+
+    unsigned char *getData() const;
+
+    unsigned int getPacketPID() const;
+
+    ~TransportPacket();
 };
 
 #endif //PROJECT_CODE_TRANSPORTPACKET_H

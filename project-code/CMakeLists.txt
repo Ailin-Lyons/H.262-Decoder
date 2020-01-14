@@ -9,8 +9,6 @@ set(SOURCE_FILES
 
 add_executable(decoder ${SOURCE_FILES})
 
-
-#TODO - adding AllTests
 add_subdirectory(AllTests)
 
 

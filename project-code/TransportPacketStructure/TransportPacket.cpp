@@ -19,10 +19,9 @@ void TransportPacket::print() {
     adaptationField.print();
 }
 
-TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &af,
-                                 unsigned int dl, unsigned char *d) {
+TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField, unsigned int dl,
+                                 unsigned char *d) : adaptationField(adaptationField) {
     header_fields = thf;
-    adaptationField = af;
     data_length = dl;
     data = d;
 }
@@ -50,4 +49,16 @@ bool TransportPacket::operator==(const TransportPacket &rhs) const {
 
 bool TransportPacket::operator!=(const TransportPacket &rhs) const {
     return !(rhs == *this);
+}
+
+unsigned int TransportPacket::getDataLength() const {
+    return data_length;
+}
+
+unsigned char *TransportPacket::getData() const {
+    return data;
+}
+
+unsigned int TransportPacket::getPacketPID() const {
+    return header_fields.pid;
 }

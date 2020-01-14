@@ -13,7 +13,7 @@ public:
      * @return an instance AdaptationField
      */
     static AdaptationField generateAdaptationField(unsigned char *packet) {
-        AdaptationField af = AdaptationField();
+        AdaptationField::initializerStruct af{};
         int index = 0;
         af.adaptation_field_length = packet[index];
         index++;
@@ -80,6 +80,6 @@ public:
                 }
             }
         }
-        return af;
+        return AdaptationField(af);
     }
 };

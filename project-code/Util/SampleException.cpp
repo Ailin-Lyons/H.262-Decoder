@@ -3,7 +3,7 @@
 //
 
 /**
- * Sample Exception class setup
+ * Sample Exception class setup to use for creating other exception classes
  */
 
 #include <string>
