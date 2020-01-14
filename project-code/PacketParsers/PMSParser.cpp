@@ -48,7 +48,7 @@ public:
             esParser->popNBits(8);
         }
         remainingSectionBytes -= program_info_length;//Num bytes for pi_descriptors
-        ProgramMapSection::program_element el;
+        ProgramMapSection::program_element el{};
         while (remainingSectionBytes > 4) { // >4 because there is a 4 byte CRC after this section
             unsigned char stream_type_value = esParser->popNBits(8);
             ProgramMapSection::StreamType stream_type = ProgramMapSection::getStreamType(stream_type_value);
@@ -71,8 +71,6 @@ public:
             remainingSectionBytes -= ES_info_length;
         }
         esParser->popNBits(32); //Skip CRC
-        ProgramMapSection *out = (ProgramMapSection *) malloc(sizeof(ProgramMapSection));
-        *out = ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length, el);
-        return out;
+        return new ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length, el);
     }
 };

@@ -5,6 +5,8 @@
 #include "gtest/gtest.h"
 #include "../../PacketParsers/TSParser.cpp"
 
+//TODO - fix test
+
 TEST(AllTest, TSParser_Test) {
     char relative_path[] = R"(..\..\..\test files\Single Packets\single_packet_hasAF.ts)";
     FileInterface *fileInterface = FileInterface::getInstance();

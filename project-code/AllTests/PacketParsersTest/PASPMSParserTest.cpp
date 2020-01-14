@@ -8,6 +8,7 @@
 #include "../../PacketParsers/PMSParser.cpp"
 
 //TODO test not working, fix then un-comment
+// to make it work, make sure that the PASPrograms pointer is not on the stack and is malloc'd instead
 
 TEST(AllTest, PASPMSParser_Test) {
     char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio_PASPMS.ts)";
@@ -45,7 +46,7 @@ TEST(AllTest, PASPMSParser_Test) {
     ProgramMapSection PMSexpected = ProgramMapSection(expectedPMS_header, (unsigned short) 1, expectedPMS_vsf,
                                                    (unsigned short) 0x64, (unsigned short) 0, expected_el);
     ESParser::getInstance()->initiateStream();
-    ASSERT_EQ(*(ESParser::getInstance()->programAssociationSection), PASexpected);
     ASSERT_EQ(*(ESParser::getInstance()->programMapSection), PMSexpected);
+    ASSERT_EQ(*(ESParser::getInstance()->programAssociationSection), PASexpected);
 }
 

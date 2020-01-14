@@ -37,7 +37,7 @@ void ProgramAssociationSection::print() {
 
 
 ProgramAssociationSection::~ProgramAssociationSection() {
-    free(this->pasPrograms);//TODO
+    free(pasPrograms);
 }
 
 unsigned int ProgramAssociationSection::getProgramPID() {
