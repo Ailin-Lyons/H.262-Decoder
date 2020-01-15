@@ -1,0 +1,41 @@
+Adaptation Field:
+    Address Variable        Value (hex) #Comments
+    00:     8-bit afl       1e          #Adaptation Field is 7 Bytes long (this field not included)
+    01:     1-bit di        1
+    01.1:   1-bit rai       1
+    01.2:   1-bit espi      1
+    01.3:   1-bit PCRf      1           #PCR field exists
+    01.4:   1-bit OPCRf     1
+    01.5:   1-bit spf       1
+    01.6:   1-bit tpdf      1
+    01.7:   1-bit afef      1
+
+    02:     33-bit PCR_base 1FFFFFFFF   # PCR(i)  = PCR_base(i)  ×  300  + PCR_ext(i)
+    06.7:   9-bit PCR_ext   1FF         # => PCR = 258000000D3
+
+    08:     33-bit OPCR_base 1FFFFFFFF  # OPCR(i)  = OPCR_base(i)  ×  300  + OPCR_ext(i)
+    0c.7:   9-bit OPCR_ext   1FF        # => OPCR = 258000000D3
+
+    0e:     8-bit sc        AE
+    0f:     8-bit pdl       2
+    10:     private data byte (not used)
+    11:     private data byte (not used)
+    12:     8-bit afel      0C
+
+    13:     1-bit ltwf      1
+    13.1:   1-bit prf       1
+    13.2:   1-bit ssf       1
+    14:     1-bit ltwvf     1
+    14.1:   15-bit ltwo     4001
+    16.2:   22-bit pr       2AAAAA
+
+    19:     4-bit st        6
+    19.4:   3-bit AUtop     3
+    1a:     15-bit AUmid    7FFF
+    1b:     15-bit AUbot    7FFF
+    1e:     1-byte afe extra length
+    1f:     1-byte af extra length
+
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+              1E FF FF FF FF FF FF FF FF FF FF FF FF FF AE 02
+              EE EE 0C FF C0 01 2A AA AA 6F FF FF FF FF FF FF

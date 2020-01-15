@@ -2,10 +2,10 @@
 // Created by bhave on 11/19/2019.
 //
 
-#include <stdio.h>
-#include <iostream>
-#include <string.h>
-#include "PacketParsers/TSParser.cpp"
+
+//#include "PacketParsers/TSParser.cpp"
+#include "ESParser.cpp"
+
 
 // note - global constants
 // DESIGN - use builtin math
@@ -13,11 +13,6 @@
 const static double pi = 3.14159265359;
 const static double e = 2.71828182845;
 
-// TODO: Use namepsace std??
-
-
-
-// TODO: open the file and throw respective errors and exceptions
 
 /*
  * Input: fileName, path
@@ -45,13 +40,26 @@ int displayMetaData() {
     return -1; // TODO
 }
 
+bool loadFile(char* relative_path){
+    try{
+        FileInterface::getInstance()->setInstance(relative_path);
+        ESParser* esp = ESParser::getInstance();
+        esp->initiateStream();
+        return true;
+    }catch(const FileException){
+        std::printf("Error loading file!");
+        return false;
+    }
+
+}
+
 int main(int argc, char **argv) {
-    //char relative_path[] = "..\\..\\test files\\single_packet_hasAF.ts";
-    char relative_path[] = "..\\..\\test files\\testvideo_noaudio.ts";
-    char *path = relative_path;
-    TSParser *tsParser = new TSParser(path);
-    while (tsParser->HasNextPacket()) {
-        tsParser->GetNextPacket();
+    char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
+    loadFile(relative_path);
+    ESParser* esp = ESParser::getInstance();
+    while (FileInterface::getInstance()->hasNextPacket()) {
+//        TSParser::getNextPacket()->toString();
+        esp->getNextPacket();
     }
     // TODO: split the file into 3 parts
 

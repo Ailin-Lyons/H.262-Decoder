@@ -1,0 +1,80 @@
+Full  Packet:
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    00000000: 47 40 64 30 07 10 00 00 00 12 FE 00 00 00 01 E0    G@d0......~....`
+    00000010: 00 00 84 80 05 21 00 03 19 41 00 00 01 B3 50 02    .....!...A...3P.
+    00000020: D0 33 01 F4 26 20 00 00 01 B5 14 6A 00 01 00 80    P3.t&....5.j....
+    00000030: 00 00 01 B5 2B 05 01 05 14 02 16 80 00 00 01 B8    ...5+..........8
+    00000040: 00 08 00 40 00 00 01 00 00 0F FF F8 00 00 01 B5    ...@.......x...5
+    00000050: 8F FF F3 41 80 00 00 01 01 1B F6 7C 03 32 61 37    ..sA......v|.2a7
+    00000060: E0 1B 93 10 FC F4 A1 44 EB 22 09 9F A3 70 13 74    `...|t!Dk"..#p.t
+    00000070: 30 12 FD 89 EB B7 10 C0 1D 00 EF 67 42 1C 3E B9    0.}.k7.@..ogB.>9
+    00000080: 1C 0A 80 E9 2A 1A 8E 3A E1 B7 BE 48 0D C3 12 05    ...i*..:a7>H.C..
+    00000090: 89 A8 49 49 16 70 77 AC 26 80 EB 92 50 DF 5A 03    .(II.pw,&.k.P_Z.
+    000000a0: 00 2F 1A 10 43 46 48 B3 6C 41 84 D4 7D 80 C2 43    ./..CFH3lA.T}.BC
+    000000b0: BC 45 DA 52 4B 26 1C AB 9A 03 A0 18                <EZRK&.+....
+
+TS Header:
+
+    Address Variable        Value (hex) #Comments
+    00:     8-bit sync_byte 47          #Checks that sync_byte is 47 otherwise tosses packet
+    01:     1-bit tei       0           #No errors
+    01.1:   1-bit pusi      1
+    01.2:   1-bit tp        0
+    01.3:   13-bit PID      64
+    03:     2-bit tsc       0           #Not scrambled
+    03.2:   2-bit afc       3           #this packet has Adaptation Field followed by Payload
+    03.4:   4-bit cc        0
+
+Adaptation Field:
+    Address Variable        Value (hex) #Comments
+    04:     8-bit afl       07          #Adaptation Field is 7 Bytes long (this field not included)
+    05:     1-bit di        0
+    05.1:   1-bit rai       0
+    05.2:   1-bit espi      0
+    05.3:   1-bit PCRf      1           #PCR field exists
+    05.4:   1-bit OPCRf     0
+    05.5:   1-bit spf       0
+    05.6:   1-bit tpdf      0
+    05.7:   1-bit afef      0
+
+    06:     33-bit PCR_base 25          # OPCR(i)  = OPCR_base(i)  ×  300  + OPCR_ext(i)
+    0a.7:   9-bit PCR_ext   0           # => OPCR = 2B5C
+
+PES Packet 1:
+    0c:     24-bit pscp     1           # packet_start_code_prefix must equal "0000 0000 0000 0000 0000 0001"
+    0F:     8-bit stream_id E0          # ITU-T Rec. H.262 | ISO/IEC 13818-2 or ISO/IEC 11172-2video stream number "0000"
+    10:     16-bit pplength 0           # A  value  of  0  indicates  that  the  PES  packet  length  is  neither  specified  nor  bounded  and  is  allowed  only  in PES packets whose payload consists of bytes from a video elementary stream contained in Transport Stream packets.
+    12:     2-bit   '10'    2
+    12.2:   2-bit PES_sc    0           # PES_scrambling_control
+    12.4:   1-bit PES_pr    0           # PES_priority
+    12.5:   1-bit dai       1           # data_alignment_indicator
+    12.6:   1-bit copyright 0           # my cat is public domain
+    12.7:   1-bit ooc       0           # original_or_copy
+    13:     2-bit PTSDTSf   2           # PTS_DTS_flags
+    13.2:   1-bit ESCR_f    0           # ESCR_flag
+    13.3:   1-bit ES_rate_f 0           # ES_rate_flag
+    13.4:   1-bit DSMtmf    0           # DSM_trick_mode_flag
+    13.5:   1-bit acif      0           # additional_copy_info_flag
+    13.6:   1-bit PESCRCf   0           # PES_CRC_flag
+    13.7:   1-bit PESextf   0           # PES_extension_flag
+    14:     8-bit PEShdl    5           # PES_header_data_length = 5 bytes
+
+    if (PTS_DTS_flags == ’10’)
+    15:     4-bit   "0010"  2           # must be "0010"
+    15.4:   3-bit PTSupper  0           # PTS [32..30]
+    16:     15-bit PTSmid   2           # PTS [29..15]
+    18:     15-bit PTSlower 1940        # PTS [14..0]
+
+PES Packet 2:
+    0A:     24-bit pscp     1           # packet_start_code_prefix must equal "0000 0000 0000 0000 0000 0001"
+    0F:     8-bit stream_id B3          # ITU-T Rec. H.262 | ISO/IEC 13818-2 or ISO/IEC 11172-2video stream number "0000"
+
+                            B3 means we are in H.262 Territory now
+
+      Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+                                                     B3 50 02    .....!...A...3P.
+    00000020: D0 33 01 F4 26 20 00 00 01 B5 14 6A 00 01 00 80    P3.t&....5.j....
+... To be Continued!
+
+
+4142434445464748494a4b4c
