@@ -9,7 +9,7 @@ public:
     /**
      * // TODO write comment
      */
-    static SlicePacket *getNextPacket() {
+    static SlicePacket *getNextPacket(unsigned char i) {
         return nullptr; //TODO
     }
 };

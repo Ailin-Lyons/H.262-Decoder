@@ -7,9 +7,15 @@
 class GroupHeaderParser {
 public:
     /**
-     * // TODO write comment
+     * Builds a GroupOfPicturesHeaderPacket from ESParser data, starting after the start_code/stream_id
+     * H.262 6.2.2.6
      */
     static GroupOfPicturesHeaderPacket *getNextPacket() {
-        return nullptr; //TODO
+        ESParser *esParser = ESParser::getInstance();
+        GroupOfPicturesHeaderPacket::initializerStruct init = {};
+        init.time_code  = esParser->popNBits(25);
+        init.closed_gop = esParser->popNBits(1);
+        init.broken_link = esParser->popNBits(1);
+        return new GroupOfPicturesHeaderPacket(init);
     }
 };

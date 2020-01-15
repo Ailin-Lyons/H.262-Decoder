@@ -82,7 +82,7 @@ ESPacket *ESParser::getNextPacket() {
         case ESPacket::start_code::picture:
             return PictureHeaderParser::getNextPacket();
         case ESPacket::start_code::slice:
-            return SliceParser::getNextPacket();
+            return SliceParser::getNextPacket(stream_id);
         case ESPacket::start_code::sequence_header:
             return SequenceHeaderParser::getNextPacket();
         case ESPacket::start_code::extension:
