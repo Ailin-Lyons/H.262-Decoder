@@ -10,9 +10,9 @@ class AdaptationField {
 
 public:
 
-    /**
-     * enum class for different splice decoding delays
-     */
+   /**
+   * H.222.0 Tables 2-7 to 2-16
+   */
     enum class ST {
         splice_decoding_delay_other,
         splice_decoding_delay_120,
@@ -24,7 +24,6 @@ public:
     /**
      * struct used for initializing  an instance of AdaptationField
      */
-
     struct initializerStruct {
         unsigned char adaptation_field_length;
         unsigned char discontinuity_indicator;

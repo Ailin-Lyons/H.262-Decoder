@@ -8,16 +8,26 @@
 
 #include "TSPayloadSections.h"
 
+/**
+ * H.222.0 Table 2-25
+ */
 class ProgramAssociationSection {
 public:
+
+    /**
+     * The PAS contains a list of all available program. Each program is represented by this struct
+     */
     struct pas_program {
         unsigned short program_number; //16-bit
         unsigned short assosciated_pid; // 13-bit this holds either network_PID if program_number==0 else program_map_PID
     };
 
-    ProgramAssociationSection(TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields, unsigned char transport_stream_id,
-                              TSPayloadSections::ts_payload_version_section_fields versionSectionFields, unsigned int numPasPrograms,
-                              pas_program* pas_program);
+    ProgramAssociationSection(TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields,
+                              unsigned char transport_stream_id,
+                              TSPayloadSections::ts_payload_version_section_fields versionSectionFields,
+                              unsigned int numPasPrograms,
+                              pas_program *pas_program);
+
     ~ProgramAssociationSection();
 
     void print();

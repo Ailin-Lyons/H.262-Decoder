@@ -6,10 +6,14 @@
 #define PROJECT_CODE_TRANSPORTPACKET_H
 #include "AdaptationField.h"
 
+/**
+ * H.222.0 Table 2-2
+ */
 
 class TransportPacket {
 
 public:
+
     /**
      * H.222.0 Table 2-3 - PID values
      */
