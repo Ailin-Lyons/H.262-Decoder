@@ -13,11 +13,6 @@
 const static double pi = 3.14159265359;
 const static double e = 2.71828182845;
 
-// TODO: Use namepsace std??
-
-
-
-// TODO: open the file and throw respective errors and exceptions
 
 /*
  * Input: fileName, path

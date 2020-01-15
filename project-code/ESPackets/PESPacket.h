@@ -11,6 +11,9 @@
 class PESPacket : public ESPacket {
 public:
 
+    /**
+     *  H.222.0 Table 2-20 - enum for trick_mode_control_values
+     */
     enum class trick_mode_control_values {
         fast_forward = 0b000,
         slow_motion = 0b001,
@@ -61,7 +64,7 @@ public:
         unsigned char system_video_lock_flag;
         unsigned char video_bound;
         unsigned char packet_rate_restriction_flag;
-        PESPacket::P_STD* p_std;
+        PESPacket::P_STD *p_std;
     };
     struct pack_header {
         unsigned long long system_clock_reference;
@@ -87,12 +90,15 @@ public:
     void print();
 
     PESPacket(start_code packet_type, unsigned char stream_id, unsigned short PES_packet_length,
-            unsigned char PES_scrambling_control, unsigned char PES_priority, unsigned char data_alignment_indicator,
-    unsigned char copyright, unsigned char original_or_copy, unsigned char PTS_DTS_flags, unsigned char ESCR_flag,
-    unsigned char ES_rate_flag, unsigned char DSM_trick_mode_flag, unsigned char additional_copy_info_flag,
-    unsigned char PES_CRC_flag, unsigned char PES_extension_flag, unsigned char PES_header_data_length,
-    pts_dts_fields pts_dts, unsigned long long ESCR, unsigned int ES_rate, dsm_trick_mode_fields dsm_trick_mode,
-    unsigned char additional_copy_info, unsigned short previous_PES_packet_CRC, PES_extension_fields pes_extension_fields);
+              unsigned char PES_scrambling_control, unsigned char PES_priority, unsigned char data_alignment_indicator,
+              unsigned char copyright, unsigned char original_or_copy, unsigned char PTS_DTS_flags,
+              unsigned char ESCR_flag,
+              unsigned char ES_rate_flag, unsigned char DSM_trick_mode_flag, unsigned char additional_copy_info_flag,
+              unsigned char PES_CRC_flag, unsigned char PES_extension_flag, unsigned char PES_header_data_length,
+              pts_dts_fields pts_dts, unsigned long long ESCR, unsigned int ES_rate,
+              dsm_trick_mode_fields dsm_trick_mode,
+              unsigned char additional_copy_info, unsigned short previous_PES_packet_CRC,
+              PES_extension_fields pes_extension_fields);
 
 protected:
     unsigned short PES_packet_length;

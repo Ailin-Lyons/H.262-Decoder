@@ -4,6 +4,10 @@
 
 #include <string>
 
+/**
+ * Exception class for errors related to file operations
+ */
+
 class FileException : public std::exception {
     std::string message;
 

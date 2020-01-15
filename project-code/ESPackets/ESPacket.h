@@ -48,8 +48,13 @@ public:
         program_stream_directory//0xFF
     };
 
-    virtual void print();
+    virtual void print() = 0;
 
+    /**
+     * Converts the byte value of the id to the correct enum value for start_code
+     * @param id - byte representing the id_value
+     * @return ESPacket::start_code - the enum value
+     */
     static start_code getStartCode(unsigned char id) {
         if (id >= 0x01 && id <= 0xAF) return ESPacket::start_code::slice;
         if (id >= 0xC0 && id <= 0xDF) return ESPacket::start_code::audio_stream;
@@ -110,9 +115,12 @@ public:
         }
     }
 
-/*
- * Only returns true if sc is a ESPacket::start_code that is handled by this decoder
- */
+    /**
+     * Checker to see if a given packet type is accepted by the decoder
+     *
+     * @param sc - start_code of the packet
+     * @return bool - true iff the packet type is being accepted by the decoder
+     */
     static bool isHandled(ESPacket::start_code sc) {
         switch (sc) {
             default:

@@ -5,7 +5,6 @@
 #include "gtest/gtest.h"
 #include "../../PacketParsers/AFParser.cpp"
 
-//TODO - fix test
 
 TEST(AllTest, AFParser_Test) {
     unsigned char testVal[] = {0x07, 0x10, 0x00, 0x00, 0x00, 0x12, 0xFE, 0x00, 0x00, 0x00, 0x01, 0xE0};

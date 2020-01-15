@@ -11,7 +11,7 @@ class TransportPacket {
 
 public:
     /**
-     * Defining enums for Transport packet
+     * H.222.0 Table 2-3 - PID values
      */
     enum class PID {
         ProgramAssociationTable,
@@ -21,11 +21,17 @@ public:
         Misc
     };
 
+    /**
+     * H.222.0 Table 2-4 - Scrambling control values
+     */
     enum class TSC {
         NotScrambled,
         UserDefined
     };
 
+    /**
+     * H.222.0 Table 2-4 - Adaptation Field control values
+     */
     enum class AFC {
         Reserved,
         PayloadOnly,

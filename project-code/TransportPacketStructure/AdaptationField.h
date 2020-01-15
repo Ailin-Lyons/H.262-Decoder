@@ -10,6 +10,9 @@ class AdaptationField {
 
 public:
 
+    /**
+     * enum class for different splice decoding delays
+     */
     enum class ST {
         splice_decoding_delay_other,
         splice_decoding_delay_120,
@@ -17,6 +20,10 @@ public:
         splice_decoding_delay_225,
         splice_decoding_delay_250
     };
+
+    /**
+     * struct used for initializing  an instance of AdaptationField
+     */
 
     struct initializerStruct {
         unsigned char adaptation_field_length;
@@ -44,11 +51,11 @@ public:
     };
 
     /**
- * Returns the correct PID given parsed_pid
- *
- * @param parsed_pid
- * @return PID
- */
+     * Returns the correct PID given parsed_pid
+     *
+     * @param parsed_pid
+     * @return PID
+     */
 
     static ST getSpliceType(unsigned char splice_type) {
         if (splice_type == 0x0) {
