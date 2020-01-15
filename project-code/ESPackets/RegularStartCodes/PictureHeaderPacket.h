@@ -9,7 +9,6 @@
 
 class PictureHeaderPacket : public ESPacket {
 private:
-    unsigned int picture_start_code ; //32-bits
     unsigned short temporal_reference ; //10-bits
     unsigned char picture_coding_type ; //3-bits
     unsigned short vbv_delay ; //16-bits
@@ -22,7 +21,6 @@ private:
 
 public:
     struct initializerStruct {
-        unsigned int picture_start_code ; //32-bits
         unsigned short temporal_reference ; //10-bits
         unsigned char picture_coding_type ; //3-bits
         unsigned short vbv_delay ; //16-bits

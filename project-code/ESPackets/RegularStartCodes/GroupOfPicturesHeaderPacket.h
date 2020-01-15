@@ -9,14 +9,12 @@
 
 class GroupOfPicturesHeaderPacket : public ESPacket {
 private:
-    unsigned int group_start_code; //32-bits
     unsigned int time_code; //25-bits
     bool closed_gop; //1-bit
     bool broken_link; //1-bit
 
 public:
     struct initializerStruct {
-        unsigned int group_start_code; //32-bits
         unsigned int time_code; //25-bits
         bool closed_gop; //1-bit
         bool broken_link; //1-bit

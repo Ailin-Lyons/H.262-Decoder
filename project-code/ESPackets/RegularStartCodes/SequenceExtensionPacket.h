@@ -9,7 +9,6 @@
 
 class SequenceExtensionPacket : public ESPacket {
 private:
-    unsigned int extension_start_code; //32-bits
     unsigned char extension_start_code_identifier; //4-bits
     unsigned char profile_and_level_indication; //8-bits
     bool progressive_sequence; //1-bit
@@ -24,7 +23,6 @@ private:
 
 public:
     struct initializerStruct {
-        unsigned int extension_start_code; //32-bits
         unsigned char extension_start_code_identifier; //4-bits
         unsigned char profile_and_level_indication; //8-bits
         bool progressive_sequence; //1-bit

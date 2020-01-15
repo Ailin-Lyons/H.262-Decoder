@@ -12,7 +12,6 @@
  */
 class SequenceHeaderPacket : public ESPacket {
 private:
-    unsigned int sequence_header_code; //32-bits
     unsigned short horizontal_size_value; //12-bits
     unsigned short vertical_size_value; //12-bits
     unsigned char aspect_ratio_information; //4-bits
@@ -27,7 +26,6 @@ private:
 
 public:
     struct initializerStruct {
-        unsigned int sequence_header_code; //32-bits
         unsigned short horizontal_size_value; //12-bits
         unsigned short vertical_size_value; //12-bits
         unsigned char aspect_ratio_information; //4-bits
