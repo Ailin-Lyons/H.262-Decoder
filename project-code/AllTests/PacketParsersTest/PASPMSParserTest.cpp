@@ -7,9 +7,6 @@
 #include "../../PacketParsers/PASParser.cpp"
 #include "../../PacketParsers/PMSParser.cpp"
 
-//TODO test not working, fix then un-comment
-// to make it work, make sure that the PASPrograms pointer is not on the stack and is malloc'd instead
-
 TEST(AllTest, PASPMSParser_Test) {
     char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio_PASPMS.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
@@ -23,11 +20,11 @@ TEST(AllTest, PASPMSParser_Test) {
     expectedPAS_vsf.current_next_indicator = 0x1;
     expectedPAS_vsf.section_number = 0x0;
     expectedPAS_vsf.last_section_number = 0x0;
-    ProgramAssociationSection::pas_program expected_pasPrograms = {};
-    expected_pasPrograms.program_number = 0x1;
-    expected_pasPrograms.assosciated_pid = 0x20;
+    auto expected_pasPrograms = (ProgramAssociationSection::pas_program*) malloc(sizeof(ProgramAssociationSection));
+    expected_pasPrograms->program_number = 0x1;
+    expected_pasPrograms->assosciated_pid = 0x20;
     ProgramAssociationSection PASexpected = ProgramAssociationSection(expectedPAS_header, (unsigned char) 0x9391,
-                                                                      expectedPAS_vsf, 1, &expected_pasPrograms);
+                                                                      expectedPAS_vsf, 1, expected_pasPrograms);
     TSPayloadSections::ts_payload_header_fields expectedPMS_header = {};
     expectedPMS_header.table_id = 0x02;
     expectedPMS_header.section_syntax_indicator = 0x01;
