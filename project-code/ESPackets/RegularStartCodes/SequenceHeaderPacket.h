@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
 #define DIRECTED_STUDIES_SEQUENCEHEADERPAYLOAD_H
 
-#include "ESPacket.h"
+#include "../ESPacket.h"
 
 /**
  * H.262 6.2.2.1

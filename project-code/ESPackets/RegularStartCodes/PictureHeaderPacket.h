@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_PICTUREPAYLOAD_H
 #define DIRECTED_STUDIES_PICTUREPAYLOAD_H
 
-#include "ESPacket.h"
+#include "../ESPacket.h"
 
 class PictureHeaderPacket : public ESPacket {
 private:

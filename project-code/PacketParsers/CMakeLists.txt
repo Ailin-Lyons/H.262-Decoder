@@ -8,6 +8,11 @@ set(SOURCE_FILES
         PESParser.cpp
         PASParser.cpp
         PMSParser.cpp
+        ESPacketParsers/SequenceHeaderParser.cpp
+        ESPacketParsers/GroupHeaderParser.cpp
+        ESPacketParsers/PictureHeaderParser.cpp
+        ESPacketParsers/SequenceExtensionParser.cpp
+        ESPacketParsers/SliceParser.cpp
         )
 
 set(HEADER_FILES

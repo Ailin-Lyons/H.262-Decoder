@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_GROUPPAYLOAD_H
 #define DIRECTED_STUDIES_GROUPPAYLOAD_H
 
-#include "ESPacket.h"
+#include "../ESPacket.h"
 
 class GroupOfPicturesHeaderPacket : public ESPacket {
 private:

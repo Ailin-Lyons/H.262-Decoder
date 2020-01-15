@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 #define DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 
-#include "ESPacket.h"
+#include "../ESPacket.h"
 
 class SequenceExtensionPacket : public ESPacket {
 private:
