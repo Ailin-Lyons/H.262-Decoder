@@ -8,6 +8,10 @@
 
 #include "ESPacket.h"
 
+/**
+ * H.222.0 Table 2-17
+ */
+
 class PESPacket : public ESPacket {
 public:
 
@@ -23,6 +27,12 @@ public:
         reserved_control_values
     };
 
+    /**
+     * Convert the byte value for the trick_mode_control to the enum type
+     *
+     * @param x - byte value of the trick_mode_control
+     * @return PESPacket::trick_mode_control_values - enum type
+     */
     static PESPacket::trick_mode_control_values getType(unsigned long long x) {
         if (x == 0b000)
             return PESPacket::trick_mode_control_values::fast_forward;
@@ -101,6 +111,11 @@ public:
               PES_extension_fields pes_extension_fields);
 
 protected:
+
+    /**
+     * Fields listed as per H.222.0 Table 2-17
+     */
+
     unsigned short PES_packet_length;
     unsigned char PES_scrambling_control; //2-bit
     unsigned char PES_priority; //1-bit
