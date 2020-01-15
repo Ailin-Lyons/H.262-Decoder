@@ -11,11 +11,11 @@ class AdaptationField {
 public:
 
     enum class ST {
+        splice_decoding_delay_other,
         splice_decoding_delay_120,
         splice_decoding_delay_150,
         splice_decoding_delay_225,
-        splice_decoding_delay_250,
-        splice_decoding_delay_other
+        splice_decoding_delay_250
     };
 
     struct initializerStruct {

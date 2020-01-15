@@ -59,7 +59,9 @@ TEST(AllTest, TSParser_Test) {
                                   0x26, 0x80, 0xEB, 0x92, 0x50, 0xDF, 0x5A, 0x03, 0x00, 0x2F, 0x1A, 0x10, 0x43, 0x46,
                                   0x48, 0xB3, 0x6C, 0x41, 0x84, 0xD4, 0x7D, 0x80, 0xC2, 0x43, 0xBC, 0x45, 0xDA, 0x52,
                                   0x4B, 0x26, 0x1C, 0xAB, 0x9A, 0x03, 0xA0, 0x18};
-    auto expected = new TransportPacket(exphead, AdaptationField(expaf), (unsigned int) 176, (unsigned char *) &expdata);
+    TransportPacket* expected = new TransportPacket(exphead, AdaptationField(expaf), (unsigned int) 176, (unsigned char *) &expdata);
+    bool bla = *actual == *expected;
+    std::printf("%x\n",bla);
     ASSERT_EQ(*actual, *expected);
     free(actual);
     free(expected);

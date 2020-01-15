@@ -45,11 +45,23 @@ int displayMetaData() {
     return -1; // TODO
 }
 
+bool loadFile(char* relative_path){
+    try{
+        FileInterface::getInstance()->setInstance(relative_path);
+        ESParser* esp = ESParser::getInstance();
+        esp->initiateStream();
+        return true;
+    }catch(const FileException){
+        std::printf("Error loading file!");
+        return false;
+    }
+
+}
+
 int main(int argc, char **argv) {
-    char relative_path[] = R"(..\..\test files\testvideo.ts)";
-    FileInterface::getInstance()->setInstance(relative_path);
+    char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
+    loadFile(relative_path);
     ESParser* esp = ESParser::getInstance();
-    esp->initiateStream();
     while (FileInterface::getInstance()->hasNextPacket()) {
 //        TSParser::getNextPacket()->toString();
         esp->getNextPacket();

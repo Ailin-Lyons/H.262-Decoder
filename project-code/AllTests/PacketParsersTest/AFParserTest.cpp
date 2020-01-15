@@ -58,5 +58,6 @@ TEST(AllTest, AFParserAllFieldsSet) {
     expected.ltw_offset = 0x4001;
     expected.piecewise_rate = 0x2AAAAA;
     expected.DTS_next_AU = 0x1FFFFFFFF;
-    ASSERT_EQ(actual, AdaptationField(expected));
+    AdaptationField expaf = AdaptationField(expected);
+    ASSERT_EQ(actual, expaf);
 }
