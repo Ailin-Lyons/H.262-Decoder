@@ -7,6 +7,9 @@
 
 #include "TSPayloadSections.h"
 
+/**
+ * H.222.0 Table 2-28
+ */
 class ProgramMapSection {
 public:
     /**
@@ -72,6 +75,10 @@ public:
         return StreamType::user_private;
     }
 
+    /**
+     * This struct contains program_elements of which there may be one of more.
+     * H.222.0 Table 2-28 (the second for loop)
+     */
     struct program_element {
         unsigned char stream_type_value;
         StreamType stream_type;

@@ -6,12 +6,15 @@
 #define PROJECT_CODE_TRANSPORTPACKET_H
 #include "AdaptationField.h"
 
-
+/**
+ * H.222.0 Table 2-2
+ */
 class TransportPacket {
 
 public:
     /**
      * Defining enums for Transport packet
+     * h.222.0 Table 2-3
      */
     enum class PID {
         ProgramAssociationTable,
@@ -21,11 +24,17 @@ public:
         Misc
     };
 
+    /**
+     * H.222.0 Table 2-4
+     */
     enum class TSC {
         NotScrambled,
         UserDefined
     };
 
+    /**
+     * H.222.0 Table 2-5
+     */
     enum class AFC {
         Reserved,
         PayloadOnly,
