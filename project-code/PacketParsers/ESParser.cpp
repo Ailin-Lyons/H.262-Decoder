@@ -7,6 +7,7 @@
 #include "ESPacketParsers/SequenceExtensionParser.cpp"
 #include "ESPacketParsers/SequenceHeaderParser.cpp"
 #include "ESPacketParsers/SliceParser.cpp"
+#include "PESParser.cpp"
 
 
 //
@@ -76,7 +77,7 @@ ESPacket *ESParser::getNextPacket() {
     std::printf("PESPacket code: %x\n", stream_id);
     switch (packet_type) {
         case ESPacket::start_code::video_stream:
-            return nullptr;//TODO
+            return PESParser::getNextPesPacket(packet_type);
         case ESPacket::start_code::picture:
             return PictureHeaderParser::getNextPacket();
         case ESPacket::start_code::slice:
