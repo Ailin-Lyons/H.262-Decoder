@@ -59,6 +59,7 @@ public:
                 data[data_length++] = read(8);
                 data[data_length++] = read(8);
             }
+            ESParser::getInstance()->next_start_code();
             return new PESPacket(ESPacket::start_code::video_stream, 0xE0, PES_packet_length, PES_scrambling_control,
                                  PES_priority, data_alignment_indicator, copyright, original_or_copy, PTS_DTS_flags,
                                  ESCR_flag, ES_rate_flag, DSM_trick_mode_flag, additional_copy_info_flag, PES_CRC_flag,
@@ -139,9 +140,9 @@ private:
         marker(2, 0b01);
         out.system_clock_reference = read(3);
         mark1;
-        out.system_clock_reference = out.system_clock_reference << 15 + read(15);
+        out.system_clock_reference = (out.system_clock_reference << 15) + read(15);
         mark1;
-        out.system_clock_reference = out.system_clock_reference << 15 + read(15);
+        out.system_clock_reference = (out.system_clock_reference << 15) + read(15);
         mark1;
         out.system_clock_reference = out.system_clock_reference * 300 + read(9); //Equation 2-19
         mark1;
@@ -194,25 +195,25 @@ private:
             marker(4, 0b0010);
             out.PTS = read(3);
             mark1;
-            out.PTS = out.PTS << 15 + read(15);
+            out.PTS = (out.PTS << 15) + read(15);
             mark1;
-            out.PTS = out.PTS << 15 + read(15);
+            out.PTS = (out.PTS << 15) + read(15);
             mark1;
         }
         if (flag == 0b11) {
             marker(4, 0b0011);
             out.PTS = read(3);
             mark1;
-            out.PTS = out.PTS << 15 + read(15);
+            out.PTS = (out.PTS << 15) + read(15);
             mark1;
-            out.PTS = out.PTS << 15 + read(15);
+            out.PTS = (out.PTS << 15) + read(15);
             mark1;
             marker(4, 0b0001);
             out.DTS = read(3);
             mark1;
-            out.DTS = out.DTS << 15 + read(15);
+            out.DTS = (out.DTS << 15) + read(15);
             mark1;
-            out.DTS = out.DTS << 15 + read(15);
+            out.DTS = (out.DTS << 15) + read(15);
             mark1;
         }
         return out;
@@ -223,9 +224,9 @@ private:
         marker(2, 0b11);
         unsigned long long out = read(3);
         mark1;
-        out = out << 15 + read(15);
+        out = (out << 15) + read(15);
         mark1;
-        out = out << 15 + read(15);
+        out = (out << 15) + read(15);
         mark1;
         out = out * 300 + read(9); //Equation 2-13
         mark1;

@@ -63,6 +63,11 @@ public:
         itu_t
     };
 
+protected:
+    start_code packet_type;
+    unsigned char stream_id;
+
+public:
     virtual void print() = 0;
 
     /**
@@ -185,9 +190,13 @@ public:
 
     }
 
-protected:
-    start_code packet_type;
-    unsigned char stream_id;
+    start_code getPacketType() const {
+        return packet_type;
+    }
+
+    unsigned char getStreamId() const {
+        return stream_id;
+    }
 };
 
 

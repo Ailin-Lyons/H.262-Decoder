@@ -48,9 +48,10 @@ void VideoDecoder::loadVideoSequence() {
     while (ESPacket::getStartCode(esp->nextESPacketID()) != ESPacket::start_code::sequence_header) {
         ESPacket* pack = esp->getNextPacket();
         if (pack != nullptr) { //temp remove this
-            pack->print();
+            std::printf("VideoDecoder::loadVideoSequence TODO handle PESPacket: %x %x\n",pack->getStreamId(),pack->getStreamId()); //pack->print();
         }
     }
+
     SequenceHeaderPacket* sequence_header = (SequenceHeaderPacket*) esp->getNextPacket();
     sequence_header->print();
     if ( ESPacket::getStartCode(esp->nextESPacketID()) == ESPacket::start_code::extension ) {
