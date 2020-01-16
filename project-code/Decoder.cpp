@@ -59,7 +59,11 @@ int main(int argc, char **argv) {
     ESParser* esp = ESParser::getInstance();
     while (FileInterface::getInstance()->hasNextPacket()) {
 //        TSParser::getNextPacket()->toString();
-        esp->getNextPacket();
+        ESPacket* pack = esp->getNextPacket();
+        if(pack!= nullptr){
+            pack->print();
+        }
+        free(pack);
     }
     // TODO: split the file into 3 parts
 

@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_SLICEPAYLOAD_H
 #define DIRECTED_STUDIES_SLICEPAYLOAD_H
 
-#include "ESPacket.h"
+#include "../ESPacket.h"
 
 class SlicePacket : public ESPacket {
 // TODO implement this class

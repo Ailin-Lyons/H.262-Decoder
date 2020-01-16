@@ -2,6 +2,12 @@
 #include "PASParser.cpp"
 #include "PMSParser.cpp"
 #include "../TSPayloadSections/ProgramAssociationSection.h"
+#include "ESPacketParsers/GroupHeaderParser.cpp"
+#include "ESPacketParsers/PictureHeaderParser.cpp"
+#include "ESPacketParsers/SequenceExtensionParser.cpp"
+#include "ESPacketParsers/SequenceHeaderParser.cpp"
+#include "ESPacketParsers/SliceParser.cpp"
+
 
 //
 // Created by elnsa on 2019-12-23.
@@ -74,15 +80,15 @@ ESPacket *ESParser::getNextPacket() {
         case ESPacket::start_code::video_stream:
             return nullptr;//TODO
         case ESPacket::start_code::picture:
-            return nullptr;//TODO
+            return PictureHeaderParser::getNextPacket();
         case ESPacket::start_code::slice:
-            return nullptr;//TODO
+            return SliceParser::getNextPacket(stream_id);
         case ESPacket::start_code::sequence_header:
-            return nullptr;//TODO
+            return SequenceHeaderParser::getNextPacket();
         case ESPacket::start_code::extension:
-            return nullptr;//TODO
+            return SequenceExtensionParser::getNextPacket();
         case ESPacket::start_code::group:
-            return nullptr;//TODO
+            return GroupHeaderParser::getNextPacket();
         default:
             throw PacketException("ESParser::getNextVideoPacket:: Invalid Packet type");
     }
