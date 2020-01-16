@@ -10,6 +10,8 @@ public:
      * // TODO write comment
      */
     static SlicePacket *getNextPacket(unsigned char i) {
+        ESParser *esParser = ESParser::getInstance();
+        esParser->next_start_code();
         return nullptr; //TODO
     }
 };

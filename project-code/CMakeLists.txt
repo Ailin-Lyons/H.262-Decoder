@@ -5,9 +5,13 @@ set(CMAKE_CXX_STANDARD 14)
 
 
 set(SOURCE_FILES
+        VideoDecoder.cpp
         Decoder.cpp)
 
-add_executable(decoder ${SOURCE_FILES})
+set(HEADER_FILES
+        VideoDecoder.h)
+
+add_executable(decoder ${SOURCE_FILES} ${HEADER_FILES})
 
 add_subdirectory(AllTests)
 

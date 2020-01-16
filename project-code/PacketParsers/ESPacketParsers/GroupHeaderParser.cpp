@@ -16,6 +16,7 @@ public:
         init.time_code  = esParser->popNBits(25);
         init.closed_gop = esParser->popNBits(1);
         init.broken_link = esParser->popNBits(1);
+        esParser->next_start_code();
         return new GroupOfPicturesHeaderPacket(init);
     }
 };

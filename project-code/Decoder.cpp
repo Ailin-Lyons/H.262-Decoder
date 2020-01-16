@@ -5,6 +5,7 @@
 
 //#include "PacketParsers/TSParser.cpp"
 #include "ESParser.cpp"
+#include "VideoDecoder.h"
 
 
 // note - global constants
@@ -13,15 +14,6 @@
 const static double pi = 3.14159265359;
 const static double e = 2.71828182845;
 
-
-/*
- * Input: fileName, path
- * Output: file* or memory map
- */
-
-int openStream(char *file_name, char *path) {
-    return -1; // TODO return appropriate ints depending on whether constructor was successful
-}
 
 /* TODO: display the information in part 1
  * DESIGN: returns an int or a metadata struct
@@ -40,31 +32,11 @@ int displayMetaData() {
     return -1; // TODO
 }
 
-bool loadFile(char* relative_path){
-    try{
-        FileInterface::getInstance()->setInstance(relative_path);
-        ESParser* esp = ESParser::getInstance();
-        esp->initiateStream();
-        return true;
-    }catch(const FileException){
-        std::printf("Error loading file!");
-        return false;
-    }
-
-}
-
 int main(int argc, char **argv) {
     char relative_path[] = R"(..\..\test files\testvideo_noaudio.ts)";
-    loadFile(relative_path);
-    ESParser* esp = ESParser::getInstance();
-    while (FileInterface::getInstance()->hasNextPacket()) {
-//        TSParser::getNextPacket()->toString();
-        ESPacket* pack = esp->getNextPacket();
-        if(pack!= nullptr){
-            pack->print();
-        }
-        free(pack);
-    }
+    char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO
+    VideoDecoder* vDecoder = VideoDecoder::getInstance();
+    vDecoder->decodeToFile(relative_path,destination);
     // TODO: split the file into 3 parts
 
 

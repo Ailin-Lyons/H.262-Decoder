@@ -35,6 +35,7 @@ public:
                 init.non_intra_quantiser_matrix[i] = esParser->popNBits(8);
             }
         }
+        esParser->next_start_code();
         return new SequenceHeaderPacket(init);
     }
 };

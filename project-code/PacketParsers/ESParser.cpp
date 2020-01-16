@@ -60,19 +60,17 @@ bool ESParser::bytealigned() {
     return currOffset == 0;
 }
 
-void ESParser::findNextValidPacket() {
-    next_start_code();
+unsigned char ESParser::nextESPacketID() {
     unsigned char stream_id = peekNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (ESPacket::isHandled(packet_type)) {
-        return;
+        return stream_id;
     }
     std::printf("Unhandled PESPacket has been dropped: %x\n", stream_id);
-    return findNextValidPacket();
+    return nextESPacketID();
 }
 
 ESPacket *ESParser::getNextPacket() {
-    findNextValidPacket();
     unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     std::printf("PESPacket code: %x\n", stream_id);

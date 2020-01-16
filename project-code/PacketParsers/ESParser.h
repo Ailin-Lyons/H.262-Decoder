@@ -69,6 +69,20 @@ public:
     */
     void initiateStream();
 
+    /**
+    * finds the beginning of the next Packet that is handled by the decoder
+    * and updates currPos to that index
+    */
+    unsigned char nextESPacketID();
+
+    /**
+    * See H.262 5.2.3
+    * Searches the TS for the next startCode
+    * and updates currPos to that index
+    */
+    void next_start_code();
+
+
 private:
     /**
      * A private constructor for the singleton
@@ -80,13 +94,6 @@ private:
      * Parses and returns that packet
      */
     ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
-
-    /**
-     * See H.262 5.2.3
-     * Searches the TS for the next startCode
-     * and updates currPos to that index
-     */
-    void next_start_code();
 
     /**
      * Checks if current index is byte aligned
@@ -113,11 +120,6 @@ private:
      */
     void incrementOffset(unsigned int numBits);
 
-    /**
-     * finds the beginning of the next Packet that is handled by the decoder
-     * and updates currPos to that index
-     */
-    void findNextValidPacket();
 
     /**
     * Request the next TSPacket from TSParser and initiates currPos and endPos to wrap around this TSPackets data

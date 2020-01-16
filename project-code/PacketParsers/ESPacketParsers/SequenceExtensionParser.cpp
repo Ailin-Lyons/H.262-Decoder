@@ -26,6 +26,7 @@ public:
         init.low_delay = esParser->popNBits(1);
         init.frame_rate_extension_n = esParser->popNBits(2);
         init.frame_rate_extension_d = esParser->popNBits(5);
+        esParser->next_start_code();
         return new SequenceExtensionPacket(init);
     }
 };
