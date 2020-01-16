@@ -8,7 +8,28 @@
 #include "../ESPacket.h"
 
 class SlicePacket : public ESPacket {
-// TODO implement this class
+
+private:
+    //TODO fields
+
+public:
+    struct initializerStruct {
+        unsigned char stream_id;
+        //TODO
+    };
+
+    /**
+     * Constructor
+     */
+    SlicePacket(initializerStruct init);
+
+    void print() override;
+
+    bool operator==(const SlicePacket &rhs) const;
+
+    bool operator!=(const SlicePacket &rhs) const;
+
+    ~SlicePacket();
 };
 
 

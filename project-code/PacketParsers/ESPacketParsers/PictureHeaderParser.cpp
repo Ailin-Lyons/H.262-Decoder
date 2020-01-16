@@ -26,7 +26,6 @@ public:
             esParser->popNBits(9);  //Skipping extra_bit_picture and extra_information_picture  as they are not needed
         }
         esParser->popNBits(1); //Skipping extra_bit_picture as it is not needed
-        esParser->next_start_code();
         return new PictureHeaderPacket(init);
     }
 };

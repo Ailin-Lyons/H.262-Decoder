@@ -59,7 +59,6 @@ public:
                 data[data_length++] = read(8);
                 data[data_length++] = read(8);
             }
-            ESParser::getInstance()->next_start_code();
             return new PESPacket(ESPacket::start_code::video_stream, 0xE0, PES_packet_length, PES_scrambling_control,
                                  PES_priority, data_alignment_indicator, copyright, original_or_copy, PTS_DTS_flags,
                                  ESCR_flag, ES_rate_flag, DSM_trick_mode_flag, additional_copy_info_flag, PES_CRC_flag,

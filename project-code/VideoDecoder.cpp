@@ -15,14 +15,9 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
     std::printf("\n***Loading video_sequence...***\n");
     loadVideoSequence();
     std::printf("\n***Loading video_sequence...Done!***\n\n");
-    ESParser *esp = ESParser::getInstance();
-    FileInterface* fi = FileInterface::getInstance();
+    FileInterface *fi = FileInterface::getInstance();
     while (fi->hasNextPacket()) {
-        ESPacket *pack = esp->getNextPacket();
-        if (pack != nullptr) {
-            pack->print();
-        }
-        free(pack);
+        getNextVideoPacket()->print();
     }
 }
 
@@ -33,7 +28,7 @@ bool VideoDecoder::loadFile(char *relative_path) {
         esp->initiateStream();
         return true;
     } catch (const FileException) {
-        std::printf("Error loading file!");
+        std::printf("Error loading file!\n");
         return false;
     }
 }
@@ -44,22 +39,35 @@ VideoDecoder::VideoDecoder() {
 
 void VideoDecoder::loadVideoSequence() {
     ESParser *esp = ESParser::getInstance();
-    esp->next_start_code();
-    while (ESPacket::getStartCode(esp->nextESPacketID()) != ESPacket::start_code::sequence_header) {
-        ESPacket* pack = esp->getNextPacket();
-        if (pack != nullptr) { //temp remove this
-            std::printf("VideoDecoder::loadVideoSequence TODO handle PESPacket: %x %x\n",pack->getStreamId(),pack->getStreamId()); //pack->print();
-        }
-    }
-
-    SequenceHeaderPacket* sequence_header = (SequenceHeaderPacket*) esp->getNextPacket();
+    next_start_code = ESPacket::start_code::sequence_header;
+    SequenceHeaderPacket *sequence_header = (SequenceHeaderPacket *) getNextVideoPacket();
     sequence_header->print();
-    if ( ESPacket::getStartCode(esp->nextESPacketID()) == ESPacket::start_code::extension ) {
-        SequenceExtensionPacket* sequence_extension = (SequenceExtensionPacket*) esp->getNextPacket();
-        sequence_extension->print();
-        SequenceExtensionPacket* extension_user_data = (SequenceExtensionPacket*) esp->getNextPacket(); //TODO change this to correct packet type
-        std::printf("TODO");//extension_user_data->print();
-    }else{
-        throw PacketException("This stream is not H262");
+    next_start_code = ESPacket::start_code::extension;
+    SequenceExtensionPacket *sequence_extension = (SequenceExtensionPacket *) getNextVideoPacket();
+    sequence_extension->print();
+    // SequenceExtensionPacket* extension_user_data = (SequenceExtensionPacket*) getNextVideoPacket(); //TODO change this to correct packet type
+    std::printf("TODO ExtensionUserData\n");//extension_user_data->print();
+}
+
+ESPacket *VideoDecoder::getNextVideoPacket() {
+    ESParser *esp = ESParser::getInstance();
+    ESPacket *out = esp->getNextPacket();
+    if (out == nullptr) {
+        return getNextVideoPacket(); //TODO Remove this if clause. It is a bypass while some packets arent implemented
+    }
+    if (out->getPacketType() == ESPacket::start_code::picture ||
+        out->getPacketType() == ESPacket::start_code::slice ||
+        out->getPacketType() == ESPacket::start_code::group ||
+        out->getPacketType() == ESPacket::start_code::sequence_header) {
+        return out; //TODO remove this?
+    }
+    if (out->getPacketType() == next_start_code) {
+        return out;
+    } else if (out->getPacketType() == ESPacket::start_code::video_stream) {
+        //TODO handle video stream
+        std::printf("VideoDecoder::loadVideoSequence TODO handle E0 PESPacket\n");
+        return getNextVideoPacket();
+    } else {
+        throw PacketException("VideoDecoder::getNextVideoPacket unexpected start_code\n");
     }
 }

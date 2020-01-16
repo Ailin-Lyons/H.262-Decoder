@@ -5,6 +5,8 @@
 #include "GroupOfPicturesHeaderPacket.h"
 
 GroupOfPicturesHeaderPacket::GroupOfPicturesHeaderPacket(GroupOfPicturesHeaderPacket::initializerStruct init) {
+    packet_type = ESPacket::start_code::group;
+    stream_id = 0xB8;
     time_code = init.time_code;
     closed_gop = init.closed_gop;
     broken_link = init.broken_link;

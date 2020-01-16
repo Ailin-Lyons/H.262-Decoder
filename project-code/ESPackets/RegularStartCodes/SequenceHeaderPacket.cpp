@@ -5,6 +5,8 @@
 #include "SequenceHeaderPacket.h"
 
 SequenceHeaderPacket::SequenceHeaderPacket(SequenceHeaderPacket::initializerStruct init) {
+    packet_type = ESPacket::start_code::sequence_header;
+    stream_id = 0xB3;
     horizontal_size_value = init.horizontal_size_value;
     vertical_size_value = init.vertical_size_value;
     aspect_ratio_information = init.aspect_ratio_information;

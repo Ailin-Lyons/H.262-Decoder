@@ -5,6 +5,8 @@
 #include "SequenceExtensionPacket.h"
 
 SequenceExtensionPacket::SequenceExtensionPacket(SequenceExtensionPacket::initializerStruct init) {
+    packet_type = ESPacket::start_code::extension;
+    stream_id = 0xB5;
     e_type = init.e_type;
     profile_and_level_indication = init.profile_and_level_indication;
     progressive_sequence = init.progressive_sequence;

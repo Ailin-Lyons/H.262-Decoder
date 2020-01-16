@@ -11,7 +11,6 @@ public:
      */
     static SlicePacket *getNextPacket(unsigned char i) {
         ESParser *esParser = ESParser::getInstance();
-        esParser->next_start_code();
-        return nullptr; //TODO
+        return new SlicePacket(SlicePacket::initializerStruct{i}); //TODO
     }
 };

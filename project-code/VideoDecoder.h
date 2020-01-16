@@ -26,6 +26,7 @@ public:
     void decodeToFile(char *source, char *destination);
 
 private:
+    ESPacket::start_code next_start_code;
     /**
      * A private constructor for the singleton
      */
@@ -34,6 +35,8 @@ private:
     bool loadFile(char* relative_path);
 
     void loadVideoSequence();
+
+    ESPacket* getNextVideoPacket();
 };
 
 

@@ -20,8 +20,8 @@ class ESParser { //TODO test the H262 portion of this class
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
     TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead
-    ProgramAssociationSection* programAssociationSection;
-    ProgramMapSection* programMapSection;
+    ProgramAssociationSection *programAssociationSection;
+    ProgramMapSection *programMapSection;
     unsigned char *currPos; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index
     unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
@@ -75,13 +75,6 @@ public:
     */
     unsigned char nextESPacketID();
 
-    /**
-    * See H.262 5.2.3
-    * Searches the TS for the next startCode
-    * and updates currPos to that index
-    */
-    void next_start_code();
-
 
 private:
     /**
@@ -94,6 +87,13 @@ private:
      * Parses and returns that packet
      */
     ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
+
+    /**
+     * See H.262 5.2.3
+     * Searches the TS for the next startCode
+     * and updates currPos to that index
+     */
+    void next_start_code();
 
     /**
      * Checks if current index is byte aligned
@@ -130,7 +130,7 @@ private:
      * Will discard TSPackets until it finds one with PID == program_pid and returns it
      * @return
      */
-    TransportPacket * findNextTSPacket();
+    TransportPacket *findNextTSPacket();
 
     ESPacket *getExtensionPacket();
 };
