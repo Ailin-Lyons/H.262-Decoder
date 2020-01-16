@@ -48,6 +48,21 @@ public:
         program_stream_directory//0xFF
     };
 
+    enum class extension_type{
+        reserved,
+        sequence,
+        sequence_display,
+        quant_matrix,
+        copyright,
+        sequence_scalable,
+        picture_display,
+        picture_coding,
+        picture_spatial_scalable,
+        picture_temporal_scalable,
+        camera_parameters,
+        itu_t
+    };
+
     virtual void print() = 0;
 
     /**
@@ -56,62 +71,96 @@ public:
      * @return ESPacket::start_code - the enum value
      */
     static start_code getStartCode(unsigned char id) {
-        if (id >= 0x01 && id <= 0xAF) return ESPacket::start_code::slice;
-        if (id >= 0xC0 && id <= 0xDF) return ESPacket::start_code::audio_stream;
-        if (id >= 0xE0 && id <= 0xEF) return ESPacket::start_code::video_stream;
-        if (id >= 0xFA && id <= 0xFE) return ESPacket::start_code::reserved_data_stream;
+        if (id >= 0x01 && id <= 0xAF) return start_code::slice;
+        if (id >= 0xC0 && id <= 0xDF) return start_code::audio_stream;
+        if (id >= 0xE0 && id <= 0xEF) return start_code::video_stream;
+        if (id >= 0xFA && id <= 0xFE) return start_code::reserved_data_stream;
         switch (id) {
             case 0x00 :
-                return ESPacket::start_code::picture;
+                return start_code::picture;
             case 0xB0 :
             case 0xB1 :
-                return ESPacket::start_code::reserved_code;
+                return start_code::reserved_code;
             case 0xB2 :
-                return ESPacket::start_code::user_data;
+                return start_code::user_data;
             case 0xB3 :
-                return ESPacket::start_code::sequence_header;
+                return start_code::sequence_header;
             case 0xB4 :
-                return ESPacket::start_code::sequence_error;
+                return start_code::sequence_error;
             case 0xB5 :
-                return ESPacket::start_code::extension;
+                return start_code::extension;
             case 0xB6 :
-                return ESPacket::start_code::reserved_code;
+                return start_code::reserved_code;
             case 0xB7 :
-                return ESPacket::start_code::sequence_end;
+                return start_code::sequence_end;
             case 0xB8 :
-                return ESPacket::start_code::group;
+                return start_code::group;
             case 0xBC :
-                return ESPacket::start_code::program_stream_map;
+                return start_code::program_stream_map;
             case 0xBD :
-                return ESPacket::start_code::private_stream_1;
+                return start_code::private_stream_1;
             case 0xBE :
-                return ESPacket::start_code::padding_stream;
+                return start_code::padding_stream;
             case 0xBF :
-                return ESPacket::start_code::private_stream_2;
+                return start_code::private_stream_2;
             case 0xF0 :
-                return ESPacket::start_code::ECM_stream;
+                return start_code::ECM_stream;
             case 0xF1 :
-                return ESPacket::start_code::EMM_stream;
+                return start_code::EMM_stream;
             case 0xF2 :
-                return ESPacket::start_code::DSMCC_stream;
+                return start_code::DSMCC_stream;
             case 0xF3 :
-                return ESPacket::start_code::MMHM_stream;
+                return start_code::MMHM_stream;
             case 0xF4 :
-                return ESPacket::start_code::MMATM_A_stream;
+                return start_code::MMATM_A_stream;
             case 0xF5 :
-                return ESPacket::start_code::MMATM_B_stream;
+                return start_code::MMATM_B_stream;
             case 0xF6 :
-                return ESPacket::start_code::MMATM_C_stream;
+                return start_code::MMATM_C_stream;
             case 0xF7 :
-                return ESPacket::start_code::MMATM_D_stream;
+                return start_code::MMATM_D_stream;
             case 0xF8 :
-                return ESPacket::start_code::MMATM_E_stream;
+                return start_code::MMATM_E_stream;
             case 0xF9 :
-                return ESPacket::start_code::ancillary_stream;
+                return start_code::ancillary_stream;
             case 0xFF :
-                return ESPacket::start_code::program_stream_directory;
+                return start_code::program_stream_directory;
             default :
                 throw PacketException("PESPacket::Unexpected stream_id");
+        }
+    }
+
+    /**
+     * Converts the 4-bit value of the identifier to the correct enum value for extension_type
+     * @param identifier - 4-bit value representing the extension_type
+     * @return ESPacket::extension_type - the enum value
+     */
+    static extension_type getExtensionCode(unsigned char identifier) {
+        switch(identifier){
+            case 0x01 :
+                return extension_type::sequence;
+            case 0x02 :
+                return extension_type::sequence_display;
+            case 0x03 :
+                return extension_type::quant_matrix;
+            case 0x04 :
+                return extension_type::copyright;
+            case 0x05 :
+                return extension_type::sequence_scalable;
+            case 0x07 :
+                return extension_type::picture_display;
+            case 0x08 :
+                return extension_type::picture_coding;
+            case 0x09 :
+                return extension_type::picture_spatial_scalable;
+            case 0x0A :
+                return extension_type::picture_temporal_scalable;
+            case 0x0B :
+                return extension_type::camera_parameters;
+            case 0x0C :
+                return extension_type::itu_t;
+            default:
+                return extension_type::reserved;
         }
     }
 
@@ -121,16 +170,16 @@ public:
      * @param sc - start_code of the packet
      * @return bool - true iff the packet type is being accepted by the decoder
      */
-    static bool isHandled(ESPacket::start_code sc) {
+    static bool isHandled(start_code sc) {
         switch (sc) {
             default:
                 return false;
-            case ESPacket::start_code::picture:
-            case ESPacket::start_code::slice:
-            case ESPacket::start_code::sequence_header:
-            case ESPacket::start_code::extension:
-            case ESPacket::start_code::group:
-            case ESPacket::start_code::video_stream:
+            case start_code::picture:
+            case start_code::slice:
+            case start_code::sequence_header:
+            case start_code::extension:
+            case start_code::group:
+            case start_code::video_stream:
                 return true;
         }
 
