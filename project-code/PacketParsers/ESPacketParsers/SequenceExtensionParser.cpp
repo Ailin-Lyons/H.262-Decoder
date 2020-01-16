@@ -11,10 +11,10 @@ public:
     * Builds a SequenceExtensionParser from ESParser data, starting after the start_code/stream_id
     * H.262 6.2.2.3
     */
-    static SequenceExtensionPacket *getNextPacket() {
+    static SequenceExtensionPacket *getNextPacket(unsigned char extension_start_code_identifier ) {
         ESParser *esParser = ESParser::getInstance();
         SequenceExtensionPacket::initializerStruct init = {};
-        init.extension_start_code_identifier = esParser->popNBits(4);
+        init.e_type = ESPacket::getExtensionCode(extension_start_code_identifier);
         init.profile_and_level_indication = esParser->popNBits(8);
         init.progressive_sequence = esParser->popNBits(1);
         init.chroma_format = esParser->popNBits(2);

@@ -25,11 +25,11 @@ void ESParser::initiateStream() {
     program_pid = 0x00;
     loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
-    programAssociationSection->print();
+    std::printf("\t***Loaded PAS: program_1 PID is %x ***\n", programAssociationSection->getProgramPID());
     program_pid = programAssociationSection->getProgramPID();
     loadNextTSPacket();
     programMapSection = PMSParser::getPMSPacket();
-    programMapSection->print();
+    std::printf("\t***Loaded PMS for PID %x: video_stream PID is %x ***\n", programAssociationSection->getProgramPID(), programMapSection->getVideoStreamPID());
     program_pid = programMapSection->getVideoStreamPID();
     loadNextTSPacket();
 }
@@ -84,7 +84,7 @@ ESPacket *ESParser::getNextPacket() {
         case ESPacket::start_code::sequence_header:
             return SequenceHeaderParser::getNextPacket();
         case ESPacket::start_code::extension:
-            return SequenceExtensionParser::getNextPacket();
+            return getExtensionPacket();
         case ESPacket::start_code::group:
             return GroupHeaderParser::getNextPacket();
         default:
@@ -162,8 +162,27 @@ void ESParser::incrementOffset(unsigned int numBits) {
 TransportPacket *ESParser::findNextTSPacket() {
     TransportPacket *out = TSParser::getNextPacket();
     while (out->getPacketPID() != program_pid) {
-        std::printf("Discarded TSPacket with pid: %x\n", out->getPacketPID());
+        std::printf("\tDiscarded TSPacket with pid: %x\n", out->getPacketPID());
         out = TSParser::getNextPacket();
     }
     return out;
+}
+
+ESPacket *ESParser::getExtensionPacket() {
+    unsigned char extension_start_code_identifier = popNBits(4);
+    ESPacket::extension_type e_type = ESPacket::getExtensionCode(extension_start_code_identifier);
+    switch(e_type){
+        case ESPacket::extension_type::sequence:
+            return SequenceExtensionParser::getNextPacket(extension_start_code_identifier);
+        case ESPacket::extension_type::sequence_display:
+            std::printf("TODO extension packet");
+            next_start_code(); //TODO remove this and put at end of parser
+            return nullptr; //TODO implement
+        case ESPacket::extension_type::picture_coding:
+            std::printf("TODO extension packet");
+            next_start_code(); //TODO remove this and put at end of parser
+            return nullptr; //TODO implement
+        default:
+            throw PacketException("ESParser::Unhandled extension_start_code_identifier");
+    }
 }

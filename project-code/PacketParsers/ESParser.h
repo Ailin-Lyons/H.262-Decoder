@@ -131,6 +131,8 @@ private:
      * @return
      */
     TransportPacket * findNextTSPacket();
+
+    ESPacket *getExtensionPacket();
 };
 
 #endif //PROJECT_CODE_ESPARSER_H

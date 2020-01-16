@@ -9,10 +9,10 @@
 VideoDecoder *VideoDecoder::instance = nullptr;
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
-    std::printf("\n***Loading file: %s ***\n\n", source);
+    std::printf("\n***Loading file: %s ***\n", source);
     loadFile(source);
-    std::printf("\n***Loading file... Done!***\n", source);
-    std::printf("\n***Loading video_sequence...***\n\n");
+    std::printf("***Loading file... Done!***\n", source);
+    std::printf("\n***Loading video_sequence...***\n");
     loadVideoSequence();
     std::printf("\n***Loading video_sequence...Done!***\n\n");
     ESParser *esp = ESParser::getInstance();
@@ -57,9 +57,8 @@ void VideoDecoder::loadVideoSequence() {
         SequenceExtensionPacket* sequence_extension = (SequenceExtensionPacket*) esp->getNextPacket();
         sequence_extension->print();
         SequenceExtensionPacket* extension_user_data = (SequenceExtensionPacket*) esp->getNextPacket(); //TODO change this to correct packet type
-        sequence_extension->print();
+        std::printf("TODO");//extension_user_data->print();
     }else{
         throw PacketException("This stream is not H262");
     }
-    //TODO parse the video sequence (retaining all needed info) until you reach the inner while loop
 }

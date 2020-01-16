@@ -5,7 +5,7 @@
 #include "SequenceExtensionPacket.h"
 
 SequenceExtensionPacket::SequenceExtensionPacket(SequenceExtensionPacket::initializerStruct init) {
-    extension_start_code_identifier = init.extension_start_code_identifier;
+    e_type = init.e_type;
     profile_and_level_indication = init.profile_and_level_indication;
     progressive_sequence = init.progressive_sequence;
     chroma_format = init.chroma_format;
@@ -20,14 +20,14 @@ SequenceExtensionPacket::SequenceExtensionPacket(SequenceExtensionPacket::initia
 
 void SequenceExtensionPacket::print() {
     std::printf(
-            "SequenceExtensionPacket: esci %x, pli %x, ps %x, cf %x, hse %x, vse %x, bre %x, vbv_buf_e %x, ld %x, fren %x, fred %x.\n",
-            extension_start_code_identifier, profile_and_level_indication, progressive_sequence, chroma_format,
+            "SequenceExtensionPacket: identifier %x, pli %x, ps %x, cf %x, hse %x, vse %x, bre %x, vbv_buf_e %x, ld %x, fren %x, fred %x.\n",
+            e_type, profile_and_level_indication, progressive_sequence, chroma_format,
             horizontal_size_extension, vertical_size_extension, bit_rate_extension, vbv_buffer_size_extension,
             low_delay, frame_rate_extension_n, frame_rate_extension_d);
 }
 
 bool SequenceExtensionPacket::operator==(const SequenceExtensionPacket &rhs) const {
-    return extension_start_code_identifier == rhs.extension_start_code_identifier &&
+    return e_type == rhs.e_type &&
            profile_and_level_indication == rhs.profile_and_level_indication &&
            progressive_sequence == rhs.progressive_sequence &&
            chroma_format == rhs.chroma_format &&
