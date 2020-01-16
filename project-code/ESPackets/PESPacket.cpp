@@ -109,6 +109,10 @@ PESPacket::PESPacket(start_code packet_type, unsigned char stream_id, unsigned s
 }
 
 PESPacket::~PESPacket() {
-    free(data);
-    free(this->pes_extension_fields.pack_header.system_header.p_std);
+    if (data) {
+        free(data);
+    }
+    if (this->pes_extension_fields.pack_header.system_header.p_std) {
+        free(this->pes_extension_fields.pack_header.system_header.p_std);
+    }
 }
