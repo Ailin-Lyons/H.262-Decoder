@@ -21,8 +21,6 @@ public:
      * start_code_prefix != 0x000001 || called functions throw the error
      */
     static PESPacket* getNextPesPacket() {
-        auto returnPacket = (PESPacket*) malloc(sizeof(PESPacket));
-        // TODO - remove the 0x000001 and start code reading
         if (read(24) == 0x000001) {
             unsigned char stream_id = read(8);
             ESPacket::start_code start_code = ESPacket::getStartCode(stream_id);
@@ -80,7 +78,6 @@ public:
         } else {
             throw PacketException("PESParser::getNextPesPacket: packet_start_code_prefix != 0x000001");
         }
-        return returnPacket;
     }
 
 private:
