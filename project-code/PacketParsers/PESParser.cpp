@@ -7,6 +7,7 @@
 // TODO - convert macros to compilation flag based
 // TODO - check to make sure that all the reserved, stuffing, marker bits are correctly skipped
 #define read(n) (ESParser::getInstance()->popNBits((n)))
+#define peek(n) (ESParser::getInstance()->peekNBits((n)))
 #define marker(x, y) (valueChecks((x), (y), __func__))
 #define mark1 (valueChecks(1, 0b1, __func__))
 
@@ -54,7 +55,23 @@ public:
                 unsigned char additional_copy_info = handleCopyInfo(additional_copy_info_flag);  //7-bit
                 unsigned short previous_PES_packet_CRC = PES_CRC_flag == 0x1 ? read(16) : 0; //16-bit
                 PESPacket::PES_extension_fields pes_extension_fields = handlePESExtension(PES_extension_flag);
-                //TODO - stuffing and data
+                while(peek(8) == 0xFF) {
+                    read(8);
+                }
+                unsigned int data_length = 0;
+                unsigned char* data = nullptr;
+                while(peek(24) != 0x000001) {
+                    data = (unsigned char *) realloc(data, sizeof(unsigned char)*(data_length+3));
+                    data[data_length++] = read(8);
+                    data[data_length++] = read(8);
+                    data[data_length++] = read(8);
+                }
+                return new PESPacket(ESPacket::start_code::video_stream, 0xE0, PES_packet_length, PES_scrambling_control,
+                        PES_priority, data_alignment_indicator, copyright, original_or_copy, PTS_DTS_flags,
+                        ESCR_flag, ES_rate_flag, DSM_trick_mode_flag, additional_copy_info_flag, PES_CRC_flag,
+                        PES_extension_flag, PES_header_data_length, pts_dts, ESCR, ES_rate, dsm_trick_mode, additional_copy_info,
+                        previous_PES_packet_CRC, pes_extension_fields, data_length, data);
+
             } else {
                 //TODO - this is where we have the branching case for the other start_codes
                 // for now throw an exception
@@ -169,6 +186,7 @@ private:
         marker(7, 0x7F);
         size_t malloc_size = ((out.header_length * 8) - 47) / 25; // TODO - check calc
         out.p_std = (PESPacket::P_STD*) malloc(sizeof(PESPacket::P_STD) * malloc_size);
+        out.numPSTD = malloc_size;
         unsigned int index = 0;
         while (read(1) == 0x1 && index < malloc_size) {
             out.p_std[index].stream_id = ESPacket::getStartCode(read(8));

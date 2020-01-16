@@ -6,6 +6,7 @@
 #define PROJECT_CODE_PESPACKET_H
 
 
+#include <ostream>
 #include "ESPacket.h"
 
 /**
@@ -74,6 +75,7 @@ public:
         unsigned char system_video_lock_flag;
         unsigned char video_bound;
         unsigned char packet_rate_restriction_flag;
+        size_t numPSTD;
         PESPacket::P_STD *p_std;
     };
     struct pack_header {
@@ -108,7 +110,7 @@ public:
               pts_dts_fields pts_dts, unsigned long long ESCR, unsigned int ES_rate,
               dsm_trick_mode_fields dsm_trick_mode,
               unsigned char additional_copy_info, unsigned short previous_PES_packet_CRC,
-              PES_extension_fields pes_extension_fields);
+              PES_extension_fields pes_extension_fields, size_t data_length, unsigned char* data);
 
 protected:
 
@@ -141,7 +143,7 @@ protected:
     /**
      * data_length - indicates how many PES_Packet_data_bytes are read/found
      */
-    unsigned int data_length;
+    size_t data_length;
     unsigned char *data;
 
 };
