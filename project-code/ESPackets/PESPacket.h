@@ -16,6 +16,7 @@
 class PESPacket : public ESPacket {
 public:
 
+    ~PESPacket();
     /**
      *  H.222.0 Table 2-20 - enum for trick_mode_control_values
      */

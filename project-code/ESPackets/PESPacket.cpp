@@ -107,3 +107,8 @@ PESPacket::PESPacket(start_code packet_type, unsigned char stream_id, unsigned s
     this->data_length = data_length;
     this->data = data;
 }
+
+PESPacket::~PESPacket() {
+    free(data);
+    free(this->pes_extension_fields.pack_header.system_header.p_std);
+}
