@@ -15,7 +15,7 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
-    nextTP = 0;
+    nextTP = nullptr;
     program_pid = 0x00;
     loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
@@ -29,9 +29,9 @@ void ESParser::initiateStream() {
 }
 
 void ESParser::loadNextTSPacket() {
-    if (nextTP != 0) {
+    if (nextTP != nullptr) {
         currTP = nextTP;
-        nextTP = 0;
+        nextTP = nullptr;
     } else {
         currTP = findNextTSPacket();
     }
