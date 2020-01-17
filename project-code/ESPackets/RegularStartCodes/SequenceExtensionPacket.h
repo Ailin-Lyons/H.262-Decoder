@@ -14,7 +14,7 @@ private:
     bool progressive_sequence; //1-bit
     unsigned char chroma_format; //2-bits
     unsigned char horizontal_size_extension; //2-bits
-    unsigned char vertical_size_extension; //2-bits
+    unsigned char vertical_size_extension;    //2-bits
     unsigned short bit_rate_extension; //12-bits
     unsigned char vbv_buffer_size_extension; //8-bits
     bool low_delay; //1-bit
@@ -48,6 +48,11 @@ public:
     bool operator!=(const SequenceExtensionPacket &rhs) const;
 
     ~SequenceExtensionPacket() = default;
+
+    unsigned char getHorizontalSizeExtension() const;
+
+    unsigned char getVerticalSizeExtension() const;
+
 };
 
 #endif //DIRECTED_STUDIES_EXTENSIONPAYLOAD_H

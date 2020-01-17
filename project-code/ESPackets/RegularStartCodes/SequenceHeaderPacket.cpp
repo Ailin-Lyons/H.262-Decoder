@@ -64,3 +64,11 @@ SequenceHeaderPacket::~SequenceHeaderPacket() {
         free(non_intra_quantiser_matrix);
     }
 }
+
+unsigned short SequenceHeaderPacket::getHorizontalSizeValue() const {
+    return horizontal_size_value;
+}
+
+unsigned short SequenceHeaderPacket::getVerticalSizeValue() const {
+    return vertical_size_value;
+}

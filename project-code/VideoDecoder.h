@@ -5,12 +5,18 @@
 #ifndef PROJECT_CODE_VIDEODECODER_H
 #define PROJECT_CODE_VIDEODECODER_H
 
-#include <FileInterface.h>
-#include <ESParser.h>
+#include "Util/FileInterface.h"
+#include "PacketParsers/ESParser.h"
 
 class VideoDecoder {
 public:
     static VideoDecoder *instance;
+
+    unsigned short getHorizontalSize() const;
+
+    unsigned short getVerticalSize() const;
+    // H.262 6.3.3
+
 
     /**
    * Function to return a pointer to the singleton instance
@@ -26,17 +32,22 @@ public:
     void decodeToFile(char *source, char *destination);
 
 private:
-    ESPacket::start_code next_start_code;
+    /**
+     * Fields
+     */
+    unsigned short horizontal_size; // H.262 6.3.3
+    unsigned short vertical_size;
+
     /**
      * A private constructor for the singleton
      */
     VideoDecoder();
 
-    bool loadFile(char* relative_path);
+    bool loadFile(char *relative_path);
 
     void loadVideoSequence();
 
-    ESPacket* getNextVideoPacket();
+    ESPacket *getNextVideoPacket();
 };
 
 

@@ -3,6 +3,7 @@
 //
 #include "../ESParser.h"
 #include "../../ESPackets/RegularStartCodes/SlicePacket.h"
+#include "../../VideoDecoder.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -12,16 +13,18 @@ public:
     /**
      * // TODO write comment
      */
-    static SlicePacket *getNextPacket(unsigned char stream_id, unsigned int vertical_slice, unsigned char scalable_mode) {
+    static SlicePacket *getNextPacket(unsigned char stream_id) {
         unsigned int slice_start_code = (0x000001 << 8) + stream_id;
         unsigned char slice_vertical_position_extension = 0;
-        if (vertical_slice > 2800) {
+        if (VideoDecoder::getInstance()->getVerticalSize() > 2800) {
             slice_vertical_position_extension = read(3);
         }
         unsigned char priority_breakpoint = 0;
-        if (scalable_mode == 0x00) {
-            priority_breakpoint = read(7);
-        }
+//        if(<sequence_scalable_extension() is present in the bitstream>) { //This feature is not covered by this decoder
+//            if (scalable_mode == 0x00) {
+//                priority_breakpoint = read(7);
+//            }
+//        }
         unsigned char quantiser_scale_code = read(5);
         unsigned char slice_extension_flag = 0;
         unsigned char intra_slice = 0;

@@ -45,3 +45,11 @@ bool SequenceExtensionPacket::operator==(const SequenceExtensionPacket &rhs) con
 bool SequenceExtensionPacket::operator!=(const SequenceExtensionPacket &rhs) const {
     return !(rhs == *this);
 }
+
+unsigned char SequenceExtensionPacket::getHorizontalSizeExtension() const {
+    return horizontal_size_extension;
+}
+
+unsigned char SequenceExtensionPacket::getVerticalSizeExtension() const {
+    return vertical_size_extension;
+}

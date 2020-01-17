@@ -51,6 +51,10 @@ public:
     bool operator!=(const SequenceHeaderPacket &rhs) const;
 
     ~SequenceHeaderPacket();
+
+    unsigned short getHorizontalSizeValue() const;
+
+    unsigned short getVerticalSizeValue() const;
 };
 
 
