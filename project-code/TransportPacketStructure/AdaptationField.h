@@ -10,9 +10,9 @@ class AdaptationField {
 
 public:
 
-   /**
-   * H.222.0 Tables 2-7 to 2-16
-   */
+    /**
+    * H.222.0 Tables 2-7 to 2-16
+    */
     enum class ST {
         splice_decoding_delay_other,
         splice_decoding_delay_120,
@@ -102,7 +102,9 @@ private:
 public:
 
     void print();
+
     AdaptationField(initializerStruct init);
+
     ~AdaptationField() = default;
 
     bool operator==(const AdaptationField &rhs) const;

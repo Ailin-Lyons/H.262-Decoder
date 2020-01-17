@@ -14,7 +14,8 @@ public:
     explicit SampleException(std::string msg) {
         message = std::move(msg);
     }
-    const char* what() const noexcept override {
+
+    const char *what() const noexcept override {
         return message.c_str();
     }
 };

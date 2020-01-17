@@ -10,7 +10,7 @@
 class SlicePacket : public ESPacket {
 
 public:
-    struct extraInformation{
+    struct extraInformation {
         unsigned char extra_bit_slice;
         unsigned char extra_information_slice;
     };
@@ -26,7 +26,7 @@ private:
     unsigned char slice_picture_id_enable;
     unsigned char slice_picture_id;
     size_t numExtraInfo;
-    SlicePacket::extraInformation* extra_Information;
+    SlicePacket::extraInformation *extra_Information;
     unsigned char extra_bit_slice;
 
     //TODO - macroblock?
@@ -49,7 +49,7 @@ public:
         unsigned char slice_picture_id_enable;
         unsigned char slice_picture_id;
         size_t numExtraInfo;
-        SlicePacket::extraInformation* extra_Information;
+        SlicePacket::extraInformation *extra_Information;
         unsigned char extra_bit_slice;
     };
 

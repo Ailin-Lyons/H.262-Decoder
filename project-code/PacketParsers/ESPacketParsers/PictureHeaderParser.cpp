@@ -22,7 +22,7 @@ public:
         if (init.picture_coding_type == 3) {
             esParser->popNBits(4); //Skipping full_pel_backward_vector and backward_f_code  as they are not needed
         }
-        while(esParser->popNBits(1) == 1){
+        while (esParser->popNBits(1) == 1) {
             esParser->popNBits(9);  //Skipping extra_bit_picture and extra_information_picture  as they are not needed
         }
         esParser->popNBits(1); //Skipping extra_bit_picture as it is not needed

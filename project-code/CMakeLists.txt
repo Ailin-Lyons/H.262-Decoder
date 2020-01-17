@@ -4,14 +4,9 @@ project(project-code)
 set(CMAKE_CXX_STANDARD 14)
 
 
-set(SOURCE_FILES
-        VideoDecoder.cpp
-        Decoder.cpp)
+set(SOURCE_FILES Decoder.cpp)
 
-set(HEADER_FILES
-        VideoDecoder.h)
-
-add_executable(decoder ${SOURCE_FILES} ${HEADER_FILES})
+add_executable(decoder ${SOURCE_FILES})
 
 add_subdirectory(AllTests)
 
@@ -37,6 +32,11 @@ add_subdirectory("ESPackets")
 target_link_libraries(decoder "ESPackets")
 
 # adding the Util
-include_directories(Util)
-add_subdirectory(Util)
-target_link_libraries(decoder Util)
+include_directories("Util")
+add_subdirectory("Util")
+target_link_libraries(decoder "Util")
+
+#adding VideoDecoder
+include_directories("VideoDecoder")
+add_subdirectory("VideoDecoder")
+target_link_libraries(decoder "VideoDecoder")

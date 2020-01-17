@@ -5,13 +5,10 @@
 #ifndef PROJECT_CODE_ESPARSER_H
 #define PROJECT_CODE_ESPARSER_H
 
+#include "../ESPackets/ESPacket.h"
 #include "../TSPayloadSections/ProgramAssociationSection.h"
 #include "../TSPayloadSections/ProgramMapSection.h"
-#include "../ESPackets/PESPacket.h"
-#include "TSParser.cpp"
-#include "../Util/BitManipulator.cpp"
 #include "../TransportPacketStructure/TransportPacket.h"
-#include "PacketException.cpp"
 
 /**
  * ESParser is a singleton that parses the Elementary stream, drops unhandled packets and parses elementary stream packets into ESPacket objects

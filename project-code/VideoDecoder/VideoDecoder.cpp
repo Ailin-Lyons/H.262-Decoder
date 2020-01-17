@@ -5,6 +5,9 @@
 #include <RegularStartCodes/SequenceHeaderPacket.h>
 #include <RegularStartCodes/SequenceExtensionPacket.h>
 #include "VideoDecoder.h"
+#include "VideoInformation.h"
+#include "../Util/FileInterface.h"
+#include "../PacketParsers/ESParser.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -17,7 +20,7 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
     std::printf("\n***Loading video_sequence...Done!***\n\n");
     FileInterface *fi = FileInterface::getInstance();
     while (fi->hasNextPacket()) {
-        ESPacket* pack = getNextVideoPacket();
+        ESPacket *pack = getNextVideoPacket();
         //if(pack!= nullptr) getNextVideoPacket()->print();
     }
 }
@@ -35,26 +38,26 @@ bool VideoDecoder::loadFile(char *relative_path) {
 }
 
 VideoDecoder::VideoDecoder() {
-    //TODO?
 }
 
 void VideoDecoder::loadVideoSequence() {
+    VideoInformation* videoInformation = VideoInformation::getInstance();
     SequenceHeaderPacket *sequence_header = (SequenceHeaderPacket *) getNextVideoPacket();
     sequence_header->print();
     SequenceExtensionPacket *sequence_extension = (SequenceExtensionPacket *) getNextVideoPacket();
     sequence_extension->print();
     ESPacket *extension_user_data = getNextVideoPacket(); //TODO change this to correct packet type
-    horizontal_size = sequence_header->getHorizontalSizeValue() +
-                      ((unsigned short) (sequence_extension->getHorizontalSizeExtension()) << 12);
-    vertical_size = sequence_header->getVerticalSizeValue() +
-                    ((unsigned short) (sequence_extension->getVerticalSizeExtension()) << 12);
+    videoInformation->setHorizontalSize(sequence_header->getHorizontalSizeValue() +
+                                       ((unsigned short) (sequence_extension->getHorizontalSizeExtension()) << 12));
+    videoInformation->setVerticalSize(sequence_header->getVerticalSizeValue() +
+                                     ((unsigned short) (sequence_extension->getVerticalSizeExtension()) << 12));
     std::printf("TODO ExtensionUserData\n");//extension_user_data->print();
 }
 
 ESPacket *VideoDecoder::getNextVideoPacket() {
     ESParser *esp = ESParser::getInstance();
     ESPacket *out = esp->getNextPacket();
-    if(out == nullptr){
+    if (out == nullptr) {
         std::printf("TODO handle this packet");
         return out;
     }
@@ -72,12 +75,4 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
     } else {
         throw PacketException("VideoDecoder::getNextVideoPacket unexpected start_code\n");
     }
-}
-
-unsigned short VideoDecoder::getHorizontalSize() const {
-    return horizontal_size;
-}
-
-unsigned short VideoDecoder::getVerticalSize() const {
-    return vertical_size;
 }

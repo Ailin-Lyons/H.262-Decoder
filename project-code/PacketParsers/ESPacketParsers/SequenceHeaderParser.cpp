@@ -24,14 +24,14 @@ public:
         init.load_intra_quantiser_matrix = esParser->popNBits(1);
         if (init.load_intra_quantiser_matrix) {
             init.intra_quantiser_matrix = (unsigned char *) malloc(sizeof(unsigned char) * 64);
-            for(int i = 0; i < 64; i++){
+            for (int i = 0; i < 64; i++) {
                 init.intra_quantiser_matrix[i] = esParser->popNBits(8);
             }
         }
         init.load_non_intra_quantiser_matrix = esParser->popNBits(1);
         if (init.load_non_intra_quantiser_matrix) {
             init.non_intra_quantiser_matrix = (unsigned char *) malloc(sizeof(unsigned char) * 64);
-            for(int i = 0; i < 64; i++){
+            for (int i = 0; i < 64; i++) {
                 init.non_intra_quantiser_matrix[i] = esParser->popNBits(8);
             }
         }

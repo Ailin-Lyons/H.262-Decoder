@@ -4,6 +4,7 @@
 
 #ifndef PROJECT_CODE_TRANSPORTPACKET_H
 #define PROJECT_CODE_TRANSPORTPACKET_H
+
 #include "AdaptationField.h"
 
 /**
@@ -128,7 +129,8 @@ public:
      * @param af an adaptationField object
      * @param d an array of bytes representing data
      */
-    TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField, unsigned int dl,
+    TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField,
+                    unsigned int dl,
                     unsigned char *d);
 
     void print();

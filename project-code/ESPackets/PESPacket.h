@@ -17,6 +17,7 @@ class PESPacket : public ESPacket {
 public:
 
     ~PESPacket();
+
     /**
      *  H.222.0 Table 2-20 - enum for trick_mode_control_values
      */
@@ -111,7 +112,7 @@ public:
               pts_dts_fields pts_dts, unsigned long long ESCR, unsigned int ES_rate,
               dsm_trick_mode_fields dsm_trick_mode,
               unsigned char additional_copy_info, unsigned short previous_PES_packet_CRC,
-              PES_extension_fields pes_extension_fields, size_t data_length, unsigned char* data);
+              PES_extension_fields pes_extension_fields, size_t data_length, unsigned char *data);
 
 protected:
 

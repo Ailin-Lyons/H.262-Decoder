@@ -2,9 +2,8 @@
 // Created by elnsa on 2020-01-05.
 //
 
-#include "../TransportPacketStructure/TransportPacket.h"
-#include "../TSPayloadSections/ProgramMapSection.h"
 #include "ESParser.h"
+#include "../TSPayloadSections/ProgramMapSection.h"
 
 class PMSParser {
 public:
@@ -71,6 +70,7 @@ public:
             remainingSectionBytes -= ES_info_length;
         }
         esParser->popNBits(32); //Skip CRC
-        return new ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length, el);
+        return new ProgramMapSection(headerFields, program_number, versionSectionFields, PCR_PID, program_info_length,
+                                     el);
     }
 };

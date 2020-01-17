@@ -1,9 +1,8 @@
+#include "../Util/FileInterface.h"
 #include "../TransportPacketStructure/TransportPacket.h"
 #include "../TransportPacketStructure/AdaptationField.h"
-#include <sys/stat.h>
 #include "AFParser.cpp"
 #include "PacketException.cpp"
-#include "../Util/FileInterface.h"
 
 //
 // Created by elnsa on 2019-11-19.
@@ -31,7 +30,7 @@ private:
      * @param packet: points to a TS Packet in binary form
      * @throws PacketException: if sync_byte != 0x47
      */
-    static TransportPacket* buildTransportPacket(unsigned char *packet) {
+    static TransportPacket *buildTransportPacket(unsigned char *packet) {
         size_t packetIndex = 0;
         TransportPacket::transport_header_fields thf_out{};
         thf_out.sync_byte = packet[packetIndex];

@@ -15,7 +15,7 @@ public:
      */
     static long long readNBits(unsigned char *address, unsigned int numBits) {
         unsigned long long out = 0;
-        if(numBits == 0){
+        if (numBits == 0) {
             return out;
         }
         int i; // declared here as it is used as address in second loop body
@@ -38,17 +38,17 @@ public:
      */
     static long long readNBitsOffset(unsigned char *address, unsigned int offset, unsigned int numBits) {
         unsigned long long out = 0;
-        if(numBits == 0){
+        if (numBits == 0) {
             return out;
         }
         for (int o = offset; o < 8; o++) {
             out = (out << 1) + ((address[0] >> (7 - o)) & 0x1);
             numBits--;
-            if(numBits <= 0){
+            if (numBits <= 0) {
                 return out;
             }
         }
-        if(numBits > 0){
+        if (numBits > 0) {
             out = (out << numBits) + readNBits(&address[1], numBits);
         }
         return out;

@@ -9,9 +9,6 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
-#include "FileException.cpp"
-#include "../PacketParsers/PacketException.cpp"
-
 
 /**
  * Singleton class that deals with I/O operations
@@ -26,6 +23,7 @@ private:
     static FileInterface *instance;
 
     FileInterface() = default;
+
     ~FileInterface();
 
     /**

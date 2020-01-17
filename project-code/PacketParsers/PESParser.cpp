@@ -3,6 +3,7 @@
 //
 
 #include "ESParser.h"
+#include "../ESPackets/PESPacket.h"
 
 // TODO - convert macros to compilation flag based
 // TODO - check to make sure that all the reserved, stuffing, marker bits are correctly skipped
