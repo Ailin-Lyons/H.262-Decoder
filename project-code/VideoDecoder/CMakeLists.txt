@@ -5,6 +5,7 @@ set(HEADER_FILES
         VideoDecoder.h)
 
 set(SOURCE_FILES
+        VideoException.cpp
         VideoInformation.cpp
         VideoDecoder.cpp)
 

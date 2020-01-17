@@ -46,10 +46,42 @@ bool SequenceExtensionPacket::operator!=(const SequenceExtensionPacket &rhs) con
     return !(rhs == *this);
 }
 
-unsigned char SequenceExtensionPacket::getHorizontalSizeExtension() const {
-    return horizontal_size_extension;
+unsigned short SequenceExtensionPacket::getHExt() const {
+    return (unsigned short) horizontal_size_extension;
 }
 
-unsigned char SequenceExtensionPacket::getVerticalSizeExtension() const {
-    return vertical_size_extension;
+unsigned short SequenceExtensionPacket::getVExt() const {
+    return (unsigned short) vertical_size_extension;
+}
+
+unsigned int SequenceExtensionPacket::getBitRateExt() const {
+    return (unsigned int) bit_rate_extension;
+}
+
+unsigned int SequenceExtensionPacket::getVBVBufVal() {
+    return (unsigned int) vbv_buffer_size_extension;
+}
+
+unsigned char SequenceExtensionPacket::getProfileAndLevelIndication() const {
+    return profile_and_level_indication;
+}
+
+bool SequenceExtensionPacket::getProgSeq() const {
+    return progressive_sequence;
+}
+
+unsigned char SequenceExtensionPacket::getChromaFormat() {
+    return chroma_format;
+}
+
+bool SequenceExtensionPacket::getLowDelay() {
+    return low_delay;
+}
+
+unsigned char SequenceExtensionPacket::getFrameExtD() {
+    return frame_rate_extension_d;
+}
+
+unsigned char SequenceExtensionPacket::getFrameExtN() {
+    return frame_rate_extension_n;
 }

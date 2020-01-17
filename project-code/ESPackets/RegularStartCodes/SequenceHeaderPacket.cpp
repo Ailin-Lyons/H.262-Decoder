@@ -65,10 +65,30 @@ SequenceHeaderPacket::~SequenceHeaderPacket() {
     }
 }
 
-unsigned short SequenceHeaderPacket::getHorizontalSizeValue() const {
+unsigned short SequenceHeaderPacket::getHVal() const {
     return horizontal_size_value;
 }
 
-unsigned short SequenceHeaderPacket::getVerticalSizeValue() const {
+unsigned short SequenceHeaderPacket::getVVal() const {
     return vertical_size_value;
+}
+
+unsigned char SequenceHeaderPacket::getAspectRatioInformation() const {
+    return aspect_ratio_information;
+}
+
+unsigned char SequenceHeaderPacket::getFrameRate() const {
+    return frame_rate_code;
+}
+
+unsigned int SequenceHeaderPacket::getBitRateVal() {
+    return bit_rate_value;
+}
+
+unsigned int SequenceHeaderPacket::getVBVBufVal() {
+    return (unsigned int) vbv_buffer_size_value;
+}
+
+const bool SequenceHeaderPacket::getCPFlag() {
+    return constrained_parameters_flag;
 }

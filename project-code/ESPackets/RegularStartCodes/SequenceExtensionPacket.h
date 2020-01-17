@@ -49,10 +49,25 @@ public:
 
     ~SequenceExtensionPacket() = default;
 
-    unsigned char getHorizontalSizeExtension() const;
+    unsigned short getHExt() const;
 
-    unsigned char getVerticalSizeExtension() const;
+    unsigned short getVExt() const;
 
+    unsigned int getBitRateExt() const;
+
+    unsigned int getVBVBufVal();
+
+    unsigned char getProfileAndLevelIndication() const;
+
+    bool getProgSeq() const;
+
+    unsigned char getChromaFormat();
+
+    bool getLowDelay();
+
+    unsigned char getFrameExtD();
+
+    unsigned char getFrameExtN();
 };
 
 #endif //DIRECTED_STUDIES_EXTENSIONPAYLOAD_H

@@ -7,6 +7,7 @@
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "../Util/FileInterface.h"
+#include "../Util/FileException.cpp"
 #include "../PacketParsers/ESParser.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
@@ -41,17 +42,25 @@ VideoDecoder::VideoDecoder() {
 }
 
 void VideoDecoder::loadVideoSequence() {
-    VideoInformation* videoInformation = VideoInformation::getInstance();
-    SequenceHeaderPacket *sequence_header = (SequenceHeaderPacket *) getNextVideoPacket();
-    sequence_header->print();
-    SequenceExtensionPacket *sequence_extension = (SequenceExtensionPacket *) getNextVideoPacket();
-    sequence_extension->print();
+    VideoInformation *videoInfo = VideoInformation::getInstance();
+    SequenceHeaderPacket *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
+    seq_hed->print();
+    SequenceExtensionPacket *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
+    seq_ex->print();
     ESPacket *extension_user_data = getNextVideoPacket(); //TODO change this to correct packet type
-    videoInformation->setHorizontalSize(sequence_header->getHorizontalSizeValue() +
-                                       ((unsigned short) (sequence_extension->getHorizontalSizeExtension()) << 12));
-    videoInformation->setVerticalSize(sequence_header->getVerticalSizeValue() +
-                                     ((unsigned short) (sequence_extension->getVerticalSizeExtension()) << 12));
-    std::printf("TODO ExtensionUserData\n");//extension_user_data->print();
+    videoInfo->setHorizontalSize(seq_hed->getHVal() + (seq_ex->getHExt() << 12));
+    videoInfo->setVerticalSize(seq_hed->getVVal() + (seq_ex->getVExt() << 12));
+    videoInfo->setAspectRatio(seq_hed->getAspectRatioInformation());
+    videoInfo->setFrameRate(seq_hed->getFrameRate(),seq_ex->getFrameExtN(),seq_ex->getFrameExtD());
+    videoInfo->setBitRate((seq_ex->getBitRateExt() << 12) + seq_hed->getBitRateVal());
+    videoInfo->setVBVBufSize((seq_ex->getVBVBufVal() << 10) + seq_hed->getVBVBufVal());
+    if(seq_hed->getCPFlag()) throw PacketException("VideoDecoder::loadVideoSequence: Unhandled coding standard"); //This bit shall be '0' in H.262
+    //TODO load quant matrix here? H262 6.3.3, 6.3.11
+    videoInfo->setProfileLevel(seq_ex->getProfileAndLevelIndication());
+    videoInfo->setProgressiveSequence(seq_ex->getProgSeq());
+    videoInfo->setChromaFormat(seq_ex->getChromaFormat());
+    videoInfo->setLowDelay(seq_ex->getLowDelay());
+    //TODO continue here by parsing any fields from extension_user_data
 }
 
 ESPacket *VideoDecoder::getNextVideoPacket() {

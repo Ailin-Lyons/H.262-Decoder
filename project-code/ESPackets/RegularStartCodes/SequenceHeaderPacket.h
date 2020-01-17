@@ -52,9 +52,19 @@ public:
 
     ~SequenceHeaderPacket();
 
-    unsigned short getHorizontalSizeValue() const;
+    unsigned short getHVal() const;
 
-    unsigned short getVerticalSizeValue() const;
+    unsigned short getVVal() const;
+
+    unsigned char getAspectRatioInformation() const;
+
+    unsigned char getFrameRate() const;
+
+    unsigned int getBitRateVal();
+
+    unsigned int getVBVBufVal();
+
+    const bool getCPFlag();
 };
 
 
