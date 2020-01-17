@@ -4,6 +4,7 @@
 #include "../ESParser.h"
 #include "../../ESPackets/RegularStartCodes/SlicePacket.h"
 #include "../../VideoDecoder/VideoInformation.h"
+#include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
