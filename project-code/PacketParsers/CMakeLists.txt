@@ -13,6 +13,8 @@ set(SOURCE_FILES
         ESPacketParsers/PictureHeaderParser.cpp
         ESPacketParsers/SequenceExtensionParser.cpp
         ESPacketParsers/SliceParser.cpp
+        ESPacketParsers/SequenceDisplayExtensionParser.cpp
+        ESPacketParsers/PictureCodingExtensionParser.cpp
         )
 
 set(HEADER_FILES

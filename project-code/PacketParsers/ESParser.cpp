@@ -8,6 +8,9 @@
 #include "ESPacketParsers/SequenceExtensionParser.cpp"
 #include "ESPacketParsers/SequenceHeaderParser.cpp"
 #include "ESPacketParsers/SliceParser.cpp"
+#include "ESPacketParsers/PictureCodingExtensionParser.cpp"
+#include "ESPacketParsers/SequenceDisplayExtensionParser.cpp"
+
 #include "PESParser.cpp"
 
 
@@ -183,10 +186,10 @@ ESPacket *ESParser::getExtensionPacket() {
             return SequenceExtensionParser::getNextPacket(extension_start_code_identifier);
         case ESPacket::extension_type::sequence_display:
             std::printf("TODO extension sequence_display\n");
-            return nullptr; //TODO implement
+            return SequenceDisplayExtensionParser::getNextPacket();
         case ESPacket::extension_type::picture_coding:
             std::printf("TODO extension picture_coding\n");
-            return nullptr; //TODO implement
+            return PictureCodingExtensionParser::getNextPacket();
         default:
             throw PacketException("ESParser::Unhandled extension_start_code_identifier\n");
     }

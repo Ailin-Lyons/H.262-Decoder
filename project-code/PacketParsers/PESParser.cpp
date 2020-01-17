@@ -7,6 +7,7 @@
 
 // TODO - convert macros to compilation flag based
 // TODO - check to make sure that all the reserved, stuffing, marker bits are correctly skipped
+//  @Bhavesh Dont worry about any stuffing bits at the end since ESParser::next_start_code() will skip them anyways
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
 #define marker(x, y) (valueChecks((x), (y), __func__))
@@ -189,6 +190,8 @@ private:
     }
 
 //TODO - implement the decoding based on the equations 2-11 and 2-12
+// @Bhavesh don't worry about these for now and leave them as stub.
+// These are related to presentation time and for now we are just printing frames to file.
     static PESPacket::pts_dts_fields handlePTSDTSFlags(unsigned short flag) {
         PESPacket::pts_dts_fields out{0, 0};
         if (flag == 0b10) {
@@ -220,6 +223,8 @@ private:
     }
 
 //TODO - implement the decoding based on the equations 2-13, 2-14 and 2-15
+// @Bhavesh don't worry about these for now and leave them as stub.
+// These are related to timings and for now we are just printing frames to file.
     static unsigned long long handleESCRFlag() {
         marker(2, 0b11);
         unsigned long long out = read(3);
