@@ -67,7 +67,9 @@ bool ESParser::bytealigned() {
 }
 
 unsigned char ESParser::nextESPacketID() {
-    unsigned char stream_id = peekNBits(8);
+    next_start_code();
+    unsigned int startcode_and_id = peekNBits(32);
+    unsigned char stream_id = (unsigned char) startcode_and_id;
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (ESPacket::isHandled(packet_type)) {
         return stream_id;
@@ -149,7 +151,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
         nextTP->print();
-        throw PacketException("ESParser::peekNextPacket: next packet is too short\n\n                                      <(^_^)>\n\n                                ...shutting down...\n\n                                 ...gracefully....\n\n                                      <(~_~)>");
+        throw PacketException("ESParser::peekNextPacket: next packet is too short\n\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
     }
     return BitManipulator::readNBits(nextTP->getData(), numBits);
 }

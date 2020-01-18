@@ -16,11 +16,13 @@ private:
      */
     VideoDecoder();
 
-    bool loadFile(char *relative_path);
+    static bool loadFile(char *relative_path);
 
     void loadVideoSequence();
 
-    ESPacket *getNextVideoPacket();
+    static ESPacket *getNextVideoPacket();
+
+    static bool isNextVideoPacket(ESPacket::start_code startCode);
 
 public:
     /**
@@ -36,6 +38,19 @@ public:
 
     void decodeToFile(char *source, char *destination);
 
+    void loadExtensionUserData(unsigned char i);
+
+    void loadGroupHeaderAndExtension();
+
+    void loadPictureHeader();
+
+    void loadPictureCodingExtension();
+
+    void loadPictureData();
+
+    static void handleVideoStream(ESPacket *pPacket);
+
+    void makePicture();
 };
 
 
