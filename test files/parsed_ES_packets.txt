@@ -29,7 +29,7 @@ Header Fields:
 	Address		Variable 					Value (hex) #Comments
 	26-29		extension_start_code		0x000001B5	
 	2A.0		start_code_identifier		0x1
-	2A.4-2B.3	profile_level_indicartion	0x46		# look at clause 8
+	2A.4-2B.3	profile_level_indication	0x46		# look at clause 8
 	3B.4		progressive_sequence		0x1 		# only progressive frame-pictures
 	3B.5		chroma_format				0x2 		# 4:2:2 Table 6-5
 	3B.7		horizontal_file_extension	0x0
