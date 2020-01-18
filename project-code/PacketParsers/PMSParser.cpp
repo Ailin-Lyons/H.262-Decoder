@@ -21,11 +21,11 @@ public:
         headerFields.table_id = esParser->popNBits(8);
         headerFields.t_id_type = TSPayloadSections::getTableID(headerFields.table_id);
         if (headerFields.t_id_type != TSPayloadSections::TableIDType::TS_program_map_section) {
-            throw PacketException("PMSParser::getPMSPacket: unexpected table_id");
+            throw PacketException("PMSParser::getPMSPacket: unexpected table_id\n");
         }
         headerFields.section_syntax_indicator = esParser->popNBits(1);
         if (esParser->popNBits(1) != 0) {
-            throw PacketException("PMSParser::getPMSPacket expect '0' but found '1'");
+            throw PacketException("PMSParser::getPMSPacket expect '0' but found '1'\n");
         }
         esParser->popNBits(2); //reserved
         headerFields.section_length = esParser->popNBits(12);

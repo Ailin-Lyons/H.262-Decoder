@@ -21,7 +21,7 @@ public:
         }
         unsigned char table_id = read(8);
         if (table_id != 0x00) {
-            throw PacketException("PASParser::getPASPacket: table_id != 0x00");
+            throw PacketException("PASParser::getPASPacket: table_id != 0x00\n");
         }
         unsigned char section_syntax_indicator = read(1);
         marker(3, 0b011);
@@ -63,6 +63,7 @@ private:
             s.append(std::to_string(expectedVal));
             s.append(", ReadVal = ");
             s.append(std::to_string(readVal));
+            s.append("\n");
             throw PacketException(s);
         }
     }

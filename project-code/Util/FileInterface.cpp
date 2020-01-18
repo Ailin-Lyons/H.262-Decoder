@@ -23,10 +23,10 @@ void FileInterface::setInstance(char *relativePath) {
         rf = new std::ifstream(relativePath, std::ios::in | std::ios::binary);
         file_size = getFileSize(relativePath);
         if (!(*rf)) {
-            throw FileException("FileInterface::setInstance: Cannot open file!");
+            throw FileException("FileInterface::setInstance: Cannot open file!\n");
         }
         if (file_size == -1 || file_size % 188 != 0) {
-            throw FileException("FileInterface::setInstance: Invalid file!");
+            throw FileException("FileInterface::setInstance: Invalid file!\n");
         }
         index = 0;
         num_packets = file_size / 188;
@@ -54,13 +54,13 @@ bool FileInterface::hasNextPacket() {
  */
 void FileInterface::getNextPacketData(char *file_buffer) {
     if (!hasNextPacket()) {
-        throw PacketException("FileInterface::getNextPacketData: hasNextPacket returned false");
+        throw PacketException("FileInterface::getNextPacketData: hasNextPacket returned false\n");
     }
     if (rf->good()) {
         rf->read(file_buffer, 188);
         index++;
     } else {
-        throw FileException("FileInterface::getNextPacketData: rf->good() check failed");
+        throw FileException("FileInterface::getNextPacketData: rf->good() check failed\n");
     }
 }
 

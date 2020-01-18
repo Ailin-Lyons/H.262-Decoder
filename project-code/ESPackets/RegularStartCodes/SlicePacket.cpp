@@ -21,17 +21,17 @@ SlicePacket::SlicePacket(SlicePacket::initializerStruct init) {
 }
 
 void SlicePacket::print() {
-    std::printf("stream_id = %hhu\npacket_type = ESPacket::start_code::slice\nslice_start_code = %u\n"
+    printf("stream_id = %hhu\npacket_type = ESPacket::start_code::slice\nslice_start_code = %u\n"
                 "slice_vertical_position_extension = %hhu\npriority_breakpoint = %hhu\nquantiser_scale_code = %hhu\n"
                 "slice_extension_flag = %hhu\nintra_slice = %hhu\nslice_picture_id_enable = %hhu\n"
                 "slice_picture_id = %hhu\nnumExtraInfo = %u\nExtra_Information : %p\n", stream_id, slice_start_code,
                 slice_vertical_position_extension, priority_breakpoint, quantiser_scale_code, slice_extension_flag,
                 intra_slice, slice_picture_id_enable, slice_picture_id, numExtraInfo, extra_Information);
     for (size_t i = 0; i < numExtraInfo; i++) {
-        std::printf("\tExtra_Information[%u]:\n\t\textra_bit_slice = %hhu, extra_information_slice = %hhu\n", i,
+        printf("\tExtra_Information[%u]:\n\t\textra_bit_slice = %hhu, extra_information_slice = %hhu\n", i,
                 extra_Information[i].extra_bit_slice, extra_Information[i].extra_information_slice);
     }
-    std::printf("extra_bit_slice = %hhu", extra_bit_slice);
+    printf("extra_bit_slice = %hhu", extra_bit_slice);
 }
 
 bool SlicePacket::operator==(const SlicePacket &rhs) const {

@@ -13,7 +13,7 @@ GroupOfPicturesHeaderPacket::GroupOfPicturesHeaderPacket(GroupOfPicturesHeaderPa
 }
 
 void GroupOfPicturesHeaderPacket::print() {
-    std::printf("GroupOfPicturesHeaderPacket: time_code %x, closed_gop %x, broken_link %x.\n", time_code, closed_gop, broken_link);
+    printf("GroupOfPicturesHeaderPacket: time_code %x, closed_gop %x, broken_link %x.\n", time_code, closed_gop, broken_link);
 }
 
 bool GroupOfPicturesHeaderPacket::operator==(const GroupOfPicturesHeaderPacket &rhs) const {

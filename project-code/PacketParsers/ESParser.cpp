@@ -151,7 +151,8 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
         nextTP->print();
-        throw PacketException("ESParser::peekNextPacket: next packet is too short\n\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
+        throw PacketException(
+                "ESParser::peekNextPacket: next packet is too short\n\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
     }
     return BitManipulator::readNBits(nextTP->getData(), numBits);
 }
@@ -174,7 +175,7 @@ void ESParser::incrementOffset(unsigned int numBits) {
 TransportPacket *ESParser::findNextTSPacket() {
     TransportPacket *out = TSParser::getNextPacket();
     while (out->getPacketPID() != program_pid) {
-        std::printf("\tDiscarded TSPacket with pid: %x\n", out->getPacketPID());
+        printf("\tDiscarded TSPacket with pid: %x\n", out->getPacketPID());
         out = TSParser::getNextPacket();
     }
     return out;

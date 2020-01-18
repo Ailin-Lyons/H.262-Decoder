@@ -35,7 +35,7 @@ private:
         TransportPacket::transport_header_fields thf_out{};
         thf_out.sync_byte = packet[packetIndex];
         if (thf_out.sync_byte != 0x47) {
-            throw PacketException("TSParser::buildTransportPacket: sync_byte error");
+            throw PacketException("TSParser::buildTransportPacket: sync_byte error\n");
         }
         packetIndex++;
         thf_out.transport_error_indicator = BitManipulator::readNBits(&packet[packetIndex], 1);

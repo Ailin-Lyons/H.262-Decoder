@@ -21,7 +21,7 @@ SequenceHeaderPacket::SequenceHeaderPacket(SequenceHeaderPacket::initializerStru
 }
 
 void SequenceHeaderPacket::print() {
-    std::printf(
+    printf(
             "SequenceHeaderPacket: hsv %x, vsv %x, ari %x, frc %x, brv %x, vbv_buf %x, cpf %x, liqm %x, iqm %x, lniqm %x, niqm %x.\n",
             horizontal_size_value, vertical_size_value, aspect_ratio_information, frame_rate_code,
             bit_rate_value, vbv_buffer_size_value, constrained_parameters_flag, load_intra_quantiser_matrix,

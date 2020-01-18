@@ -15,10 +15,10 @@ VideoDecoder *VideoDecoder::instance = nullptr;
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
     loadFile(source);
-    std::printf("\n***Loading video_sequence...***\n");
+    printf("\n***Loading video_sequence...***\n");
     loadVideoSequence();
-    std::printf("\n***Loading video_sequence...Done!***\n");
-    std::printf("\n***Beginning Decoding process...***\n");
+    printf("\n***Loading video_sequence...Done!***\n");
+    printf("\n***Beginning Decoding process...***\n");
     do {
         loadExtensionUserData(0);
         do {
@@ -28,19 +28,19 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
             loadVideoSequence();
         }
     } while (!isNextVideoPacket(ESPacket::start_code::sequence_end));
-    std::printf("\n***Decoding process done...***\n");
+    printf("\n***Decoding process done...***\n");
 }
 
 bool VideoDecoder::loadFile(char *relative_path) {
-    std::printf("\n***Loading file: %s ***\n", relative_path);
+    printf("\n***Loading file: %s ***\n", relative_path);
     try {
         FileInterface::getInstance()->setInstance(relative_path);
         ESParser *esp = ESParser::getInstance();
         esp->initiateStream();
-        std::printf("***Loading file... Done!***\n", relative_path);
+        printf("***Loading file... Done!***\n", relative_path);
         return true;
     } catch (const FileException) {
-        std::printf("Error loading file!\n");
+        printf("Error loading file!\n");
         return false;
     }
 }
@@ -49,7 +49,7 @@ VideoDecoder::VideoDecoder() {
 }
 
 void VideoDecoder::loadVideoSequence() {
-    std::printf("\n***Updating Video Information...***\n");
+    printf("\n***Updating Video Information...***\n");
     VideoInformation *videoInfo = VideoInformation::getInstance();
     SequenceHeaderPacket *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
     seq_hed->print();
@@ -78,7 +78,7 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
     ESParser *esp = ESParser::getInstance();
     ESPacket *out = esp->getNextPacket();
     if (out == nullptr) {
-        std::printf("TODO handle this packet");
+        printf("TODO handle this packet");
         return out;
     }
     if (out->getPacketType() == ESPacket::start_code::video_stream) {

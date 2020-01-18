@@ -13,7 +13,7 @@ PictureHeaderPacket::PictureHeaderPacket(PictureHeaderPacket::initializerStruct 
 }
 
 void PictureHeaderPacket::print() {
-    std::printf("PictureHeaderPacket: temporal_reference %x, picture_coding_type %x, vbv_delay %x.\n",
+    printf("PictureHeaderPacket: temporal_reference %x, picture_coding_type %x, vbv_delay %x.\n",
                 temporal_reference, picture_coding_type, vbv_delay);
 }
 

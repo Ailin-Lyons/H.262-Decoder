@@ -116,7 +116,7 @@ public:
             case 0xFF :
                 return start_code::program_stream_directory;
             default :
-                throw PacketException("PESPacket::Unexpected stream_id");
+                throw PacketException("PESPacket::Unexpected stream_id\n");
         }
     }
 

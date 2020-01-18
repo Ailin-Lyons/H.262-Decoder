@@ -17,15 +17,15 @@ ProgramAssociationSection::ProgramAssociationSection(
 }
 
 void ProgramAssociationSection::print() {
-    std::printf("TS_payload_header_fields: \n\t"
-                "table_id = %x, t_id_type = program_association_section, section_syntax_indicator %x, section_length = %hx\n"
-                "transport_stream_id = %hx\n"
-                "TS_payload_version_section_fields \n\t"
-                "version_number = %x, current_next_indicator = %x, section_number = %x, last_section_number = %x\n"
-                "numPASPrograms = %x\n", headerFields.table_id, headerFields.section_syntax_indicator,
-                headerFields.section_length,
-                transport_stream_id, versionSectionFields.version_number, versionSectionFields.current_next_indicator,
-                versionSectionFields.section_number, versionSectionFields.last_section_number, numPasPrograms);
+    printf("TS_payload_header_fields: \n\t"
+           "table_id = %x, t_id_type = program_association_section, section_syntax_indicator %x, section_length = %hx\n"
+           "transport_stream_id = %hx\n"
+           "TS_payload_version_section_fields \n\t"
+           "version_number = %x, current_next_indicator = %x, section_number = %x, last_section_number = %x\n"
+           "numPASPrograms = %x\n", headerFields.table_id, headerFields.section_syntax_indicator,
+           headerFields.section_length,
+           transport_stream_id, versionSectionFields.version_number, versionSectionFields.current_next_indicator,
+           versionSectionFields.section_number, versionSectionFields.last_section_number, numPasPrograms);
     if (pasPrograms != nullptr) {
         for (unsigned int i = 0; i < numPasPrograms; i++) {
             std::printf("PAS_Program[%x]: \n\t"
@@ -44,7 +44,7 @@ unsigned int ProgramAssociationSection::getProgramPID() {
     if (numPasPrograms > 0) {
         return pasPrograms->assosciated_pid;
     }
-    throw PacketException("ProgramAssosciationSection::getProgramPID could not find a video PID");
+    throw PacketException("ProgramAssosciationSection::getProgramPID could not find a video PID\n");
 }
 
 bool ProgramAssociationSection::operator==(const ProgramAssociationSection &rhs) const {

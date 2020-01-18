@@ -33,7 +33,7 @@ public:
             case 0x02:
                 return TableIDType::TS_program_map_section;
             case 0xFF:
-                throw PacketException("TSPayloadSections::getTableID Forbidden table_id");
+                throw PacketException("TSPayloadSections::getTableID Forbidden table_id\n");
             default:
                 if (0x03 <= table_id <= 0x3F) {
                     return TableIDType::reserved;

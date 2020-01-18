@@ -74,7 +74,7 @@ void VideoInformation::setFrameRate(unsigned char frame_code, unsigned char fram
             frameRate = ((double) 60) * factor;
             break;
         default:
-            throw VideoException("VideoInformation::setFrameRate: unhandled frame rate type.");
+            throw VideoException("VideoInformation::setFrameRate: unhandled frame rate type.\n");
     }
 }
 

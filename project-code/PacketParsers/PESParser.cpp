@@ -69,7 +69,7 @@ public:
                                  previous_PES_packet_CRC, pes_extension_fields, data_length, data);
 
         } else {
-            throw PacketException("PESParser::getNextPesPacket: start_code not handled");
+            throw PacketException("PESParser::getNextPesPacket: start_code not handled\n");
         }
     }
 
@@ -84,6 +84,7 @@ private:
             s.append(std::to_string(expectedVal));
             s.append(", ReadVal = ");
             s.append(std::to_string(readVal));
+            s.append("\n");
             throw PacketException(s);
         }
     }
@@ -136,7 +137,7 @@ private:
     static PESPacket::pack_header parsePackHeader() {
         PESPacket::pack_header out{};
         if (read(32) != 0x000001BA) {
-            throw PacketException("PESParser::parsePackHeader: pack_start_code != 0x000001BA");
+            throw PacketException("PESParser::parsePackHeader: pack_start_code != 0x000001BA\n");
         }
         marker(2, 0b01);
         out.system_clock_reference = read(3);
@@ -160,7 +161,7 @@ private:
     static PESPacket::system_header parseSystemHeader() {
         PESPacket::system_header out{};
         if (read(32) != 0x000001BB) {
-            throw PacketException("PESParser::parsePackHeader: system_header_start_code != 0x000001BB");
+            throw PacketException("PESParser::parsePackHeader: system_header_start_code != 0x000001BB\n");
         }
         out.header_length = read(16);
         mark1;

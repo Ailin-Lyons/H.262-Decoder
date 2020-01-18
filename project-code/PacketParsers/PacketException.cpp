@@ -13,7 +13,7 @@ class PacketException : public std::exception {
 
 public:
     explicit PacketException(std::string msg) {
-        message = std::move(msg);
+        message = move(msg);
     }
 
     const char *what() const noexcept override {
