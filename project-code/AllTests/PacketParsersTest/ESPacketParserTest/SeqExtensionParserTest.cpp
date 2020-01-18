@@ -8,7 +8,9 @@
 #include "../../../ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
 
 TEST(AllTest, SequenceExtension_Parser_Test) {
-    SequenceExtensionPacket expected = SequenceExtensionPacket({});//TODO
+    SequenceExtensionPacket::initializerStruct init{};
+
+    SequenceExtensionPacket expected = SequenceExtensionPacket(init);
     char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();

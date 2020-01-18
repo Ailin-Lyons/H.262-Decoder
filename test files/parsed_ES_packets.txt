@@ -11,7 +11,7 @@ Header Fields:
 	1F.4-20		vertical_size_value			0x2D0		# least significant 12 bits
 	21.0		aspect_ratio_information	0x3			# 16:9 aspect ratio Table 6-3
 	21.4		frame_rate_code				0x3 		# frame_rate_value = 25 Table 6-4
-	22-24.1		bit_rate_value  			0x1F4		# measured in 400 bits/sec
+	22-24.1		bit_rate_value  			0x7D0		# measured in 400 bits/sec
 	24.3-25.4	vbv_buffer_size_value		0xC4		
 	25.5		constrined_parameters_flag	0x0 		
 	25.6		load_intra_quantiser_matr	0x0

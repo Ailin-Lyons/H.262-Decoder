@@ -15,6 +15,6 @@ TEST(AllTest, GroupOfPicturesHeaderPacket_Test) {
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) != ESPacket::start_code::group) {
         ESParser::getInstance()->getNextPacket();
     }
-    GroupOfPicturesHeaderPacket *actual = (GroupOfPicturesHeaderPacket *) ESParser::getInstance()->getNextPacket();
+    auto *actual = (GroupOfPicturesHeaderPacket *) ESParser::getInstance()->getNextPacket();
     ASSERT_EQ(expected, *actual);
 }
