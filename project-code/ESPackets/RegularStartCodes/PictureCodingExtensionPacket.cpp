@@ -50,13 +50,13 @@ bool PictureCodingExtensionPacket::operator==(const PictureCodingExtensionPacket
            alternate_scan == rhs.alternate_scan &&
            repeat_first_field == rhs.repeat_first_field &&
            chroma_420_type == rhs.chroma_420_type &&
-           progressive_frame == rhs.intra_dc_precision &&
-           composite_display_flag == rhs.picture_structure &&
-           v_axis == rhs.top_field_first &&
-           field_sequence == rhs.frame_pred_frame_dct &&
-           sub_carrier == rhs.concealment_motion_vectors &&
-           burst_amplitude == rhs.q_scale_type &&
-           sub_carrier_phase == rhs.intra_vlc_format;
+           progressive_frame == rhs.progressive_frame &&
+           composite_display_flag == rhs.composite_display_flag &&
+           v_axis == rhs.v_axis &&
+           field_sequence == rhs.field_sequence &&
+           sub_carrier == rhs.sub_carrier &&
+           burst_amplitude == rhs.burst_amplitude &&
+           sub_carrier_phase == rhs.sub_carrier_phase;
 }
 
 bool PictureCodingExtensionPacket::operator!=(const PictureCodingExtensionPacket &rhs) const {

@@ -9,19 +9,38 @@
 #include "../../../ESPackets/RegularStartCodes/ExtensionPacket.h"
 
 TEST(AllTest, PictureCodingExtension_Parser_Test) {
-    //PictureCodingExtensionPacket expected = PictureCodingExtensionPacket({});//TODO
-    char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio.ts)";
+    PictureCodingExtensionPacket::initializerStruct init{};
+    init.f_code_0_0 = 0xF;
+    init.f_code_0_1 = 0xF;
+    init.f_code_1_0 = 0xF;
+    init.f_code_1_1 = 0xF;
+    init.intra_dc_precision = 0x0;
+    init.picture_structure = 0x3;
+    init.top_field_first = false;
+    init.frame_pred_frame_dct = true;
+    init.concealment_motion_vectors = false;
+    init.q_scale_type = false;
+    init.intra_vlc_format = false;
+    init.alternate_scan = false;
+    init.repeat_first_field = false;
+    init.chroma_420_type = true;
+    init.progressive_frame = true;
+    init.composite_display_flag = false;
+    PictureCodingExtensionPacket expected = PictureCodingExtensionPacket(init);
+    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
-    while (1) {
+    bool testDone = true;
+    while (testDone) {
         if (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) ==
             ESPacket::start_code::extension) {
-            ExtensionPacket *actual = (ExtensionPacket *) ESParser::getInstance()->getNextPacket();
-            if (actual->getExtensionType() == ExtensionPacket::extension_type::sequence) {
-                //ASSERT_EQ(expected, *((PictureCodingExtensionPacket *) actual));
-                GTEST_FAIL();
-                break;
+            auto *actual = (ExtensionPacket *) ESParser::getInstance()->getNextPacket();
+            if (actual->getExtensionType() == ExtensionPacket::extension_type::picture_coding) {
+                ASSERT_EQ(expected, *((PictureCodingExtensionPacket *) actual));
+                testDone = false;
             }
+        } else {
+            ESParser::getInstance()->getNextPacket();
         }
     }
 }

@@ -66,7 +66,7 @@ Group_Of_Pictures_Header:
 
 	Address		Variable 					Value (hex) #Comments
 	3C-3F		group_start_code			0x000001B8
-	40-43.0		time_code					0x10 		# Table 6-11
+	40-43.0		time_code					0x1000 		# Table 6-11
 	43.1		closed_gop					0x1 		# closed_gop is set to '1' to indicate that these B-pictures have been encoded using only backward prediction or intra coding
 	43.2		broken_link					0x0 		# A decoder may use this flag to avoid displaying frames that cannot be correctly decoded if set to 1
 
@@ -79,7 +79,7 @@ Picture:
 	44-47		picture_start_code 			0x00000100
 	48-49.1		temporal_reference			0x0
 	49.2		picture_coding_type			0x1 		# intra-coded(I). Table 6-12
-	49.5-4B.4	vbv_delay					0xFF		# special case
+	49.5-4B.4	vbv_delay					0xFFFF		# special case
 	54.5		extra_bit_picture			0x0			
 
 

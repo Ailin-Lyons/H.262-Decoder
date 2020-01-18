@@ -8,13 +8,17 @@
 #include "../../../ESPackets/RegularStartCodes/PictureHeaderPacket.h"
 
 TEST(AllTest, PictureHeaderPacket_Test) {
-    PictureHeaderPacket expected = PictureHeaderPacket({});//TODO
-    char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio.ts)";
+    PictureHeaderPacket::initializerStruct init{};
+    init.picture_coding_type = 0x1;
+    init.temporal_reference = 0x0;
+    init.vbv_delay = 0xFFFF;
+    PictureHeaderPacket expected = PictureHeaderPacket(init);
+    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) != ESPacket::start_code::picture) {
         ESParser::getInstance()->getNextPacket();
     }
-    PictureHeaderPacket *actual = (PictureHeaderPacket *) ESParser::getInstance()->getNextPacket();
+    auto *actual = (PictureHeaderPacket *) ESParser::getInstance()->getNextPacket();
     ASSERT_EQ(expected, *actual);
 }
