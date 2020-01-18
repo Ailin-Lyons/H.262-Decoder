@@ -21,9 +21,9 @@ public:
             init.transfer_characteristics = esParser->popNBits(8);
             init.matrix_coefficients = esParser->popNBits(8);
         }
-        init.matrix_coefficients = esParser->popNBits(14);
+        init.display_horizontal_size = esParser->popNBits(14);
         esParser->popNBits(1); //marker bit
-        init.matrix_coefficients = esParser->popNBits(14);
+        init.display_vertical_size = esParser->popNBits(14);
         return new SequenceDisplayExtensionPacket(init);
     }
 };

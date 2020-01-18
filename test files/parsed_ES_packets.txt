@@ -30,15 +30,15 @@ Header Fields:
 	26-29		extension_start_code		0x000001B5	
 	2A.0		start_code_identifier		0x1
 	2A.4-2B.3	profile_level_indication	0x46		# look at clause 8
-	3B.4		progressive_sequence		0x1 		# only progressive frame-pictures
-	3B.5		chroma_format				0x2 		# 4:2:2 Table 6-5
-	3B.7		horizontal_file_extension	0x0
-	3C.1		vertical_file_extension		0x0
-	3C.3-3D.6	bit_rate_extension			0x0
-	3E			vbv_buffer_extension		0x0
-	3F.0		low_delay					0x1 		# no B pictures present here
-	3F.1		frame_rate_extension_n		0x0 		# frame_rate_code formula
-	3F.3		frame_rate_extension_d		0x0			# frame_rate_code formula
+	2B.4		progressive_sequence		0x1 		# only progressive frame-pictures
+	2B.5		chroma_format				0x1 		# 4:2:0 Table 6-5
+	2B.7		horizontal_file_extension	0x0
+	2C.1		vertical_file_extension		0x0
+	2C.3-2D.6	bit_rate_extension			0x0
+	2E			vbv_buffer_extension		0x0
+	2F.0		low_delay					0x1 		# no B pictures present here
+	2F.1		frame_rate_extension_n		0x0 		# frame_rate_code formula
+	2F.3		frame_rate_extension_d		0x0			# frame_rate_code formula
 
 
 Sequence_Display_Extension:
@@ -52,7 +52,7 @@ Sequence_Display_Extension:
 	34.4		video_format				0x5 		# unspecified video format Table 6-6
 	34.7		colour_description			0x1
 	35			colour_primaries			0x5 		# Recommendation ITU-R BT.470-2 System B, G. H.262.0 Table 6-7
-	36			transfer_characteristics	0x14 		# reserved Table 6-8
+	36			transfer_characteristics	0x1 		# Recommendation ITU-R BT.709  Table 6-8
 	37			matrix_coefficients			0x5 		# Recommendation ITU-R BT.470-2 System B, G. H.262.0 Table 6-9
 	38-39.5		display_horizontal_size		0x500		# display_horizontal_size and display_vertical_size do not affect the decoding process but may be used by the display process
 	39.7		display_vertical_size		0x2D0
