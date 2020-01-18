@@ -105,7 +105,7 @@ ESPacket *ESParser::getNextPacket() {
 }
 
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
-    if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes");
+    if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes\n");
     if (numBits <= numBitsRemaining()) {
         return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
     } else {
@@ -118,7 +118,7 @@ unsigned long long ESParser::peekNBits(unsigned int numBits) {
 }
 
 unsigned long long ESParser::popNBits(unsigned int numBits) {
-    if (numBits > 64) throw PacketException("ESParser::popNBits: requesting too many bytes");
+    if (numBits > 64) throw PacketException("ESParser::popNBits: requesting too many bytes\n");
     if (numBits < numBitsRemaining()) {
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
         incrementOffset(numBits);
@@ -133,7 +133,7 @@ unsigned long long ESParser::popNBits(unsigned int numBits) {
         unsigned long long out = BitManipulator::readNBitsOffset(currPos, currOffset, part1);
         loadNextTSPacket();
         if (numBits > (currTP->getDataLength() * 8)) {
-            throw PacketException("ESParser::popNBits: next packet is too short");
+            throw PacketException("ESParser::popNBits: next packet is too short\n");
         }
         out = (out << part2) + BitManipulator::readNBitsOffset(currPos, currOffset, part2);
         incrementOffset(part2);
@@ -152,7 +152,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
     if (numBits > (nextTP->getDataLength() * 8)) {
         nextTP->print();
         throw PacketException(
-                "ESParser::peekNextPacket: next packet is too short\n\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
+                "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
     }
     return BitManipulator::readNBits(nextTP->getData(), numBits);
 }
