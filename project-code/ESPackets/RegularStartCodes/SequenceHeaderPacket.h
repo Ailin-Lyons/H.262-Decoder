@@ -65,6 +65,17 @@ public:
     unsigned int getVBVBufVal();
 
     const bool getCPFlag();
+
+    bool isLoadIntraQuantiserMatrix() const;
+
+    unsigned char *getIntraQuantiserMatrix() const;
+
+    bool isLoadNonIntraQuantiserMatrix() const;
+
+    unsigned char *getNonIntraQuantiserMatrix() const;
+
+private:
+
 };
 
 

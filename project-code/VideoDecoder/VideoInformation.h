@@ -105,6 +105,8 @@ public:
     void setLowDelay(bool d);
 
     void setFrameRate(unsigned char frame_code, unsigned char frame_ext_n, unsigned char frame_ext_d);
+
+    void print();
 };
 
 #endif //PROJECT_CODE_VIDEOINFORMATION_H

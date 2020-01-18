@@ -31,11 +31,11 @@ void ESParser::initiateStream() {
     program_pid = 0x00;
     loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
-    std::printf("\t***Loaded PAS: program_1 PID is %x ***\n", programAssociationSection->getProgramPID());
+    printf("\tLoaded PAS: program_1 PID is %x\n", programAssociationSection->getProgramPID());
     program_pid = programAssociationSection->getProgramPID();
     loadNextTSPacket();
     programMapSection = PMSParser::getPMSPacket();
-    std::printf("\t***Loaded PMS for PID %x: video_stream PID is %x ***\n", programAssociationSection->getProgramPID(),
+    printf("\tLoaded PMS for PID %x: video_stream PID is %x\n", programAssociationSection->getProgramPID(),
                 programMapSection->getVideoStreamPID());
     program_pid = programMapSection->getVideoStreamPID();
     loadNextTSPacket();
@@ -71,21 +71,18 @@ unsigned char ESParser::nextESPacketID() {
     unsigned int startcode_and_id = peekNBits(32);
     unsigned char stream_id = (unsigned char) startcode_and_id;
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
-    if (ESPacket::isHandled(packet_type)) {
-        return stream_id;
+    if (!ESPacket::isHandled(packet_type)) {
+        getNextPacket();
+        return nextESPacketID();
     }
-    std::printf("Unhandled PESPacket has been dropped: %x\n", stream_id);
-    return nextESPacketID();
+    return stream_id;
 }
 
 ESPacket *ESParser::getNextPacket() {
     next_start_code();
-    if (popNBits(24) != 0x000001) {
-        throw PacketException("ESParser::getNextPacket() missing start_code\n");
-    }
+    popNBits(24); //bypass start_code
     unsigned char stream_id = popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
-    std::printf("PESPacket code: %x\n", stream_id);
     switch (packet_type) {
         case ESPacket::start_code::video_stream:
             return PESParser::getNextPesPacket(packet_type);
@@ -175,7 +172,6 @@ void ESParser::incrementOffset(unsigned int numBits) {
 TransportPacket *ESParser::findNextTSPacket() {
     TransportPacket *out = TSParser::getNextPacket();
     while (out->getPacketPID() != program_pid) {
-        printf("\tDiscarded TSPacket with pid: %x\n", out->getPacketPID());
         out = TSParser::getNextPacket();
     }
     return out;

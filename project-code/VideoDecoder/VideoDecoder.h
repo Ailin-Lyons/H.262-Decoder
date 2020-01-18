@@ -22,7 +22,7 @@ private:
 
     static ESPacket *getNextVideoPacket();
 
-    static bool isNextVideoPacket(ESPacket::start_code startCode);
+    static bool nextVideoPacketIs(ESPacket::start_code startCode);
 
 public:
     /**

@@ -13,9 +13,17 @@ public:
      */
     static SequenceDisplayExtensionPacket *getNextPacket() {
         ESParser *esParser = ESParser::getInstance();
-        //SequenceDisplayExtensionPacket::initializerStruct init = {};
-        //TODO
-        //return new SequenceDisplayExtensionPacket(init);
-        return nullptr;
+        SequenceDisplayExtensionPacket::initializerStruct init = {};
+        init.video_format = esParser->popNBits(3);
+        init.colour_description = esParser->popNBits(1);
+        if(init.colour_description){
+            init.colour_primaries = esParser->popNBits(8);
+            init.transfer_characteristics = esParser->popNBits(8);
+            init.matrix_coefficients = esParser->popNBits(8);
+        }
+        init.matrix_coefficients = esParser->popNBits(14);
+        esParser->popNBits(1); //marker bit
+        init.matrix_coefficients = esParser->popNBits(14);
+        return new SequenceDisplayExtensionPacket(init);
     }
 };

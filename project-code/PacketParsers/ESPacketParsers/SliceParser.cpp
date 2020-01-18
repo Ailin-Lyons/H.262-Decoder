@@ -12,7 +12,8 @@
 class SliceParser {
 public:
     /**
-     * // TODO write comment
+     * Builds a SlicePacket from ESParser data, starting after the start_code/stream_id
+     * H.262 6.2.4
      */
     static SlicePacket *getNextPacket(unsigned char stream_id) {
         unsigned int slice_start_code = (0x000001 << 8) + stream_id;

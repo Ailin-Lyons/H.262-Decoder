@@ -13,7 +13,7 @@
 /**
  * ESParser is a singleton that parses the Elementary stream, drops unhandled packets and parses elementary stream packets into ESPacket objects
  */
-class ESParser { //TODO test the H262 portion of this class
+class ESParser {
 public:
     TransportPacket *currTP; //The TransportPacket currently being parsed
     TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead

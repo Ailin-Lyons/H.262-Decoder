@@ -92,3 +92,19 @@ unsigned int SequenceHeaderPacket::getVBVBufVal() {
 const bool SequenceHeaderPacket::getCPFlag() {
     return constrained_parameters_flag;
 }
+
+bool SequenceHeaderPacket::isLoadIntraQuantiserMatrix() const {
+    return load_intra_quantiser_matrix;
+}
+
+unsigned char *SequenceHeaderPacket::getIntraQuantiserMatrix() const {
+    return intra_quantiser_matrix;
+}
+
+bool SequenceHeaderPacket::isLoadNonIntraQuantiserMatrix() const {
+    return load_non_intra_quantiser_matrix;
+}
+
+unsigned char *SequenceHeaderPacket::getNonIntraQuantiserMatrix() const {
+    return non_intra_quantiser_matrix;
+}

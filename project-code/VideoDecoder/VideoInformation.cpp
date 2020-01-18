@@ -159,3 +159,9 @@ void VideoInformation::setChromaFormat(unsigned char chroma_bits) {
 void VideoInformation::setLowDelay(bool d) {
     low_delay = d;
 }
+
+void VideoInformation::print() {
+    printf("Video Information:\n\tResolution: %d by %d\n\tAspect Ratio code: %x\n\tFrame rate: %lf\n\tBit Rate: %ld\n\tVBV Buffer: %ld\n\tVideo Profile code: %x\n\tVideo Level Code: %x\n\tIsProgressive: %s\n\tchroma type code: %x\n\tlow_delay:%s",
+           horizontal_size, vertical_size, aspectRatio, frameRate, bit_rate, vbv_buffer_size, profile, level,
+           progressive_sequence ? "true" : "false", chroma_format, low_delay ? "true" : "false");
+}
