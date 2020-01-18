@@ -5,6 +5,8 @@
 #include "SequenceDisplayExtensionPacket.h"
 
 SequenceDisplayExtensionPacket::SequenceDisplayExtensionPacket(SequenceDisplayExtensionPacket::initializerStruct init) {
+    packet_type = ESPacket::start_code::extension;
+    stream_id = 0xB5;
     e_type = ExtensionPacket::extension_type::sequence_display;
     video_format = init.video_format;
     colour_description = init.colour_description;
