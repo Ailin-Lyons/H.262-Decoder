@@ -5,6 +5,7 @@
 #include "PictureCodingExtensionPacket.h"
 
 PictureCodingExtensionPacket::PictureCodingExtensionPacket(PictureCodingExtensionPacket::initializerStruct init) {
+    e_type = ExtensionPacket::extension_type::picture_coding;
     f_code_0_0 = init.f_code_0_0;
     f_code_0_1 = init.f_code_0_1;
     f_code_1_0 = init.f_code_1_0;

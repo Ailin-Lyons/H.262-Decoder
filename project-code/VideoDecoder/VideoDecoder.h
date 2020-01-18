@@ -6,11 +6,13 @@
 #define PROJECT_CODE_VIDEODECODER_H
 
 #include <ESPacket.h>
+#include <../PictureDecoder/PictureDecoder.h>
 
 class VideoDecoder {
 private:
     static VideoDecoder *instance;
 
+    PictureDecoder* pictureDecoder;
     /**
      * A private constructor for the singleton
      */

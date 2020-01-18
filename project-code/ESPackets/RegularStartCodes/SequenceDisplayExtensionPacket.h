@@ -5,9 +5,9 @@
 #ifndef PROJECT_CODE_SEQUENCEDISPLAYEXTENSIONPACKET_H
 #define PROJECT_CODE_SEQUENCEDISPLAYEXTENSIONPACKET_H
 
-#include "../ESPacket.h"
+#include "ExtensionPacket.h"
 
-class SequenceDisplayExtensionPacket : public ESPacket {
+class SequenceDisplayExtensionPacket : public ExtensionPacket {
 
 private:
     unsigned char video_format; //3-bits

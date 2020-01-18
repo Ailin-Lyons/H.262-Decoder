@@ -7,6 +7,16 @@
 
 
 class PictureDecoder {
+private:
+    bool closed_gop = true;
+    bool broken_link = false;
+
+public:
+    PictureDecoder() = default;
+
+    void setClosedGop(bool closedGop);
+
+    void setBrokenLink(bool brokenLink);
 
 };
 

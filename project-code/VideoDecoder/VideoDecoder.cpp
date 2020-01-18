@@ -11,6 +11,7 @@
 #include "../Util/FileInterface.h"
 #include "../Util/FileException.cpp"
 #include "../PacketParsers/ESParser.h"
+#include "../PictureDecoder/PictureDecoder.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -18,6 +19,7 @@ VideoDecoder::VideoDecoder() {
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
+    pictureDecoder = new PictureDecoder();
     loadFile(source);
     printf("\n***Loading video_sequence...***\n");
     loadVideoSequence();
@@ -115,12 +117,12 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
     }
 }
 
-void VideoDecoder::loadGroupHeaderAndExtension() {//TODO handle the loaded packet
-    //handle closed_gop it is needed
-    //handle broken_link it is needed
-    GroupOfPicturesHeaderPacket *groupHeader = (GroupOfPicturesHeaderPacket*) getNextVideoPacket();
-    printf("\t\t\t\t\tGroup info %x %x\n",groupHeader->isBrokenLink(),groupHeader->isClosedGop());
-    printf("TODO loadGroupHeaderAndExtension\n");
+void VideoDecoder::loadGroupHeaderAndExtension() {
+    GroupOfPicturesHeaderPacket *groupHeader = (GroupOfPicturesHeaderPacket *) getNextVideoPacket();
+    pictureDecoder->setClosedGop(groupHeader->isClosedGop());
+    pictureDecoder->setBrokenLink(groupHeader->isBrokenLink());
+    printf("Decoding new Group of Pictures: Closed? %s, Broken? %s\n", groupHeader->isClosedGop() ? "yes" : "no",
+           groupHeader->isBrokenLink() ? "yes" : "no");
 }
 
 void VideoDecoder::loadPictureHeader() {
