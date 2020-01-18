@@ -6,11 +6,13 @@
 #define PROJECT_CODE_VIDEODECODER_H
 
 #include <ESPacket.h>
+#include <../PictureDecoder/PictureDecoder.h>
 
 class VideoDecoder {
 private:
     static VideoDecoder *instance;
 
+    PictureDecoder* pictureDecoder;
     /**
      * A private constructor for the singleton
      */
@@ -40,6 +42,9 @@ public:
 
     void loadExtensionUserData(unsigned char i);
 
+    /**
+     * H262 6.3.8 NOTE – The information carried by time_code plays no part in the decoding process.
+     */
     void loadGroupHeaderAndExtension();
 
     void loadPictureHeader();

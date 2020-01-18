@@ -25,3 +25,11 @@ bool GroupOfPicturesHeaderPacket::operator==(const GroupOfPicturesHeaderPacket &
 bool GroupOfPicturesHeaderPacket::operator!=(const GroupOfPicturesHeaderPacket &rhs) const {
     return !(rhs == *this);
 }
+
+bool GroupOfPicturesHeaderPacket::isClosedGop() const {
+    return closed_gop;
+}
+
+bool GroupOfPicturesHeaderPacket::isBrokenLink() const {
+    return broken_link;
+}

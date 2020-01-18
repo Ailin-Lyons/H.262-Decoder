@@ -4,12 +4,14 @@
 
 #include <RegularStartCodes/SequenceHeaderPacket.h>
 #include <RegularStartCodes/SequenceExtensionPacket.h>
+#include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "VideoException.cpp"
 #include "../Util/FileInterface.h"
 #include "../Util/FileException.cpp"
 #include "../PacketParsers/ESParser.h"
+#include "../PictureDecoder/PictureDecoder.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -17,6 +19,7 @@ VideoDecoder::VideoDecoder() {
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
+    pictureDecoder = new PictureDecoder();
     loadFile(source);
     printf("\n***Loading video_sequence...***\n");
     loadVideoSequence();
@@ -106,7 +109,7 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
             ExtensionPacket *extension_data = (ExtensionPacket *) getNextVideoPacket();
             printf("loadExtensionUserData: extension with extension_ID: %x\n", extension_data->getExtensionType());
-            //TODO handle the possible loaded packets
+            //TODO handle the possible loaded extension types
         }
         if (nextVideoPacketIs(ESPacket::start_code::user_data)) {
             printf("VideoDecoder::loadExtensionUserData: Unhandled ESPacket with type \"user_data\" was dropped");
@@ -114,9 +117,12 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
     }
 }
 
-void VideoDecoder::loadGroupHeaderAndExtension() {//TODO handle the loaded packet
-    ESPacket *groupHeader = getNextVideoPacket();
-    printf("TODO loadGroupHeaderAndExtension\n");
+void VideoDecoder::loadGroupHeaderAndExtension() {
+    GroupOfPicturesHeaderPacket *groupHeader = (GroupOfPicturesHeaderPacket *) getNextVideoPacket();
+    pictureDecoder->setClosedGop(groupHeader->isClosedGop());
+    pictureDecoder->setBrokenLink(groupHeader->isBrokenLink());
+    printf("Decoding new Group of Pictures: Closed? %s, Broken? %s\n", groupHeader->isClosedGop() ? "yes" : "no",
+           groupHeader->isBrokenLink() ? "yes" : "no");
 }
 
 void VideoDecoder::loadPictureHeader() {
@@ -137,5 +143,5 @@ void VideoDecoder::loadPictureData() {
 }
 
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
-    printf("TODO loadGroupHeaderAndExtension\n");
+    printf("TODO handleVideoStream\n");
 }

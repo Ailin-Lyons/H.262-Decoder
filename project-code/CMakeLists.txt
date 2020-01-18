@@ -40,3 +40,8 @@ target_link_libraries(decoder "Util")
 include_directories("VideoDecoder")
 add_subdirectory("VideoDecoder")
 target_link_libraries(decoder "VideoDecoder")
+
+#adding PictureDecoder
+include_directories("PictureDecoder")
+add_subdirectory("PictureDecoder")
+target_link_libraries(decoder "PictureDecoder")

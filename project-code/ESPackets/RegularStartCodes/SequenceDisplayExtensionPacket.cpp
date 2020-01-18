@@ -5,6 +5,7 @@
 #include "SequenceDisplayExtensionPacket.h"
 
 SequenceDisplayExtensionPacket::SequenceDisplayExtensionPacket(SequenceDisplayExtensionPacket::initializerStruct init) {
+    e_type = ExtensionPacket::extension_type::sequence_display;
     video_format = init.video_format;
     colour_description = init.colour_description;
     colour_primaries = init.colour_primaries;
