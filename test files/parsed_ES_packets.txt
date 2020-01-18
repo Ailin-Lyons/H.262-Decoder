@@ -3,40 +3,111 @@ Sequence_Header:
  00000010:                               00 00 01 B3 50 02    .....!...A...3P.
  00000020: D0 33 01 F4 26 20
 
- //TODO parse
+Header Fields:
+
+	Address		Variable 					Value (hex) #Comments
+	1A-1D		sequence_header_code		0x000001B3	# packet_start_code
+	1E-1F.3		horizontal_size_value		0x500		# least significant 12 bits
+	1F.4-20		vertical_size_value			0x2D0		# least significant 12 bits
+	21.0		aspect_ratio_information	0x3			# 16:9 aspect ratio Table 6-3
+	21.4		frame_rate_code				0x3 		# frame_rate_value = 25 Table 6-4
+	22-24.1		bit_rate_value  			0x1F4		# measured in 400 bits/sec
+	24.3-25.4	vbv_buffer_size_value		0xC4		
+	25.5		constrined_parameters_flag	0x0 		
+	25.6		load_intra_quantiser_matr	0x0
+	25.7		load_non_intra_q_matrix		0x0
+
+
 
 Sequence_Extension:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
  00000020:                   00 00 01 B5 14 6A 00 01 00 80    P3.t&....5.j....
 
- //TODO parse
+ 
+Header Fields:
+
+	Address		Variable 					Value (hex) #Comments
+	26-29		extension_start_code		0x000001B5	
+	2A.0		start_code_identifier		0x1
+	2A.4-2B.3	profile_level_indicartion	0x46		# look at clause 8
+	3B.4		progressive_sequence		0x1 		# only progressive frame-pictures
+	3B.5		chroma_format				0x2 		# 4:2:2 Table 6-5
+	3B.7		horizontal_file_extension	0x0
+	3C.1		vertical_file_extension		0x0
+	3C.3-3D.6	bit_rate_extension			0x0
+	3E			vbv_buffer_extension		0x0
+	3F.0		low_delay					0x1 		# no B pictures present here
+	3F.1		frame_rate_extension_n		0x0 		# frame_rate_code formula
+	3F.3		frame_rate_extension_d		0x0			# frame_rate_code formula
 
 
 Sequence_Display_Extension:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
  00000030: 00 00 01 B5 2B 05 01 05 14 02 16 80
 
-//TODO parse
 
-Group_Extension:
+	Address		Variable 					Value (hex) #Comments
+	30-33		extension_start_code		0x000001B5
+	34			extension_sc_indentifier	0x2
+	34.4		video_format				0x5 		# unspecified video format Table 6-6
+	34.7		colour_description			0x1
+	35			colour_primaries			0x5 		# Recommendation ITU-R BT.470-2 System B, G. H.262.0 Table 6-7
+	36			transfer_characteristics	0x14 		# reserved Table 6-8
+	37			matrix_coefficients			0x5 		# Recommendation ITU-R BT.470-2 System B, G. H.262.0 Table 6-9
+	38-39.5		display_horizontal_size		0x500		# display_horizontal_size and display_vertical_size do not affect the decoding process but may be used by the display process
+	39.7		display_vertical_size		0x2D0
+
+Group_Of_Pictures_Header:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
  00000030:                                     00 00 01 B8    ...5+..........8
  00000040: 00 08 00 40
 
- //TODO parse
+
+
+	Address		Variable 					Value (hex) #Comments
+	3C-3F		group_start_code			0x000001B8
+	40-43.0		time_code					0x10 		# Table 6-11
+	43.1		closed_gop					0x1 		# closed_gop is set to '1' to indicate that these B-pictures have been encoded using only backward prediction or intra coding
+	43.2		broken_link					0x0 		# A decoder may use this flag to avoid displaying frames that cannot be correctly decoded if set to 1
 
 Picture:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
  00000040:             00 00 01 00 00 0F FF F8
 
- //TODO parse
+
+	Address		Variable 					Value (hex) #Comments
+	44-47		picture_start_code 			0x00000100
+	48-49.1		temporal_reference			0x0
+	49.2		picture_coding_type			0x1 		# intra-coded(I). Table 6-12
+	49.5-4B.4	vbv_delay					0xFF		# special case
+	54.5		extra_bit_picture			0x0			
+
 
 Picture_Coding_Extension:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
  00000040:                                     00 00 01 B5    ...@.......x...5
  00000050: 8F FF F3 41 80
 
- //TODO parse
+
+	Address		Variable 					Value (hex) #Comments
+	4C-4F		extenstion_start_code		0x000001B5
+	50.0		start_code_identifier		0x8
+	50.4		f_code[0][0]				0xF
+	51.0		f_code[0][1]				0xF
+	51.4		f_code[1][0]				0xF
+	52.0		f_code[1][1]				0xF
+	52.4		intra_dc_precision			0x0 		# 8 bit precision Table 6-13
+	52.6		picture_strcuture			0x3 		# Frame Picture Table 6-14
+	53.0		top_field_first				0x0
+	53.1		frame_pred_frame_dct		0x1
+	53.2		concealment_motion_vectors	0x0
+	53.3		q_scale_type				0x0
+	53.4		intra_vlc_format			0x0
+	53.5		alternate_scan				0x0
+	53.6		repeat_first_field			0x0
+	53.7		chroma_420_type				0x1
+	54.0		progressive_frame			0x1
+	54.1		composite_display_flag		0x0				
 
 Slice_01:
    Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -48,4 +119,8 @@ Slice_01:
  000000a0: 00 2F 1A 10 43 46 48 B3 6C 41 84 D4 7D 80 C2 43    ./..CFH3lA.T}.BC
  000000b0: BC 45 DA 52 4B 26 1C AB 9A 03 A0 18 ...spills over to next packet
 
- //TODO parse the beginning
+
+	Address		Variable 					Value (hex) #Comments
+	55-58		slice_start_code			0x00000101
+	59.0		quantiser_scale_code		0x3
+	59.5		.... macroblocks are next!
