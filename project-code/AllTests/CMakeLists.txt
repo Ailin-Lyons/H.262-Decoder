@@ -5,7 +5,19 @@ add_subdirectory(lib)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 set(TEST_FILES
-        UtilTest/BitManipulatorTest.cpp PacketParsersTest/AFParserTest.cpp PacketParsersTest/TSParserTest.cpp PacketParsersTest/PASPMSParserTest.cpp PacketParsersTest/ESParserTest.cpp)
+        UtilTest/BitManipulatorTest.cpp
+        PacketParsersTest/AFParserTest.cpp
+        PacketParsersTest/TSParserTest.cpp
+        PacketParsersTest/PASPMSParserTest.cpp
+        PacketParsersTest/ESParserTest.cpp
+        PacketParsersTest/PESParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/GroupParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/PCExtensionParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/PictureHeaderParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/SDExtensionParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/SeqExtensionParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/SeqHeaderParserTest.cpp
+        PacketParsersTest/ESPacketParserTest/SliceParserTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
 

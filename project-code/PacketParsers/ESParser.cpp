@@ -149,7 +149,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
         nextTP->print();
-        throw PacketException("ESParser::peekNextPacket: next packet is too short");
+        throw PacketException("ESParser::peekNextPacket: next packet is too short\n\n                                      <(^_^)>\n\n                                ...shutting down...\n\n                                 ...gracefully....\n\n                                      <(~_~)>");
     }
     return BitManipulator::readNBits(nextTP->getData(), numBits);
 }
@@ -185,10 +185,8 @@ ESPacket *ESParser::getExtensionPacket() {
         case ESPacket::extension_type::sequence:
             return SequenceExtensionParser::getNextPacket(extension_start_code_identifier);
         case ESPacket::extension_type::sequence_display:
-            std::printf("TODO extension sequence_display\n");
             return SequenceDisplayExtensionParser::getNextPacket();
         case ESPacket::extension_type::picture_coding:
-            std::printf("TODO extension picture_coding\n");
             return PictureCodingExtensionParser::getNextPacket();
         default:
             throw PacketException("ESParser::Unhandled extension_start_code_identifier\n");

@@ -15,6 +15,8 @@ public:
         unsigned char extra_information_slice;
     };
 
+    ~SlicePacket();
+
 private:
 
     unsigned int slice_start_code;
@@ -30,12 +32,6 @@ private:
     unsigned char extra_bit_slice;
 
     //TODO - macroblock?
-
-    bool operator==(const SlicePacket &rhs) const;
-
-    bool operator!=(const SlicePacket &rhs) const;
-
-    ~SlicePacket();
 
 public:
     struct initializerStruct {
@@ -59,6 +55,10 @@ public:
     SlicePacket(initializerStruct init);
 
     void print() override;
+
+    bool operator==(const SlicePacket &rhs) const;
+
+    bool operator!=(const SlicePacket &rhs) const;
 
 };
 
