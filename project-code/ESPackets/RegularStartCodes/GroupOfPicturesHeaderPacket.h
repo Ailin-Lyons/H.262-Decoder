@@ -32,6 +32,10 @@ public:
     bool operator!=(const GroupOfPicturesHeaderPacket &rhs) const;
 
     ~GroupOfPicturesHeaderPacket() = default;
+
+    bool isClosedGop() const;
+
+    bool isBrokenLink() const;
 };
 
 

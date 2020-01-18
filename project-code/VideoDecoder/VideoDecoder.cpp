@@ -4,6 +4,7 @@
 
 #include <RegularStartCodes/SequenceHeaderPacket.h>
 #include <RegularStartCodes/SequenceExtensionPacket.h>
+#include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "VideoException.cpp"
@@ -106,7 +107,7 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
             ExtensionPacket *extension_data = (ExtensionPacket *) getNextVideoPacket();
             printf("loadExtensionUserData: extension with extension_ID: %x\n", extension_data->getExtensionType());
-            //TODO handle the possible loaded packets
+            //TODO handle the possible loaded extension types
         }
         if (nextVideoPacketIs(ESPacket::start_code::user_data)) {
             printf("VideoDecoder::loadExtensionUserData: Unhandled ESPacket with type \"user_data\" was dropped");
@@ -115,7 +116,10 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
 }
 
 void VideoDecoder::loadGroupHeaderAndExtension() {//TODO handle the loaded packet
-    ESPacket *groupHeader = getNextVideoPacket();
+    //handle closed_gop it is needed
+    //handle broken_link it is needed
+    GroupOfPicturesHeaderPacket *groupHeader = (GroupOfPicturesHeaderPacket*) getNextVideoPacket();
+    printf("\t\t\t\t\tGroup info %x %x\n",groupHeader->isBrokenLink(),groupHeader->isClosedGop());
     printf("TODO loadGroupHeaderAndExtension\n");
 }
 
@@ -137,5 +141,5 @@ void VideoDecoder::loadPictureData() {
 }
 
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
-    printf("TODO loadGroupHeaderAndExtension\n");
+    printf("TODO handleVideoStream\n");
 }
