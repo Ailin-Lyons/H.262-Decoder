@@ -14,7 +14,7 @@ public:
     static SequenceExtensionPacket *getNextPacket(unsigned char extension_start_code_identifier) {
         ESParser *esParser = ESParser::getInstance();
         SequenceExtensionPacket::initializerStruct init = {};
-        init.e_type = ESPacket::getExtensionCode(extension_start_code_identifier);
+        init.e_type = ExtensionPacket::getExtensionCode(extension_start_code_identifier);
         init.profile_and_level_indication = esParser->popNBits(8);
         init.progressive_sequence = esParser->popNBits(1);
         init.chroma_format = esParser->popNBits(2);

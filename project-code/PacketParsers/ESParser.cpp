@@ -180,13 +180,13 @@ TransportPacket *ESParser::findNextTSPacket() {
 
 ESPacket *ESParser::getExtensionPacket() {
     unsigned char extension_start_code_identifier = popNBits(4);
-    ESPacket::extension_type e_type = ESPacket::getExtensionCode(extension_start_code_identifier);
+    ExtensionPacket::extension_type e_type = ExtensionPacket::getExtensionCode(extension_start_code_identifier);
     switch (e_type) {
-        case ESPacket::extension_type::sequence:
+        case ExtensionPacket::extension_type::sequence:
             return SequenceExtensionParser::getNextPacket(extension_start_code_identifier);
-        case ESPacket::extension_type::sequence_display:
+        case ExtensionPacket::extension_type::sequence_display:
             return SequenceDisplayExtensionParser::getNextPacket();
-        case ESPacket::extension_type::picture_coding:
+        case ExtensionPacket::extension_type::picture_coding:
             return PictureCodingExtensionParser::getNextPacket();
         default:
             throw PacketException("ESParser::Unhandled extension_start_code_identifier\n");

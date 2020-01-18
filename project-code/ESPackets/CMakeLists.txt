@@ -13,6 +13,7 @@ set(SOURCE_FILES
 
 set(HEADER_FILES
         ESPacket.h
+        RegularStartCodes/ExtensionPacket.h
         RegularStartCodes/SequenceExtensionPacket.h
         RegularStartCodes/GroupOfPicturesHeaderPacket.h
         PESPacket.h

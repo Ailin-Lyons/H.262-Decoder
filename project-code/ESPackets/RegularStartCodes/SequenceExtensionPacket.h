@@ -5,11 +5,10 @@
 #ifndef DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 #define DIRECTED_STUDIES_EXTENSIONPAYLOAD_H
 
-#include "../ESPacket.h"
+#include "ExtensionPacket.h"
 
-class SequenceExtensionPacket : public ESPacket {
+class SequenceExtensionPacket : public ExtensionPacket {
 private:
-    ESPacket::extension_type e_type;
     unsigned char profile_and_level_indication; //8-bits
     bool progressive_sequence; //1-bit
     unsigned char chroma_format; //2-bits
@@ -23,7 +22,7 @@ private:
 
 public:
     struct initializerStruct {
-        ESPacket::extension_type e_type;
+        ExtensionPacket::extension_type e_type;
         unsigned char profile_and_level_indication; //8-bits
         bool progressive_sequence; //1-bit
         unsigned char chroma_format; //2-bits
