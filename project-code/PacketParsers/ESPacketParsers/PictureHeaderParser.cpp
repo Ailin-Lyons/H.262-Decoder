@@ -14,12 +14,13 @@ public:
         ESParser *esParser = ESParser::getInstance();
         PictureHeaderPacket::initializerStruct init = {};
         init.temporal_reference = esParser->popNBits(10);
-        init.picture_coding_type = esParser->popNBits(3);
+        init.picture_coding_type = PictureHeaderPacket::toPictureCodingType(esParser->popNBits(3));
         init.vbv_delay = esParser->popNBits(16);
-        if (init.picture_coding_type == 2 || init.picture_coding_type == 3) {
+        if (init.picture_coding_type == PictureHeaderPacket::picture_coding_types::predictive_coded
+        || init.picture_coding_type == PictureHeaderPacket::picture_coding_types::bidirectionally_predictive_coded) {
             esParser->popNBits(4); //Skipping full_pel_backward_vector and backward_f_code as they are not needed
         }
-        if (init.picture_coding_type == 3) {
+        if (init.picture_coding_type == PictureHeaderPacket::picture_coding_types::bidirectionally_predictive_coded) {
             esParser->popNBits(4); //Skipping full_pel_backward_vector and backward_f_code  as they are not needed
         }
         while (esParser->popNBits(1) == 1) {

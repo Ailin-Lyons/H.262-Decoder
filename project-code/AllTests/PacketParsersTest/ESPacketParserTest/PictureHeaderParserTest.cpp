@@ -9,7 +9,7 @@
 
 TEST(AllTest, PictureHeaderPacket_Test) {
     PictureHeaderPacket::initializerStruct init{};
-    init.picture_coding_type = 0x1;
+    init.picture_coding_type = PictureHeaderPacket::toPictureCodingType(0x1);
     init.temporal_reference = 0x0;
     init.vbv_delay = 0xFFFF;
     PictureHeaderPacket expected = PictureHeaderPacket(init);
