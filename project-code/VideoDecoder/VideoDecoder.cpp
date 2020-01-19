@@ -45,7 +45,7 @@ bool VideoDecoder::loadFile(char *relative_path) {
         esp->initiateStream();
         printf("***Loading file... Done!***\n", relative_path);
         return true;
-    } catch (const FileException) {
+    } catch (FileException&) {
         printf("Error loading file!\n");
         return false;
     }
@@ -54,11 +54,11 @@ bool VideoDecoder::loadFile(char *relative_path) {
 void VideoDecoder::loadVideoSequence() {
     printf("\n   ...Updating Video Information...\n");
     VideoInformation *videoInfo = VideoInformation::getInstance();
-    SequenceHeaderPacket *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
+    auto *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
     if (!nextVideoPacketIs(ESPacket::start_code::extension)) {
         throw VideoException("VideoDecoder::loadVideoSequence: Unhandled coding standard");
     }
-    SequenceExtensionPacket *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
+    auto *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
     videoInfo->setHorizontalSize(seq_hed->getHVal() + (seq_ex->getHExt() << 12));
     videoInfo->setVerticalSize(seq_hed->getVVal() + (seq_ex->getVExt() << 12));
     videoInfo->setAspectRatio(seq_hed->getAspectRatioInformation());
@@ -107,7 +107,7 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
 void VideoDecoder::loadExtensionUserData(unsigned char i) {
     while (nextVideoPacketIs(ESPacket::start_code::extension) || nextVideoPacketIs(ESPacket::start_code::user_data)) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
-            ExtensionPacket *extension_data = (ExtensionPacket *) getNextVideoPacket();
+            auto *extension_data = (ExtensionPacket *) getNextVideoPacket();
             printf("loadExtensionUserData: extension with extension_ID: %x\n", extension_data->getExtensionType());
             //TODO handle the possible loaded extension types
         }
