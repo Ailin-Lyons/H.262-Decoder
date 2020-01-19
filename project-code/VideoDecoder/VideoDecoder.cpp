@@ -163,8 +163,8 @@ void VideoDecoder::loadPictureCodingExtension() {
     }
 }
 
-void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
-    printf("TODO handleVideoStream\n");
+void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
+    printf("VideoDecoder: PESPacket Discarded\n"); //PESPacket would be handled here but is not currently used by the decoder
 }
 
 
