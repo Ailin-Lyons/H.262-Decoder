@@ -7,6 +7,7 @@
 #include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
 #include <RegularStartCodes/SequenceDisplayExtensionPacket.h>
 #include <RegularStartCodes/PictureHeaderPacket.h>
+#include <RegularStartCodes/PictureCodingExtensionPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "VideoException.cpp"
@@ -46,7 +47,7 @@ bool VideoDecoder::loadFile(char *relative_path) {
         esp->initiateStream();
         printf("***Loading file... Done!***\n", relative_path);
         return true;
-    } catch (FileException&) {
+    } catch (FileException &) {
         printf("Error loading file!\n");
         return false;
     }
@@ -108,11 +109,8 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
 void VideoDecoder::loadExtensionUserData(unsigned char i) {
     while (nextVideoPacketIs(ESPacket::start_code::extension) || nextVideoPacketIs(ESPacket::start_code::user_data)) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
-
-            auto *extension_data = (ExtensionPacket *) getNextVideoPacket();
-            printf("loadExtensionUserData: extension with extension_ID: %x\n", extension_data->getExtensionType());
-            //TODO handle the possible loaded extension types
-            switch(extension_data->getExtensionType()){
+            ExtensionPacket *extension_data = (ExtensionPacket *) getNextVideoPacket();
+            switch (extension_data->getExtensionType()) {
                 case ExtensionPacket::extension_type::sequence_display:
                     loadSequenceDisplayExtension((SequenceDisplayExtensionPacket *) extension_data);
                     break;
@@ -139,17 +137,46 @@ void VideoDecoder::loadPictureHeader() {
     pictureDecoder->setPictureCodingType(pictureHeader->getPictureCodingType());
     pictureDecoder->setTemporalReference(pictureHeader->getTemporalReference());
     printf("Decoding new Picture Header: PictureCodingType = %s, TemporalReference = %hu\n",
-            pictureHeader->getPictureCodingTypeString().c_str(),
-            pictureHeader->getTemporalReference());
+           pictureHeader->getPictureCodingTypeString().c_str(),
+           pictureHeader->getTemporalReference());
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
-    ESPacket *pictureCodingExtension = getNextVideoPacket(); //TODO handle the loaded packet
-    printf("TODO loadPictureCodingExtension\n");
+    PictureCodingExtensionPacket *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
+    pictureDecoder->setFCode00(pictureCodingExtension->getFCode00());
+    pictureDecoder->setFCode01(pictureCodingExtension->getFCode01());
+    pictureDecoder->setFCode10(pictureCodingExtension->getFCode10());
+    pictureDecoder->setFCode11(pictureCodingExtension->getFCode11());
+    pictureDecoder->setIntraDcPrecision(pictureCodingExtension->getIntraDcPrecision());
+    pictureDecoder->setPictureStructure(pictureCodingExtension->getPictureStructure());
+    pictureDecoder->setTopFieldFirst(pictureCodingExtension->isTopFieldFirst());
+    pictureDecoder->setFramePredFrameDct(pictureCodingExtension->isFramePredFrameDct());
+    pictureDecoder->setConcealmentMotionVectors(pictureCodingExtension->isConcealmentMotionVectors());
+    pictureDecoder->setQScaleType(pictureCodingExtension->isQScaleType());
+    pictureDecoder->setIntraVlcFormat(pictureCodingExtension->isIntraVlcFormat());
+    pictureDecoder->setAlternateScan(pictureCodingExtension->isAlternateScan());
+    pictureDecoder->setRepeatFirstField(pictureCodingExtension->isRepeatFirstField());
+    pictureDecoder->setChroma420Type(pictureCodingExtension->isChroma420Type());
+    pictureDecoder->setProgressiveFrame(pictureCodingExtension->isProgressiveFrame());
+    if (pictureCodingExtension->isCompositeDisplayFlag()) {
+        throw VideoException("VideoDecoder::loadPictureCodingExtension: Unhandled feature");
+    }
 }
 
+<<<<<<< HEAD
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
     printf("TODO handleVideoStream\n");
+=======
+void VideoDecoder::loadPictureData() {
+    do {
+        ESPacket *pictureData = getNextVideoPacket(); //TODO handle the loaded packet
+        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
+    } while (nextVideoPacketIs(ESPacket::start_code::slice));
+}
+
+void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
+    printf("VideoDecoder: PESPacket Discarded\n"); //PESPacket would be handled here but is not currently used by the decoder
+>>>>>>> 6f5077a9c7e7045281ae4794d10bf04261571159
 }
 
 void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
