@@ -7,6 +7,7 @@
 
 #include <ESPacket.h>
 #include <../PictureDecoder/PictureDecoder.h>
+#include "../ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h"
 
 class VideoDecoder {
 private:
@@ -21,10 +22,6 @@ private:
     static bool loadFile(char *relative_path);
 
     void loadVideoSequence();
-
-    static ESPacket *getNextVideoPacket();
-
-    static bool nextVideoPacketIs(ESPacket::start_code startCode);
 
 public:
     /**
@@ -56,6 +53,10 @@ public:
     void makePicture();
 
     void loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *pPacket);
+
+    static ESPacket *getNextVideoPacket();
+
+    static bool nextVideoPacketIs(ESPacket::start_code startCode);
 };
 
 

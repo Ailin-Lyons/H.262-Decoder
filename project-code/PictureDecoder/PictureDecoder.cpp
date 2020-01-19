@@ -3,6 +3,7 @@
 //
 
 #include <RegularStartCodes/PictureCodingExtensionPacket.h>
+#include <VideoDecoder.h>
 #include "PictureDecoder.h"
 
 void PictureDecoder::setClosedGop(bool closedGop) {
@@ -22,10 +23,10 @@ void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_ty
 }
 
 void PictureDecoder::buildPicture() {
-//    do {
-//        ESPacket *pictureData = getNextVideoPacket(); //TODO handle the loaded packet
-//        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
-//    } while (nextVideoPacketIs(ESPacket::start_code::slice));
+    do {
+        ESPacket *pictureData = VideoDecoder::getInstance()->getNextVideoPacket(); //TODO handle the loaded packet
+        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
+    } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
 }
 
 void PictureDecoder::setFCode00(unsigned char fCode00) {
