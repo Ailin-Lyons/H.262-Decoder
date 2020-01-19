@@ -56,6 +56,8 @@ public:
     static void handleVideoStream(ESPacket *pPacket);
 
     void makePicture();
+
+    void loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *pPacket);
 };
 
 

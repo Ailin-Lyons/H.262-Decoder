@@ -5,6 +5,7 @@
 #include <RegularStartCodes/SequenceHeaderPacket.h>
 #include <RegularStartCodes/SequenceExtensionPacket.h>
 #include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
+#include <RegularStartCodes/SequenceDisplayExtensionPacket.h>
 #include <RegularStartCodes/PictureHeaderPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
@@ -83,7 +84,7 @@ void VideoDecoder::makePicture() {
     loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    loadPictureData();
+    loadPictureData(); // TODO move to PictureDecoder and rename to buildPicture
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
@@ -107,9 +108,17 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
 void VideoDecoder::loadExtensionUserData(unsigned char i) {
     while (nextVideoPacketIs(ESPacket::start_code::extension) || nextVideoPacketIs(ESPacket::start_code::user_data)) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
+
             auto *extension_data = (ExtensionPacket *) getNextVideoPacket();
             printf("loadExtensionUserData: extension with extension_ID: %x\n", extension_data->getExtensionType());
             //TODO handle the possible loaded extension types
+            switch(extension_data->getExtensionType()){
+                case ExtensionPacket::extension_type::sequence_display:
+                    loadSequenceDisplayExtension((SequenceDisplayExtensionPacket *) extension_data);
+                    break;
+                default:
+                    throw PacketException("VideoDecoder::loadExtensionUserData: Unhandled Extension Type\n");
+            }
         }
         if (nextVideoPacketIs(ESPacket::start_code::user_data)) {
             printf("VideoDecoder::loadExtensionUserData: Unhandled ESPacket with type \"user_data\" was dropped");
@@ -148,4 +157,8 @@ void VideoDecoder::loadPictureData() {
 
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
     printf("TODO handleVideoStream\n");
+}
+
+void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
+    // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
 }
