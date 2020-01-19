@@ -13,8 +13,8 @@ PictureHeaderPacket::PictureHeaderPacket(PictureHeaderPacket::initializerStruct 
 }
 
 void PictureHeaderPacket::print() {
-    printf("PictureHeaderPacket: temporal_reference %x, picture_coding_type %x, vbv_delay %x.\n",
-                temporal_reference, picture_coding_type, vbv_delay);
+    printf("PictureHeaderPacket: temporal_reference %x, picture_coding_types %x, vbv_delay %x.\n",
+           temporal_reference, picture_coding_type, vbv_delay);
 }
 
 bool PictureHeaderPacket::operator==(const PictureHeaderPacket &rhs) const {
@@ -25,4 +25,25 @@ bool PictureHeaderPacket::operator==(const PictureHeaderPacket &rhs) const {
 
 bool PictureHeaderPacket::operator!=(const PictureHeaderPacket &rhs) const {
     return !(rhs == *this);
+}
+
+unsigned short PictureHeaderPacket::getTemporalReference() const {
+    return temporal_reference;
+}
+
+PictureHeaderPacket::picture_coding_types PictureHeaderPacket::getPictureCodingType() const {
+    return picture_coding_type;
+}
+
+std::string PictureHeaderPacket::getPictureCodingTypeString() const {
+    switch(picture_coding_type) {
+        default:
+            return "wrong picture type";
+        case picture_coding_types::intra_coded :
+            return "intra_coded (I-frames)";
+        case picture_coding_types::predictive_coded :
+            return "predictive_coded (P-frames)";
+        case picture_coding_types::bidirectionally_predictive_coded :
+            return "bidirectionally_predictive_coded (I-frames)";
+    }
 }

@@ -78,7 +78,7 @@ Picture:
 	Address		Variable 					Value (hex) #Comments
 	44-47		picture_start_code 			0x00000100
 	48-49.1		temporal_reference			0x0
-	49.2		picture_coding_type			0x1 		# intra-coded(I). Table 6-12
+	49.2		picture_coding_types			0x1 		# intra-coded(I). Table 6-12
 	49.5-4B.4	vbv_delay					0xFFFF		# special case
 	54.5		extra_bit_picture			0x0			
 

@@ -6,13 +6,13 @@
 #include <RegularStartCodes/SequenceExtensionPacket.h>
 #include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
 #include <RegularStartCodes/SequenceDisplayExtensionPacket.h>
+#include <RegularStartCodes/PictureHeaderPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "VideoException.cpp"
 #include "../Util/FileInterface.h"
 #include "../Util/FileException.cpp"
 #include "../PacketParsers/ESParser.h"
-#include "../PictureDecoder/PictureDecoder.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -124,7 +124,7 @@ void VideoDecoder::loadExtensionUserData(unsigned char i) {
 }
 
 void VideoDecoder::loadGroupHeaderAndExtension() {
-    GroupOfPicturesHeaderPacket *groupHeader = (GroupOfPicturesHeaderPacket *) getNextVideoPacket();
+    auto *groupHeader = (GroupOfPicturesHeaderPacket *) getNextVideoPacket();
     pictureDecoder->setClosedGop(groupHeader->isClosedGop());
     pictureDecoder->setBrokenLink(groupHeader->isBrokenLink());
     printf("Decoding new Group of Pictures: Closed? %s, Broken? %s\n", groupHeader->isClosedGop() ? "yes" : "no",
@@ -132,8 +132,12 @@ void VideoDecoder::loadGroupHeaderAndExtension() {
 }
 
 void VideoDecoder::loadPictureHeader() {
-    ESPacket *pictureHeader = getNextVideoPacket(); //TODO handle the loaded packet
-    printf("TODO loadPictureHeader\n");
+    auto *pictureHeader = (PictureHeaderPacket *) getNextVideoPacket();
+    pictureDecoder->setPictureCodingType(pictureHeader->getPictureCodingType());
+    pictureDecoder->setTemporalReference(pictureHeader->getTemporalReference());
+    printf("Decoding new Picture Header: PictureCodingType = %s, TemporalReference = %hu\n",
+            pictureHeader->getPictureCodingTypeString().c_str(),
+            pictureHeader->getTemporalReference());
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
