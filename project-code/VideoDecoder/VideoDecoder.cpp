@@ -47,7 +47,7 @@ bool VideoDecoder::loadFile(char *relative_path) {
         esp->initiateStream();
         printf("***Loading file... Done!***\n", relative_path);
         return true;
-    } catch (const FileException) {
+    } catch (FileException &) {
         printf("Error loading file!\n");
         return false;
     }
@@ -56,11 +56,11 @@ bool VideoDecoder::loadFile(char *relative_path) {
 void VideoDecoder::loadVideoSequence() {
     printf("\n   ...Updating Video Information...\n");
     VideoInformation *videoInfo = VideoInformation::getInstance();
-    SequenceHeaderPacket *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
+    auto *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
     if (!nextVideoPacketIs(ESPacket::start_code::extension)) {
         throw VideoException("VideoDecoder::loadVideoSequence: Unhandled coding standard");
     }
-    SequenceExtensionPacket *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
+    auto *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
     videoInfo->setHorizontalSize(seq_hed->getHVal() + (seq_ex->getHExt() << 12));
     videoInfo->setVerticalSize(seq_hed->getVVal() + (seq_ex->getVExt() << 12));
     videoInfo->setAspectRatio(seq_hed->getAspectRatioInformation());
@@ -85,7 +85,7 @@ void VideoDecoder::makePicture() {
     loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    loadPictureData();
+    loadPictureData(); // TODO move to PictureDecoder and rename to buildPicture
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
