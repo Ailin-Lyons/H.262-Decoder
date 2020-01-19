@@ -51,8 +51,6 @@ public:
 
     void loadPictureCodingExtension();
 
-    void loadPictureData();
-
     static void handleVideoStream(ESPacket *pPacket);
 
     void makePicture();

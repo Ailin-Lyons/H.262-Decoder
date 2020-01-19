@@ -15,7 +15,7 @@ set(SOURCE_FILES
         ESPacketParsers/SliceParser.cpp
         ESPacketParsers/SequenceDisplayExtensionParser.cpp
         ESPacketParsers/PictureCodingExtensionParser.cpp
-        )
+        ESPacketParsers/MacroBlockParser.cpp)
 
 set(HEADER_FILES
         ESParser.h)

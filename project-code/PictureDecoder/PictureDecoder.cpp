@@ -19,3 +19,10 @@ void PictureDecoder::setTemporalReference(unsigned short temporalReference) {
 void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType) {
     picture_coding_type = pictureCodingType;
 }
+
+void PictureDecoder::buildPicture() {
+//    do {
+//        ESPacket *pictureData = getNextVideoPacket(); //TODO handle the loaded packet
+//        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
+//    } while (nextVideoPacketIs(ESPacket::start_code::slice));
+}

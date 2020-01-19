@@ -25,6 +25,8 @@ public:
     void setTemporalReference(unsigned short temporalReference);
 
     void setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType);
+
+    void buildPicture();
 };
 
 

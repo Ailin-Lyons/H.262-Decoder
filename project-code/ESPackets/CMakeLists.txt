@@ -9,7 +9,8 @@ set(SOURCE_FILES
         RegularStartCodes/SequenceHeaderPacket.cpp
         RegularStartCodes/SlicePacket.cpp
         RegularStartCodes/SequenceDisplayExtensionPacket.cpp
-        RegularStartCodes/PictureCodingExtensionPacket.cpp)
+        RegularStartCodes/PictureCodingExtensionPacket.cpp
+        RegularStartCodes/MacroBlock.cpp)
 
 set(HEADER_FILES
         ESPacket.h
@@ -21,6 +22,7 @@ set(HEADER_FILES
         RegularStartCodes/SequenceHeaderPacket.h
         RegularStartCodes/SlicePacket.h
         RegularStartCodes/SequenceDisplayExtensionPacket.h
-        RegularStartCodes/PictureCodingExtensionPacket.h)
+        RegularStartCodes/PictureCodingExtensionPacket.h
+        RegularStartCodes/MacroBlock.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})

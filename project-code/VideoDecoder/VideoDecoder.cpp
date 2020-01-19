@@ -84,7 +84,7 @@ void VideoDecoder::makePicture() {
     loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    loadPictureData(); // TODO move to PictureDecoder and rename to buildPicture
+    pictureDecoder->buildPicture(); // TODO handle return type of buildPicture
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
@@ -146,13 +146,6 @@ void VideoDecoder::loadPictureHeader() {
 void VideoDecoder::loadPictureCodingExtension() {
     ESPacket *pictureCodingExtension = getNextVideoPacket(); //TODO handle the loaded packet
     printf("TODO loadPictureCodingExtension\n");
-}
-
-void VideoDecoder::loadPictureData() {
-    do {
-        ESPacket *pictureData = getNextVideoPacket(); //TODO handle the loaded packet
-        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
-    } while (nextVideoPacketIs(ESPacket::start_code::slice));
 }
 
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
