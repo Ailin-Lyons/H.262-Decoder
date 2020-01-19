@@ -22,13 +22,45 @@ PictureCodingExtensionPacket::PictureCodingExtensionPacket(PictureCodingExtensio
     alternate_scan = init.alternate_scan;
     repeat_first_field = init.repeat_first_field;
     chroma_420_type = init.chroma_420_type;
-    progressive_frame = init.intra_dc_precision;
-    composite_display_flag = init.picture_structure;
+    progressive_frame = init.progressive_frame;
+    composite_display_flag = init.composite_display_flag;
     v_axis = init.top_field_first;
     field_sequence = init.frame_pred_frame_dct;
     sub_carrier = init.concealment_motion_vectors;
     burst_amplitude = init.q_scale_type;
     sub_carrier_phase = init.intra_vlc_format;
+}
+
+PictureCodingExtensionPacket::intra_dc_precision_bits
+PictureCodingExtensionPacket::getIntraDCPrecisionType(unsigned char i_dc_p) {
+    switch (i_dc_p) {
+        case 0b00:
+            return intra_dc_precision_bits::p_8;
+        case 0b01:
+            return intra_dc_precision_bits::p_9;
+        case 0b10:
+            return intra_dc_precision_bits::p_10;
+        case 0b11:
+            return intra_dc_precision_bits::p_11;
+        default:
+            throw PacketException("PictureCodingExtensionPacket::getIntraDCPrecisionType: illegal value\n");
+    }
+}
+
+PictureCodingExtensionPacket::picture_structure_types
+PictureCodingExtensionPacket::getPictureStructureType(unsigned char pictureStructure) {
+    switch (pictureStructure) {
+        case 0b00:
+            return picture_structure_types::ps_reserved;
+        case 0b01:
+            return picture_structure_types::ps_top_field;
+        case 0b10:
+            return picture_structure_types::ps_bottom_field;
+        case 0b11:
+            return picture_structure_types::ps_frame_picture;
+        default:
+            throw PacketException("PictureCodingExtensionPacket::getPictureStructureType: illegal value\n");
+    }
 }
 
 void PictureCodingExtensionPacket::print() {
@@ -61,4 +93,68 @@ bool PictureCodingExtensionPacket::operator==(const PictureCodingExtensionPacket
 
 bool PictureCodingExtensionPacket::operator!=(const PictureCodingExtensionPacket &rhs) const {
     return !(rhs == *this);
+}
+
+unsigned char PictureCodingExtensionPacket::getFCode00() const {
+    return f_code_0_0;
+}
+
+unsigned char PictureCodingExtensionPacket::getFCode01() const {
+    return f_code_0_1;
+}
+
+unsigned char PictureCodingExtensionPacket::getFCode10() const {
+    return f_code_1_0;
+}
+
+unsigned char PictureCodingExtensionPacket::getFCode11() const {
+    return f_code_1_1;
+}
+
+PictureCodingExtensionPacket::intra_dc_precision_bits PictureCodingExtensionPacket::getIntraDcPrecision() const {
+    return intra_dc_precision;
+}
+
+PictureCodingExtensionPacket::picture_structure_types PictureCodingExtensionPacket::getPictureStructure() const {
+    return picture_structure;
+}
+
+bool PictureCodingExtensionPacket::isTopFieldFirst() const {
+    return top_field_first;
+}
+
+bool PictureCodingExtensionPacket::isFramePredFrameDct() const {
+    return frame_pred_frame_dct;
+}
+
+bool PictureCodingExtensionPacket::isConcealmentMotionVectors() const {
+    return concealment_motion_vectors;
+}
+
+bool PictureCodingExtensionPacket::isQScaleType() const {
+    return q_scale_type;
+}
+
+bool PictureCodingExtensionPacket::isIntraVlcFormat() const {
+    return intra_vlc_format;
+}
+
+bool PictureCodingExtensionPacket::isAlternateScan() const {
+    return alternate_scan;
+}
+
+bool PictureCodingExtensionPacket::isRepeatFirstField() const {
+    return repeat_first_field;
+}
+
+bool PictureCodingExtensionPacket::isChroma420Type() const {
+    return chroma_420_type;
+}
+
+bool PictureCodingExtensionPacket::isProgressiveFrame() const {
+    return progressive_frame;
+}
+
+bool PictureCodingExtensionPacket::isCompositeDisplayFlag() const {
+    return composite_display_flag;
 }

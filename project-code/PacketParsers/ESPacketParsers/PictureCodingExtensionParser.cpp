@@ -18,8 +18,10 @@ public:
         init.f_code_0_1 = esParser->popNBits(4);
         init.f_code_1_0 = esParser->popNBits(4);
         init.f_code_1_1 = esParser->popNBits(4);
-        init.intra_dc_precision = esParser->popNBits(2);
-        init.picture_structure = esParser->popNBits(2);
+        init.intra_dc_precision = PictureCodingExtensionPacket::getIntraDCPrecisionType(
+                (unsigned char) esParser->popNBits(2));
+        init.picture_structure = PictureCodingExtensionPacket::getPictureStructureType(
+                (unsigned char) esParser->popNBits(2));
         init.top_field_first = esParser->popNBits(1);
         init.frame_pred_frame_dct = esParser->popNBits(1);
         init.concealment_motion_vectors = esParser->popNBits(1);

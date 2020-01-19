@@ -15,8 +15,6 @@ public:
         ar_1_by_2_p_21
     };
 
-    void setAspectRatio(unsigned char aspect_ratio_information);
-
     enum class video_profile {
         p_reserved,
         p_simple,
@@ -93,6 +91,8 @@ public:
     void setHorizontalSize(unsigned short horizontalSize);
 
     void setVerticalSize(unsigned short verticalSize);
+
+    void setAspectRatio(unsigned char aspect_ratio_information);
 
     void setBitRate(unsigned int bitRate);
 

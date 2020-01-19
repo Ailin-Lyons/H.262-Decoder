@@ -14,8 +14,8 @@ TEST(AllTest, PictureCodingExtension_Parser_Test) {
     init.f_code_0_1 = 0xF;
     init.f_code_1_0 = 0xF;
     init.f_code_1_1 = 0xF;
-    init.intra_dc_precision = 0x0;
-    init.picture_structure = 0x3;
+    init.intra_dc_precision = PictureCodingExtensionPacket::intra_dc_precision_bits::p_8;
+    init.picture_structure = PictureCodingExtensionPacket::picture_structure_types ::ps_frame_picture;
     init.top_field_first = false;
     init.frame_pred_frame_dct = true;
     init.concealment_motion_vectors = false;
