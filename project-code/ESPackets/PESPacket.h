@@ -22,12 +22,12 @@ public:
      *  H.222.0 Table 2-20 - enum for trick_mode_control_values
      */
     enum class trick_mode_control_values {
+        reserved_control_values,
         fast_forward = 0b000,
         slow_motion = 0b001,
         freeze_frame = 0b010,
         fast_reverse = 0b011,
-        slow_reverse = 0b100,
-        reserved_control_values
+        slow_reverse = 0b100
     };
 
     /**

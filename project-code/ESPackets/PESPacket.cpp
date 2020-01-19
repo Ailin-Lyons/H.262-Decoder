@@ -139,7 +139,55 @@ bool PESPacket::operator==(const PESPacket &rhs) const {
               PES_CRC_flag == rhs.PES_CRC_flag &&
               PES_extension_flag == rhs.PES_extension_flag &&
               PES_header_data_length == rhs.PES_header_data_length &&
-              pts_dts.PTS == rhs.pts_dts.PTS;
+              pts_dts.PTS == rhs.pts_dts.PTS &&
+              pts_dts.DTS == rhs.pts_dts.DTS &&
+              ESCR == rhs.ESCR &&
+              ES_rate == rhs.ES_rate &&
+              dsm_trick_mode.field_id == rhs.dsm_trick_mode.field_id &&
+              dsm_trick_mode.frequency_truncation == rhs.dsm_trick_mode.frequency_truncation &&
+              dsm_trick_mode.intra_slice_refresh == rhs.dsm_trick_mode.intra_slice_refresh &&
+              dsm_trick_mode.rep_cntrl == rhs.dsm_trick_mode.rep_cntrl &&
+              dsm_trick_mode.trick_mode_control == rhs.dsm_trick_mode.trick_mode_control &&
+              additional_copy_info == rhs.additional_copy_info &&
+              previous_PES_packet_CRC == rhs.previous_PES_packet_CRC &&
+              pes_extension_fields.PES_private_data_flag == rhs.pes_extension_fields.PES_private_data_flag &&
+              pes_extension_fields.pack_header_field_flag == rhs.pes_extension_fields.pack_header_field_flag &&
+              pes_extension_fields.program_packet_sequence_counter_flag ==
+              rhs.pes_extension_fields.program_packet_sequence_counter_flag &&
+              pes_extension_fields.P_STD_buffer_flag == rhs.pes_extension_fields.P_STD_buffer_flag &&
+              pes_extension_fields.PES_extension_flag_2 == rhs.pes_extension_fields.PES_extension_flag_2 &&
+              pes_extension_fields.pack_field_length == rhs.pes_extension_fields.pack_field_length &&
+              pes_extension_fields.program_packet_sequence_counter ==
+              rhs.pes_extension_fields.program_packet_sequence_counter &&
+              pes_extension_fields.MPEG1_MPEG2_identifier == rhs.pes_extension_fields.MPEG1_MPEG2_identifier &&
+              pes_extension_fields.original_stuff_length == rhs.pes_extension_fields.original_stuff_length &&
+              pes_extension_fields.P_STD_buffer_scale == rhs.pes_extension_fields.P_STD_buffer_scale &&
+              pes_extension_fields.P_STD_buffer_size == rhs.pes_extension_fields.P_STD_buffer_size &&
+              pes_extension_fields.PES_extension_field_length == rhs.pes_extension_fields.PES_extension_field_length &&
+              pes_extension_fields.pack_header.system_clock_reference ==
+              rhs.pes_extension_fields.pack_header.system_clock_reference &&
+              pes_extension_fields.pack_header.program_mux_rate ==
+              rhs.pes_extension_fields.pack_header.program_mux_rate &&
+              pes_extension_fields.pack_header.system_header.header_length ==
+              rhs.pes_extension_fields.pack_header.system_header.header_length &&
+              pes_extension_fields.pack_header.system_header.rate_bound ==
+              rhs.pes_extension_fields.pack_header.system_header.rate_bound &&
+              pes_extension_fields.pack_header.system_header.audio_bound ==
+              rhs.pes_extension_fields.pack_header.system_header.audio_bound &&
+              pes_extension_fields.pack_header.system_header.fixed_flag ==
+              rhs.pes_extension_fields.pack_header.system_header.fixed_flag &&
+              pes_extension_fields.pack_header.system_header.CSPS_flag ==
+              rhs.pes_extension_fields.pack_header.system_header.CSPS_flag &&
+              pes_extension_fields.pack_header.system_header.system_audio_lock_flag ==
+              rhs.pes_extension_fields.pack_header.system_header.system_audio_lock_flag &&
+              pes_extension_fields.pack_header.system_header.system_video_lock_flag ==
+              rhs.pes_extension_fields.pack_header.system_header.system_video_lock_flag &&
+              pes_extension_fields.pack_header.system_header.video_bound ==
+              rhs.pes_extension_fields.pack_header.system_header.video_bound &&
+              pes_extension_fields.pack_header.system_header.packet_rate_restriction_flag ==
+              rhs.pes_extension_fields.pack_header.system_header.packet_rate_restriction_flag &&
+              pes_extension_fields.pack_header.system_header.numPSTD ==
+              rhs.pes_extension_fields.pack_header.system_header.numPSTD;
     if (!eq) return eq;
     if (pes_extension_fields.pack_header.system_header.numPSTD == 0 &&
         rhs.pes_extension_fields.pack_header.system_header.numPSTD == 0)
