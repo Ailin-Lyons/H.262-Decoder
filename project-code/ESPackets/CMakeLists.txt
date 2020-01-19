@@ -14,7 +14,8 @@ set(SOURCE_FILES
         Slice/MacroblockModes.cpp
         Slice/MotionVectors.cpp
         Slice/MotionVector.cpp
-        Slice/Block.cpp)
+        Slice/Block.cpp
+        Slice/CodedBlockPattern.cpp)
 
 set(HEADER_FILES
         ESPacket.h
@@ -31,6 +32,7 @@ set(HEADER_FILES
         Slice/MacroblockModes.h
         Slice/MotionVectors.h
         Slice/MotionVector.h
-        Slice/Block.h)
+        Slice/Block.h
+        Slice/CodedBlockPattern.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})

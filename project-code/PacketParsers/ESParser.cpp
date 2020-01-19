@@ -7,7 +7,7 @@
 #include "ESPacketParsers/PictureHeaderParser.cpp"
 #include "ESPacketParsers/SequenceExtensionParser.cpp"
 #include "ESPacketParsers/SequenceHeaderParser.cpp"
-#include "ESPacketParsers/SliceParser.cpp"
+#include "SliceParsers/SliceParser.cpp"
 #include "ESPacketParsers/PictureCodingExtensionParser.cpp"
 #include "ESPacketParsers/SequenceDisplayExtensionParser.cpp"
 

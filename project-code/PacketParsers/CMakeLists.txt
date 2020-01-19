@@ -12,7 +12,7 @@ set(SOURCE_FILES
         ESPacketParsers/GroupHeaderParser.cpp
         ESPacketParsers/PictureHeaderParser.cpp
         ESPacketParsers/SequenceExtensionParser.cpp
-        ESPacketParsers/SliceParser.cpp
+        SliceParsers/SliceParser.cpp
         ESPacketParsers/SequenceDisplayExtensionParser.cpp
         ESPacketParsers/PictureCodingExtensionParser.cpp
         ESPacketParsers/MacroBlockParser.cpp)
