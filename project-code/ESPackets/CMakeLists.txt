@@ -10,7 +10,11 @@ set(SOURCE_FILES
         Slice/SlicePacket.cpp
         RegularStartCodes/SequenceDisplayExtensionPacket.cpp
         RegularStartCodes/PictureCodingExtensionPacket.cpp
-        Slice/MacroBlock.cpp)
+        Slice/Macroblock.cpp
+        Slice/MacroblockModes.cpp
+        Slice/MotionVectors.cpp
+        Slice/MotionVector.cpp
+        Slice/Block.cpp)
 
 set(HEADER_FILES
         ESPacket.h
@@ -23,6 +27,10 @@ set(HEADER_FILES
         Slice/SlicePacket.h
         RegularStartCodes/SequenceDisplayExtensionPacket.h
         RegularStartCodes/PictureCodingExtensionPacket.h
-        Slice/MacroBlock.h)
+        Slice/Macroblock.h
+        Slice/MacroblockModes.h
+        Slice/MotionVectors.h
+        Slice/MotionVector.h
+        Slice/Block.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})
