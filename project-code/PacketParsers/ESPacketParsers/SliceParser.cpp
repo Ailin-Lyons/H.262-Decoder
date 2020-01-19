@@ -2,7 +2,7 @@
 // Created by elnsa on 2020-01-15.
 //
 #include "../ESParser.h"
-#include "../../ESPackets/RegularStartCodes/SlicePacket.h"
+#include "../../ESPackets/Slice/SlicePacket.h"
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
 

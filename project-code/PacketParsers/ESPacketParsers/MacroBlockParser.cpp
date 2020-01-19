@@ -2,7 +2,7 @@
 // Created by bhave on 1/18/2020.
 //
 
-#include "../../ESPackets/RegularStartCodes/MacroBlock.h"
+#include "../../ESPackets/Slice/MacroBlock.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -14,6 +14,6 @@ public:
      * H.262 6.2.4
      */
     static MacroBlock *getNextPacket() {
-
+        return nullptr;
     }
 };

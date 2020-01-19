@@ -123,3 +123,38 @@ PESPacket::~PESPacket() {
         free(this->pes_extension_fields.pack_header.system_header.p_std);
     }
 }
+
+bool PESPacket::operator==(const PESPacket &rhs) const {
+    bool eq = PES_packet_length == rhs.PES_packet_length &&
+              PES_scrambling_control == rhs.PES_scrambling_control &&
+              PES_priority == rhs.PES_priority &&
+              data_alignment_indicator == rhs.data_alignment_indicator &&
+              copyright == rhs.copyright &&
+              original_or_copy == rhs.original_or_copy &&
+              PTS_DTS_flags == rhs.PTS_DTS_flags &&
+              ESCR_flag == rhs.ESCR_flag &&
+              ES_rate_flag == rhs.ES_rate_flag &&
+              DSM_trick_mode_flag == rhs.DSM_trick_mode_flag &&
+              additional_copy_info_flag == rhs.additional_copy_info_flag &&
+              PES_CRC_flag == rhs.PES_CRC_flag &&
+              PES_extension_flag == rhs.PES_extension_flag &&
+              PES_header_data_length == rhs.PES_header_data_length &&
+              pts_dts.PTS == rhs.pts_dts.PTS;
+    if (!eq) return eq;
+    if (pes_extension_fields.pack_header.system_header.numPSTD == 0 &&
+        rhs.pes_extension_fields.pack_header.system_header.numPSTD == 0)
+        return eq;
+    for (int i = 0; i < pes_extension_fields.pack_header.system_header.numPSTD; i++) {
+        if (pes_extension_fields.pack_header.system_header.p_std[i].stream_id !=
+            rhs.pes_extension_fields.pack_header.system_header.p_std[i].stream_id ||
+            pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale !=
+            rhs.pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale ||
+                pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound !=
+                rhs.pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound) return false;
+    }
+    return true;
+}
+
+bool PESPacket::operator!=(const PESPacket &rhs) const {
+    return !(rhs == *this);
+}

@@ -103,6 +103,10 @@ public:
 
     void print();
 
+    bool operator==(const PESPacket &rhs) const;
+
+    bool operator!=(const PESPacket &rhs) const;
+
     PESPacket(start_code packet_type, unsigned char stream_id, unsigned short PES_packet_length,
               unsigned char PES_scrambling_control, unsigned char PES_priority, unsigned char data_alignment_indicator,
               unsigned char copyright, unsigned char original_or_copy, unsigned char PTS_DTS_flags,
