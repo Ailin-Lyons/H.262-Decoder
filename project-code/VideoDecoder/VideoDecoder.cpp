@@ -163,21 +163,10 @@ void VideoDecoder::loadPictureCodingExtension() {
     }
 }
 
-<<<<<<< HEAD
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {//TODO handle the loaded packet
     printf("TODO handleVideoStream\n");
-=======
-void VideoDecoder::loadPictureData() {
-    do {
-        ESPacket *pictureData = getNextVideoPacket(); //TODO handle the loaded packet
-        printf("TODO loadPictureData: slice with ID %x\n", pictureData->getStreamId());
-    } while (nextVideoPacketIs(ESPacket::start_code::slice));
 }
 
-void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
-    printf("VideoDecoder: PESPacket Discarded\n"); //PESPacket would be handled here but is not currently used by the decoder
->>>>>>> 6f5077a9c7e7045281ae4794d10bf04261571159
-}
 
 void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
     // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
