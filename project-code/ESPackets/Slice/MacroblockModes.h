@@ -7,15 +7,28 @@
 
 
 class MacroblockModes {
-private: //TODO add VLC fields
-    unsigned short macroblock_type;
-    unsigned char spatial_temporal_weight_code;
-    unsigned char frame_field_motion_type;
+private:
+    bool macroblock_quant;
+    bool macroblock_motion_forward;
+    bool macroblock_motion_backward;
+    bool macroblock_intra;
+    bool spatial_temporal_weight_code_flag;
+    unsigned char spatal_temporal_weight_classes; //not needed as we are not handling spacial scalability
+    unsigned char frame_motion_type;
+    unsigned char field_motion_type;
     bool dct_type;
 public:
     struct initializerStruct {
-        bool bla;
-        //TODO
+        bool macroblock_quant;
+        bool macroblock_motion_forward;
+        bool macroblock_motion_backward;
+        bool macroblock_pattern;
+        bool macroblock_intra;
+        bool spatial_temporal_weight_code_flag;
+        unsigned char spatal_temporal_weight_classes; //not needed as we are not handling spacial scalability
+        unsigned char frame_motion_type;
+        unsigned char field_motion_type;
+        bool dct_type;
     };
 
     MacroblockModes(initializerStruct init);

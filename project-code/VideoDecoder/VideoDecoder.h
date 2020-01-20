@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_VIDEODECODER_H
 #define PROJECT_CODE_VIDEODECODER_H
 
-#include <ESPacket.h>
+#include <../ESPackets/ESPacket.h>
 #include <../PictureDecoder/PictureDecoder.h>
 #include "../ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h"
 
@@ -14,6 +14,7 @@ private:
     static VideoDecoder *instance;
 
     PictureDecoder* pictureDecoder;
+
     /**
      * A private constructor for the singleton
      */
@@ -57,6 +58,8 @@ public:
     static ESPacket *getNextVideoPacket();
 
     static bool nextVideoPacketIs(ESPacket::start_code startCode);
+
+    PictureDecoder *getPictureDecoder() const;
 };
 
 

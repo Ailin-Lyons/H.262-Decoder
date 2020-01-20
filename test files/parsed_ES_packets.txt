@@ -124,3 +124,20 @@ Slice_01:
 	55-58		slice_start_code			0x00000101
 	59.0		quantiser_scale_code		0x3
 	59.5		.... macroblocks are next!
+
+
+Slice_1F
+   Offset: 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+                    00 00 01 1F 1B 00 50 02 EC 57 C9 46 EA    Jg`......P.lWIFj
+ 0000c860: F6 24 16 42 CA 1A D5 A0 3A 02 BD 1E C8 03 B0 0B    v$.BJ.U.:.=.H.0.
+ 0000c870: B0 6E 01 B8 60 9F 9A E3 B5 B6 C5 20 47 00 64 1E    0n.8`..c56E.G.d.
+ 0000c880: 34 91 DE A0 A0 18 0C 4E EE AA D2 13 13 11 9C CA    4.^....Nn*R....J
+ 0000c890: 10 C0 1F A3 A3 A1 01 72 8B E5 90 C8 44 22 B6 E8    .@.##!.r.e.HD"6h
+ 0000c8a0: 4A 12 F8 CF 58 86 F7 A2 E0 3B 0D 4F 5A EC 60 30    J.xOX.w"`;.OZl`0
+ 0000c8b0: 00 D7 A1 39 1F 1E 02 C9 3C 5F 3C 9A 19 FE 55 D3
+
+    Address		Variable 					Value (hex) #Comments
+    	55-58		slice_start_code			0x0000011F
+    	59.0		quantiser_scale_code		0x3
+    	59.5		macroblock_address_increment = 1
+    	59.6        macroblock_type = 1

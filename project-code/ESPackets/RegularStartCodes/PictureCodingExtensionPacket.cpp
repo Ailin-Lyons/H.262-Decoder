@@ -57,7 +57,7 @@ PictureCodingExtensionPacket::getPictureStructureType(unsigned char pictureStruc
         case 0b10:
             return picture_structure_types::ps_bottom_field;
         case 0b11:
-            return picture_structure_types::ps_frame_picture;
+            return picture_structure_types::frame;
         default:
             throw PacketException("PictureCodingExtensionPacket::getPictureStructureType: illegal value\n");
     }

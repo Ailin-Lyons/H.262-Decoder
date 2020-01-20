@@ -90,3 +90,15 @@ void PictureDecoder::setPictureStructure(PictureCodingExtensionPacket::picture_s
     picture_structure = pictureStructure;
 }
 
+PictureHeaderPacket::picture_coding_types PictureDecoder::getPictureCodingType() const {
+    return picture_coding_type;
+}
+
+PictureCodingExtensionPacket::picture_structure_types PictureDecoder::getPictureStructure() const {
+    return picture_structure;
+}
+
+bool PictureDecoder::isFramePredFrameDct() const {
+    return frame_pred_frame_dct;
+}
+

@@ -5,7 +5,7 @@
 #include "../../ESPackets/Slice/SlicePacket.h"
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
-#include "MacroblockParser.cpp"
+#include "MacroblockParser.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -37,7 +37,6 @@ public:
                 read(9); //extra_information_slice is not handled by this decoder
             }
         }
-        read(1);//pop extra_bit_slice
         init.numMacroblocks = 0;
         do {
             init.numMacroblocks++;

@@ -18,7 +18,7 @@ SlicePacket::SlicePacket(SlicePacket::initializerStruct init) {
 }
 
 void SlicePacket::print() {
-    printf("Slice: id = %hhu, vpe = %hhu, qsc = %hhu, sef = %hhu, is = %hhu, spide = %hhu, spid = %hhu, numMacroblocks = %u\n",
+    printf("Slice: id = %hhx, vpe = %hhu, qsc = %hhu, sef = %hhu, is = %hhu, spide = %hhu, spid = %hhu, numMacroblocks = %u\n",
            stream_id, slice_vertical_position_extension, quantiser_scale_code, slice_extension_flag, intra_slice,
            slice_picture_id_enable, slice_picture_id, numMacroblocks);
     for (size_t i = 0; i < numMacroblocks; i++) {

@@ -9,7 +9,7 @@
 //
 #include "ESParser.h"
 #include "../../ESPackets/Slice/Macroblock.h"
-#include "MacroblockModesParser.cpp"
+#include "MacroblockModesParser.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -21,7 +21,6 @@ private:
         unsigned char value;
         unsigned short key;
     };
-    static const size_t table_b1_size = 34;
     static vlc table_b1[];
 
 public:

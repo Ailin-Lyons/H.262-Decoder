@@ -25,6 +25,7 @@ set(SOURCE_FILES
 
 set(HEADER_FILES
         SliceParsers/MacroblockParser.h
+        SliceParsers/MacroblockModesParser.h
         ESParser.h)
 
 add_library(PacketParsers STATIC ${SOURCE_FILES} ${HEADER_FILES})

@@ -46,10 +46,11 @@ MacroblockParser::vlc MacroblockParser::table_b1[] = {{1,  1,  0b1}, //Excludes 
 Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
-    MacroblockModesParser::getNextPacket(init.macroBlockModes);
-    printf("mai = %u\n", init.macroblock_address_increment);
+    MacroblockModesParser::getNextPacket(&init.macroBlockModes);
     //TODO continue here
-    read(1);
+    while(peek(24)!=0x000001){ //TODO remove this. It is a temp solution to skip to end of slice
+        read(1);
+    }
     return nullptr;
 }
 
@@ -61,7 +62,7 @@ size_t MacroblockParser::getAddressIncrement() {
     }
     for(vlc code: table_b1){
         if(peek(code.numbits)==code.key){
-            unsigned char temp = read(code.value);
+            read(code.numbits);
             return out + code.value;
         }
     }

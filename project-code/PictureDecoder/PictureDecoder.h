@@ -6,7 +6,8 @@
 #define PROJECT_CODE_PICTUREDECODER_H
 
 
-#include <RegularStartCodes/PictureHeaderPacket.h>
+#include <../ESPackets/RegularStartCodes/PictureHeaderPacket.h>
+#include "../ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
 
 class PictureDecoder {
 private:
@@ -41,12 +42,15 @@ public:
 
     void setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType);
 
+    PictureHeaderPacket::picture_coding_types getPictureCodingType() const;
 
     void buildPicture();
 
     void setIntraDcPrecision(PictureCodingExtensionPacket::intra_dc_precision_bits intraDcPrecision);
 
     void setPictureStructure(PictureCodingExtensionPacket::picture_structure_types pictureStructure);
+
+    PictureCodingExtensionPacket::picture_structure_types getPictureStructure() const;
 
     void setFCode00(unsigned char fCode00);
 
@@ -59,6 +63,8 @@ public:
     void setTopFieldFirst(bool topFieldFirst);
 
     void setFramePredFrameDct(bool framePredFrameDct);
+
+    bool isFramePredFrameDct() const;
 
     void setConcealmentMotionVectors(bool concealmentMotionVectors);
 

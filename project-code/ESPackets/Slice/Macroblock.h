@@ -13,7 +13,7 @@
 #include <cstddef>
 
 class Macroblock {
-private: //TODO add VLC fields
+private:
     size_t macroblock_address_increment;
     MacroblockModes *macroBlockModes;
     unsigned char quantiser_scale_code;

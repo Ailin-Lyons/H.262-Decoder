@@ -171,3 +171,7 @@ void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
 void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
     // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
 }
+
+PictureDecoder *VideoDecoder::getPictureDecoder() const {
+    return pictureDecoder;
+}

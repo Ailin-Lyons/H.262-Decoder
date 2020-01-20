@@ -20,7 +20,7 @@ public:
         ps_reserved,
         ps_top_field,
         ps_bottom_field,
-        ps_frame_picture
+        frame
     };
 private:
     unsigned char f_code_0_0; //4-bits
