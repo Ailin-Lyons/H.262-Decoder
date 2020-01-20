@@ -5,6 +5,7 @@
 #include "../../ESPackets/Slice/SlicePacket.h"
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
+#include "MacroblockParser.cpp"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -32,16 +33,17 @@ public:
             init.intra_slice = read(1);
             init.slice_picture_id_enable = read(1);
             init.slice_picture_id = read(6);
-            while (peek(1) == 1){
+            while (peek(1) == 1) {
                 read(9); //extra_information_slice is not handled by this decoder
             }
         }
         read(1);//pop extra_bit_slice
-        do{
+        init.numMacroblocks = 0;
+        do {
             init.numMacroblocks++;
-            read(1);//todo remove this line
-            //TODO read macroblocks
-        }while(peek(23)!=0x000000);
+            init.macroblocks = (Macroblock *) realloc(init.macroblocks, sizeof(Macroblock *) * init.numMacroblocks);
+            MacroblockParser::getNextPacket(&init.macroblocks[init.numMacroblocks - 1]);
+        } while (peek(23) != 0x000000);
         return new SlicePacket(init);
     }
 };

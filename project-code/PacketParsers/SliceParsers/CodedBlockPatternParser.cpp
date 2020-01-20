@@ -13,7 +13,7 @@ public:
      * Builds a CodedBlockPattern() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.5.3
      */
-    static CodedBlockPattern *getNextPacket(unsigned char stream_id) {
+    static CodedBlockPattern *getNextPacket() {
         return nullptr; //TODO
     }
 };

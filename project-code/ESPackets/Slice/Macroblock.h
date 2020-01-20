@@ -10,10 +10,11 @@
 #include "MotionVectors.h"
 #include "Block.h"
 #include "CodedBlockPattern.h"
+#include <cstddef>
 
 class Macroblock {
 private: //TODO add VLC fields
-    unsigned short macroblock_increment;
+    size_t macroblock_address_increment;
     MacroblockModes *macroBlockModes;
     unsigned char quantiser_scale_code;
     MotionVectors *forwardMotionVectors;
@@ -22,8 +23,13 @@ private: //TODO add VLC fields
     Block *blocks;
 public:
     struct initializerStruct {
-        bool bla;
-        //TODO
+        size_t macroblock_address_increment;
+        MacroblockModes *macroBlockModes;
+        unsigned char quantiser_scale_code;
+        MotionVectors *forwardMotionVectors;
+        MotionVectors *backwardMotionVectors;
+        CodedBlockPattern *codedBlockPattern;
+        Block *blocks;
     };
 
     Macroblock(initializerStruct init);

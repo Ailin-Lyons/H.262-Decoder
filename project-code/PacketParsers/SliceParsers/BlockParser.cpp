@@ -1,9 +1,6 @@
 //
 // Created by elnsa on 2020-01-19.
 //
-//
-// Created by elnsa on 2020-01-19.
-//
 #include "ESParser.h"
 #include "../../ESPackets/Slice/Block.h"
 
@@ -16,7 +13,7 @@ public:
      * Builds a Block() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.6
      */
-    static Block *getNextPacket(unsigned char stream_id) {
+    static Block *getNextPacket() {
         return nullptr; //TODO
     }
 };

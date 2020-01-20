@@ -11,9 +11,10 @@ class MacroblockModesParser {
 public:
     /**
      * Builds a MacroblockModes() from ESParser data, starting after the start_code/stream_id
+     * and stores it at address mbm
      * H.262 6.2.5.1
      */
-    static MacroblockModes *getNextPacket(unsigned char stream_id) {
+    static MacroblockModes *getNextPacket(MacroblockModes* mbm) {
         return nullptr; //TODO
     }
 };
