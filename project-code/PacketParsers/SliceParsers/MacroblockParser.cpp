@@ -13,7 +13,8 @@ public:
      * Builds a Macroblock() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.5.1
      */
-    static Macroblock *getNextPacket(unsigned char stream_id) {
+    static Macroblock *getNextPacket(Macroblock* mb) {
+        read(1);
         return nullptr; //TODO
     }
 };
