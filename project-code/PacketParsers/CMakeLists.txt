@@ -24,6 +24,7 @@ set(SOURCE_FILES
         SliceParsers/MotionVectorsParser.cpp)
 
 set(HEADER_FILES
+        SliceParsers/MacroblockParser.h
         ESParser.h)
 
 add_library(PacketParsers STATIC ${SOURCE_FILES} ${HEADER_FILES})
