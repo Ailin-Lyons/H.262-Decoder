@@ -11,6 +11,7 @@ private:
     bool macroblock_quant;
     bool macroblock_motion_forward;
     bool macroblock_motion_backward;
+    bool macroblock_pattern;
     bool macroblock_intra;
     bool spatial_temporal_weight_code_flag;
     unsigned char spatal_temporal_weight_classes; //not needed as we are not handling spacial scalability
