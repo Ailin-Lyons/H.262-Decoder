@@ -102,3 +102,7 @@ bool PictureDecoder::isFramePredFrameDct() const {
     return frame_pred_frame_dct;
 }
 
+bool PictureDecoder::isConcealmentMotionVectors() const {
+    return concealment_motion_vectors;
+}
+

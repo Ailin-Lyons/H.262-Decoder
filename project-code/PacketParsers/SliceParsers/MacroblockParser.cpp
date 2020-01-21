@@ -4,6 +4,7 @@
 #include "ESParser.h"
 #include "../../ESPackets/Slice/Macroblock.h"
 #include "MacroblockParser.h"
+#include "../../VideoDecoder/VideoDecoder.h"
 
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
@@ -44,11 +45,30 @@ MacroblockParser::vlc MacroblockParser::table_b1[] = {{1,  1,  0b1}, //Excludes 
                                                       {11, 33, 0b00000001000}};
 
 Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
+    PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
     MacroblockModesParser::getNextPacket(&init.macroBlockModes);
-    //TODO continue here
-    while(peek(24)!=0x000001){ //TODO remove this. It is a temp solution to skip to end of slice
+    if (init.macroBlockModes->isMacroblockQuant()) {
+        init.quantiser_scale_code = read(5);
+    }
+    if (init.macroBlockModes->isMacroblockMotionForward() || (init.macroBlockModes->isMacroblockIntra() &&
+                                                              pictureDecoder->isConcealmentMotionVectors())) {
+        //TODO motion_vectors(0)
+    }
+    if (init.macroBlockModes->isMacroblockMotionBackward()) {
+        //TODO motion_vectors(1)
+    }
+    if (init.macroBlockModes->isMacroblockIntra() && pictureDecoder->isConcealmentMotionVectors()) {
+        read(1);//marker bit
+    }
+    if (init.macroBlockModes->isMacroblockPattern()) {
+        //TODO coded_block_pattern()
+    }
+//    for(int i  = 0; i < block_count; i++){
+//        //TODO block(i)
+//    }
+    while (peek(24) != 0x000001) { //TODO remove this. It is a temp solution to skip to end of slice
         read(1);
     }
     return nullptr;
@@ -56,12 +76,12 @@ Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
 
 size_t MacroblockParser::getAddressIncrement() {
     size_t out = 0;
-    while(peek(11)==0b00000001000){ //handle macroblock_escape
+    while (peek(11) == 0b00000001000) { //handle macroblock_escape
         read(11);
         out += 33;
     }
-    for(vlc code: table_b1){
-        if(peek(code.numbits)==code.key){
+    for (vlc code: table_b1) {
+        if (peek(code.numbits) == code.key) {
             read(code.numbits);
             return out + code.value;
         }

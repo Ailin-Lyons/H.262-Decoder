@@ -41,6 +41,16 @@ public:
     bool operator==(const MacroblockModes &rhs) const;
 
     bool operator!=(const MacroblockModes &rhs) const;
+
+    bool isMacroblockQuant() const;
+
+    bool isMacroblockMotionForward() const;
+
+    bool isMacroblockMotionBackward() const;
+
+    bool isMacroblockPattern() const;
+
+    bool isMacroblockIntra() const;
 };
 
 

@@ -42,3 +42,23 @@ bool MacroblockModes::operator==(const MacroblockModes &rhs) const {
 bool MacroblockModes::operator!=(const MacroblockModes &rhs) const {
     return !(rhs == *this);
 }
+
+bool MacroblockModes::isMacroblockQuant() const {
+    return macroblock_quant;
+}
+
+bool MacroblockModes::isMacroblockMotionForward() const {
+    return macroblock_motion_forward;
+}
+
+bool MacroblockModes::isMacroblockMotionBackward() const {
+    return macroblock_motion_backward;
+}
+
+bool MacroblockModes::isMacroblockPattern() const {
+    return macroblock_pattern;
+}
+
+bool MacroblockModes::isMacroblockIntra() const {
+    return macroblock_intra;
+}

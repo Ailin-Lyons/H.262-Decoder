@@ -68,6 +68,8 @@ public:
 
     void setConcealmentMotionVectors(bool concealmentMotionVectors);
 
+    bool isConcealmentMotionVectors() const;
+
     void setQScaleType(bool qScaleType);
 
     void setIntraVlcFormat(bool intraVlcFormat);
