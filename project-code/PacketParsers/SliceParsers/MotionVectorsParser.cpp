@@ -13,7 +13,7 @@ public:
      * Builds a MotionVectors() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.5.2.1
      */
-    static MotionVectors *getNextPacket() {
+    static MotionVectors *motion_vectors(size_t i, MotionVectors **out) {
         return nullptr; //TODO
     }
 };

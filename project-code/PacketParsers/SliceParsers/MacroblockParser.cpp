@@ -5,6 +5,8 @@
 #include "../../ESPackets/Slice/Macroblock.h"
 #include "MacroblockParser.h"
 #include "../../VideoDecoder/VideoDecoder.h"
+#include "MotionVectorsParser.cpp"
+#include "CodedBlockPatternParser.h"
 
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
@@ -48,22 +50,22 @@ Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
-    MacroblockModesParser::getNextPacket(&init.macroBlockModes);
+    MacroblockModesParser::macroblock_modes(&init.macroBlockModes);
     if (init.macroBlockModes->isMacroblockQuant()) {
         init.quantiser_scale_code = read(5);
     }
     if (init.macroBlockModes->isMacroblockMotionForward() || (init.macroBlockModes->isMacroblockIntra() &&
                                                               pictureDecoder->isConcealmentMotionVectors())) {
-        //TODO motion_vectors(0)
+        MotionVectorsParser::motion_vectors(0, &init.forwardMotionVectors);
     }
     if (init.macroBlockModes->isMacroblockMotionBackward()) {
-        //TODO motion_vectors(1)
+        MotionVectorsParser::motion_vectors(1, &init.backwardMotionVectors);
     }
     if (init.macroBlockModes->isMacroblockIntra() && pictureDecoder->isConcealmentMotionVectors()) {
         read(1);//marker bit
     }
     if (init.macroBlockModes->isMacroblockPattern()) {
-        //TODO coded_block_pattern()
+        CodedBlockPatternParser::coded_block_pattern(&init.codedBlockPattern);
     }
 //    for(int i  = 0; i < block_count; i++){
 //        //TODO block(i)

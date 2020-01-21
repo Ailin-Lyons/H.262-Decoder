@@ -14,7 +14,7 @@
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
 
-class MacroblockParser {//TODO continue here
+class MacroblockParser {
 private:
     struct vlc {
         unsigned char numbits;

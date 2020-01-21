@@ -39,7 +39,7 @@ MacroblockModesParser::vlc MacroblockModesParser::table_b4[] = {
 };
 size_t MacroblockModesParser::table_b4_size = 11;
 
-void MacroblockModesParser::getNextPacket(MacroblockModes **mbm) {
+void MacroblockModesParser::macroblock_modes(MacroblockModes **mbm) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     MacroblockModes::initializerStruct init = {};
     decodeMacroblockType(&init);
