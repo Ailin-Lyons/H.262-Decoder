@@ -70,7 +70,7 @@ Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
 //    for(int i  = 0; i < block_count; i++){
 //        //TODO block(i)
 //    }
-    while (peek(24) != 0x000001) { //TODO remove this. It is a temp solution to skip to end of slice
+    while (peek(24) != 0x000001) { //TODO remove this? It is a temp solution to skip to end of slice
         read(1);
     }
     return nullptr;
