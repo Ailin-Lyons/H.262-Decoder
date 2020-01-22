@@ -57,6 +57,10 @@ void MacroblockModesParser::macroblock_modes(MacroblockModes **mbm) {
         !pictureDecoder->isFramePredFrameDct() && (init.macroblock_intra || init.macroblock_pattern)) {
         init.dct_type = read(1);
     }
+    //TODO - setting the picture decoder fields here, probably should be moved to a better location
+    pictureDecoder->setFrameMotionType(init.frame_motion_type);
+    pictureDecoder->setFieldMotionType(init.field_motion_type);
+    pictureDecoder->setSpatialTemporalWeightClass(init.spatial_temporal_weight_classes);
     *mbm = new MacroblockModes(init);
 }
 
@@ -89,7 +93,7 @@ void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStr
             init->macroblock_pattern = code.macroblock_pattern;
             init->macroblock_intra = code.macroblock_intra;
             init->spatial_temporal_weight_code_flag = code.spatial_temporal_weight_code_flag;
-            init->spatal_temporal_weight_classes = code.spatial_temporal_weight_classes;
+            init->spatial_temporal_weight_classes = code.spatial_temporal_weight_classes;
             return;
         }
     }

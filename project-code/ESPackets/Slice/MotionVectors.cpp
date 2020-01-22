@@ -5,7 +5,10 @@
 #include "MotionVectors.h"
 
 MotionVectors::MotionVectors(MotionVectors::initializerStruct init) {
-//TODO
+    this->motion_vertical_field_select_0_s = init.motion_vertical_field_select_0_s;
+    this->motion_vector_0_s = init.motion_vector_0_s;
+    this->motion_vector_1_s = init.motion_vector_1_s;
+    this->motion_vertical_field_select_1_s = init.motion_vertical_field_select_1_s;
 }
 
 void MotionVectors::print() {
@@ -18,4 +21,9 @@ bool MotionVectors::operator==(const MotionVectors &rhs) const {
 
 bool MotionVectors::operator!=(const MotionVectors &rhs) const {
     return !(rhs == *this);
+}
+
+MotionVectors::~MotionVectors() {
+    delete motion_vector_1_s;
+    delete motion_vector_0_s;
 }

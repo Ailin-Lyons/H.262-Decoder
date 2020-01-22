@@ -12,7 +12,7 @@ MacroblockModes::MacroblockModes(MacroblockModes::initializerStruct init) {
     macroblock_pattern = init.macroblock_pattern;
     macroblock_intra = init.macroblock_intra;
     spatial_temporal_weight_code_flag = init.spatial_temporal_weight_code_flag;
-    spatal_temporal_weight_classes = init.spatal_temporal_weight_classes;
+    spatal_temporal_weight_classes = init.spatial_temporal_weight_classes;
     frame_motion_type = init.frame_motion_type;
     field_motion_type = init.field_motion_type;
     dct_type = init.dct_type;

@@ -26,7 +26,7 @@ public:
         bool macroblock_pattern;
         bool macroblock_intra;
         bool spatial_temporal_weight_code_flag;
-        unsigned char spatal_temporal_weight_classes; //not needed as we are not handling spacial scalability
+        unsigned char spatial_temporal_weight_classes; //not needed as we are not handling spacial scalability
         unsigned char frame_motion_type;
         unsigned char field_motion_type;
         bool dct_type;

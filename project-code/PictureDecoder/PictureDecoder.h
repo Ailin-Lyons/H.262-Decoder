@@ -30,9 +30,24 @@ private:
     bool repeat_first_field;
     bool chroma_420_type;
     bool progressive_frame;
+    unsigned char frame_motion_type;
+    unsigned char field_motion_type;
+    unsigned char spatial_temporal_weight_classes;
+public:
+    unsigned char getSpatialTemporalWeightClass() const;
+
+    void setSpatialTemporalWeightClass(unsigned char spatialTemporalWeightClass);
 
 public:
     PictureDecoder() = default;
+
+    unsigned char getFrameMotionType() const;
+
+    void setFrameMotionType(unsigned char frameMotionType);
+
+    unsigned char getFieldMotionType() const;
+
+    void setFieldMotionType(unsigned char fieldMotionType);
 
     void setClosedGop(bool closedGop);
 

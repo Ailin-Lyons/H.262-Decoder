@@ -106,3 +106,27 @@ bool PictureDecoder::isConcealmentMotionVectors() const {
     return concealment_motion_vectors;
 }
 
+unsigned char PictureDecoder::getFrameMotionType() const {
+    return frame_motion_type;
+}
+
+void PictureDecoder::setFrameMotionType(unsigned char frameMotionType) {
+    frame_motion_type = frameMotionType;
+}
+
+unsigned char PictureDecoder::getFieldMotionType() const {
+    return field_motion_type;
+}
+
+void PictureDecoder::setFieldMotionType(unsigned char fieldMotionType) {
+    field_motion_type = fieldMotionType;
+}
+
+unsigned char PictureDecoder::getSpatialTemporalWeightClass() const {
+    return spatial_temporal_weight_classes;
+}
+
+void PictureDecoder::setSpatialTemporalWeightClass(unsigned char spatialTemporalWeightClass) {
+    spatial_temporal_weight_classes = spatialTemporalWeightClass;
+}
+
