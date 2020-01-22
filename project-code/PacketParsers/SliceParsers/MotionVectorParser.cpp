@@ -16,4 +16,14 @@ public:
     static MotionVector *getNextPacket(int r, int s) {
         return nullptr; //TODO
     }
+
+private:
+    /**
+     * this function would deal with MotionVector
+     * @param val
+     * @return
+     */
+    static int parse_motion_code(int* val) {
+        return 0;
+    }
 };
