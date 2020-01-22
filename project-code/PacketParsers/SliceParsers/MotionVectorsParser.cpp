@@ -22,7 +22,7 @@ public:
         MotionVectors::initializerStruct init{false, false,
                                               nullptr, nullptr};
         PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
-        int motion_vector_count = -1; //stub
+        int motion_vector_count;
         bool mv_format = pictureDecoder->getFrameMotionType() == 0b10; //Note - true = frame, false = field
         bool dmv = (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);
         if (pictureDecoder->getFieldMotionType() != 0b00) {

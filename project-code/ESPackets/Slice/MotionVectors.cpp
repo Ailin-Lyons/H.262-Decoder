@@ -2,6 +2,7 @@
 // Created by elnsa on 2020-01-18.
 //
 
+#include <cstdio>
 #include "MotionVectors.h"
 
 MotionVectors::MotionVectors(MotionVectors::initializerStruct init) {
@@ -12,11 +13,22 @@ MotionVectors::MotionVectors(MotionVectors::initializerStruct init) {
 }
 
 void MotionVectors::print() {
-//TODO
+    std::printf("motion_vertical_field_select_0_s = %s, motion_vertical_field_select_1_s = %s",
+            motion_vertical_field_select_0_s ? "true" : "false", motion_vertical_field_select_1_s ? "true" : "false");
+    if (motion_vector_0_s) {
+        std::printf("\nMotion_Vector[0][s]");
+        motion_vector_0_s->print();
+    }
+    if (motion_vector_1_s) {
+        std::printf("\nMotion_Vector[1][s]");
+        motion_vector_1_s->print();
+    }
 }
 
 bool MotionVectors::operator==(const MotionVectors &rhs) const {
-    return false;//TODO
+    return motion_vertical_field_select_1_s == rhs.motion_vertical_field_select_1_s &&
+    motion_vertical_field_select_0_s == rhs.motion_vertical_field_select_0_s &&
+    *motion_vector_0_s == *(rhs.motion_vector_0_s) && *motion_vector_1_s == *(rhs.motion_vector_1_s);
 }
 
 bool MotionVectors::operator!=(const MotionVectors &rhs) const {
