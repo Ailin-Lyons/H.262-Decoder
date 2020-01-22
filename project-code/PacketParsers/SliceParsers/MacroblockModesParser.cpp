@@ -89,7 +89,7 @@ void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStr
             init->macroblock_pattern = code.macroblock_pattern;
             init->macroblock_intra = code.macroblock_intra;
             init->spatial_temporal_weight_code_flag = code.spatial_temporal_weight_code_flag;
-            init->spatal_temporal_weight_classes = code.spatial_temporal_weight_classes;
+            init->spatial_temporal_weight_classes = code.spatial_temporal_weight_classes;
             return;
         }
     }

@@ -12,7 +12,7 @@ MacroblockModes::MacroblockModes(MacroblockModes::initializerStruct init) {
     macroblock_pattern = init.macroblock_pattern;
     macroblock_intra = init.macroblock_intra;
     spatial_temporal_weight_code_flag = init.spatial_temporal_weight_code_flag;
-    spatal_temporal_weight_classes = init.spatal_temporal_weight_classes;
+    spatial_temporal_weight_classes = init.spatial_temporal_weight_classes;
     frame_motion_type = init.frame_motion_type;
     field_motion_type = init.field_motion_type;
     dct_type = init.dct_type;
@@ -23,7 +23,7 @@ void MacroblockModes::print() {
            macroblock_quant ? "true" : "false", macroblock_motion_forward ? "true" : "false",
            macroblock_motion_backward ? "true" : "false", macroblock_pattern ? "true" : "false",
            macroblock_intra ? "true" : "false", spatial_temporal_weight_code_flag ? "true" : "false",
-           spatal_temporal_weight_classes, frame_motion_type, field_motion_type, dct_type ? "true" : "false");
+           spatial_temporal_weight_classes, frame_motion_type, field_motion_type, dct_type ? "true" : "false");
 }
 
 bool MacroblockModes::operator==(const MacroblockModes &rhs) const {
@@ -33,7 +33,7 @@ bool MacroblockModes::operator==(const MacroblockModes &rhs) const {
            macroblock_pattern == rhs.macroblock_pattern &&
            macroblock_intra == rhs.macroblock_intra &&
            spatial_temporal_weight_code_flag == rhs.spatial_temporal_weight_code_flag &&
-           spatal_temporal_weight_classes == rhs.spatal_temporal_weight_classes &&
+           spatial_temporal_weight_classes == rhs.spatial_temporal_weight_classes &&
            frame_motion_type == rhs.frame_motion_type &&
            field_motion_type == rhs.field_motion_type &&
            dct_type == rhs.dct_type;
