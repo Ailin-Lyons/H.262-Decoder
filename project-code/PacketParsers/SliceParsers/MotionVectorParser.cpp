@@ -53,14 +53,14 @@ MotionVector *MotionVectorParser::getNextPacket(int r, int s) {
     MotionVector::initializerStruct init = {0,0,0,0,0,0};
     init.motion_code_r_s_0 = parse_motion_code();
     if ((parse_fcode(s, false) != 1) && (init.motion_code_r_s_0 != 0)) {
-        init.motion_residual_r_s_0 = parse_motion_residual();
+        init.motion_residual_r_s_0 = parse_motion_residual(s, 0);
     }
     if(parse_dmv()){
         init.dmvector_0 = parse_dmvector();
     }
     init.motion_code_r_s_1 = parse_motion_code();
     if ((parse_fcode(s, true) != 1) && (init.motion_code_r_s_1 != 0)) {
-        init.motion_residual_r_s_1 = parse_motion_residual();
+        init.motion_residual_r_s_1 = parse_motion_residual(s, 1);
     }
     if(parse_dmv()){
         init.dmvector_1 = parse_dmvector();
