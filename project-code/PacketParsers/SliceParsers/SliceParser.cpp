@@ -28,8 +28,8 @@ public:
 //            }
 //        }
         init.quantiser_scale_code = read(5);
-        init.slice_extension_flag = read(1);
-        if (init.slice_extension_flag) {
+        if (peek(1) == 1) {
+            init.slice_extension_flag = read(1);
             init.intra_slice = read(1);
             init.slice_picture_id_enable = read(1);
             init.slice_picture_id = read(6);
@@ -37,6 +37,7 @@ public:
                 read(9); //extra_information_slice is not handled by this decoder
             }
         }
+        read(1); //extra_bit_slice
         init.numMacroblocks = 0;
         do {
             init.numMacroblocks++;
