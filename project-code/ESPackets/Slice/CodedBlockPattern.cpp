@@ -12,7 +12,7 @@ CodedBlockPattern::CodedBlockPattern(CodedBlockPattern::initializerStruct init) 
 }
 
 void CodedBlockPattern::print() {
-    printf("cf420 %x, cfp1 %x, cfp2 %x\n", coded_block_pattern_420, coded_block_pattern_1, coded_block_pattern_2);
+    printf("\tCodedBlockPattern:cf420 %x, cfp1 %x, cfp2 %x\n", coded_block_pattern_420, coded_block_pattern_1, coded_block_pattern_2);
 }
 
 bool CodedBlockPattern::operator==(const CodedBlockPattern &rhs) const {

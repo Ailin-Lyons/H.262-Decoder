@@ -13,14 +13,14 @@ MotionVectors::MotionVectors(MotionVectors::initializerStruct init) {
 }
 
 void MotionVectors::print() {
-    std::printf("motion_vertical_field_select_0_s = %s, motion_vertical_field_select_1_s = %s",
+    std::printf("\tmotion_vertical_field_select_0_s = %s, motion_vertical_field_select_1_s = %s\n",
             motion_vertical_field_select_0_s ? "true" : "false", motion_vertical_field_select_1_s ? "true" : "false");
     if (motion_vector_0_s) {
-        std::printf("\nMotion_Vector[0][s]");
+        std::printf("\tMotion_Vector[0][s]");
         motion_vector_0_s->print();
     }
     if (motion_vector_1_s) {
-        std::printf("\nMotion_Vector[1][s]");
+        std::printf("\tMotion_Vector[1][s]");
         motion_vector_1_s->print();
     }
 }

@@ -19,11 +19,11 @@ MacroblockModes::MacroblockModes(MacroblockModes::initializerStruct init) {
 }
 
 void MacroblockModes::print() {
-    printf("MacroblockModes: q %s, f %s, b %s, p  %s, i  %s, flag  %s, class  %x, frame  %x, field  %x, dct  %s\n",
-           macroblock_quant ? "true" : "false", macroblock_motion_forward ? "true" : "false",
-           macroblock_motion_backward ? "true" : "false", macroblock_pattern ? "true" : "false",
-           macroblock_intra ? "true" : "false", spatial_temporal_weight_code_flag ? "true" : "false",
-           spatial_temporal_weight_classes, frame_motion_type, field_motion_type, dct_type ? "true" : "false");
+    printf("\tMacroblockModes: q = %s, f = %s, b = %s, p = %s, i = %s, flag = %s, class = %x, frame = %x, field = %x, dct = %s\n",
+           macroblock_quant ? "T" : "F", macroblock_motion_forward ? "T" : "F",
+           macroblock_motion_backward ? "T" : "F", macroblock_pattern ? "T" : "F",
+           macroblock_intra ? "T" : "F", spatial_temporal_weight_code_flag ? "T" : "F",
+           spatial_temporal_weight_classes, frame_motion_type, field_motion_type, dct_type ? "T" : "F");
 }
 
 bool MacroblockModes::operator==(const MacroblockModes &rhs) const {

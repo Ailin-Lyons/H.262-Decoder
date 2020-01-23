@@ -18,7 +18,7 @@ public:
 
     // Note - s indicates the forward or backward type for the motion vector
 
-    static void motion_vectors(int s, MotionVectors **out) {
+    static MotionVectors* motion_vectors(int s) {
         MotionVectors::initializerStruct init{false, false,
                                               nullptr, nullptr};
         PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
@@ -42,6 +42,6 @@ public:
             init.motion_vertical_field_select_1_s = read(1);
             init.motion_vector_1_s = MotionVectorParser::getNextPacket(1, s);
         }
-        *out = new MotionVectors(init);
+        return new MotionVectors(init);
     }
 };

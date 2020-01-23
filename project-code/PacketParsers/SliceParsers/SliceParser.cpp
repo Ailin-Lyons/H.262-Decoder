@@ -39,10 +39,11 @@ public:
         }
         read(1); //extra_bit_slice
         init.numMacroblocks = 0;
+        init.macroblocks = (Macroblock *) malloc(sizeof(Macroblock) * 1);
         do {
             init.numMacroblocks++;
-            init.macroblocks = (Macroblock *) realloc(init.macroblocks, sizeof(Macroblock *) * init.numMacroblocks);
-            MacroblockParser::getNextPacket(&init.macroblocks[init.numMacroblocks - 1]);
+            init.macroblocks = (Macroblock *) realloc(init.macroblocks, sizeof(Macroblock) * init.numMacroblocks);
+            init.macroblocks[init.numMacroblocks-1] = *MacroblockParser::getNextPacket();
         } while (peek(23) != 0x000000);
         return new SlicePacket(init);
     }

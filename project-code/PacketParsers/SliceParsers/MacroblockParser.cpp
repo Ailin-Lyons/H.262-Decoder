@@ -46,26 +46,26 @@ MacroblockParser::vlc MacroblockParser::table_b1[] = {{1,  1,  0b1}, //Excludes 
                                                       {11, 32, 0b00000011000},
                                                       {11, 33, 0b00000001000}};
 
-Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
+Macroblock *MacroblockParser::getNextPacket() {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
-    MacroblockModesParser::macroblock_modes(&init.macroBlockModes);
+    init.macroBlockModes = MacroblockModesParser::macroblock_modes();
     if (init.macroBlockModes->isMacroblockQuant()) {
         init.quantiser_scale_code = read(5);
     }
     if (init.macroBlockModes->isMacroblockMotionForward() || (init.macroBlockModes->isMacroblockIntra() &&
                                                               pictureDecoder->isConcealmentMotionVectors())) {
-        MotionVectorsParser::motion_vectors(0, &init.forwardMotionVectors);
+        init.forwardMotionVectors = MotionVectorsParser::motion_vectors(0);
     }
     if (init.macroBlockModes->isMacroblockMotionBackward()) {
-        MotionVectorsParser::motion_vectors(1, &init.backwardMotionVectors);
+        init.backwardMotionVectors = MotionVectorsParser::motion_vectors(1);
     }
     if (init.macroBlockModes->isMacroblockIntra() && pictureDecoder->isConcealmentMotionVectors()) {
         read(1);//marker bit
     }
     if (init.macroBlockModes->isMacroblockPattern()) {
-        CodedBlockPatternParser::coded_block_pattern(&init.codedBlockPattern);
+        init.codedBlockPattern = CodedBlockPatternParser::coded_block_pattern();
     }
 //    for(int i  = 0; i < block_count; i++){
 //        //TODO block(i)
@@ -73,7 +73,7 @@ Macroblock *MacroblockParser::getNextPacket(Macroblock *mb) {
     while (peek(24) != 0x000001) { //TODO remove this? It is a temp solution to skip to end of slice
         read(1);
     }
-    return nullptr;
+    return new Macroblock(init);
 }
 
 size_t MacroblockParser::getAddressIncrement() {

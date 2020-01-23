@@ -29,7 +29,7 @@ public:
      * and stores it in mb
      * H.262 6.2.5.1
      */
-    static Macroblock *getNextPacket(Macroblock *mb);
+    static Macroblock *getNextPacket();
 
 private:
     static size_t getAddressIncrement();

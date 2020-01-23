@@ -33,7 +33,7 @@ public:
      * and stores it at address mbm
      * H.262 6.2.5.1
      */
-    static void macroblock_modes(MacroblockModes **mbm);
+    static MacroblockModes* macroblock_modes();
 
 private:
     static void decodeMacroblockType(MacroblockModes::initializerStruct *init);

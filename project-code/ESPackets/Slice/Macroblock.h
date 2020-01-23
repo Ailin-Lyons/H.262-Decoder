@@ -20,6 +20,7 @@ private:
     MotionVectors *forwardMotionVectors;
     MotionVectors *backwardMotionVectors;
     CodedBlockPattern *codedBlockPattern;
+    size_t numBlocks;
     Block *blocks;
 public:
     struct initializerStruct {
@@ -29,6 +30,7 @@ public:
         MotionVectors *forwardMotionVectors;
         MotionVectors *backwardMotionVectors;
         CodedBlockPattern *codedBlockPattern;
+        size_t numBlocks;
         Block *blocks;
     };
 

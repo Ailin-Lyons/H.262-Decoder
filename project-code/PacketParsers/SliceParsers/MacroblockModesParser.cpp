@@ -39,7 +39,7 @@ MacroblockModesParser::vlc MacroblockModesParser::table_b4[] = {
 };
 size_t MacroblockModesParser::table_b4_size = 11;
 
-void MacroblockModesParser::macroblock_modes(MacroblockModes **mbm) {
+MacroblockModes* MacroblockModesParser::macroblock_modes() {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     MacroblockModes::initializerStruct init = {};
     decodeMacroblockType(&init);
@@ -67,7 +67,7 @@ void MacroblockModesParser::macroblock_modes(MacroblockModes **mbm) {
     pictureDecoder->setFrameMotionType(init.frame_motion_type);
     pictureDecoder->setFieldMotionType(init.field_motion_type);
     pictureDecoder->setSpatialTemporalWeightClass(init.spatial_temporal_weight_classes);
-    *mbm = new MacroblockModes(init);
+    return new MacroblockModes(init);
 }
 
 void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStruct *init) {
