@@ -2,6 +2,8 @@
 // Created by elnsa on 2020-01-19.
 //
 #include "MotionVectorParser.h"
+#include "../../PictureDecoder/PictureDecoder.h"
+#include "../../VideoDecoder/VideoDecoder.h"
 
 size_t MotionVectorParser::table_b10_size = 33;
 MotionVectorParser::vlc MotionVectorParser::table_b10[] = {
@@ -48,33 +50,59 @@ MotionVectorParser::vlc MotionVectorParser::table_b11[] = {
 };
 
 MotionVector *MotionVectorParser::getNextPacket(int r, int s) {
-    MotionVector::initializerStruct init = {};
+    MotionVector::initializerStruct init = {0,0,0,0,0,0};
     init.motion_code_r_s_0 = parse_motion_code();
-    if (true) {//TODO correct if
-    init.motion_residual_r_s_0 = parse_motion_residual();
+    if ((parse_fcode(s, false) != 1) && (init.motion_code_r_s_0 != 0)) {
+        init.motion_residual_r_s_0 = parse_motion_residual();
     }
-    if(true){//TODO correct if
-        init.dmvector_0 = parse_dmv_code();
+    if(parse_dmv()){
+        init.dmvector_0 = parse_dmvector();
     }
     init.motion_code_r_s_1 = parse_motion_code();
-    if (true) {//TODO correct if
+    if ((parse_fcode(s, true) != 1) && (init.motion_code_r_s_1 != 0)) {
         init.motion_residual_r_s_1 = parse_motion_residual();
     }
-    if(true){//TODO correct if
-        init.dmvector_1 = parse_dmv_code();
+    if(parse_dmv()){
+        init.dmvector_1 = parse_dmvector();
     }
-    return nullptr; //TODO
+    return new MotionVector(init);
 }
 
 char MotionVectorParser::parse_motion_code() {
-    return 0; //TODO
+    for (vlc code: table_b10) {
+        if (peek(code.numbits) == code.key) {
+            return code.value;
+        }
+    }
+    throw PacketException("Unexpected Value");
 }
 
-char MotionVectorParser::parse_dmv_code() {
-    return 0; //TODO
+bool MotionVectorParser::parse_dmv() {
+    PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
+    return (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);
 }
 
 unsigned char MotionVectorParser::parse_motion_residual() {
     return 0; //TODO
+}
+
+unsigned char MotionVectorParser::parse_fcode(int s, bool flag) {
+    if (s == 0) {
+        if (flag) {
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode01();
+        } else {
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode00();
+        }
+    } else {
+        if (flag) {
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode11();
+        } else {
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode10();
+        }
+    }
+}
+
+char MotionVectorParser::parse_dmvector() {
+
 }
 

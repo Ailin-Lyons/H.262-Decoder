@@ -35,11 +35,15 @@ private:
      * @param val
      * @return
      */
-    static int parse_motion_code();
+    static char parse_motion_code();
 
-    static int parse_dmv_code();
+    static bool parse_dmv();
 
     static unsigned char parse_motion_residual();
+
+    static unsigned char parse_fcode(int s, bool flag);
+
+    static char parse_dmvector();
 };
 
 

@@ -24,6 +24,16 @@ private:
     bool top_field_first;
     bool frame_pred_frame_dct;
     bool concealment_motion_vectors;
+public:
+    unsigned char getFCode00() const;
+
+    unsigned char getFCode01() const;
+
+    unsigned char getFCode10() const;
+
+    unsigned char getFCode11() const;
+
+private:
     bool q_scale_type;
     bool intra_vlc_format;
     bool alternate_scan;

@@ -130,3 +130,19 @@ void PictureDecoder::setSpatialTemporalWeightClass(unsigned char spatialTemporal
     spatial_temporal_weight_classes = spatialTemporalWeightClass;
 }
 
+unsigned char PictureDecoder::getFCode00() const {
+    return f_code_0_0;
+}
+
+unsigned char PictureDecoder::getFCode01() const {
+    return f_code_0_1;
+}
+
+unsigned char PictureDecoder::getFCode10() const {
+    return f_code_1_0;
+}
+
+unsigned char PictureDecoder::getFCode11() const {
+    return f_code_1_1;
+}
+
