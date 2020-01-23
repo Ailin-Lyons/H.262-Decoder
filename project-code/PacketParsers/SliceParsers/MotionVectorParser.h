@@ -19,9 +19,7 @@ private:
         unsigned short key;
     };
     static vlc table_b10[];
-    static size_t table_b10_size;
     static vlc table_b11[];
-    static size_t table_b11_size;
 public:
     /**
      * Builds a MotionVector() from ESParser data, starting after the start_code/stream_id

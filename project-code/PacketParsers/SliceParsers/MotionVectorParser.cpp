@@ -5,7 +5,6 @@
 #include "../../PictureDecoder/PictureDecoder.h"
 #include "../../VideoDecoder/VideoDecoder.h"
 
-size_t MotionVectorParser::table_b10_size = 33;
 MotionVectorParser::vlc MotionVectorParser::table_b10[] = {
         {11, -16, 0b00000011001},
         {11, -15, 0b00000011011},
@@ -42,7 +41,6 @@ MotionVectorParser::vlc MotionVectorParser::table_b10[] = {
         {11, 16,  0b00000011000}
 };
 
-size_t MotionVectorParser::table_b11_size = 33;
 MotionVectorParser::vlc MotionVectorParser::table_b11[] = {
         {2, -1, 0b11},
         {1, 0,  0b0},
@@ -71,9 +69,11 @@ MotionVector *MotionVectorParser::getNextPacket(int r, int s) {
 char MotionVectorParser::parse_motion_code() {
     for (vlc code: table_b10) {
         if (peek(code.numbits) == code.key) {
+            read(code.numbits);
             return code.value;
         }
     }
+    printf("%x\n",read(32));
     throw PacketException("MotionVectorParser::parse_motion_code: Unexpected Value");
 }
 
