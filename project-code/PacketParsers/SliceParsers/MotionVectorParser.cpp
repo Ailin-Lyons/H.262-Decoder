@@ -73,7 +73,6 @@ char MotionVectorParser::parse_motion_code() {
             return code.value;
         }
     }
-    printf("%x\n",read(32));
     throw PacketException("MotionVectorParser::parse_motion_code: Unexpected Value");
 }
 
