@@ -74,7 +74,7 @@ char MotionVectorParser::parse_motion_code() {
             return code.value;
         }
     }
-    throw PacketException("Unexpected Value");
+    throw PacketException("MotionVectorParser::parse_motion_code: Unexpected Value");
 }
 
 bool MotionVectorParser::parse_dmv() {
@@ -82,8 +82,8 @@ bool MotionVectorParser::parse_dmv() {
     return (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);
 }
 
-unsigned char MotionVectorParser::parse_motion_residual() {
-    return 0; //TODO
+unsigned char MotionVectorParser::parse_motion_residual(int s, int t) {
+    return read(parse_fcode(s, t == 1) - 1);
 }
 
 unsigned char MotionVectorParser::parse_fcode(int s, bool flag) {

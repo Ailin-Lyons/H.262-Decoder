@@ -39,7 +39,7 @@ private:
 
     static bool parse_dmv();
 
-    static unsigned char parse_motion_residual();
+    static unsigned char parse_motion_residual(int s, int t);
 
     static unsigned char parse_fcode(int s, bool flag);
 
