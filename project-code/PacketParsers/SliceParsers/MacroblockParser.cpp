@@ -88,7 +88,7 @@ size_t MacroblockParser::getAddressIncrement() {
             return out + code.value;
         }
     }
-    throw PacketException("MacroblockParser::getAddressIncrement: Unexpected valued\n");
+    throw PacketException("MacroblockParser::getAddressIncrement: Unexpected value\n");
 }
 
 

@@ -8,10 +8,17 @@
 #include "ExtensionPacket.h"
 
 class SequenceExtensionPacket : public ExtensionPacket {
+public:
+    enum class chroma_format_type {
+        reserved,
+        cf_420,
+        cf_422,
+        cf_444
+    };
 private:
     unsigned char profile_and_level_indication; //8-bits
     bool progressive_sequence; //1-bit
-    unsigned char chroma_format; //2-bits
+    chroma_format_type chroma_format;
     unsigned char horizontal_size_extension; //2-bits
     unsigned char vertical_size_extension;    //2-bits
     unsigned short bit_rate_extension; //12-bits
@@ -25,7 +32,7 @@ public:
         ExtensionPacket::extension_type e_type;
         unsigned char profile_and_level_indication; //8-bits
         bool progressive_sequence; //1-bit
-        unsigned char chroma_format; //2-bits
+        chroma_format_type chroma_format;
         unsigned char horizontal_size_extension; //2-bits
         unsigned char vertical_size_extension; //2-bits
         unsigned short bit_rate_extension; //12-bits
@@ -60,13 +67,15 @@ public:
 
     bool getProgSeq() const;
 
-    unsigned char getChromaFormat();
+    chroma_format_type getChromaFormat();
 
     bool getLowDelay();
 
     unsigned char getFrameExtD();
 
     unsigned char getFrameExtN();
+
+    static chroma_format_type getChromaFormatCode(unsigned char bits);
 };
 
 #endif //DIRECTED_STUDIES_EXTENSIONPAYLOAD_H

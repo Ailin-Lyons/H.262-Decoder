@@ -147,6 +147,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         nextTP = findNextTSPacket();
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
+        printf("Data length %x\n",nextTP->getDataLength());
         nextTP->print();
         throw PacketException(
                 "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");

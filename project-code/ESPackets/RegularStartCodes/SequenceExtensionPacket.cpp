@@ -70,7 +70,7 @@ bool SequenceExtensionPacket::getProgSeq() const {
     return progressive_sequence;
 }
 
-unsigned char SequenceExtensionPacket::getChromaFormat() {
+SequenceExtensionPacket::chroma_format_type SequenceExtensionPacket::getChromaFormat() {
     return chroma_format;
 }
 
@@ -84,4 +84,19 @@ unsigned char SequenceExtensionPacket::getFrameExtD() {
 
 unsigned char SequenceExtensionPacket::getFrameExtN() {
     return frame_rate_extension_n;
+}
+
+SequenceExtensionPacket::chroma_format_type SequenceExtensionPacket::getChromaFormatCode(unsigned char bits) {
+    switch(bits){
+        case 0b00:
+            return chroma_format_type::reserved;
+        case 0b01:
+            return chroma_format_type::cf_420;
+        case 0b10:
+            return chroma_format_type::cf_422;
+        case 0b11:
+            return chroma_format_type::cf_444;
+        default:
+            throw PacketException("SequenceExtensionPacket::getChromaFormatCode: Unexpected value\n");
+    }
 }

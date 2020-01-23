@@ -12,7 +12,7 @@ TEST(AllTest, SequenceExtension_Parser_Test) {
     init.e_type = ExtensionPacket::extension_type::sequence;
     init.profile_and_level_indication = 0x46;
     init.progressive_sequence = true;
-    init.chroma_format = 0x1;
+    init.chroma_format = SequenceExtensionPacket::chroma_format_type::cf_420;
     init.horizontal_size_extension = 0x0;
     init.vertical_size_extension = 0x0;
     init.bit_rate_extension = 0x0;

@@ -5,6 +5,8 @@
 #ifndef PROJECT_CODE_VIDEOINFORMATION_H
 #define PROJECT_CODE_VIDEOINFORMATION_H
 
+#include <../ESPackets/RegularStartCodes/SequenceExtensionPacket.h>
+
 class VideoInformation {
 public:
     enum class aspect_ratio {
@@ -35,13 +37,6 @@ public:
         l_high
     };
 
-    enum class chroma_types {
-        c_reserved,
-        c_4_2_0,
-        c_4_2_2,
-        c_4_4_4
-    };
-
 private:
     static VideoInformation *instance;
     /**
@@ -56,7 +51,7 @@ private:
     video_profile profile; // H.262 8
     video_level level; // H.262 8
     bool progressive_sequence;
-    chroma_types chroma_format;
+    SequenceExtensionPacket::chroma_format_type chroma_format;
     bool low_delay;
 
     /**
@@ -100,7 +95,9 @@ public:
 
     void setProgressiveSequence(bool prog_sequence);
 
-    void setChromaFormat(unsigned char chroma_bits);
+    void setChromaFormat(SequenceExtensionPacket::chroma_format_type cf);
+
+    SequenceExtensionPacket::chroma_format_type getChromaFormat() const;
 
     void setLowDelay(bool d);
 

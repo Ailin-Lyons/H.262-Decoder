@@ -140,21 +140,14 @@ void VideoInformation::setProgressiveSequence(bool prog_sequence) {
     progressive_sequence = prog_sequence;
 }
 
-void VideoInformation::setChromaFormat(unsigned char chroma_bits) {
-    switch (chroma_bits) {
-        case 0b00:
-            chroma_format = chroma_types::c_reserved;
-            break;
-        case 0b01:
-            chroma_format = chroma_types::c_4_2_0;
-            break;
-        case 0b10:
-            chroma_format = chroma_types::c_4_2_2;
-            break;
-        case 0b11:
-            chroma_format = chroma_types::c_4_4_4;
-    }
+void VideoInformation::setChromaFormat(SequenceExtensionPacket::chroma_format_type cf) {
+    chroma_format = cf;
 }
+
+SequenceExtensionPacket::chroma_format_type VideoInformation::getChromaFormat() const{
+    return chroma_format;
+}
+
 
 void VideoInformation::setLowDelay(bool d) {
     low_delay = d;

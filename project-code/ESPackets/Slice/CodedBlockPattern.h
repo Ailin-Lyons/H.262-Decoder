@@ -7,14 +7,15 @@
 
 
 class CodedBlockPattern {
-private: //TODO add VLC fields
-    unsigned short coded_block_pattern_420;
+private:
+    unsigned char coded_block_pattern_420;
     unsigned char coded_block_pattern_1;
     unsigned char coded_block_pattern_2;
 public:
     struct initializerStruct {
-        bool bla;
-        //TODO
+        unsigned char coded_block_pattern_420;
+        unsigned char coded_block_pattern_1;
+        unsigned char coded_block_pattern_2;
     };
 
     CodedBlockPattern(initializerStruct init);

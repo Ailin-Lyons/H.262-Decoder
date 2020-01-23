@@ -3,6 +3,7 @@
 //
 #include "../ESParser.h"
 #include "../../ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
+#include "../../VideoDecoder/VideoDecoder.h"
 
 
 class SequenceExtensionParser {
@@ -17,7 +18,7 @@ public:
         init.e_type = ExtensionPacket::getExtensionCode(extension_start_code_identifier);
         init.profile_and_level_indication = esParser->popNBits(8);
         init.progressive_sequence = esParser->popNBits(1);
-        init.chroma_format = esParser->popNBits(2);
+        init.chroma_format = SequenceExtensionPacket::getChromaFormatCode(esParser->popNBits(2));
         init.horizontal_size_extension = esParser->popNBits(2);
         init.vertical_size_extension = esParser->popNBits(2);
         init.bit_rate_extension = esParser->popNBits(12);
