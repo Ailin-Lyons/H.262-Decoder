@@ -109,6 +109,6 @@ char MotionVectorParser::parse_dmvector() {
             return code.value;
         }
     }
-    throw PacketException("MotionVectorParser::parse_dmvector: Unexpected valued\n");
+    throw PacketException("MotionVectorParser::parse_dmvector: Unexpected value\n");
 }
 
