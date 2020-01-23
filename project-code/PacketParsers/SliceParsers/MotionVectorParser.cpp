@@ -103,6 +103,12 @@ unsigned char MotionVectorParser::parse_fcode(int s, bool flag) {
 }
 
 char MotionVectorParser::parse_dmvector() {
-
+    for (vlc code: table_b11) {
+        if (peek(code.numbits) == code.key) {
+            read(code.numbits);
+            return code.value;
+        }
+    }
+    throw PacketException("MotionVectorParser::parse_dmvector: Unexpected valued\n");
 }
 
