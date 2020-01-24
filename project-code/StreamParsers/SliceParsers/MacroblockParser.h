@@ -10,6 +10,7 @@
 #include "ESParser.h"
 #include "../../StreamPackets/ESPackets/Slice/Macroblock.h"
 #include "MacroblockModesParser.h"
+#include "../../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -33,6 +34,8 @@ public:
 
 private:
     static size_t getAddressIncrement();
+
+    static unsigned char getBlockCount(SequenceExtensionPacket::chroma_format_type type);
 };
 
 

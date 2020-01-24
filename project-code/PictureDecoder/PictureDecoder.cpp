@@ -25,7 +25,7 @@ void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_ty
 
 void PictureDecoder::buildPicture() {
     do {
-        SlicePacket *pictureData = (SlicePacket*) VideoDecoder::getInstance()->getNextVideoPacket(); //TODO handle the loaded packet
+        SlicePacket *pictureData = (SlicePacket *) VideoDecoder::getInstance()->getNextVideoPacket(); //TODO handle the loaded packet
         pictureData->print();
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
 }
@@ -144,5 +144,59 @@ unsigned char PictureDecoder::getFCode10() const {
 
 unsigned char PictureDecoder::getFCode11() const {
     return f_code_1_1;
+}
+
+bool PictureDecoder::isMacroblockIntra() const {
+    return macroblock_intra;
+}
+
+void PictureDecoder::setMacroblockIntra(bool macroblockIntra) {
+    macroblock_intra = macroblockIntra;
+}
+
+bool PictureDecoder::isMacroblockPattern() const {
+    return macroblock_pattern;
+}
+
+void PictureDecoder::setMacroblockPattern(bool macroblockPattern) {
+    macroblock_pattern = macroblockPattern;
+}
+
+void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes) {
+    setMacroblockPattern(mbmodes->isMacroblockPattern());
+    setMacroblockIntra(mbmodes->isMacroblockIntra());
+    setFrameMotionType(mbmodes->getFrameMotionType());
+    setFieldMotionType(mbmodes->getFieldMotionType());
+    setSpatialTemporalWeightClass(mbmodes->getSpatialTemporalWeightClasses());
+}
+
+void PictureDecoder::updateCodedBlockPattern(CodedBlockPattern *cbPattern) {
+    cbp = cbPattern->getCbp();
+    coded_block_pattern_1 = cbPattern->getCodedBlockPattern1();
+    coded_block_pattern_2 = cbPattern->getCodedBlockPattern2();
+}
+
+unsigned char PictureDecoder::getCbp() const {
+    return cbp;
+}
+
+void PictureDecoder::setCbp(unsigned char cbp) {
+    PictureDecoder::cbp = cbp;
+}
+
+unsigned char PictureDecoder::getCodedBlockPattern1() const {
+    return coded_block_pattern_1;
+}
+
+void PictureDecoder::setCodedBlockPattern1(unsigned char codedBlockPattern1) {
+    coded_block_pattern_1 = codedBlockPattern1;
+}
+
+unsigned char PictureDecoder::getCodedBlockPattern2() const {
+    return coded_block_pattern_2;
+}
+
+void PictureDecoder::setCodedBlockPattern2(unsigned char codedBlockPattern2) {
+    coded_block_pattern_2 = codedBlockPattern2;
 }
 

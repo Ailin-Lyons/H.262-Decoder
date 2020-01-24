@@ -8,6 +8,8 @@
 
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureHeaderPacket.h>
 #include "../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
+#include "../StreamPackets/ESPackets/Slice/MacroblockModes.h"
+#include "../StreamPackets/ESPackets/Slice/CodedBlockPattern.h"
 
 class PictureDecoder {
 private:
@@ -24,16 +26,8 @@ private:
     bool top_field_first;
     bool frame_pred_frame_dct;
     bool concealment_motion_vectors;
-public:
-    unsigned char getFCode00() const;
-
-    unsigned char getFCode01() const;
-
-    unsigned char getFCode10() const;
-
-    unsigned char getFCode11() const;
-
-private:
+    bool macroblock_intra;
+    bool macroblock_pattern;
     bool q_scale_type;
     bool intra_vlc_format;
     bool alternate_scan;
@@ -43,10 +37,9 @@ private:
     unsigned char frame_motion_type;
     unsigned char field_motion_type;
     unsigned char spatial_temporal_weight_classes;
-public:
-    unsigned char getSpatialTemporalWeightClass() const;
-
-    void setSpatialTemporalWeightClass(unsigned char spatialTemporalWeightClass);
+    unsigned char cbp;
+    unsigned char coded_block_pattern_1;
+    unsigned char coded_block_pattern_2;
 
 public:
     PictureDecoder() = default;
@@ -106,6 +99,42 @@ public:
     void setChroma420Type(bool chroma420Type);
 
     void setProgressiveFrame(bool progressiveFrame);
+
+    unsigned char getFCode00() const;
+
+    unsigned char getFCode01() const;
+
+    unsigned char getFCode10() const;
+
+    unsigned char getFCode11() const;
+
+    bool isMacroblockIntra() const;
+
+    void setMacroblockIntra(bool macroblockIntra);
+
+    bool isMacroblockPattern() const;
+
+    void setMacroblockPattern(bool macroblockPattern);
+
+    void updateMacroBlockModes(MacroblockModes *mbmodes);
+
+    void updateCodedBlockPattern(CodedBlockPattern *cbPattern);
+
+    unsigned char getCbp() const;
+
+    void setCbp(unsigned char cbp);
+
+    unsigned char getCodedBlockPattern1() const;
+
+    void setCodedBlockPattern1(unsigned char codedBlockPattern1);
+
+    unsigned char getCodedBlockPattern2() const;
+
+    void setCodedBlockPattern2(unsigned char codedBlockPattern2);
+
+    unsigned char getSpatialTemporalWeightClass() const;
+
+    void setSpatialTemporalWeightClass(unsigned char spatialTemporalWeightClass);
 };
 
 

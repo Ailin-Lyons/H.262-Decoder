@@ -77,7 +77,7 @@ CodedBlockPatternParser::vlc CodedBlockPatternParser::table_b9[] = {{3, 60, 0b11
 
 CodedBlockPattern *CodedBlockPatternParser::coded_block_pattern() {
     CodedBlockPattern::initializerStruct init = {};
-    init.coded_block_pattern_420 = getCodedBlockPattern();
+    init.cbp = getCodedBlockPattern();
     if (VideoInformation::getInstance()->getChromaFormat() == SequenceExtensionPacket::chroma_format_type::cf_422) {
         init.coded_block_pattern_1 = read(2);
     }

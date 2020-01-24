@@ -62,3 +62,15 @@ bool MacroblockModes::isMacroblockPattern() const {
 bool MacroblockModes::isMacroblockIntra() const {
     return macroblock_intra;
 }
+
+unsigned char MacroblockModes::getFrameMotionType() const {
+    return frame_motion_type;
+}
+
+unsigned char MacroblockModes::getFieldMotionType() const {
+    return field_motion_type;
+}
+
+unsigned char MacroblockModes::getSpatialTemporalWeightClasses() const {
+    return spatial_temporal_weight_classes;
+}

@@ -57,16 +57,12 @@ MacroblockModes* MacroblockModesParser::macroblock_modes() {
         !pictureDecoder->isFramePredFrameDct() && (init.macroblock_intra || init.macroblock_pattern)) {
         init.dct_type = read(1);
     }
-    //TODO - setting the picture decoder fields here, probably should be moved to a better location
     if (pictureDecoder->isFramePredFrameDct() || pictureDecoder->isConcealmentMotionVectors()) {
         init.frame_motion_type = 0b10;
     }
     if (pictureDecoder->isConcealmentMotionVectors()) {
         init.field_motion_type = 0b01;
     }
-    pictureDecoder->setFrameMotionType(init.frame_motion_type);
-    pictureDecoder->setFieldMotionType(init.field_motion_type);
-    pictureDecoder->setSpatialTemporalWeightClass(init.spatial_temporal_weight_classes);
     return new MacroblockModes(init);
 }
 

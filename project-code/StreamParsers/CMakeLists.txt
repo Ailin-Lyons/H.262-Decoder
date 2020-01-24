@@ -15,7 +15,6 @@ set(SOURCE_FILES
         SliceParsers/SliceParser.cpp
         ESPacketParsers/SequenceDisplayExtensionParser.cpp
         ESPacketParsers/PictureCodingExtensionParser.cpp
-        ESPacketParsers/MacroBlockParser.cpp
         SliceParsers/BlockParser.cpp
         SliceParsers/CodedBlockPatternParser.cpp
         SliceParsers/MacroblockModesParser.cpp

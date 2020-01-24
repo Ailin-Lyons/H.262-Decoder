@@ -7,6 +7,8 @@
 #include "../../VideoDecoder/VideoDecoder.h"
 #include "MotionVectorsParser.cpp"
 #include "CodedBlockPatternParser.h"
+#include "BlockParser.cpp"
+#include "../../VideoDecoder/VideoInformation.h"
 
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
@@ -51,6 +53,7 @@ Macroblock *MacroblockParser::getNextPacket() {
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
     init.macroBlockModes = MacroblockModesParser::macroblock_modes();
+    pictureDecoder->updateMacroBlockModes(init.macroBlockModes);
     if (init.macroBlockModes->isMacroblockQuant()) {
         init.quantiser_scale_code = read(5);
     }
@@ -66,10 +69,13 @@ Macroblock *MacroblockParser::getNextPacket() {
     }
     if (init.macroBlockModes->isMacroblockPattern()) {
         init.codedBlockPattern = CodedBlockPatternParser::coded_block_pattern();
+        pictureDecoder->updateCodedBlockPattern(init.codedBlockPattern);
     }
-//    for(int i  = 0; i < block_count; i++){
-//        //TODO block(i)
-//    }
+    init.block_count = getBlockCount(VideoInformation::getInstance()->getChromaFormat());
+    init.blocks = (Block *) malloc(sizeof(Block) * init.block_count);
+    for (int i = 0; i < init.block_count; i++) {
+        init.blocks[i] = *BlockParser::block(i);
+    }
     while (peek(24) != 0x000001) { //TODO remove this? It is a temp solution to skip to end of slice
         read(1);
     }
@@ -89,6 +95,19 @@ size_t MacroblockParser::getAddressIncrement() {
         }
     }
     throw PacketException("MacroblockParser::getAddressIncrement: Unexpected value\n");
+}
+
+unsigned char MacroblockParser::getBlockCount(SequenceExtensionPacket::chroma_format_type type) {
+    switch (type) {
+        case SequenceExtensionPacket::chroma_format_type::cf_420:
+            return 6;
+        case SequenceExtensionPacket::chroma_format_type::cf_422:
+            return 8;
+        case SequenceExtensionPacket::chroma_format_type::cf_444:
+            return 12;
+        default:
+            throw PacketException("MacroblockParser::getBlockCount: Unexpected type");
+    }
 }
 
 

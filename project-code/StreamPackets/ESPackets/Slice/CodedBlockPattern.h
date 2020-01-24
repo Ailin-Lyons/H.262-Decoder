@@ -8,12 +8,13 @@
 
 class CodedBlockPattern {
 private:
-    unsigned char coded_block_pattern_420;
+    unsigned char cbp;
     unsigned char coded_block_pattern_1;
     unsigned char coded_block_pattern_2;
+
 public:
     struct initializerStruct {
-        unsigned char coded_block_pattern_420;
+        unsigned char cbp;
         unsigned char coded_block_pattern_1;
         unsigned char coded_block_pattern_2;
     };
@@ -27,6 +28,13 @@ public:
     bool operator==(const CodedBlockPattern &rhs) const;
 
     bool operator!=(const CodedBlockPattern &rhs) const;
+
+    unsigned char getCbp() const;
+
+    unsigned char getCodedBlockPattern1() const;
+
+    unsigned char getCodedBlockPattern2() const;
+
 };
 
 

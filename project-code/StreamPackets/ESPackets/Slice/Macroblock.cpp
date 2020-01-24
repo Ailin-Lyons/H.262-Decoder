@@ -12,13 +12,13 @@ Macroblock::Macroblock(Macroblock::initializerStruct init) {
     forwardMotionVectors = init.forwardMotionVectors;
     backwardMotionVectors = init.backwardMotionVectors;
     codedBlockPattern = init.codedBlockPattern;
-    numBlocks = init.numBlocks;
+    block_count = init.block_count;
     blocks = init.blocks;
 }
 
 void Macroblock::print() {
-    printf("\tMacroblock: mai = %x, qsc = %x, numBlocks = %x\n", macroblock_address_increment, quantiser_scale_code,
-           numBlocks);
+    printf("\tMacroblock: mai = %x, qsc = %x, block_count = %x\n", macroblock_address_increment, quantiser_scale_code,
+           block_count);
     macroBlockModes->print();
     if (forwardMotionVectors != nullptr) {
         printf("\tForward:");
@@ -31,9 +31,9 @@ void Macroblock::print() {
     if (codedBlockPattern != nullptr) {
         codedBlockPattern->print();
     }
-//    for(size_t i = 0; i < numBlocks; i++){  //TODO uncomment this when block is made
-//        blocks[i].print();
-//    }
+    for(size_t i = 0; i < block_count; i++){
+        blocks[i].print();
+    }
 }
 
 bool Macroblock::operator==(const Macroblock &rhs) const {
@@ -43,13 +43,13 @@ bool Macroblock::operator==(const Macroblock &rhs) const {
               *forwardMotionVectors == *rhs.forwardMotionVectors &&
               *backwardMotionVectors == *rhs.backwardMotionVectors &&
               *codedBlockPattern == *rhs.codedBlockPattern &&
-              numBlocks == rhs.numBlocks;
+              block_count == rhs.block_count;
     if (!eq) return eq;
-//    for (size_t i = 0; i < numBlocks; i++) { //TODO uncomment this when block is made
-//        if (blocks[i] != rhs.blocks[i]) {
-//            return false;
-//        }
-//    }
+    for (size_t i = 0; i < block_count; i++) {
+        if (blocks[i] != rhs.blocks[i]) {
+            return false;
+        }
+    }
     return true;
 }
 

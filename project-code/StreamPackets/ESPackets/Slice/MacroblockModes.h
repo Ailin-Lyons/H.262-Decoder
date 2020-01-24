@@ -51,6 +51,12 @@ public:
     bool isMacroblockPattern() const;
 
     bool isMacroblockIntra() const;
+
+    unsigned char getFrameMotionType() const;
+
+    unsigned char getFieldMotionType() const;
+
+    unsigned char getSpatialTemporalWeightClasses() const;
 };
 
 
