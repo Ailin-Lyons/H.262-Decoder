@@ -4,8 +4,8 @@
 
 #include "gtest/gtest.h"
 #include "../../Util/FileInterface.h"
-#include "../../PacketParsers/PASParser.cpp"
-#include "../../PacketParsers/PMSParser.cpp"
+#include "../../StreamParsers/TransportStreamParsers/PASParser.cpp"
+#include "../../StreamParsers/TransportStreamParsers/PMSParser.cpp"
 
 TEST(AllTest, PASPMSParser_Test) {
     char relative_path[] = R"(..\..\..\test files/Single Packets/testvideo_noaudio_PASPMS.ts)";

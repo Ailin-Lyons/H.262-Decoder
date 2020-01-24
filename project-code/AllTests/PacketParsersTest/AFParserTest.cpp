@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../../PacketParsers/AFParser.cpp"
+#include "../../StreamParsers/TransportStreamParsers/AFParser.cpp"
 
 
 TEST(AllTest, AFParser_Test) {

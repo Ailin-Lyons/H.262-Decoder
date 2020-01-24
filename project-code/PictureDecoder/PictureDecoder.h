@@ -6,8 +6,8 @@
 #define PROJECT_CODE_PICTUREDECODER_H
 
 
-#include <../ESPackets/RegularStartCodes/PictureHeaderPacket.h>
-#include "../ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
+#include <../StreamPackets/ESPackets/RegularStartCodes/PictureHeaderPacket.h>
+#include "../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
 
 class PictureDecoder {
 private:

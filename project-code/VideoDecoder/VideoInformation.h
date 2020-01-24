@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_VIDEOINFORMATION_H
 #define PROJECT_CODE_VIDEOINFORMATION_H
 
-#include <../ESPackets/RegularStartCodes/SequenceExtensionPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h>
 
 class VideoInformation {
 public:

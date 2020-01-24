@@ -4,9 +4,9 @@
 
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
-#include "../../../PacketParsers/ESParser.h"
-#include "../../../ESPackets/RegularStartCodes/PictureCodingExtensionPacket.cpp"
-#include "../../../ESPackets/RegularStartCodes/ExtensionPacket.h"
+#include "../../../StreamParsers/ESParser.h"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.cpp"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/ExtensionPacket.h"
 
 TEST(AllTest, PictureCodingExtension_Parser_Test) {
     PictureCodingExtensionPacket::initializerStruct init{};

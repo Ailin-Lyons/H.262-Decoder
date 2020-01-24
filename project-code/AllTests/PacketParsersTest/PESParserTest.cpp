@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "../../Util/FileInterface.h"
-#include "../../PacketParsers/PESParser.cpp"
+#include "../../StreamParsers/TransportStreamParsers/PESParser.cpp"
 
 TEST(AllTest, PESParser_Test) {
     PESPacket::pts_dts_fields pts_dts = {0x8CA0, 0};

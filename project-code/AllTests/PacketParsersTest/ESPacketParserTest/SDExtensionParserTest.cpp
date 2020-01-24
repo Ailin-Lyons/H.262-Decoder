@@ -4,9 +4,9 @@
 
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
-#include "../../../PacketParsers/ESParser.h"
-#include "../../../ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.cpp"
-#include "../../../ESPackets/RegularStartCodes/ExtensionPacket.h"
+#include "../../../StreamParsers/ESParser.h"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.cpp"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/ExtensionPacket.h"
 
 TEST(AllTest, SequenceDisplayExtension_Parser_Test) {
     SequenceDisplayExtensionPacket::initializerStruct init{};

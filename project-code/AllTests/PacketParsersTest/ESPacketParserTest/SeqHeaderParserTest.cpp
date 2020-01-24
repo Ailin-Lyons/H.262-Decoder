@@ -4,8 +4,8 @@
 
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
-#include "../../../PacketParsers/ESParser.h"
-#include "../../../ESPackets/RegularStartCodes/SequenceHeaderPacket.cpp"
+#include "../../../StreamParsers/ESParser.h"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/SequenceHeaderPacket.cpp"
 
 TEST(AllTest, SequenceHeader_Parser_Test) {
     SequenceHeaderPacket::initializerStruct init{};

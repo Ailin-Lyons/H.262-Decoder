@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../../PacketParsers/TSParser.cpp"
+#include "../../StreamParsers/TransportStreamParsers/TSParser.cpp"
 
 
 TEST(AllTest, TSParser_Test) {

@@ -2,9 +2,9 @@
 // Created by elnsa on 2020-01-18.
 //
 
-#include <RegularStartCodes/PictureCodingExtensionPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
-#include <Slice/SlicePacket.h>
+#include <../StreamPackets/ESPackets/Slice/SlicePacket.h>
 #include "PictureDecoder.h"
 
 void PictureDecoder::setClosedGop(bool closedGop) {

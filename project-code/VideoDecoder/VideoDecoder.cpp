@@ -2,18 +2,18 @@
 // Created by elnsa on 2020-01-15.
 //
 
-#include <RegularStartCodes/SequenceHeaderPacket.h>
-#include <RegularStartCodes/SequenceExtensionPacket.h>
-#include <RegularStartCodes/GroupOfPicturesHeaderPacket.h>
-#include <RegularStartCodes/SequenceDisplayExtensionPacket.h>
-#include <RegularStartCodes/PictureHeaderPacket.h>
-#include <RegularStartCodes/PictureCodingExtensionPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/SequenceHeaderPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/GroupOfPicturesHeaderPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/PictureHeaderPacket.h>
+#include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include "VideoDecoder.h"
 #include "VideoInformation.h"
 #include "VideoException.cpp"
 #include "../Util/FileInterface.h"
 #include "../Util/FileException.cpp"
-#include "../PacketParsers/ESParser.h"
+#include "../StreamParsers/ESParser.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 

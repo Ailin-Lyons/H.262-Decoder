@@ -4,8 +4,8 @@
 
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
-#include "../../../PacketParsers/ESParser.h"
-#include "../../../ESPackets/RegularStartCodes/GroupOfPicturesHeaderPacket.h"
+#include "../../../StreamParsers/ESParser.h"
+#include "../../../StreamPackets/ESPackets/RegularStartCodes/GroupOfPicturesHeaderPacket.h"
 
 TEST(AllTest, GroupOfPicturesHeaderPacket_Test) {
     GroupOfPicturesHeaderPacket::initializerStruct init{};

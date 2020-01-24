@@ -5,9 +5,9 @@
 #ifndef PROJECT_CODE_VIDEODECODER_H
 #define PROJECT_CODE_VIDEODECODER_H
 
-#include <../ESPackets/ESPacket.h>
+#include <../StreamPackets/ESPackets/ESPacket.h>
 #include <../PictureDecoder/PictureDecoder.h>
-#include "../ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h"
+#include "../StreamPackets/ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h"
 
 class VideoDecoder {
 private:

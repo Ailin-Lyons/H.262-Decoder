@@ -4,7 +4,7 @@
 
 #include "FileInterface.h"
 #include "FileException.cpp"
-#include "../PacketParsers/PacketException.cpp"
+#include "../StreamParsers/PacketException.cpp"
 
 // Linker needs to know where to allocate memory for the static instance
 FileInterface *FileInterface::instance = nullptr;

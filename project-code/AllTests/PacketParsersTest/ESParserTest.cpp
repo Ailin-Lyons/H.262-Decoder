@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "../../Util/FileInterface.h"
-#include "../../PacketParsers/ESParser.h"
+#include "../../StreamParsers/ESParser.h"
 //TODO write tests the H262 portion of this class
 
 TEST(AllTest, ESParser_video_stream_only) {
