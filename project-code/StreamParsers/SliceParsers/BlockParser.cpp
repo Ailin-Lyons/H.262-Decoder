@@ -61,7 +61,7 @@ Block *BlockParser::block(size_t i) {
     return new Block(init);
 }
 
-unsigned short BlockParser::getDctDcSizeLuminance() {
+unsigned short BlockParser::getDctDcSizeLuminance() {//TODO check if we are using correct value
     for (vlc code: table_b12) {
         if (peek(code.numbits) == code.key) {
             read(code.numbits);
@@ -71,7 +71,7 @@ unsigned short BlockParser::getDctDcSizeLuminance() {
     throw PacketException("BlockParser::getDctDcSizeLuminance: Unexpected value\n");
 }
 
-unsigned char BlockParser::getDctDcSizeChrominance() {
+unsigned char BlockParser::getDctDcSizeChrominance() {//TODO check if we are using correct value
     for (vlc code: table_b13) {
         if (peek(code.numbits) == code.key) {
             read(code.numbits);
