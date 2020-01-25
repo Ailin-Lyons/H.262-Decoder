@@ -40,16 +40,9 @@ Block *BlockParser::block(size_t i) {
     init.cc = getCC(i);
     if (pattern_code[i]) {
         if (pictureDecoder->isMacroblockIntra()) {
-            if (i < 4) {
-                init.dct_dc_size_luminance = getDctDcSizeLuminance();
-                if (init.dct_dc_size_luminance != 0) {
-                    init.dct_dc_differential = getDctDcDifferential();
-                }
-            } else {
-                init.dct_dc_size_chrominance = getDctDcSizeChrominance();
-                if (init.dct_dc_size_chrominance != 0) {
-                    init.dct_dc_differential = getDctDcDifferential();
-                }
+            init.dct_dc_size = getDctDcSize(init.cc);
+            if (init.dct_dc_size != 0) {
+                init.dct_dc_differential = read(init.dct_dc_size);
             }
         } else {
             //First DCT coefficient
@@ -61,7 +54,7 @@ Block *BlockParser::block(size_t i) {
     return new Block(init);
 }
 
-unsigned short BlockParser::getDctDcSizeLuminance() {//TODO check if we are using correct value
+unsigned char BlockParser::getDctDcSizeLuminance() {
     for (vlc code: table_b12) {
         if (peek(code.numbits) == code.key) {
             read(code.numbits);
@@ -71,7 +64,7 @@ unsigned short BlockParser::getDctDcSizeLuminance() {//TODO check if we are usin
     throw PacketException("BlockParser::getDctDcSizeLuminance: Unexpected value\n");
 }
 
-unsigned char BlockParser::getDctDcSizeChrominance() {//TODO check if we are using correct value
+unsigned char BlockParser::getDctDcSizeChrominance() {
     for (vlc code: table_b13) {
         if (peek(code.numbits) == code.key) {
             read(code.numbits);
@@ -81,18 +74,10 @@ unsigned char BlockParser::getDctDcSizeChrominance() {//TODO check if we are usi
     throw PacketException("BlockParser::getDctDcSizeChrominance: Unexpected value\n");
 }
 
-unsigned char BlockParser::getDctDcDifferential() {
-    return 0;//TODO
-}
-
 void BlockParser::initializePatternCode(bool *pattern_code) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     for (int i = 0; i < 12; i++) {
-        if (pictureDecoder->isMacroblockIntra()) {
-            pattern_code[i] = 1;
-        } else {
-            pattern_code[i] = 0;
-        }
+        pattern_code[i] = pictureDecoder->isMacroblockIntra();
     }
     if (pictureDecoder->isMacroblockPattern()) {
         for (int i = 0; i < 6; i++) {
@@ -114,6 +99,19 @@ void BlockParser::initializePatternCode(bool *pattern_code) {
 }
 
 unsigned char BlockParser::getCC(size_t i) {
-    return 0;//TODO Table 7-1
+    if (i < 4) {
+        return 0;
+    }
+    else {
+        return i % 2 + 1;
+    }
+}
+
+unsigned char BlockParser::getDctDcSize(unsigned char cc) {
+    if (cc == 0) {
+        return getDctDcSizeLuminance();
+    } else {
+        return getDctDcSizeChrominance();
+    }
 }
 

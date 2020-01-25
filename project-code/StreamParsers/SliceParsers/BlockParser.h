@@ -16,7 +16,7 @@ class BlockParser {
 private:
     struct vlc {
         unsigned char numbits;
-        unsigned char value;
+        unsigned short value;
         unsigned short key;
     };
     static vlc table_b12[];
@@ -29,11 +29,11 @@ public:
     static Block *block(size_t i);
 
 private:
-    static unsigned short getDctDcSizeLuminance();
+    static unsigned char getDctDcSizeLuminance();
 
     static unsigned char getDctDcSizeChrominance();
 
-    static unsigned char getDctDcDifferential();
+    static unsigned char getDctDcSize(unsigned char cc);
 
     static void initializePatternCode(bool pattern_code[12]);
 
