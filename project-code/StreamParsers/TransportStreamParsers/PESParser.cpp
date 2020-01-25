@@ -24,11 +24,14 @@ public:
      */
     static PESPacket *getNextPesPacket(ESPacket::start_code start_code) {
         unsigned short PES_packet_length = read(16);
-        if (start_code != ESPacket::start_code::program_stream_map && start_code != ESPacket::start_code::padding_stream
-            && start_code != ESPacket::start_code::private_stream_2 && start_code != ESPacket::start_code::ECM_stream
-            && start_code != ESPacket::start_code::EMM_stream &&
-            start_code != ESPacket::start_code::program_stream_directory
-            && start_code != ESPacket::start_code::DSMCC_stream && start_code != ESPacket::start_code::MMATM_E_stream) {
+        if (start_code != ESPacket::start_code::program_stream_map &&
+            start_code != ESPacket::start_code::padding_stream &&
+            start_code != ESPacket::start_code::private_stream_2 &&
+            start_code != ESPacket::start_code::ECM_stream &&
+            start_code != ESPacket::start_code::EMM_stream &&
+            start_code != ESPacket::start_code::program_stream_directory &&
+            start_code != ESPacket::start_code::DSMCC_stream &&
+            start_code != ESPacket::start_code::MMATM_E_stream) {
             marker(2, 0b10);
             unsigned char PES_scrambling_control = read(2);
             unsigned char PES_priority = read(1);

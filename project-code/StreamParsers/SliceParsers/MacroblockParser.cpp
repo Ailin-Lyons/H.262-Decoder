@@ -7,7 +7,7 @@
 #include "../../VideoDecoder/VideoDecoder.h"
 #include "MotionVectorsParser.cpp"
 #include "CodedBlockPatternParser.h"
-#include "BlockParser.cpp"
+#include "BlockParser.h"
 #include "../../VideoDecoder/VideoInformation.h"
 
 

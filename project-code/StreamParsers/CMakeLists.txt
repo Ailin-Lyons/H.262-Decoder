@@ -23,6 +23,7 @@ set(SOURCE_FILES
         SliceParsers/MotionVectorsParser.cpp)
 
 set(HEADER_FILES
+        SliceParsers/BlockParser.h
         SliceParsers/MacroblockParser.h
         SliceParsers/MacroblockModesParser.h
         SliceParsers/MotionVectorParser.h

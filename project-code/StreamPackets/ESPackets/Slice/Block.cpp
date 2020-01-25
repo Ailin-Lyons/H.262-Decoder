@@ -6,6 +6,7 @@
 #include "Block.h"
 
 Block::Block(Block::initializerStruct init) {
+    cc = init.cc;
     dct_dc_size_luminance = init.dct_dc_size_luminance;
     dct_dc_size_chrominance = init.dct_dc_size_chrominance;
     dct_dc_differential = init.dct_dc_differential;
@@ -15,13 +16,15 @@ Block::Block(Block::initializerStruct init) {
 }
 
 void Block::print() {
-    printf("\tBlock: lum %x, chr %x, diff %x, numCoef %x, Coef %x\n", dct_dc_size_luminance, dct_dc_size_chrominance,
+    printf("\tBlock: cc %x, lum %x, chr %x, diff %x, numCoef %x, Coef %x\n", cc, dct_dc_size_luminance,
+           dct_dc_size_chrominance,
            dct_dc_differential, num_dct_coefficients, dct_coefficients);
 //TODO update fields as needed
 }
 
 bool Block::operator==(const Block &rhs) const {
-    bool eq = dct_dc_size_luminance == rhs.dct_dc_size_luminance &&
+    bool eq = cc == rhs.cc &&
+              dct_dc_size_luminance == rhs.dct_dc_size_luminance &&
               dct_dc_size_chrominance == rhs.dct_dc_size_chrominance &&
               dct_dc_differential == rhs.dct_dc_differential &&
               num_dct_coefficients == rhs.num_dct_coefficients;

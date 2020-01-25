@@ -8,6 +8,7 @@
 
 class Block {
 private:  //TODO add VLC fields
+    unsigned char cc;
     unsigned char dct_dc_size_luminance;
     unsigned char dct_dc_size_chrominance;
     unsigned char dct_dc_differential;
@@ -15,6 +16,7 @@ private:  //TODO add VLC fields
     unsigned int *dct_coefficients; //TODO see clause 7
 public:
     struct initializerStruct {
+        unsigned char cc;
         unsigned char dct_dc_size_luminance;
         unsigned char dct_dc_size_chrominance;
         unsigned char dct_dc_differential;
