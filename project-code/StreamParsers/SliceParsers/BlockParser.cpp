@@ -81,18 +81,18 @@ void BlockParser::initializePatternCode(bool *pattern_code) {
     }
     if (pictureDecoder->isMacroblockPattern()) {
         for (int i = 0; i < 6; i++) {
-            if (pictureDecoder->getCbp() & (1 << (5 - i))) pattern_code[i] = 1;
+            if (pictureDecoder->getCbp() & (1 << (5 - i))) pattern_code[i] = true;
         }
         if (VideoInformation::getInstance()->getChromaFormat() ==
             SequenceExtensionPacket::chroma_format_type::cf_422) {
             for (int i = 6; i < 8; i++) {
-                if (pictureDecoder->getCodedBlockPattern1() & (1 << (7 - i))) pattern_code[i] = 1;
+                if (pictureDecoder->getCodedBlockPattern1() & (1 << (7 - i))) pattern_code[i] = true;
             }
         }
         if (VideoInformation::getInstance()->getChromaFormat() ==
             SequenceExtensionPacket::chroma_format_type::cf_444) {
             for (int i = 6; i < 12; i++) {
-                if (pictureDecoder->getCodedBlockPattern2() & (1 << (11 - i))) pattern_code[i] = 1;
+                if (pictureDecoder->getCodedBlockPattern2() & (1 << (11 - i))) pattern_code[i] = true;
             }
         }
     }
@@ -114,4 +114,3 @@ unsigned char BlockParser::getDctDcSize(unsigned char cc) {
         return getDctDcSizeChrominance();
     }
 }
-

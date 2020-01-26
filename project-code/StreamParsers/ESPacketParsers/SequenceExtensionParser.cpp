@@ -3,7 +3,6 @@
 //
 #include "../ESParser.h"
 #include "../../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
-#include "../../VideoDecoder/VideoDecoder.h"
 
 
 class SequenceExtensionParser {

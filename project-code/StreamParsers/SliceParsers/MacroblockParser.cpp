@@ -52,6 +52,9 @@ Macroblock *MacroblockParser::getNextPacket() {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
+    if (init.macroblock_address_increment > 1) {
+        pictureDecoder->resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
+    }
     init.macroBlockModes = MacroblockModesParser::macroblock_modes();
     pictureDecoder->updateMacroBlockModes(init.macroBlockModes);
     if (init.macroBlockModes->isMacroblockQuant()) {

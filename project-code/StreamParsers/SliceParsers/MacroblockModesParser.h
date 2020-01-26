@@ -16,7 +16,7 @@ private:
         bool macroblock_pattern;
         bool macroblock_intra;
         bool spatial_temporal_weight_code_flag;
-        bool spatial_temporal_weight_classes;
+        unsigned char spatial_temporal_weight_classes;
         unsigned char numbits;
         unsigned short key;
     };

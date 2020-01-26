@@ -6,6 +6,7 @@
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
 #include "MacroblockParser.h"
+#include "../../VideoDecoder/VideoDecoder.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
@@ -17,6 +18,7 @@ public:
      * H.262 6.2.4
      */
     static SlicePacket *getNextPacket(unsigned char stream_id) {
+        VideoDecoder::getInstance()->getPictureDecoder()->resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
         SlicePacket::initializerStruct init = {};
         init.stream_id = stream_id;
         if (VideoInformation::getInstance()->getVerticalSize() > 2800) {

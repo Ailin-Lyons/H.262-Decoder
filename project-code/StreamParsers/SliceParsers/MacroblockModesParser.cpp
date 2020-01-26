@@ -63,6 +63,9 @@ MacroblockModes* MacroblockModesParser::macroblock_modes() {
     if (pictureDecoder->isConcealmentMotionVectors()) {
         init.field_motion_type = 0b01;
     }
+    if (!init.macroblock_intra) {
+        pictureDecoder->resetDctDcPred(); // reset dct_dc_pred as per Table 7-2
+    }
     return new MacroblockModes(init);
 }
 

@@ -7,6 +7,7 @@
 #include <../StreamPackets/ESPackets/Slice/SlicePacket.h>
 #include "PictureDecoder.h"
 
+
 void PictureDecoder::setClosedGop(bool closedGop) {
     closed_gop = closedGop;
 }
@@ -198,5 +199,32 @@ unsigned char PictureDecoder::getCodedBlockPattern2() const {
 
 void PictureDecoder::setCodedBlockPattern2(unsigned char codedBlockPattern2) {
     coded_block_pattern_2 = codedBlockPattern2;
+}
+
+unsigned int PictureDecoder::getDctDcPred(size_t i) {
+    return dct_dc_pred[i];
+}
+
+void PictureDecoder::setDctDcPred(size_t i, unsigned int val) {
+    dct_dc_pred[i] = val;
+}
+
+void PictureDecoder::resetDctDcPred() {
+    switch (intra_dc_precision) {
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_8:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 128;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_9:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 256;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_10:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 512;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_11:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 1024;
+            break;
+        default:
+            throw PacketException("PictureDecoder::resetDctDcPred: reset failed");
+    }
 }
 

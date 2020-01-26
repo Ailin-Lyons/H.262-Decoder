@@ -28,17 +28,17 @@ public:
             af.adaptation_field_extension_flag = BitManipulator::readNBitsOffset(&packet[index], 7, 1);
             index++;
             if (af.PCR_flag == 1) {
-                long long pcr_base = BitManipulator::readNBits(&packet[index], 33);
+                unsigned long long pcr_base = BitManipulator::readNBits(&packet[index], 33);
                 index += 4;
-                long long pcr_ext = BitManipulator::readNBitsOffset(&packet[index], 7, 9);
+                unsigned long long pcr_ext = BitManipulator::readNBitsOffset(&packet[index], 7, 9);
                 index += 2;
                 af.program_clock_reference =
                         (pcr_base * 300 + pcr_ext) & 0x3FFFFFFFFFF; //cast to a 42-bit field
             }
             if (af.OPCR_flag == 1) {
-                long long opcr_base = BitManipulator::readNBits(&packet[index], 33);
+                unsigned long long opcr_base = BitManipulator::readNBits(&packet[index], 33);
                 index += 4;
-                long long opcr_ext = BitManipulator::readNBitsOffset(&packet[index], 7, 9);
+                unsigned long long opcr_ext = BitManipulator::readNBitsOffset(&packet[index], 7, 9);
                 index += 2;
                 af.original_program_clock_reference =
                         (opcr_base * 300 + opcr_ext) & 0x3FFFFFFFFFF; //cast to a 42-bit field
@@ -70,11 +70,11 @@ public:
                 }
                 if (af.seamless_splice_flag == 1) {
                     af.splice_type = AdaptationField::getSpliceType(BitManipulator::readNBits(&packet[index], 4));
-                    long long DTS_next_AU_32_30 = BitManipulator::readNBitsOffset(&packet[index], 4, 3);
+                    unsigned long long DTS_next_AU_32_30 = BitManipulator::readNBitsOffset(&packet[index], 4, 3);
                     index++;
-                    long long DTS_next_AU_29_15 = BitManipulator::readNBits(&packet[index], 15);
+                    unsigned long long DTS_next_AU_29_15 = BitManipulator::readNBits(&packet[index], 15);
                     index += 2;
-                    long long DTS_next_AU_14_0 = BitManipulator::readNBits(&packet[index], 15);
+                    unsigned long long DTS_next_AU_14_0 = BitManipulator::readNBits(&packet[index], 15);
                     af.DTS_next_AU =
                             (DTS_next_AU_32_30 << 30) + (DTS_next_AU_29_15 << 15) + DTS_next_AU_14_0;
                 }

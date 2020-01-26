@@ -61,7 +61,7 @@ private:
         if (thf_out.adaptation_field_control == TransportPacket::AFC::AFieldPayload ||
             thf_out.adaptation_field_control == TransportPacket::AFC::PayloadOnly) {
             for (int i = 0; packetIndex < 188; i++) {
-                data[i] = (unsigned char) packet[packetIndex];
+                data[i] = packet[packetIndex];
                 packetIndex++;
             }
         }

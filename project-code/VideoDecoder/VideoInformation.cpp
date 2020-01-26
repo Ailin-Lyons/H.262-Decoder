@@ -2,7 +2,6 @@
 // Created by elnsa on 2020-01-16.
 //
 #include "VideoInformation.h"
-#include "../StreamParsers/PacketException.cpp"
 #include "VideoException.cpp"
 
 VideoInformation *VideoInformation::instance = nullptr;

@@ -4,6 +4,7 @@
 
 
 #include "ESParser.cpp"
+#include "VideoDecoder.h"
 
 
 // note - global constants

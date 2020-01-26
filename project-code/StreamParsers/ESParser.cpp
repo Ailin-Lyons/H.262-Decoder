@@ -104,7 +104,7 @@ ESPacket *ESParser::getNextPacket() {
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
     if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes\n");
     if (numBits <= numBitsRemaining()) {
-        return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
+        return (unsigned long long) BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
     } else {
         unsigned int part1 = numBitsRemaining();
         unsigned int part2 = numBits - part1;
@@ -152,7 +152,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         throw PacketException(
                 "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
     }
-    return BitManipulator::readNBits(nextTP->getData(), numBits);
+    return (unsigned long long) BitManipulator::readNBits(nextTP->getData(), numBits);
 }
 
 void ESParser::incrementOffset(unsigned int numBits) {
