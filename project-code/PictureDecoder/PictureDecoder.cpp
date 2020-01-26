@@ -204,7 +204,7 @@ void PictureDecoder::setCodedBlockPattern2(unsigned char codedBlockPattern2) {
     coded_block_pattern_2 = codedBlockPattern2;
 }
 
-unsigned int PictureDecoder::getDctDcPred(size_t i) {
+int PictureDecoder::getDctDcPred(size_t i) {
     return dct_dc_pred[i];
 }
 

@@ -44,10 +44,10 @@ private:
     unsigned char cbp;
     unsigned char coded_block_pattern_1;
     unsigned char coded_block_pattern_2;
-    unsigned int dct_dc_pred[3];
+    int dct_dc_pred[3];
 
 public:
-    unsigned int getDctDcPred(size_t i);
+    int getDctDcPred(size_t i);
 
     void setDctDcPred(size_t i, unsigned int val);
 

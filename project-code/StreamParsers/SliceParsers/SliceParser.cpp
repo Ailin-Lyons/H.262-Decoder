@@ -45,7 +45,7 @@ public:
         do {
             init.numMacroblocks++;
             init.macroblocks = (Macroblock *) realloc(init.macroblocks, sizeof(Macroblock) * init.numMacroblocks);
-            init.macroblocks[init.numMacroblocks-1] = *MacroblockParser::getNextPacket();
+            init.macroblocks[init.numMacroblocks - 1] = *MacroblockParser::getNextPacket();
         } while (peek(23) != 0x000000);
         return new SlicePacket(init);
     }

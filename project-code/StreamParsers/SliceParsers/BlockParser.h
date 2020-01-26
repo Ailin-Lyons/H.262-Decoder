@@ -23,19 +23,18 @@ private:
         unsigned int key;
         unsigned char run;
         unsigned char level;
-        unsigned char numBits;
+        unsigned char numbits;
     };
     static vlc table_b12[];
     static vlc table_b13[];
     static vlc_signed table_b14[];
     static vlc_signed table_b15[];
-    static vlc_signed table_b16[];
 public:
     /**
      * Builds a Block() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.6
      */
-    static Block *block(size_t i);
+    static void block(size_t i, Block **destination);
 
 private:
     static unsigned char getDctDcSizeLuminance();
@@ -48,7 +47,24 @@ private:
 
     static unsigned char getCC(size_t i);
 
-    static int doAcCoefficients(bool tableFlag);
+    static short readSign(unsigned char level);
+
+    static bool checkEndCode(bool b);
+
+    static vlc_signed getVLCCode(bool flag);
+
+    static void populateQFS(unsigned char *n, int *QFS, short signed_level, unsigned char run);
+
+    static short escapeSignHelper(unsigned short signed12BitValue);
+
+    static void
+    buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_differential, unsigned char *n, int *QFS,
+                       unsigned char cc);
+
+    static void
+    handleCoefficients(bool tableFlag, unsigned char *n, int *QFS, unsigned char cc);
+
+    static int integerPow(int base, int exp);
 };
 
 
