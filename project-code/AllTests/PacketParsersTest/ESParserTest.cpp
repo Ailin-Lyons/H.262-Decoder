@@ -8,7 +8,7 @@
 //TODO write tests the H262 portion of this class
 
 TEST(AllTest, ESParser_video_stream_only) {
-    char relative_path[] = R"(..\..\..\test files/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser* esParser = ESParser::getInstance();
     esParser->initiateStream();
@@ -16,7 +16,7 @@ TEST(AllTest, ESParser_video_stream_only) {
 }
 
 TEST(AllTest, ESParser_tstream_contains_audio) {
-    char relative_path[] = R"(..\..\..\test files/testvideo.ts)";
+    char relative_path[] = R"(../../../test files/testvideo.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser* esParser = ESParser::getInstance();
     esParser->initiateStream();
@@ -24,7 +24,7 @@ TEST(AllTest, ESParser_tstream_contains_audio) {
 }
 
 TEST(AllTest, ESParser_peek_pop) {
-    char relative_path[] = R"(..\..\..\test files/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser* esParser = ESParser::getInstance();
     esParser->initiateStream();
