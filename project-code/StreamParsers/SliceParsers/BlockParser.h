@@ -16,11 +16,20 @@ class BlockParser {
 private:
     struct vlc {
         unsigned char numbits;
-        unsigned short value;
+        unsigned char value;
         unsigned short key;
+    };
+    struct vlc_signed {
+        unsigned int key;
+        unsigned char run;
+        unsigned char level;
+        unsigned char numBits;
     };
     static vlc table_b12[];
     static vlc table_b13[];
+    static vlc_signed table_b14[];
+    static vlc_signed table_b15[];
+    static vlc_signed table_b16[];
 public:
     /**
      * Builds a Block() from ESParser data, starting after the start_code/stream_id
@@ -38,6 +47,8 @@ private:
     static void initializePatternCode(bool pattern_code[12]);
 
     static unsigned char getCC(size_t i);
+
+    static int doAcCoefficients(bool tableFlag);
 };
 
 

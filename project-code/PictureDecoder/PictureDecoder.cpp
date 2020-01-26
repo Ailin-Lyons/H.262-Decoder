@@ -163,7 +163,10 @@ void PictureDecoder::setMacroblockPattern(bool macroblockPattern) {
     macroblock_pattern = macroblockPattern;
 }
 
-void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes) {
+void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment) {
+    if (address_increment > 1) {
+        resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
+    }
     setMacroblockPattern(mbmodes->isMacroblockPattern());
     setMacroblockIntra(mbmodes->isMacroblockIntra());
     setFrameMotionType(mbmodes->getFrameMotionType());
@@ -226,5 +229,9 @@ void PictureDecoder::resetDctDcPred() {
         default:
             throw PacketException("PictureDecoder::resetDctDcPred: reset failed");
     }
+}
+
+bool PictureDecoder::isIntraVlcFormat() const {
+    return intra_vlc_format;
 }
 

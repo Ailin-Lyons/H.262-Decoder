@@ -12,14 +12,14 @@ private:  //TODO add VLC fields
     unsigned char dct_dc_size;
     unsigned short dct_dc_differential;
     size_t num_dct_coefficients;
-    unsigned int *dct_coefficients; //TODO see clause 7
+    int *dct_coefficients; //TODO see clause 7
 public:
     struct initializerStruct {
         unsigned char cc;
         unsigned char dct_dc_size;
         unsigned short dct_dc_differential;
         size_t num_dct_coefficients;
-        unsigned int *dct_coefficients; //TODO see clause 7
+        int *dct_coefficients; //TODO see clause 7
     };
 
     Block(initializerStruct init);

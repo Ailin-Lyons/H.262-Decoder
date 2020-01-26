@@ -30,6 +30,10 @@ private:
     bool macroblock_pattern;
     bool q_scale_type;
     bool intra_vlc_format;
+public:
+    bool isIntraVlcFormat() const;
+
+private:
     bool alternate_scan;
     bool repeat_first_field;
     bool chroma_420_type;
@@ -123,7 +127,7 @@ public:
 
     void setMacroblockPattern(bool macroblockPattern);
 
-    void updateMacroBlockModes(MacroblockModes *mbmodes);
+    void updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment);
 
     void updateCodedBlockPattern(CodedBlockPattern *cbPattern);
 
