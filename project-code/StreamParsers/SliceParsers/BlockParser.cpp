@@ -420,12 +420,10 @@ void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS)
             read(1);
             signed_level = readSign(1);
             run = 0;
-        } else {
-            vlc_signed code = getVLCCode(tableFlag);
-            signed_level = readSign(code.level);
-            run = code.run;
+            return populateQFS(n, QFS, signed_level, run);
         }
-    } else if (peek(6) == 0b000001) {
+    }
+    if (peek(6) == 0b000001) {
         read(6);
         run = read(6);
         signed_level = escapeSignHelper(read(12));
