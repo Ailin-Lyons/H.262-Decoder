@@ -143,6 +143,8 @@ void VideoDecoder::loadPictureHeader() {
 
 void VideoDecoder::loadPictureCodingExtension() {
     PictureCodingExtensionPacket *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
+    printf("Decoding new Picture Coding Extension: ");
+    pictureCodingExtension->print();
     pictureDecoder->setFCode00(pictureCodingExtension->getFCode00());
     pictureDecoder->setFCode01(pictureCodingExtension->getFCode01());
     pictureDecoder->setFCode10(pictureCodingExtension->getFCode10());

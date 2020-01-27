@@ -18,10 +18,10 @@ public:
 
     // Note - s indicates the forward or backward type for the motion vector
 
-    static MotionVectors* motion_vectors(int s) {
+    static MotionVectors *motion_vectors(int s) {
         MotionVectors::initializerStruct init{false, false,
                                               nullptr, nullptr};
-        PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
+        PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
         int motion_vector_count;
         bool mv_format = pictureDecoder->getFrameMotionType() == 0b10; //Note - true = frame, false = field
         bool dmv = (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);
@@ -29,13 +29,13 @@ public:
             motion_vector_count = pictureDecoder->getFieldMotionType() == 0b10 ? 2 : 1;
         } else {
             motion_vector_count = pictureDecoder->getFrameMotionType() == 0b01 ?
-                    (pictureDecoder->getSpatialTemporalWeightClass() > 1 ? 1 : 2) : 1;
+                                  (pictureDecoder->getSpatialTemporalWeightClass() > 1 ? 1 : 2) : 1;
         }
         if (motion_vector_count == 1) {
             if (!mv_format && !dmv) {
                 init.motion_vertical_field_select_0_s = read(1);
-                init.motion_vector_0_s = MotionVectorParser::getNextPacket(0,s);
             }
+            init.motion_vector_0_s = MotionVectorParser::getNextPacket(0, s);
         } else {
             init.motion_vertical_field_select_0_s = read(1);
             init.motion_vector_0_s = MotionVectorParser::getNextPacket(0, s);

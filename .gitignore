@@ -12,3 +12,4 @@ project-code/AllTests/cmake-build-debug/
 *.so
 *.xml
 project-code/cmake-build-debug-wsl/
+project-code/cmake-build-debug-mingw/

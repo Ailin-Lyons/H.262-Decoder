@@ -72,7 +72,7 @@ Macroblock *MacroblockParser::getNextPacket() {
         pictureDecoder->updateCodedBlockPattern(init.codedBlockPattern);
     }
     init.block_count = getBlockCount(VideoInformation::getInstance()->getChromaFormat());
-    init.blocks = (Block **) calloc(init.block_count, sizeof(Block*));
+    init.blocks = (Block **) calloc(init.block_count, sizeof(Block *));
     for (int i = 0; i < init.block_count; i++) {
         BlockParser::block(i, &init.blocks[i]);
     }
