@@ -275,10 +275,10 @@ void BlockParser::block(size_t i, Block **destination) {
             buildDCCoefficient(init.dct_dc_size, init.dct_dc_differential, &n, init.QFS,
                                init.cc); //Handle First Coefficient
         } else {
-
+            handleCoefficients(tableFlag, &n, init.QFS);
         }
         while (!checkEndCode(tableFlag) && n < 64) {
-            handleCoefficients(tableFlag, &n, init.QFS, init.cc);
+            handleCoefficients(tableFlag, &n, init.QFS);
         }
         *destination = new Block(init);
     }
@@ -377,13 +377,13 @@ BlockParser::vlc_signed BlockParser::getVLCCode(bool tableFlag) {
 }
 
 void BlockParser::populateQFS(unsigned char *n, int *QFS, short signed_level, unsigned char run) {
-    printf("n %i, run %i\n", *n, run);//TODO remove this line
     for (size_t m = 0; m < run; m++) {
         QFS[*n] = 0;
         *n = *n + 1;
     }
     QFS[*n] = signed_level;
     *n = *n + 1;
+    if (*n >= 64)throw PacketException("BlockParser::populateQFS: error decoding VLC, out of bounds write\n");
 }
 
 short BlockParser::escapeSignHelper(unsigned short signed12BitValue) {
@@ -412,7 +412,7 @@ void BlockParser::buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_diffe
     *n = *n + 1;
 }
 
-void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS, unsigned char cc) {
+void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS) {
     short signed_level;
     unsigned char run;
     if (*n == 0) {
@@ -427,7 +427,8 @@ void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS,
         }
     } else if (peek(6) == 0b000001) {
         read(6);
-        return populateQFS(n, QFS, read(6), escapeSignHelper(read(12)));
+        run = read(6);
+        signed_level = escapeSignHelper(read(12));
     } else {
         vlc_signed code = getVLCCode(tableFlag);
         signed_level = readSign(code.level);

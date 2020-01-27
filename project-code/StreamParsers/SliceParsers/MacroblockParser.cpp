@@ -76,15 +76,6 @@ Macroblock *MacroblockParser::getNextPacket() {
     for (int i = 0; i < init.block_count; i++) {
         BlockParser::block(i, &init.blocks[i]);
     }
-    //TODO remove from here
-    if (peek(24) != 0x000001)printf("|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|Skipped ");
-    size_t i = 0;
-    //TODO to here
-    while (peek(24) != 0x000001) { //TODO remove this? It is a temp solution to skip to end of slice
-        i++;//TODO remove this line
-        read(1);
-    }
-    printf("%i bits.\n",i);//TODO remove this line
     return new Macroblock(init);
 }
 

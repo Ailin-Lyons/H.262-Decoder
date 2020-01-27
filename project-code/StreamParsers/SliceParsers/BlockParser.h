@@ -57,12 +57,11 @@ private:
 
     static short escapeSignHelper(unsigned short signed12BitValue);
 
-    static void
-    buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_differential, unsigned char *n, int *QFS,
-                       unsigned char cc);
+    static void buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_differential,
+                                   unsigned char *n, int *QFS, unsigned char cc);
 
     static void
-    handleCoefficients(bool tableFlag, unsigned char *n, int *QFS, unsigned char cc);
+    handleCoefficients(bool tableFlag, unsigned char *n, int *QFS);
 
     static int integerPow(int base, int exp);
 };
