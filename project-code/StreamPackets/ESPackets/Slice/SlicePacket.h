@@ -10,7 +10,6 @@
 
 class SlicePacket : public ESPacket {
 private:
-    unsigned char stream_id;
     unsigned char slice_vertical_position_extension;
     //unsigned char priority_breakpoint; //not handled by our decoder
     unsigned char quantiser_scale_code;
