@@ -7,16 +7,16 @@
 
 #include "ExtensionPacket.h"
 
-class PictureCodingExtensionPacket: public ExtensionPacket {
+class PictureCodingExtensionPacket : public ExtensionPacket {
 public:
-    enum class intra_dc_precision_bits{
+    enum class intra_dc_precision_bits {
         p_8,
         p_9,
         p_10,
         p_11
     };
 
-    enum class picture_structure_types{
+    enum class picture_structure_types {
         ps_reserved,
         ps_top_field,
         ps_bottom_field,

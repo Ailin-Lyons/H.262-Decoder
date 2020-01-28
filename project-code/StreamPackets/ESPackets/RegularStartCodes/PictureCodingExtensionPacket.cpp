@@ -64,7 +64,7 @@ PictureCodingExtensionPacket::getPictureStructureType(unsigned char pictureStruc
 }
 
 void PictureCodingExtensionPacket::print() {
-    printf("PictureCodingExtensionPacket::print TODO");
+    printf("PictureCodingExtensionPacket::print TODO\n");
 }
 
 bool PictureCodingExtensionPacket::operator==(const PictureCodingExtensionPacket &rhs) const {

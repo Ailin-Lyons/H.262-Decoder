@@ -21,7 +21,7 @@ TEST(AllTest, SequenceHeader_Parser_Test) {
     init.non_intra_quantiser_matrix = nullptr;
     init.load_non_intra_quantiser_matrix = false;
     SequenceHeaderPacket expected = SequenceHeaderPacket(init);
-    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) !=

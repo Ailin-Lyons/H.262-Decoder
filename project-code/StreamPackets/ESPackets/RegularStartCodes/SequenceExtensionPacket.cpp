@@ -87,7 +87,7 @@ unsigned char SequenceExtensionPacket::getFrameExtN() {
 }
 
 SequenceExtensionPacket::chroma_format_type SequenceExtensionPacket::getChromaFormatCode(unsigned char bits) {
-    switch(bits){
+    switch (bits) {
         case 0b00:
             return chroma_format_type::reserved;
         case 0b01:

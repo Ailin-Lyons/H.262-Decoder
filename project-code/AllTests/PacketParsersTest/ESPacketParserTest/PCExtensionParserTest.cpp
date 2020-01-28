@@ -27,7 +27,7 @@ TEST(AllTest, PictureCodingExtension_Parser_Test) {
     init.progressive_frame = true;
     init.composite_display_flag = false;
     PictureCodingExtensionPacket expected = PictureCodingExtensionPacket(init);
-    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     bool testDone = true;

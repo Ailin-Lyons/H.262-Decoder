@@ -13,7 +13,7 @@ TEST(AllTest, GroupOfPicturesHeaderPacket_Test) {
     init.closed_gop = true;
     init.broken_link = false;
     GroupOfPicturesHeaderPacket expected = GroupOfPicturesHeaderPacket(init);
-    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) != ESPacket::start_code::group) {

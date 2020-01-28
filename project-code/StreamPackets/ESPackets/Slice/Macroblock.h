@@ -21,7 +21,7 @@ private:
     MotionVectors *backwardMotionVectors;
     CodedBlockPattern *codedBlockPattern;
     unsigned char block_count;
-    Block *blocks;
+    Block **blocks;
 public:
     struct initializerStruct {
         size_t macroblock_address_increment;
@@ -31,12 +31,12 @@ public:
         MotionVectors *backwardMotionVectors;
         CodedBlockPattern *codedBlockPattern;
         unsigned char block_count;
-        Block *blocks;
+        Block **blocks;
     };
 
     Macroblock(initializerStruct init);
 
-    ~Macroblock() = default; //TODO make a destructor
+    ~Macroblock();
 
     void print();
 

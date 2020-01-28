@@ -33,12 +33,10 @@ public:
      * and stores it at address mbm
      * H.262 6.2.5.1
      */
-    static MacroblockModes* macroblock_modes();
+    static MacroblockModes *macroblock_modes();
 
 private:
     static void decodeMacroblockType(MacroblockModes::initializerStruct *init);
-
-    static void decodeMacroblockTypeHelper(MacroblockModes::initializerStruct *init, vlc *vlcTable, size_t size);
 };
 
 #endif //PROJECT_CODE_MACROBLOCKMODESPARSER_H

@@ -39,7 +39,7 @@ MacroblockModesParser::vlc MacroblockModesParser::table_b4[] = {
 };
 size_t MacroblockModesParser::table_b4_size = 11;
 
-MacroblockModes* MacroblockModesParser::macroblock_modes() {
+MacroblockModes *MacroblockModesParser::macroblock_modes() {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     MacroblockModes::initializerStruct init = {};
     decodeMacroblockType(&init);
@@ -98,6 +98,10 @@ void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStr
             init->macroblock_pattern = code.macroblock_pattern;
             init->macroblock_intra = code.macroblock_intra;
             init->spatial_temporal_weight_code_flag = code.spatial_temporal_weight_code_flag;
+            if (code.spatial_temporal_weight_code_flag == 1) {
+                throw PacketException(
+                        "MacroblockModesParser::decodeMacroblockType: spatial_temporal_weight_code_flag == 1 is not handled by the decoder\n");
+            }
             init->spatial_temporal_weight_classes = code.spatial_temporal_weight_classes;
             return;
         }

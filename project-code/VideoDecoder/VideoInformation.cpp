@@ -143,7 +143,7 @@ void VideoInformation::setChromaFormat(SequenceExtensionPacket::chroma_format_ty
     chroma_format = cf;
 }
 
-SequenceExtensionPacket::chroma_format_type VideoInformation::getChromaFormat() const{
+SequenceExtensionPacket::chroma_format_type VideoInformation::getChromaFormat() const {
     return chroma_format;
 }
 

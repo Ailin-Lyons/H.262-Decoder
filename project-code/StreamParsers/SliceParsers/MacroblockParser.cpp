@@ -72,12 +72,9 @@ Macroblock *MacroblockParser::getNextPacket() {
         pictureDecoder->updateCodedBlockPattern(init.codedBlockPattern);
     }
     init.block_count = getBlockCount(VideoInformation::getInstance()->getChromaFormat());
-    init.blocks = (Block *) malloc(sizeof(Block) * init.block_count);
+    init.blocks = (Block **) calloc(init.block_count, sizeof(void *));
     for (int i = 0; i < init.block_count; i++) {
-        init.blocks[i] = *BlockParser::block(i);
-    }
-    while (peek(24) != 0x000001) { //TODO remove this? It is a temp solution to skip to end of slice
-        read(1);
+        BlockParser::block(i, &init.blocks[i]);
     }
     return new Macroblock(init);
 }

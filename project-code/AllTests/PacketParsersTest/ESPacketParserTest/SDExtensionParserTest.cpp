@@ -18,7 +18,7 @@ TEST(AllTest, SequenceDisplayExtension_Parser_Test) {
     init.display_horizontal_size = 0x500;
     init.display_vertical_size = 0x2D0;
     SequenceDisplayExtensionPacket expected = SequenceDisplayExtensionPacket(init);
-    char relative_path[] = R"(..\..\..\test files\testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     bool testDone = true;

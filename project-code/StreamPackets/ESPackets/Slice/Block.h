@@ -7,24 +7,22 @@
 
 
 class Block {
-private:  //TODO add VLC fields
+private:
     unsigned char cc;
     unsigned char dct_dc_size;
-    unsigned short dct_dc_differential;
-    size_t num_dct_coefficients;
-    int *dct_coefficients; //TODO see clause 7
+    short dct_dc_differential;
+    int *QFS;
 public:
     struct initializerStruct {
         unsigned char cc;
         unsigned char dct_dc_size;
-        unsigned short dct_dc_differential;
-        size_t num_dct_coefficients;
-        int *dct_coefficients; //TODO see clause 7
+        short dct_dc_differential;
+        int *QFS;
     };
 
     Block(initializerStruct init);
 
-    ~Block() = default;//TODO
+    ~Block();
 
     void print();
 
