@@ -16,7 +16,7 @@ public:
         SequenceDisplayExtensionPacket::initializerStruct init = {};
         init.video_format = esParser->popNBits(3);
         init.colour_description = esParser->popNBits(1);
-        if(init.colour_description){
+        if (init.colour_description) {
             init.colour_primaries = esParser->popNBits(8);
             init.transfer_characteristics = esParser->popNBits(8);
             init.matrix_coefficients = esParser->popNBits(8);

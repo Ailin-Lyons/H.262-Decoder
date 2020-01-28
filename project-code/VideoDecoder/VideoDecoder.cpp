@@ -18,6 +18,7 @@
 VideoDecoder *VideoDecoder::instance = nullptr;
 
 VideoDecoder::VideoDecoder() {
+    pictureDecoder = nullptr;
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
@@ -109,7 +110,7 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
 void VideoDecoder::loadExtensionUserData(unsigned char i) {
     while (nextVideoPacketIs(ESPacket::start_code::extension) || nextVideoPacketIs(ESPacket::start_code::user_data)) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
-            ExtensionPacket *extension_data = (ExtensionPacket *) getNextVideoPacket();
+            auto *extension_data = (ExtensionPacket *) getNextVideoPacket();
             switch (extension_data->getExtensionType()) {
                 case ExtensionPacket::extension_type::sequence_display:
                     loadSequenceDisplayExtension((SequenceDisplayExtensionPacket *) extension_data);
@@ -142,7 +143,7 @@ void VideoDecoder::loadPictureHeader() {
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
-    PictureCodingExtensionPacket *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
+    auto *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
     printf("Decoding new Picture Coding Extension: ");
     pictureCodingExtension->print();
     pictureDecoder->setFCode00(pictureCodingExtension->getFCode00());
@@ -171,7 +172,7 @@ void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
 
 
 void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
-    // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
+    printf("VideoDecoder: SequenceDisplayExtensionPacket Discarded\n"); // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
 }
 
 PictureDecoder *VideoDecoder::getPictureDecoder() const {

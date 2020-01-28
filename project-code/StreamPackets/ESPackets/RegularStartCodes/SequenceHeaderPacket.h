@@ -64,7 +64,7 @@ public:
 
     unsigned int getVBVBufVal();
 
-    const bool getCPFlag();
+    bool getCPFlag();
 
     bool isLoadIntraQuantiserMatrix() const;
 

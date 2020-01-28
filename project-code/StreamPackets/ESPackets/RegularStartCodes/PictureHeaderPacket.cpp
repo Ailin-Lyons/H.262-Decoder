@@ -36,7 +36,7 @@ PictureHeaderPacket::picture_coding_types PictureHeaderPacket::getPictureCodingT
 }
 
 std::string PictureHeaderPacket::getPictureCodingTypeString() const {
-    switch(picture_coding_type) {
+    switch (picture_coding_type) {
         default:
             return "wrong picture type";
         case picture_coding_types::intra_coded :
@@ -45,5 +45,18 @@ std::string PictureHeaderPacket::getPictureCodingTypeString() const {
             return "predictive_coded (P-frames)";
         case picture_coding_types::bidirectionally_predictive_coded :
             return "bidirectionally_predictive_coded (I-frames)";
+    }
+}
+
+PictureHeaderPacket::picture_coding_types PictureHeaderPacket::toPictureCodingType(unsigned char x) {
+    switch (x) {
+        default:
+            return PictureHeaderPacket::picture_coding_types::reserved_forbidden;
+        case 1:
+            return PictureHeaderPacket::picture_coding_types::intra_coded;
+        case 2:
+            return PictureHeaderPacket::picture_coding_types::predictive_coded;
+        case 3:
+            return PictureHeaderPacket::picture_coding_types::bidirectionally_predictive_coded;
     }
 }

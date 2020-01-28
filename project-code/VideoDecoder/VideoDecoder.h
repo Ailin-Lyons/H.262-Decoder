@@ -13,7 +13,7 @@ class VideoDecoder {
 private:
     static VideoDecoder *instance;
 
-    PictureDecoder* pictureDecoder;
+    PictureDecoder *pictureDecoder;
 
     /**
      * A private constructor for the singleton

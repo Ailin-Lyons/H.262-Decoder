@@ -383,7 +383,7 @@ void BlockParser::populateQFS(unsigned char *n, int *QFS, short signed_level, un
     }
     QFS[*n] = signed_level;
     *n = *n + 1;
-    if (*n > 64){
+    if (*n > 64) {
         throw PacketException("BlockParser::populateQFS: error decoding VLC, out of bounds write\n");
     }
 }

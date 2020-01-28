@@ -26,7 +26,7 @@ void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_ty
 
 void PictureDecoder::buildPicture() {
     do {
-        SlicePacket *pictureData = (SlicePacket *) VideoDecoder::getInstance()->getNextVideoPacket(); //TODO handle the loaded packet
+        auto *pictureData = (SlicePacket *) VideoDecoder::getInstance()->getNextVideoPacket(); //TODO handle the loaded packet
         pictureData->print();
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
 }
@@ -175,17 +175,17 @@ void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes, size_t addr
 }
 
 void PictureDecoder::updateCodedBlockPattern(CodedBlockPattern *cbPattern) {
-    cbp = cbPattern->getCbp();
-    coded_block_pattern_1 = cbPattern->getCodedBlockPattern1();
-    coded_block_pattern_2 = cbPattern->getCodedBlockPattern2();
+    setCbp(cbPattern->getCbp());
+    setCodedBlockPattern1(cbPattern->getCodedBlockPattern1());
+    setCodedBlockPattern2(cbPattern->getCodedBlockPattern2());
 }
 
 unsigned char PictureDecoder::getCbp() const {
     return cbp;
 }
 
-void PictureDecoder::setCbp(unsigned char cbp) {
-    PictureDecoder::cbp = cbp;
+void PictureDecoder::setCbp(unsigned char coded_block_pattern) {
+    PictureDecoder::cbp = coded_block_pattern;
 }
 
 unsigned char PictureDecoder::getCodedBlockPattern1() const {

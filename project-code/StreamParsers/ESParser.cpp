@@ -36,7 +36,7 @@ void ESParser::initiateStream() {
     loadNextTSPacket();
     programMapSection = PMSParser::getPMSPacket();
     printf("\tLoaded PMS for PID %x: video_stream PID is %x\n", programAssociationSection->getProgramPID(),
-                programMapSection->getVideoStreamPID());
+           programMapSection->getVideoStreamPID());
     program_pid = programMapSection->getVideoStreamPID();
     loadNextTSPacket();
 }
@@ -69,7 +69,7 @@ bool ESParser::bytealigned() {
 unsigned char ESParser::nextESPacketID() {
     next_start_code();
     unsigned int startcode_and_id = peekNBits(32);
-    unsigned char stream_id = (unsigned char) startcode_and_id;
+    auto stream_id = (unsigned char) startcode_and_id;
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (!ESPacket::isHandled(packet_type)) {
         getNextPacket();
@@ -147,7 +147,7 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         nextTP = findNextTSPacket();
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
-        printf("Data length %x\n",nextTP->getDataLength());
+        printf("Data length %x\n", nextTP->getDataLength());
         nextTP->print();
         throw PacketException(
                 "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");

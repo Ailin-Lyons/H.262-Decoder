@@ -89,7 +89,7 @@ unsigned int SequenceHeaderPacket::getVBVBufVal() {
     return (unsigned int) vbv_buffer_size_value;
 }
 
-const bool SequenceHeaderPacket::getCPFlag() {
+bool SequenceHeaderPacket::getCPFlag() {
     return constrained_parameters_flag;
 }
 

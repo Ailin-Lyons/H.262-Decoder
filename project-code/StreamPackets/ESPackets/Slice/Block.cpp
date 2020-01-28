@@ -3,6 +3,7 @@
 //
 
 #include <cstdio>
+#include <cstdlib>
 #include "Block.h"
 
 Block::Block(Block::initializerStruct init) {
@@ -10,7 +11,6 @@ Block::Block(Block::initializerStruct init) {
     dct_dc_size = init.dct_dc_size;
     dct_dc_differential = init.dct_dc_differential;
     QFS = init.QFS;
-//TODO update fields as needed
 }
 
 void Block::print() {
@@ -23,7 +23,6 @@ void Block::print() {
         }
         printf("\n");
     }
-//TODO update fields as needed
 }
 
 bool Block::operator==(const Block &rhs) const {
@@ -34,9 +33,13 @@ bool Block::operator==(const Block &rhs) const {
     for (int i = 0; i < 64; i++) {
         if (QFS[i] != rhs.QFS[i]) return false;
     }
-    return true; //TODO update fields as needed
+    return true;
 }
 
 bool Block::operator!=(const Block &rhs) const {
     return !(rhs == *this);
+}
+
+Block::~Block() {
+    free(QFS);
 }

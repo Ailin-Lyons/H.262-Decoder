@@ -48,5 +48,7 @@ bool SlicePacket::operator!=(const SlicePacket &rhs) const {
 }
 
 SlicePacket::~SlicePacket() {
-    free(macroblocks);
+    for (int i = 0; i < numMacroblocks; i++) {
+        delete (&macroblocks[i]);
+    }
 }

@@ -34,8 +34,8 @@ int displayMetaData() {
 int main(int argc, char **argv) {
     char relative_path[] = R"(../../test files/testvideo_noaudio.ts)";
     char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO make a folder to save files
-    VideoDecoder* vDecoder = VideoDecoder::getInstance();
-    vDecoder->decodeToFile(relative_path,destination);
+    VideoDecoder *vDecoder = VideoDecoder::getInstance();
+    vDecoder->decodeToFile(relative_path, destination);
     // TODO: split the file into 3 parts
 
 

@@ -9,25 +9,14 @@
 
 class PictureHeaderPacket : public ESPacket {
 public:
-    enum class picture_coding_types{
+    enum class picture_coding_types {
         reserved_forbidden = 0x0,
         intra_coded = 0x1,
         predictive_coded = 0x2,
         bidirectionally_predictive_coded = 0x3
     };
 
-    static PictureHeaderPacket::picture_coding_types toPictureCodingType(unsigned char x) {
-        switch(x) {
-            default:
-                return PictureHeaderPacket::picture_coding_types::reserved_forbidden;
-            case 1:
-                return PictureHeaderPacket::picture_coding_types::intra_coded;
-            case 2:
-                return PictureHeaderPacket::picture_coding_types::predictive_coded;
-            case 3:
-                return PictureHeaderPacket::picture_coding_types::bidirectionally_predictive_coded;
-        }
-    }
+    static PictureHeaderPacket::picture_coding_types toPictureCodingType(unsigned char x);
 
     struct initializerStruct {
         unsigned short temporal_reference; //10-bits

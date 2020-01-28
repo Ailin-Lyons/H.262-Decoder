@@ -3,6 +3,7 @@
 //
 
 #include <cstdio>
+#include <cstdlib>
 #include "Macroblock.h"
 
 Macroblock::Macroblock(Macroblock::initializerStruct init) {
@@ -55,4 +56,15 @@ bool Macroblock::operator==(const Macroblock &rhs) const {
 
 bool Macroblock::operator!=(const Macroblock &rhs) const {
     return !(rhs == *this);
+}
+
+Macroblock::~Macroblock() {
+    delete macroBlockModes;
+    delete forwardMotionVectors;
+    delete backwardMotionVectors;
+    delete codedBlockPattern;
+    for (int i = 0; i < block_count; i++) {
+        if (blocks[i]) delete (blocks[i]);
+    }
+    free(blocks);
 }

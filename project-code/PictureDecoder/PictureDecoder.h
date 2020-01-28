@@ -133,7 +133,7 @@ public:
 
     unsigned char getCbp() const;
 
-    void setCbp(unsigned char cbp);
+    void setCbp(unsigned char coded_block_pattern);
 
     unsigned char getCodedBlockPattern1() const;
 

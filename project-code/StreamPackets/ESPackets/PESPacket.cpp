@@ -197,8 +197,9 @@ bool PESPacket::operator==(const PESPacket &rhs) const {
             rhs.pes_extension_fields.pack_header.system_header.p_std[i].stream_id ||
             pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale !=
             rhs.pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale ||
-                pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound !=
-                rhs.pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound) return false;
+            pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound !=
+            rhs.pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound)
+            return false;
     }
     return true;
 }

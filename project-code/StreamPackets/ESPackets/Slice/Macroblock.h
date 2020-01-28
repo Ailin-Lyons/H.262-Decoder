@@ -36,7 +36,7 @@ public:
 
     Macroblock(initializerStruct init);
 
-    ~Macroblock() = default; //TODO make a destructor
+    ~Macroblock();
 
     void print();
 
