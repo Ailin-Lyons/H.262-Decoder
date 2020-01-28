@@ -49,15 +49,15 @@ public:
 
     void loadPictureCodingExtension();
 
-    static void handleVideoStream(ESPacket *pPacket);
+    void handleVideoStream(ESPacket *pPacket);
 
     void makePicture();
 
     void loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *pPacket);
 
-    static ESPacket *getNextVideoPacket();
+    ESPacket *getNextVideoPacket();
 
-    static bool nextVideoPacketIs(ESPacket::start_code startCode);
+    bool nextVideoPacketIs(ESPacket::start_code startCode);
 
     PictureDecoder *getPictureDecoder() const;
 };
