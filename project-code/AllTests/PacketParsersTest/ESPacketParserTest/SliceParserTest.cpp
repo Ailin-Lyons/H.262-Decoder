@@ -5,10 +5,10 @@
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
 #include "../../../StreamParsers/ESParser.h"
-#include "../../../StreamPackets/ESPackets/Slice/SlicePacket.h"
+#include "../../../StreamPackets/ESPackets/Slice/Slice.h"
 
 TEST(AllTest, SliceParser_Test) {
-    SlicePacket expected = SlicePacket({});//TODO
+    Slice expected = Slice({});//TODO
     char relative_path[] = R"(../../../test files/Single Packets/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
@@ -16,6 +16,6 @@ TEST(AllTest, SliceParser_Test) {
            ESPacket::start_code::sequence_header) {
         ESParser::getInstance()->getNextPacket();
     }
-    SlicePacket *actual = (SlicePacket *) ESParser::getInstance()->getNextPacket();
+    Slice *actual = (Slice *) ESParser::getInstance()->getNextPacket();
     ASSERT_EQ(expected, *actual);
 }

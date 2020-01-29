@@ -2,9 +2,9 @@
 // Created by elnsa on 2019-12-29.
 //
 
-#include "SlicePacket.h"
+#include "Slice.h"
 
-SlicePacket::SlicePacket(SlicePacket::initializerStruct init) {
+Slice::Slice(Slice::initializerStruct init) {
     stream_id = init.stream_id;
     packet_type = ESPacket::start_code::slice;
     slice_vertical_position_extension = init.slice_vertical_position_extension;
@@ -17,7 +17,7 @@ SlicePacket::SlicePacket(SlicePacket::initializerStruct init) {
     macroblocks = init.macroblocks;
 }
 
-void SlicePacket::print() {
+void Slice::print() {
     printf("Slice: id = %hhx, vpe = %hhu, qsc = %hhu, sef = %hhu, is = %hhu, spide = %hhu, spid = %hhu, numMacroblocks = %u\n",
            stream_id, slice_vertical_position_extension, quantiser_scale_code, slice_extension_flag, intra_slice,
            slice_picture_id_enable, slice_picture_id, numMacroblocks);
@@ -26,7 +26,7 @@ void SlicePacket::print() {
 //    }
 }
 
-bool SlicePacket::operator==(const SlicePacket &rhs) const {
+bool Slice::operator==(const Slice &rhs) const {
     bool eq = stream_id == rhs.stream_id &&
               packet_type == rhs.packet_type &&
               slice_vertical_position_extension == rhs.slice_vertical_position_extension &&
@@ -43,11 +43,11 @@ bool SlicePacket::operator==(const SlicePacket &rhs) const {
     return true;
 }
 
-bool SlicePacket::operator!=(const SlicePacket &rhs) const {
+bool Slice::operator!=(const Slice &rhs) const {
     return !(rhs == *this);
 }
 
-SlicePacket::~SlicePacket() {
+Slice::~Slice() {
     for (int i = 0; i < numMacroblocks; i++) {
         delete (&macroblocks[i]);
     }

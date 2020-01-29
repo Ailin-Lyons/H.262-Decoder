@@ -8,7 +8,7 @@
 #include "../ESPacket.h"
 #include "Macroblock.h"
 
-class SlicePacket : public ESPacket {
+class Slice : public ESPacket {
 private:
     unsigned char slice_vertical_position_extension;
     //unsigned char priority_breakpoint; //not handled by our decoder
@@ -39,15 +39,15 @@ public:
     /**
      * Constructor
      */
-    SlicePacket(initializerStruct init);
+    Slice(initializerStruct init);
 
-    ~SlicePacket();
+    ~Slice();
 
     void print() override;
 
-    bool operator==(const SlicePacket &rhs) const;
+    bool operator==(const Slice &rhs) const;
 
-    bool operator!=(const SlicePacket &rhs) const;
+    bool operator!=(const Slice &rhs) const;
 
 };
 

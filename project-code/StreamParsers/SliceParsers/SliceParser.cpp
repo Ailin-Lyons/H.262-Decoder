@@ -2,7 +2,7 @@
 // Created by elnsa on 2020-01-15.
 //
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/SlicePacket.h"
+#include "../../StreamPackets/ESPackets/Slice/Slice.h"
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
 #include "MacroblockParser.h"
@@ -14,12 +14,12 @@
 class SliceParser {
 public:
     /**
-     * Builds a SlicePacket from ESParser data, starting after the start_code/stream_id
+     * Builds a Slice from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.4
      */
-    static SlicePacket *getNextPacket(unsigned char stream_id) {
+    static Slice *getNextPacket(unsigned char stream_id) {
         VideoDecoder::getInstance()->getPictureDecoder()->resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
-        SlicePacket::initializerStruct init = {};
+        Slice::initializerStruct init = {};
         init.stream_id = stream_id;
         if (VideoInformation::getInstance()->getVerticalSize() > 2800) {
             init.slice_vertical_position_extension = read(3);
@@ -47,6 +47,6 @@ public:
             init.macroblocks = (Macroblock *) realloc(init.macroblocks, sizeof(Macroblock) * init.numMacroblocks);
             init.macroblocks[init.numMacroblocks - 1] = *MacroblockParser::getNextPacket();
         } while (peek(23) != 0x000000);
-        return new SlicePacket(init);
+        return new Slice(init);
     }
 };

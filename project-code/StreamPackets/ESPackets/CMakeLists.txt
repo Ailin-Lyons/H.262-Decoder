@@ -7,7 +7,7 @@ set(SOURCE_FILES
         RegularStartCodes/GroupOfPicturesHeaderPacket.cpp PESPacket.cpp
         RegularStartCodes/PictureHeaderPacket.cpp
         RegularStartCodes/SequenceHeaderPacket.cpp
-        Slice/SlicePacket.cpp
+        Slice/Slice.cpp
         RegularStartCodes/SequenceDisplayExtensionPacket.cpp
         RegularStartCodes/PictureCodingExtensionPacket.cpp
         Slice/Macroblock.cpp
@@ -25,7 +25,7 @@ set(HEADER_FILES
         PESPacket.h
         RegularStartCodes/PictureHeaderPacket.h
         RegularStartCodes/SequenceHeaderPacket.h
-        Slice/SlicePacket.h
+        Slice/Slice.h
         RegularStartCodes/SequenceDisplayExtensionPacket.h
         RegularStartCodes/PictureCodingExtensionPacket.h
         Slice/Macroblock.h
