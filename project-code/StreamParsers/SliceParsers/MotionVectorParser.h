@@ -25,7 +25,7 @@ public:
      * Builds a MotionVector() from ESParser data, starting after the start_code/stream_id
      * H.262 6.2.5.2.1
      */
-    static MotionVector *getNextPacket(int r, int s);
+    static MotionVector *getNextPacket(bool r, bool s);
 
 private:
     /**
@@ -37,9 +37,9 @@ private:
 
     static bool parse_dmv();
 
-    static unsigned char parse_motion_residual(int s, int t);
+    static unsigned char parse_motion_residual(bool s, bool t);
 
-    static unsigned char parse_fcode(int s, bool flag);
+    static unsigned char parse_fcode(bool s, bool flag);
 
     static char parse_dmvector();
 };

@@ -18,10 +18,10 @@ public:
 
     // Note - s indicates the forward or backward type for the motion vector
 
-    static MotionVectors *motion_vectors(int s) {
-        MotionVectors::initializerStruct init{false, false,
-                                              nullptr, nullptr};
+    static MotionVectors *motion_vectors(bool s) {
+        MotionVectors::initializerStruct init{};
         PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
+        init.s = s;
         int motion_vector_count;
         bool mv_format = pictureDecoder->getFrameMotionType() == 0b10; //Note - true = frame, false = field
         bool dmv = (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);

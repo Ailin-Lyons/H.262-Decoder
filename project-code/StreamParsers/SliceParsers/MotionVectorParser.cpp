@@ -47,8 +47,10 @@ MotionVectorParser::vlc MotionVectorParser::table_b11[] = {
         {2, 1,  0b10}
 };
 
-MotionVector *MotionVectorParser::getNextPacket(int r, int s) {
+MotionVector *MotionVectorParser::getNextPacket(bool r, bool s) {
     MotionVector::initializerStruct init = {0, 0, 0, 0, 0, 0};
+    init.r = r;
+    init.s = s;
     init.motion_code_r_s_0 = parse_motion_code();
     if ((parse_fcode(s, false) != 1) && (init.motion_code_r_s_0 != 0)) {
         init.motion_residual_r_s_0 = parse_motion_residual(s, 0);
@@ -81,11 +83,11 @@ bool MotionVectorParser::parse_dmv() {
     return (pictureDecoder->getFrameMotionType() == 0b11) || (pictureDecoder->getFieldMotionType() == 0b11);
 }
 
-unsigned char MotionVectorParser::parse_motion_residual(int s, int t) {
+unsigned char MotionVectorParser::parse_motion_residual(bool s, bool t) {
     return read(parse_fcode(s, t == 1) - 1);
 }
 
-unsigned char MotionVectorParser::parse_fcode(int s, bool flag) {
+unsigned char MotionVectorParser::parse_fcode(bool s, bool flag) {
     if (s == 0) {
         if (flag) {
             return VideoDecoder::getInstance()->getPictureDecoder()->getFCode01();

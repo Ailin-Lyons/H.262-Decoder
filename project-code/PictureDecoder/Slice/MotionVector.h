@@ -10,6 +10,8 @@
  */
 class MotionVector {
 private:
+    bool r;
+    bool s;
     char motion_code_r_s_0;
     unsigned char motion_residual_r_s_0;
     char dmvector_0;
@@ -18,6 +20,8 @@ private:
     char dmvector_1;
 public:
     struct initializerStruct {
+        bool r;
+        bool s;
         char motion_code_r_s_0;
         unsigned char motion_residual_r_s_0;
         char dmvector_0;

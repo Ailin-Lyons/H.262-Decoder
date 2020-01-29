@@ -32,9 +32,9 @@ void Macroblock::print() {
     if (codedBlockPattern != nullptr) {
         codedBlockPattern->print();
     }
-//    for (size_t i = 0; i < block_count; i++) {
-//        if (blocks[i] != nullptr) blocks[i]->print();
-//    }
+    for (size_t i = 0; i < block_count; i++) {
+        if (blocks[i] != nullptr) blocks[i]->print();
+    }
 }
 
 bool Macroblock::operator==(const Macroblock &rhs) const {

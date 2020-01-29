@@ -10,12 +10,14 @@
  */
 class Block {
 private:
+    size_t i;
     unsigned char cc;
     unsigned char dct_dc_size;
     short dct_dc_differential;
     int *QFS;
 public:
     struct initializerStruct {
+        size_t i;
         unsigned char cc;
         unsigned char dct_dc_size;
         short dct_dc_differential;

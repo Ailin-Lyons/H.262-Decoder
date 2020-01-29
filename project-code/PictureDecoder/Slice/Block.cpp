@@ -7,6 +7,7 @@
 #include "Block.h"
 
 Block::Block(Block::initializerStruct init) {
+    i = init.i;
     cc = init.cc;
     dct_dc_size = init.dct_dc_size;
     dct_dc_differential = init.dct_dc_differential;
@@ -14,7 +15,7 @@ Block::Block(Block::initializerStruct init) {
 }
 
 void Block::print() {
-    printf("\tBlock: cc %x, dc_sc_size = %x, diff %x\n", cc, dct_dc_size,
+    printf("\tBlock[%x]: cc %x, dc_sc_size = %x, diff %x\n", i, cc, dct_dc_size,
            dct_dc_differential);
     for (int i = 0; i < 8; i++) {
         printf("\t\t");
@@ -26,7 +27,8 @@ void Block::print() {
 }
 
 bool Block::operator==(const Block &rhs) const {
-    bool eq = cc == rhs.cc &&
+    bool eq = i == rhs.i &&
+              cc == rhs.cc &&
               dct_dc_size == rhs.dct_dc_size &&
               dct_dc_differential == rhs.dct_dc_differential;
     if (!eq) return eq;

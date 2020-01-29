@@ -259,6 +259,7 @@ BlockParser::vlc_signed BlockParser::table_b15[] = {{0b10,               0,  1, 
 void BlockParser::block(size_t i, Block **destination) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Block::initializerStruct init = {};
+    init.i = i;
     init.QFS = (int *) calloc(64, sizeof(int));
     bool pattern_code[12];
     // tableFlag = true means use Table B.15, otherwise use Table B.14
