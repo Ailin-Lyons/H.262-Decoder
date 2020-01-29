@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_MACROBLOCKMODESPARSER_H
 #define PROJECT_CODE_MACROBLOCKMODESPARSER_H
 
-#include "../../StreamPackets/ESPackets/Slice/MacroblockModes.h"
+#include "../../PictureDecoder/Slice/MacroblockModes.h"
 
 class MacroblockModesParser {
 private:

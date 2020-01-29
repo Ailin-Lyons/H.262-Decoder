@@ -6,7 +6,7 @@
 #define PROJECT_CODE_MOTIONVECTORPARSER_H
 
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/MotionVector.h"
+#include "../../PictureDecoder/Slice/MotionVector.h"
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))

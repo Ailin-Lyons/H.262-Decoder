@@ -5,7 +5,7 @@
 #include "gtest/gtest.h"
 #include "../../../Util/FileInterface.h"
 #include "../../../StreamParsers/ESParser.h"
-#include "../../../StreamPackets/ESPackets/Slice/Slice.h"
+#include "../../../PictureDecoder/Slice/Slice.h"
 
 TEST(AllTest, SliceParser_Test) {
     Slice expected = Slice({});//TODO

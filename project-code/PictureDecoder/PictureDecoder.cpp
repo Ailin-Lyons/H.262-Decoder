@@ -4,9 +4,6 @@
 
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
-#include "../StreamPackets/ESPackets/Slice/Slice.h"
-#include "PictureDecoder.h"
-#include "Picture.h"
 
 
 void PictureDecoder::setClosedGop(bool closedGop) {
@@ -25,7 +22,7 @@ void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_ty
     picture_coding_type = pictureCodingType;
 }
 
-void PictureDecoder::buildPicture() {
+Picture * PictureDecoder::buildPicture() {
     Picture *picture = new Picture();
     do {
         picture->addSlice((Slice*) VideoDecoder::getInstance()->getNextVideoPacket());
@@ -33,7 +30,7 @@ void PictureDecoder::buildPicture() {
     picture->performInverseScan();
     picture->performInverseQuantisation();
     picture->performDCT();
-    //TODO continue here
+    return picture;
 }
 
 void PictureDecoder::setFCode00(unsigned char fCode00) {

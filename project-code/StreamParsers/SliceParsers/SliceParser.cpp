@@ -2,7 +2,7 @@
 // Created by elnsa on 2020-01-15.
 //
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/Slice.h"
+#include "../../PictureDecoder/Slice/Slice.h"
 #include "../../VideoDecoder/VideoInformation.h"
 #include "../../VideoDecoder/VideoInformation.cpp" //Initialize singleton for tests
 #include "MacroblockParser.h"

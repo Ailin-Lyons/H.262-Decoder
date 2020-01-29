@@ -6,7 +6,7 @@
 #define PROJECT_CODE_BLOCKPARSER_H
 
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/Block.h"
+#include "../../PictureDecoder/Slice/Block.h"
 
 
 #define read(n) (ESParser::getInstance()->popNBits((n)))

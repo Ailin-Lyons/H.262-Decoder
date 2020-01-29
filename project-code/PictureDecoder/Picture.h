@@ -6,7 +6,7 @@
 #define PROJECT_CODE_PICTURE_H
 
 
-#include "../StreamPackets/ESPackets/Slice/Slice.h"
+#include "../PictureDecoder/Slice/Slice.h"
 
 class Picture {
 public:

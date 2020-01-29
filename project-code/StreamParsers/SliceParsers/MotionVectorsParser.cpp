@@ -2,7 +2,7 @@
 // Created by elnsa on 2020-01-19.
 //
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/MotionVectors.h"
+#include "../../PictureDecoder/Slice/MotionVectors.h"
 #include "../../VideoDecoder/VideoDecoder.h"
 #include "MotionVectorParser.cpp"
 

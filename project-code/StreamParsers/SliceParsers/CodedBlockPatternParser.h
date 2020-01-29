@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_CODEDBLOCKPATTERNPARSER_H
 #define PROJECT_CODE_CODEDBLOCKPATTERNPARSER_H
 
-#include "../../StreamPackets/ESPackets/Slice/CodedBlockPattern.h"
+#include "../../PictureDecoder/Slice/CodedBlockPattern.h"
 
 class CodedBlockPatternParser {
 private:

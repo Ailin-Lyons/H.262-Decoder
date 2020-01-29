@@ -8,7 +8,7 @@
 // Created by elnsa on 2020-01-19.
 //
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/Macroblock.h"
+#include "../../PictureDecoder/Slice/Macroblock.h"
 #include "MacroblockModesParser.h"
 #include "../../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
 

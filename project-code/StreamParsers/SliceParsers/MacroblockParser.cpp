@@ -2,7 +2,7 @@
 // Created by elnsa on 2020-01-19.
 //
 #include "ESParser.h"
-#include "../../StreamPackets/ESPackets/Slice/Macroblock.h"
+#include "../../PictureDecoder/Slice/Macroblock.h"
 #include "MacroblockParser.h"
 #include "../../VideoDecoder/VideoDecoder.h"
 #include "MotionVectorsParser.cpp"

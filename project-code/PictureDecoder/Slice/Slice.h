@@ -5,7 +5,7 @@
 #ifndef DIRECTED_STUDIES_SLICEPAYLOAD_H
 #define DIRECTED_STUDIES_SLICEPAYLOAD_H
 
-#include "../ESPacket.h"
+#include "../../StreamPackets/ESPackets/ESPacket.h"
 #include "Macroblock.h"
 
 class Slice : public ESPacket {
