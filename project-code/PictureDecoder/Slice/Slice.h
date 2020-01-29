@@ -8,6 +8,9 @@
 #include "../../StreamPackets/ESPackets/ESPacket.h"
 #include "Macroblock.h"
 
+/**
+ * This class represents a slice() from H262 6.2.4
+ */
 class Slice : public ESPacket {
 private:
     unsigned char slice_vertical_position_extension;
@@ -17,7 +20,7 @@ private:
     bool intra_slice;
     bool slice_picture_id_enable;
     unsigned char slice_picture_id;
-    // extra_information_slice: A decoder conforming to this Specification that encounters extra_information_slice in a bitstream shall ignore
+    // extra_information_slice: A decoder conforming to this Specification that encounters extra_information_slice in a bitstream shall ignore it.
     unsigned int numMacroblocks;
     Macroblock *macroblocks;
 

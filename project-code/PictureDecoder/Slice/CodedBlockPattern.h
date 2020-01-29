@@ -5,7 +5,9 @@
 #ifndef PROJECT_CODE_CODEDBLOCKPATTERN_H
 #define PROJECT_CODE_CODEDBLOCKPATTERN_H
 
-
+/**
+ * This class represents coded_block_pattern () from H262 6.2.5.3
+ */
 class CodedBlockPattern {
 private:
     unsigned char cbp;

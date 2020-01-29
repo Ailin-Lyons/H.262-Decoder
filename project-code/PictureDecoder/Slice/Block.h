@@ -5,7 +5,9 @@
 #ifndef PROJECT_CODE_BLOCK_H
 #define PROJECT_CODE_BLOCK_H
 
-
+/**
+ * This class represents block(i) from H262 6.2.6 and 7.2
+ */
 class Block {
 private:
     unsigned char cc;

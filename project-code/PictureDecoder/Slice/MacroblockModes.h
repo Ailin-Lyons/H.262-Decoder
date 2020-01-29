@@ -5,7 +5,9 @@
 #ifndef PROJECT_CODE_MACROBLOCKMODES_H
 #define PROJECT_CODE_MACROBLOCKMODES_H
 
-
+/**
+ * This class represents macroblock_modes() from H262 6.2.5.1
+ */
 class MacroblockModes {
 private:
     bool macroblock_quant;

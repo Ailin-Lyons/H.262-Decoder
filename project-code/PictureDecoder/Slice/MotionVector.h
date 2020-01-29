@@ -5,7 +5,9 @@
 #ifndef PROJECT_CODE_MOTIONVECTOR_H
 #define PROJECT_CODE_MOTIONVECTOR_H
 
-
+/**
+ * This class represents motion_vector ( r, s ) from H262 6.2.5.2.1
+ */
 class MotionVector {
 private:
     char motion_code_r_s_0;

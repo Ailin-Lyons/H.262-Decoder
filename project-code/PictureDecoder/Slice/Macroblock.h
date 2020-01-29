@@ -12,6 +12,9 @@
 #include "CodedBlockPattern.h"
 #include <cstddef>
 
+/**
+ * This class represents macroblock() from H262 6.2.5
+ */
 class Macroblock {
 private:
     size_t macroblock_address_increment;

@@ -8,6 +8,9 @@
 
 #include "MotionVector.h"
 
+/**
+ * This class represents motion_vectors (s) from H262 6.2.5.2
+ */
 class MotionVectors {
 private:
     bool motion_vertical_field_select_0_s;
