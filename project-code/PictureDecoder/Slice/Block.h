@@ -15,6 +15,9 @@ private:
     unsigned char dct_dc_size;
     short dct_dc_differential;
     int *QFS;
+    int **QF;
+    int **F;
+    int **f;
 public:
     struct initializerStruct {
         size_t i;
