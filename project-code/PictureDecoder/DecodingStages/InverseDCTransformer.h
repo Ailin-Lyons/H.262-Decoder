@@ -1,0 +1,14 @@
+//
+// Created by elnsa on 2020-01-29.
+//
+
+#ifndef PROJECT_CODE_DISCRETECOSINETRANSFORMER_H
+#define PROJECT_CODE_DISCRETECOSINETRANSFORMER_H
+
+
+class DiscreteCosineTransformer {
+
+};
+
+
+#endif //PROJECT_CODE_DISCRETECOSINETRANSFORMER_H
