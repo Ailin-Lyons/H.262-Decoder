@@ -10,7 +10,7 @@
 
 class HPicture {
 public:
-    enum class decoding_state{
+    enum class decoding_state {
         variable_length_decoded,
         inverse_scanned,
         inverse_quantised,
@@ -19,7 +19,7 @@ public:
 private:
     decoding_state state;
     size_t numSlices;
-    Slice** slices;
+    Slice **slices;
 
 public:
     HPicture();
@@ -27,6 +27,18 @@ public:
     ~HPicture() = default;//TODO
 
     void addSlice(Slice *slice);
+
+    decoding_state getState() const;
+
+    void setState(decoding_state state);
+
+    size_t getNumSlices() const;
+
+    void setNumSlices(size_t numSlices);
+
+    Slice **getSlices() const;
+
+    void setSlices(Slice **slices);
 };
 
 

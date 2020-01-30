@@ -68,3 +68,19 @@ Macroblock::~Macroblock() {
     }
     free(blocks);
 }
+
+unsigned char Macroblock::getBlockCount() const {
+    return block_count;
+}
+
+void Macroblock::setBlockCount(unsigned char blockCount) {
+    block_count = blockCount;
+}
+
+Block **Macroblock::getBlocks() const {
+    return blocks;
+}
+
+void Macroblock::setBlocks(Block **blocks) {
+    Macroblock::blocks = blocks;
+}

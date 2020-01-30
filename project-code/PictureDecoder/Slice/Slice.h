@@ -42,7 +42,7 @@ public:
     /**
      * Constructor
      */
-    Slice(initializerStruct init);
+    explicit Slice(initializerStruct init);
 
     ~Slice();
 
@@ -51,6 +51,14 @@ public:
     bool operator==(const Slice &rhs) const;
 
     bool operator!=(const Slice &rhs) const;
+
+    unsigned int getNumMacroblocks() const;
+
+    void setNumMacroblocks(unsigned int num);
+
+    Macroblock *getMacroblocks() const;
+
+    void setMacroblocks(Macroblock *m);
 
 };
 

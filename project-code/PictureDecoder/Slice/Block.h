@@ -15,9 +15,26 @@ private:
     unsigned char dct_dc_size;
     short dct_dc_differential;
     int *QFS;
-    int **QF;
-    int **F;
-    int **f;
+    int *QFscanned;
+    int *Fquantized;
+    int *fdctransformed;
+public:
+    int *getQfs() const;
+
+    void setQfs(int *qfs);
+
+    int *getQFscanned() const;
+
+    void setQFscanned(int *qFscanned);
+
+    int *getFquantized() const;
+
+    void setFquantized(int *fquantized);
+
+    int *getFdctransformed() const;
+
+    void setFdctransformed(int *fdctransformed);
+
 public:
     struct initializerStruct {
         size_t i;

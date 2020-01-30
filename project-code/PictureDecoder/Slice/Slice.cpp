@@ -21,9 +21,9 @@ void Slice::print() {
     printf("Slice: id = %hhx, vpe = %hhu, qsc = %hhu, sef = %hhu, is = %hhu, spide = %hhu, spid = %hhu, numMacroblocks = %u\n",
            stream_id, slice_vertical_position_extension, quantiser_scale_code, slice_extension_flag, intra_slice,
            slice_picture_id_enable, slice_picture_id, numMacroblocks);
-//    for (size_t i = 0; i < numMacroblocks; i++) {
-//        macroblocks[i].print();
-//    }
+    for (size_t i = 0; i < numMacroblocks; i++) {
+        macroblocks[i].print();
+    }
 }
 
 bool Slice::operator==(const Slice &rhs) const {
@@ -51,4 +51,20 @@ Slice::~Slice() {
     for (int i = 0; i < numMacroblocks; i++) {
         delete (&macroblocks[i]);
     }
+}
+
+unsigned int Slice::getNumMacroblocks() const {
+    return numMacroblocks;
+}
+
+void Slice::setNumMacroblocks(unsigned int num) {
+    numMacroblocks = num;
+}
+
+Macroblock *Slice::getMacroblocks() const {
+    return macroblocks;
+}
+
+void Slice::setMacroblocks(Macroblock *m) {
+    macroblocks = m;
 }

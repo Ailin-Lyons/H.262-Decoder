@@ -25,6 +25,7 @@ private:
     CodedBlockPattern *codedBlockPattern;
     unsigned char block_count;
     Block **blocks;
+
 public:
     struct initializerStruct {
         size_t macroblock_address_increment;
@@ -46,6 +47,14 @@ public:
     bool operator==(const Macroblock &rhs) const;
 
     bool operator!=(const Macroblock &rhs) const;
+
+    void setBlockCount(unsigned char blockCount);
+
+    void setBlocks(Block **blocks);
+
+    unsigned char getBlockCount() const;
+
+    Block **getBlocks() const;
 };
 
 

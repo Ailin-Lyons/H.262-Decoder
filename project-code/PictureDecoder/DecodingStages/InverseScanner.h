@@ -6,12 +6,16 @@
 #define PROJECT_CODE_INVERSESCANNER_H
 
 
-#include <HPicture.h>
+#include "../HPicture.h"
 
 class InverseScanner {
+private:
+    static char scan_0[8][8];
 
 public:
-    static void performInverseScan(HPicture *pPicture);
+    static void performInverseScan(HPicture *picture, bool alternate_scan);
+
+    static void performInverseScanHelper(Block *block);
 };
 
 

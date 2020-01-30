@@ -13,7 +13,10 @@ HPicture *PictureDecoder::buildPicture() {
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
-    InverseScanner::performInverseScan(picture);
+    InverseScanner::performInverseScan(picture, alternate_scan);
+    for(size_t potato = 0; potato < picture->getNumSlices(); potato++){
+        picture->getSlices()[potato]->print();
+    }
     InverseQuantizer::performInverseQuantisation(picture);
     InverseDCTransformer::performInverseDCT(picture);
     return picture;

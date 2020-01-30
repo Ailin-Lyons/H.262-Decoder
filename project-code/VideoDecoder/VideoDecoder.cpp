@@ -86,7 +86,7 @@ void VideoDecoder::makePicture() {
     loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    pictureDecoder->buildPicture(); // TODO handle this picture. Perform motion compensation, Add to frame store, turn to bitmap
+    pictureDecoder->buildPicture(); //TODO handle this picture. Perform motion compensation, Add to frame store, turn to bitmap
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
