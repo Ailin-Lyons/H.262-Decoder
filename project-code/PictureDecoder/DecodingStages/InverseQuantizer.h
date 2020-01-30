@@ -6,8 +6,12 @@
 #define PROJECT_CODE_INVERSEQUANTIZER_H
 
 
+#include <HPicture.h>
+
 class InverseQuantizer {
 
+public:
+    static void performInverseQuantisation(HPicture *picture);
 };
 
 

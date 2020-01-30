@@ -2,13 +2,13 @@
 // Created by elnsa on 2020-01-28.
 //
 
-#ifndef PROJECT_CODE_PICTURE_H
-#define PROJECT_CODE_PICTURE_H
+#ifndef PROJECT_CODE_HPICTURE_H
+#define PROJECT_CODE_HPICTURE_H
 
 
 #include "../PictureDecoder/Slice/Slice.h"
 
-class Picture {
+class HPicture {
 public:
     enum class decoding_state{
         variable_length_decoded,
@@ -22,18 +22,12 @@ private:
     Slice** slices;
 
 public:
-    Picture();
+    HPicture();
 
-    ~Picture() = default;//TODO
+    ~HPicture() = default;//TODO
 
     void addSlice(Slice *slice);
-
-    void performInverseScan();
-
-    void performInverseQuantisation();
-
-    void performDCT();
 };
 
 
-#endif //PROJECT_CODE_PICTURE_H
+#endif //PROJECT_CODE_HPICTURE_H

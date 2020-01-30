@@ -3,3 +3,7 @@
 //
 
 #include "InverseDCTransformer.h"
+
+void InverseDCTransformer::performInverseDCT(HPicture *picture) {//TODO
+
+}

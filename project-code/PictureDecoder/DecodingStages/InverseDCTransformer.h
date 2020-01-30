@@ -6,8 +6,12 @@
 #define PROJECT_CODE_DISCRETECOSINETRANSFORMER_H
 
 
-class DiscreteCosineTransformer {
+#include <HPicture.h>
 
+class InverseDCTransformer {
+
+public:
+    static void performInverseDCT(HPicture *picture);
 };
 
 

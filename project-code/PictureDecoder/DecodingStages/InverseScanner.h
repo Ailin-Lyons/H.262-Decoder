@@ -6,8 +6,12 @@
 #define PROJECT_CODE_INVERSESCANNER_H
 
 
+#include <HPicture.h>
+
 class InverseScanner {
 
+public:
+    static void performInverseScan(HPicture *pPicture);
 };
 
 

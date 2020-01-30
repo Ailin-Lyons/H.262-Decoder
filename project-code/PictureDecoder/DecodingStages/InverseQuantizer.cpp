@@ -3,3 +3,7 @@
 //
 
 #include "InverseQuantizer.h"
+
+void InverseQuantizer::performInverseQuantisation(HPicture *picture) {//TODO
+
+}

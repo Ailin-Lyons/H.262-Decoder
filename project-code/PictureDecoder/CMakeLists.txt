@@ -2,7 +2,7 @@ project(PictureDecoder)
 
 set(HEADER_FILES
         PictureDecoder.h
-        Picture.h
+        HPicture.h
         Slice/Slice.h
         Slice/Macroblock.h
         Slice/MacroblockModes.h
@@ -12,11 +12,11 @@ set(HEADER_FILES
         Slice/CodedBlockPattern.h
         DecodingStages/InverseScanner.h
         DecodingStages/InverseQuantizer.h
-        DecodingStages/InverseDCTransformer.cpp)
+        DecodingStages/InverseDCTransformer.h)
 
 set(SOURCE_FILES
         PictureDecoder.cpp
-        Picture.cpp
+        HPicture.cpp
         Slice/Slice.cpp
         Slice/Macroblock.cpp
         Slice/MacroblockModes.cpp

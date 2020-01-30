@@ -4,6 +4,9 @@
 
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
+#include "DecodingStages/InverseScanner.h"
+#include "DecodingStages/InverseQuantizer.h"
+#include "DecodingStages/InverseDCTransformer.h"
 
 
 void PictureDecoder::setClosedGop(bool closedGop) {
@@ -22,14 +25,14 @@ void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_ty
     picture_coding_type = pictureCodingType;
 }
 
-Picture * PictureDecoder::buildPicture() {
-    Picture *picture = new Picture();
+HPicture * PictureDecoder::buildPicture() {
+    HPicture *picture = new HPicture();
     do {
         picture->addSlice((Slice*) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
-    picture->performInverseScan();
-    picture->performInverseQuantisation();
-    picture->performDCT();
+    InverseScanner::performInverseScan(picture);
+    InverseQuantizer::performInverseQuantisation(picture);
+    InverseDCTransformer::performInverseDCT(picture);
     return picture;
 }
 

@@ -3,3 +3,7 @@
 //
 
 #include "InverseScanner.h"
+
+void InverseScanner::performInverseScan(HPicture *pPicture) {//TODO
+
+}

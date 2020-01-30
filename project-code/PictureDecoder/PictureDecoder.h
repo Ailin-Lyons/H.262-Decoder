@@ -10,7 +10,7 @@
 #include "../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
 #include "../PictureDecoder/Slice/MacroblockModes.h"
 #include "../PictureDecoder/Slice/CodedBlockPattern.h"
-#include "Picture.h"
+#include "HPicture.h"
 
 class PictureDecoder {
 private:
@@ -74,7 +74,7 @@ public:
 
     PictureHeaderPacket::picture_coding_types getPictureCodingType() const;
 
-    Picture * buildPicture();
+    HPicture * buildPicture();
 
     void setIntraDcPrecision(PictureCodingExtensionPacket::intra_dc_precision_bits intraDcPrecision);
 

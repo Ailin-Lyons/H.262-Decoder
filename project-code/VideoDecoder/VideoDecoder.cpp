@@ -137,14 +137,14 @@ void VideoDecoder::loadPictureHeader() {
     auto *pictureHeader = (PictureHeaderPacket *) getNextVideoPacket();
     pictureDecoder->setPictureCodingType(pictureHeader->getPictureCodingType());
     pictureDecoder->setTemporalReference(pictureHeader->getTemporalReference());
-    printf("Decoding new Picture Header: PictureCodingType = %s, TemporalReference = %hu\n",
+    printf("Decoding new HPicture Header: PictureCodingType = %s, TemporalReference = %hu\n",
            pictureHeader->getPictureCodingTypeString().c_str(),
            pictureHeader->getTemporalReference());
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
     auto *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
-    printf("Decoding new Picture Coding Extension: ");
+    printf("Decoding new HPicture Coding Extension: ");
     pictureCodingExtension->print();
     pictureDecoder->setFCode00(pictureCodingExtension->getFCode00());
     pictureDecoder->setFCode01(pictureCodingExtension->getFCode01());
