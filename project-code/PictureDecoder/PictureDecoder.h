@@ -31,10 +31,6 @@ private:
     bool macroblock_pattern;
     bool q_scale_type;
     bool intra_vlc_format;
-public:
-    bool isIntraVlcFormat() const;
-
-private:
     bool alternate_scan;
     bool repeat_first_field;
     bool chroma_420_type;
@@ -48,105 +44,66 @@ private:
     int dct_dc_pred[3];
 
 public:
-    int getDctDcPred(size_t i);
-
-    void setDctDcPred(size_t i, unsigned int val);
-
-    void resetDctDcPred();
-
     PictureDecoder() = default;
-
-    unsigned char getFrameMotionType() const;
-
-    void setFrameMotionType(unsigned char frameMotionType);
-
-    unsigned char getFieldMotionType() const;
-
-    void setFieldMotionType(unsigned char fieldMotionType);
-
-    void setClosedGop(bool closedGop);
-
-    void setBrokenLink(bool brokenLink);
-
-    void setTemporalReference(unsigned short temporalReference);
-
-    void setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType);
-
-    PictureHeaderPacket::picture_coding_types getPictureCodingType() const;
-
+    /**
+     * Functions:
+     */
     HPicture * buildPicture();
-
-    void setIntraDcPrecision(PictureCodingExtensionPacket::intra_dc_precision_bits intraDcPrecision);
-
-    void setPictureStructure(PictureCodingExtensionPacket::picture_structure_types pictureStructure);
-
-    PictureCodingExtensionPacket::picture_structure_types getPictureStructure() const;
-
-    void setFCode00(unsigned char fCode00);
-
-    void setFCode01(unsigned char fCode01);
-
-    void setFCode10(unsigned char fCode10);
-
-    void setFCode11(unsigned char fCode11);
-
-    void setTopFieldFirst(bool topFieldFirst);
-
-    void setFramePredFrameDct(bool framePredFrameDct);
-
-    bool isFramePredFrameDct() const;
-
-    void setConcealmentMotionVectors(bool concealmentMotionVectors);
-
-    bool isConcealmentMotionVectors() const;
-
-    void setQScaleType(bool qScaleType);
-
-    void setIntraVlcFormat(bool intraVlcFormat);
-
-    void setAlternateScan(bool alternateScan);
-
-    void setRepeatFirstField(bool repeatFirstField);
-
-    void setChroma420Type(bool chroma420Type);
-
-    void setProgressiveFrame(bool progressiveFrame);
-
-    unsigned char getFCode00() const;
-
-    unsigned char getFCode01() const;
-
-    unsigned char getFCode10() const;
-
-    unsigned char getFCode11() const;
-
-    bool isMacroblockIntra() const;
-
-    void setMacroblockIntra(bool macroblockIntra);
-
-    bool isMacroblockPattern() const;
-
-    void setMacroblockPattern(bool macroblockPattern);
-
     void updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment);
-
     void updateCodedBlockPattern(CodedBlockPattern *cbPattern);
-
-    unsigned char getCbp() const;
-
-    void setCbp(unsigned char coded_block_pattern);
-
-    unsigned char getCodedBlockPattern1() const;
-
-    void setCodedBlockPattern1(unsigned char codedBlockPattern1);
-
-    unsigned char getCodedBlockPattern2() const;
-
-    void setCodedBlockPattern2(unsigned char codedBlockPattern2);
-
-    unsigned char getSpatialTemporalWeightClass() const;
-
+    void resetDctDcPred();
+    /**
+     * Setters:
+     */
+    void setClosedGop(bool closedGop);
+    void setBrokenLink(bool brokenLink);
+    void setTemporalReference(unsigned short temporalReference);
+    void setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType);
+    void setFCode00(unsigned char fCode00);
+    void setFCode01(unsigned char fCode01);
+    void setFCode10(unsigned char fCode10);
+    void setFCode11(unsigned char fCode11);
+    void setIntraDcPrecision(PictureCodingExtensionPacket::intra_dc_precision_bits intraDcPrecision);
+    void setPictureStructure(PictureCodingExtensionPacket::picture_structure_types pictureStructure);
+    void setTopFieldFirst(bool topFieldFirst);
+    void setFramePredFrameDct(bool framePredFrameDct);
+    void setConcealmentMotionVectors(bool concealmentMotionVectors);
+    void setMacroblockIntra(bool macroblockIntra);
+    void setMacroblockPattern(bool macroblockPattern);
+    void setQScaleType(bool qScaleType);
+    void setIntraVlcFormat(bool intraVlcFormat);
+    void setAlternateScan(bool alternateScan);
+    void setRepeatFirstField(bool repeatFirstField);
+    void setChroma420Type(bool chroma420Type);
+    void setProgressiveFrame(bool progressiveFrame);
+    void setFrameMotionType(unsigned char frameMotionType);
+    void setFieldMotionType(unsigned char fieldMotionType);
     void setSpatialTemporalWeightClass(unsigned char spatialTemporalWeightClass);
+    void setCbp(unsigned char coded_block_pattern);
+    void setCodedBlockPattern1(unsigned char codedBlockPattern1);
+    void setCodedBlockPattern2(unsigned char codedBlockPattern2);
+    void setDctDcPred(size_t i, unsigned int val);
+    /**
+     * Getters:
+     */
+    PictureHeaderPacket::picture_coding_types getPictureCodingType() const;
+    unsigned char getFCode00() const;
+    unsigned char getFCode01() const;
+    unsigned char getFCode10() const;
+    unsigned char getFCode11() const;
+    PictureCodingExtensionPacket::picture_structure_types getPictureStructure() const;
+    bool isFramePredFrameDct() const;
+    bool isConcealmentMotionVectors() const;
+    bool isMacroblockIntra() const;
+    bool isMacroblockPattern() const;
+    bool isIntraVlcFormat() const;
+    unsigned char getFrameMotionType() const;
+    unsigned char getFieldMotionType() const;
+    unsigned char getSpatialTemporalWeightClass() const;
+    unsigned char getCbp() const;
+    unsigned char getCodedBlockPattern1() const;
+    unsigned char getCodedBlockPattern2() const;
+    int getDctDcPred(size_t i);
 };
 
 

@@ -8,6 +8,56 @@
 #include "DecodingStages/InverseQuantizer.h"
 #include "DecodingStages/InverseDCTransformer.h"
 
+HPicture *PictureDecoder::buildPicture() {
+    HPicture *picture = new HPicture();
+    do {
+        picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
+    } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
+    InverseScanner::performInverseScan(picture);
+    InverseQuantizer::performInverseQuantisation(picture);
+    InverseDCTransformer::performInverseDCT(picture);
+    return picture;
+}
+
+void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment) {
+    if (address_increment > 1) {
+        resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
+    }
+    setMacroblockPattern(mbmodes->isMacroblockPattern());
+    setMacroblockIntra(mbmodes->isMacroblockIntra());
+    setFrameMotionType(mbmodes->getFrameMotionType());
+    setFieldMotionType(mbmodes->getFieldMotionType());
+    setSpatialTemporalWeightClass(mbmodes->getSpatialTemporalWeightClasses());
+}
+
+void PictureDecoder::updateCodedBlockPattern(CodedBlockPattern *cbPattern) {
+    setCbp(cbPattern->getCbp());
+    setCodedBlockPattern1(cbPattern->getCodedBlockPattern1());
+    setCodedBlockPattern2(cbPattern->getCodedBlockPattern2());
+}
+
+void PictureDecoder::resetDctDcPred() {
+    switch (intra_dc_precision) {
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_8:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 128;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_9:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 256;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_10:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 512;
+            break;
+        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_11:
+            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 1024;
+            break;
+        default:
+            throw PacketException("PictureDecoder::resetDctDcPred: reset failed");
+    }
+}
+
+/**
+ * Getters & Setters
+ */
 
 void PictureDecoder::setClosedGop(bool closedGop) {
     closed_gop = closedGop;
@@ -23,17 +73,6 @@ void PictureDecoder::setTemporalReference(unsigned short temporalReference) {
 
 void PictureDecoder::setPictureCodingType(PictureHeaderPacket::picture_coding_types pictureCodingType) {
     picture_coding_type = pictureCodingType;
-}
-
-HPicture * PictureDecoder::buildPicture() {
-    HPicture *picture = new HPicture();
-    do {
-        picture->addSlice((Slice*) VideoDecoder::getInstance()->getNextVideoPacket());
-    } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
-    InverseScanner::performInverseScan(picture);
-    InverseQuantizer::performInverseQuantisation(picture);
-    InverseDCTransformer::performInverseDCT(picture);
-    return picture;
 }
 
 void PictureDecoder::setFCode00(unsigned char fCode00) {
@@ -168,23 +207,6 @@ void PictureDecoder::setMacroblockPattern(bool macroblockPattern) {
     macroblock_pattern = macroblockPattern;
 }
 
-void PictureDecoder::updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment) {
-    if (address_increment > 1) {
-        resetDctDcPred(); // resetting dct_dc_pred as per Table 7-2
-    }
-    setMacroblockPattern(mbmodes->isMacroblockPattern());
-    setMacroblockIntra(mbmodes->isMacroblockIntra());
-    setFrameMotionType(mbmodes->getFrameMotionType());
-    setFieldMotionType(mbmodes->getFieldMotionType());
-    setSpatialTemporalWeightClass(mbmodes->getSpatialTemporalWeightClasses());
-}
-
-void PictureDecoder::updateCodedBlockPattern(CodedBlockPattern *cbPattern) {
-    setCbp(cbPattern->getCbp());
-    setCodedBlockPattern1(cbPattern->getCodedBlockPattern1());
-    setCodedBlockPattern2(cbPattern->getCodedBlockPattern2());
-}
-
 unsigned char PictureDecoder::getCbp() const {
     return cbp;
 }
@@ -215,25 +237,6 @@ int PictureDecoder::getDctDcPred(size_t i) {
 
 void PictureDecoder::setDctDcPred(size_t i, unsigned int val) {
     dct_dc_pred[i] = val;
-}
-
-void PictureDecoder::resetDctDcPred() {
-    switch (intra_dc_precision) {
-        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_8:
-            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 128;
-            break;
-        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_9:
-            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 256;
-            break;
-        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_10:
-            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 512;
-            break;
-        case PictureCodingExtensionPacket::intra_dc_precision_bits::p_11:
-            dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 1024;
-            break;
-        default:
-            throw PacketException("PictureDecoder::resetDctDcPred: reset failed");
-    }
 }
 
 bool PictureDecoder::isIntraVlcFormat() const {
