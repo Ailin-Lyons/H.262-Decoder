@@ -41,7 +41,7 @@ InverseQuantiser::quantiserTable InverseQuantiser::conversion_table[] = {{1, 2, 
 
 void InverseQuantiser::performInverseQuantisation(HPicture *picture) {//TODO
     PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
-    if (picture->getState() != HPicture::decoding_state::inverse_quantised)
+    if (picture->getState() != HPicture::decoding_state::inverse_scanned)
         throw VideoException("InverseQuantiser::performInverseQuantisation: received picture in incorrect state.\n");
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];

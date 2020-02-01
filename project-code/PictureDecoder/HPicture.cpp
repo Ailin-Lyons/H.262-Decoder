@@ -7,17 +7,20 @@
 HPicture::HPicture() {
     state = decoding_state::variable_length_decoded;
     numSlices = 0;
+    slices = nullptr;
     //TODO continue initializing stuff
 }
 
 void HPicture::addSlice(Slice *slice) {
-    numSlices++;
-    if (slices == nullptr) {
-        slices = (Slice **) malloc(sizeof(Slice *));
-    } else {
-        slices = (Slice **) realloc(slices, (sizeof(Slice *) * numSlices));
-    }
-    slices[numSlices - 1] = slice;
+//    numSlices++;
+//    if (slices == nullptr) {
+//        slices = (Slice **) malloc(sizeof(Slice *));
+//    } else {
+//        slices = (Slice **) realloc(slices, (sizeof(Slice *) * numSlices));
+//    }
+//    slices[numSlices - 1] = slice;
+    slices = (Slice **) realloc(slices, (sizeof(Slice *) * (numSlices + 1)));
+    slices[numSlices++] =  slice;
 }
 
 HPicture::decoding_state HPicture::getState() const {
