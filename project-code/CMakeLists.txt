@@ -3,7 +3,6 @@ project(project-code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-
 set(SOURCE_FILES Decoder.cpp)
 
 add_executable(decoder ${SOURCE_FILES})

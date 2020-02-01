@@ -55,6 +55,10 @@ public:
     unsigned char getBlockCount() const;
 
     Block **getBlocks() const;
+
+    unsigned char getQuantiserScaleCode() const;
+
+    MacroblockModes *getMacroBlockModes() const;
 };
 
 

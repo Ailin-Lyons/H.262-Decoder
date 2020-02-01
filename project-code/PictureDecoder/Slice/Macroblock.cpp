@@ -84,3 +84,11 @@ Block **Macroblock::getBlocks() const {
 void Macroblock::setBlocks(Block **blocks) {
     Macroblock::blocks = blocks;
 }
+
+unsigned char Macroblock::getQuantiserScaleCode() const {
+    return quantiser_scale_code;
+}
+
+MacroblockModes *Macroblock::getMacroBlockModes() const {
+    return macroBlockModes;
+}

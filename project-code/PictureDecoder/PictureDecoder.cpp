@@ -246,3 +246,11 @@ bool PictureDecoder::isIntraVlcFormat() const {
     return intra_vlc_format;
 }
 
+PictureCodingExtensionPacket::intra_dc_precision_bits PictureDecoder::getIntraDcPrecision() const {
+    return intra_dc_precision;
+}
+
+bool PictureDecoder::isQScaleType() const {
+    return q_scale_type;
+}
+

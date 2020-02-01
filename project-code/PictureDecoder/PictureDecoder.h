@@ -104,6 +104,8 @@ public:
     unsigned char getCodedBlockPattern1() const;
     unsigned char getCodedBlockPattern2() const;
     int getDctDcPred(size_t i);
+    PictureCodingExtensionPacket::intra_dc_precision_bits getIntraDcPrecision() const;
+    bool isQScaleType() const;
 };
 
 
