@@ -156,10 +156,10 @@ void VideoInformation::setLowDelay(bool d) {
 }
 
 void VideoInformation::print() {//TODO make a pretty print for this class
-    printf("\n+----------------------------+\n");
+    printf("+----------------------------+\n");
     printf("| %8d x %-4d pixels     |\n", horizontal_size, vertical_size);
     printf("|    %s            |\n", asprectRatioStrings[(char) aspectRatio]);
     printf("|     %5.0f FPS              |\n", frameRate);
     printf("|%10i bits/s           |\n", bit_rate);
-    printf("+----------------------------+\n\n");
+    printf("+----------------------------+\n");
 }

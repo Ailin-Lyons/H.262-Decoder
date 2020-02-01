@@ -24,9 +24,9 @@ VideoDecoder::VideoDecoder() {
 void VideoDecoder::decodeToFile(char *source, char *destination) {
     pictureDecoder = new PictureDecoder();
     loadFile(source);
-    printf("\n***Loading video_sequence...***\n");
+    printf("\n***Loading Video Information...***\n");
     loadVideoSequence();
-    printf("\n***Loading video_sequence...Done!***\n");
+    printf("***Loading Video Information...Done!***\n");
     printf("\n***Beginning Decoding process...***\n");
     do {
         loadExtensionUserData(0);
@@ -41,7 +41,7 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
 }
 
 bool VideoDecoder::loadFile(char *relative_path) {
-    printf("\n***Loading file: %s ***\n", relative_path);
+    printf("\n**Loading file: %s ***\n", relative_path);
     try {
         FileInterface::getInstance()->setInstance(relative_path);
         ESParser *esp = ESParser::getInstance();
@@ -55,7 +55,6 @@ bool VideoDecoder::loadFile(char *relative_path) {
 }
 
 void VideoDecoder::loadVideoSequence() {
-    printf("\n   ...Updating Video Information...\n");
     VideoInformation *videoInfo = VideoInformation::getInstance();
     auto *seq_hed = (SequenceHeaderPacket *) getNextVideoPacket();
     if (!nextVideoPacketIs(ESPacket::start_code::extension)) {
@@ -167,7 +166,7 @@ void VideoDecoder::loadPictureCodingExtension() {
 }
 
 void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
-    printf("VideoDecoder: PESPacket Discarded\n"); //PESPacket would be handled here but is not currently used by the decoder
+    //PESPacket would be handled here but is not currently used by the decoder
 }
 
 
