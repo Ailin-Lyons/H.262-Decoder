@@ -5,7 +5,7 @@
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
 #include "DecodingStages/InverseScanner.h"
-#include "DecodingStages/InverseQuantizer.h"
+#include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
 
 HPicture *PictureDecoder::buildPicture() {
@@ -17,7 +17,7 @@ HPicture *PictureDecoder::buildPicture() {
     for(size_t potato = 0; potato < picture->getNumSlices(); potato++){
         picture->getSlices()[potato]->print();
     }
-    InverseQuantizer::performInverseQuantisation(picture);
+    InverseQuantiser::performInverseQuantisation(picture);
     InverseDCTransformer::performInverseDCT(picture);
     return picture;
 }

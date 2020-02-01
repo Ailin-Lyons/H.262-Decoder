@@ -16,6 +16,7 @@ public:
         ar_9_by_16,
         ar_1_by_2_p_21
     };
+    static const char * asprectRatioStrings[];
 
     enum class video_profile {
         p_reserved,

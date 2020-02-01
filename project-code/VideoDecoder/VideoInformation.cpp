@@ -4,6 +4,9 @@
 #include "VideoInformation.h"
 #include "VideoException.cpp"
 
+const char *VideoInformation::asprectRatioStrings[] = {"            ", "     1:1    ", "     3:4    ", "     9:16   ",
+                                                       "    1:2.21  "};
+
 VideoInformation *VideoInformation::instance = nullptr;
 
 unsigned short VideoInformation::getHorizontalSize() const {
@@ -153,7 +156,10 @@ void VideoInformation::setLowDelay(bool d) {
 }
 
 void VideoInformation::print() {//TODO make a pretty print for this class
-    printf("Video Information:\n\tResolution: %d by %d\n\tAspect Ratio code: %x\n\tFrame rate: %lf\n\tBit Rate: %ld\n\tVBV Buffer: %ld\n\tVideo Profile code: %x\n\tVideo Level Code: %x\n\tIsProgressive: %s\n\tchroma type code: %x\n\tlow_delay:%s\n",
-           horizontal_size, vertical_size, aspectRatio, frameRate, bit_rate, vbv_buffer_size, profile, level,
-           progressive_sequence ? "true" : "false", chroma_format, low_delay ? "true" : "false");
+    printf("\n+----------------------------+\n");
+    printf("| %8d x %-4d pixels     |\n", horizontal_size, vertical_size);
+    printf("|    %s            |\n", asprectRatioStrings[(char) aspectRatio]);
+    printf("|     %5.0f FPS              |\n", frameRate);
+    printf("|%10i bits/s           |\n", bit_rate);
+    printf("+----------------------------+\n\n");
 }

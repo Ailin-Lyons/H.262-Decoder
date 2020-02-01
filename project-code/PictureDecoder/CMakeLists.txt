@@ -11,7 +11,7 @@ set(HEADER_FILES
         Slice/Block.h
         Slice/CodedBlockPattern.h
         DecodingStages/InverseScanner.h
-        DecodingStages/InverseQuantizer.h
+        DecodingStages/InverseQuantiser.h
         DecodingStages/InverseDCTransformer.h)
 
 set(SOURCE_FILES
@@ -25,7 +25,7 @@ set(SOURCE_FILES
         Slice/Block.cpp
         Slice/CodedBlockPattern.cpp
         DecodingStages/InverseScanner.cpp
-        DecodingStages/InverseQuantizer.cpp
+        DecodingStages/InverseQuantiser.cpp
         DecodingStages/InverseDCTransformer.cpp)
 
 add_library(PictureDecoder STATIC ${SOURCE_FILES} ${HEADER_FILES})
