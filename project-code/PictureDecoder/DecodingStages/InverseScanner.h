@@ -9,13 +9,12 @@
 #include "../HPicture.h"
 
 class InverseScanner {
-private:
-    static char scan_0[8][8];
-
 public:
     static void performInverseScan(HPicture *picture, bool alternate_scan);
 
     static void performInverseScanHelper(Block *block);
+
+    static char scan_0[8][8];
 };
 
 

@@ -60,6 +60,8 @@ public:
 
     void setMacroblocks(Macroblock *m);
 
+    unsigned char getQuantiserScaleCode() const;
+
 };
 
 

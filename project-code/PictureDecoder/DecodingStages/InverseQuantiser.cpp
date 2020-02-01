@@ -5,6 +5,12 @@
 #include <VideoDecoder.h>
 #include "InverseQuantiser.h"
 #include "../VideoDecoder/VideoException.cpp"
+#include "InverseScanner.h"
+
+#define WEIGHT (generateWeightingValue(u, v, w, intra))
+#define Sign(val) ((val) > 0 ? 1 : ((val == 0) ? 0 : -1))
+
+unsigned char InverseQuantiser::qsc = 0;
 
 InverseQuantiser::quantiserTable InverseQuantiser::conversion_table[] = {{1, 2, 1},
                                     {2, 4, 2},
@@ -38,6 +44,15 @@ InverseQuantiser::quantiserTable InverseQuantiser::conversion_table[] = {{1, 2, 
                                     {30, 60, 104},
                                     {31, 62, 112}};
 
+unsigned char InverseQuantiser::intraWeightTable[8][8] = {{8, 16, 19, 22, 26, 27, 29, 34},
+                                              {16, 16, 22, 24, 27, 29, 34, 37},
+                                              {19, 22, 26, 27, 29, 34, 34, 38},
+                                              {22, 22, 26, 27, 29, 34, 37, 40},
+                                              {22, 26, 27, 29, 32, 35, 40, 48},
+                                              {26, 27, 29, 32, 35, 40, 48, 58},
+                                              {26, 27, 29, 34, 38, 46, 56, 69},
+                                              {27, 29, 35, 38, 46, 56, 69, 83}};
+
 
 void InverseQuantiser::performInverseQuantisation(HPicture *picture) {//TODO
     PictureDecoder* pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
@@ -45,8 +60,14 @@ void InverseQuantiser::performInverseQuantisation(HPicture *picture) {//TODO
         throw VideoException("InverseQuantiser::performInverseQuantisation: received picture in incorrect state.\n");
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
+        if (qsc == 0 || (slice->getQuantiserScaleCode() && qsc != slice->getQuantiserScaleCode())) {
+            qsc = slice->getQuantiserScaleCode();
+        }
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
             Macroblock *macroblock = &slice->getMacroblocks()[m];
+            if (qsc == 0 || (macroblock->getQuantiserScaleCode() != 0 && qsc != macroblock->getQuantiserScaleCode())) {
+                qsc = macroblock->getQuantiserScaleCode();
+            }
             for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
                 Block *block = macroblock->getBlocks()[b];
                 if (block) performInverseQuantisationHelp(block, pictureDecoder, macroblock);
@@ -58,32 +79,32 @@ void InverseQuantiser::performInverseQuantisation(HPicture *picture) {//TODO
 
 void InverseQuantiser::performInverseQuantisationHelp(Block* block, PictureDecoder* pictureDecoder,
         Macroblock* macroblock) {
-    unsigned char qsc = macroblock->getQuantiserScaleCode();
     bool intra = macroblock->getMacroBlockModes()->isMacroblockIntra();
     PictureCodingExtensionPacket::intra_dc_precision_bits precisionBits = pictureDecoder->getIntraDcPrecision();
     int intra_dc_mult = precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_8 ? 8 :
             (precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_9 ? 4 :
             (precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_10 ? 2 : 1));
-    int* QF = block->getQFscanned();
+    int* qFScanned = block->getQFscanned();
     int* fPrimePrime = (int *) malloc(sizeof(int) * 8 * 8);
     int* fPrime = (int *) malloc(sizeof(int) * 8 * 8);
     int *quantized = (int *) malloc(sizeof(int) * 8 * 8);
-    // TODO
-//    for (size_t v = 0; v < 8; v++) {
-//        for (size_t u = 0; u < 8;u++) {
-//            if ((u==0) && (v==0) && (intra) ) {
-//                fPrimePrime[v*8 + u] = intra_dc_mult * QF[v*8 + u];
-//            } else {
-//                if (intra) {
-//                    fPrimePrime[v*8 + u] = (QF[v*8 + u]*W[w][v][u]*generateQuantiserScale(pictureDecoder->isQScaleType()
-//                            , qsc) * 2 ) / 32;
-//                } else {
-//                    fPrimePrime[v*8 + u] = ( ( ( QF[v*8 + u] * 2 ) + Sign(QF[v*8 + u]) ) * W[w][v][u]
-//                                  * generateQuantiserScale(pictureDecoder->isQScaleType(), qsc) ) / 32;
-//                }
-//            }
-//        }
-//    }
+    size_t w = intra ? (block->getCc() == 0 ? 0 : 2) : (block->getCc() == 0 ? 1 : 3);
+    for (size_t v = 0; v < 8; v++) {
+        for (size_t u = 0; u < 8;u++) {
+            if ((u==0) && (v==0) && (intra) ) {
+                fPrimePrime[v*8 + u] = intra_dc_mult * qFScanned[v * 8 + u];
+            } else {
+                if (intra) {
+                    fPrimePrime[v*8 + u] = (qFScanned[v * 8 + u] * WEIGHT *
+                            generateQuantiserScale(pictureDecoder->isQScaleType()
+                            , qsc) * 2 ) / 32;
+                } else {
+                    fPrimePrime[v*8 + u] = (((qFScanned[v * 8 + u] * 2 ) + Sign(qFScanned[v * 8 + u]) ) * WEIGHT
+                                            * generateQuantiserScale(pictureDecoder->isQScaleType(), qsc) ) / 32;
+                }
+            }
+        }
+    }
     int sum = 0;
     for (size_t v = 0; v < 8;v++) {
         for (size_t u = 0; u < 8;u++) {
@@ -124,7 +145,9 @@ unsigned char InverseQuantiser::generateQuantiserScale(bool q_scale_type, unsign
     throw VideoException("InverseQuantiser::generateQuantiserScale: reached end of conversion_table");
 }
 
-unsigned char InverseQuantiser::generateWeightingValue(size_t u, size_t v, size_t w) {
-    //TODO
-    return 0; //stub
+unsigned char InverseQuantiser::generateWeightingValue(size_t u, size_t v, size_t w, bool intra) {
+    if (intra) {
+        return intraWeightTable[w][InverseScanner::scan_0[v][u]];
+    }
+    return 16;
 }

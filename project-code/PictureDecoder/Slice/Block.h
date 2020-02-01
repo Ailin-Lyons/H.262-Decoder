@@ -35,6 +35,8 @@ public:
 
     void setFdctransformed(int *fdctransformed);
 
+    unsigned char getCc() const;
+
 public:
     struct initializerStruct {
         size_t i;

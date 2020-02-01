@@ -14,9 +14,10 @@ public:
     static void performInverseQuantisation(HPicture *picture);
 
 private:
-    static void performInverseQuantisationHelp(Block* block, PictureDecoder* pictureDecoder, Macroblock* macroblock);
+    static void performInverseQuantisationHelp(Block* block, PictureDecoder* pictureDecoder,
+            Macroblock* macroblock);
     static unsigned char generateQuantiserScale(bool q_scale_type, unsigned char quantiser_scale_code);
-    static unsigned char generateWeightingValue(size_t u, size_t v, size_t w);
+    static unsigned char generateWeightingValue(size_t u, size_t v, size_t w, bool intra);
 
     struct quantiserTable {
         unsigned char quantiser_scale_code;
@@ -25,6 +26,8 @@ private:
     };
 
     static quantiserTable conversion_table[32];
+    static unsigned char intraWeightTable[8][8];
+    static unsigned char qsc;
 };
 
 

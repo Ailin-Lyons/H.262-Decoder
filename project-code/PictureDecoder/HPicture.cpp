@@ -12,13 +12,6 @@ HPicture::HPicture() {
 }
 
 void HPicture::addSlice(Slice *slice) {
-//    numSlices++;
-//    if (slices == nullptr) {
-//        slices = (Slice **) malloc(sizeof(Slice *));
-//    } else {
-//        slices = (Slice **) realloc(slices, (sizeof(Slice *) * numSlices));
-//    }
-//    slices[numSlices - 1] = slice;
     slices = (Slice **) realloc(slices, (sizeof(Slice *) * (numSlices + 1)));
     slices[numSlices++] =  slice;
 }

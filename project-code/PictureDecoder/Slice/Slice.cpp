@@ -68,3 +68,7 @@ Macroblock *Slice::getMacroblocks() const {
 void Slice::setMacroblocks(Macroblock *m) {
     macroblocks = m;
 }
+
+unsigned char Slice::getQuantiserScaleCode() const {
+    return quantiser_scale_code;
+}

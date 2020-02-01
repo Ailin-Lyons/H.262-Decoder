@@ -89,3 +89,7 @@ int *Block::getFdctransformed() const {
 void Block::setFdctransformed(int *fdctransformed) {
     Block::fdctransformed = fdctransformed;
 }
+
+unsigned char Block::getCc() const {
+    return cc;
+}
