@@ -41,7 +41,7 @@ int InverseDCTransformer::genCoff(size_t x, size_t y, const int* quantized) {
     double out = 0;
     for (size_t u = 0; u < 8; u++) {
         for (size_t v = 0; v < 8; v++) {
-            out += C(u)*C(v)*quantized[v*8+u]*cos(arg(u))*cos(arg(v));
+            out += C(u)*C(v)*quantized[v*8+u]*cos(arg(x))*cos(arg(y));
         }
     }
     return saturate(round(0.25*out));
