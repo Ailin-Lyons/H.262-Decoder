@@ -10,7 +10,7 @@
 // note - global constants
 // DESIGN - use builtin math
 
-const static double pi = 3.14159265359;
+
 const static double e = 2.71828182845;
 
 
