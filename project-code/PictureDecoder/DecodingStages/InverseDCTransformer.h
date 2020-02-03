@@ -12,8 +12,11 @@ class InverseDCTransformer {
 
 public:
     constexpr const static double pi = 3.14159265359;
-    static void performInverseDCT(HPicture *picture);
-    static void performInverseDCTHelp(Block *block);
+    static void performIDCTNaive(HPicture *picture);
+    static void performIDCTThreaded(HPicture *picture);
+
+    static void *performIDCTThreadHelper(void *slice);
+    static void performIDCTBlockHelper(Block *block);
     static int genCoff(size_t x, size_t y, const int* quantized);
 };
 

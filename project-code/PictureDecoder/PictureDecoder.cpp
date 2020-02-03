@@ -14,11 +14,12 @@ HPicture *PictureDecoder::buildPicture() {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
     InverseScanner::performInverseScan(picture, alternate_scan);
-    for(size_t potato = 0; potato < picture->getNumSlices(); potato++){
-        picture->getSlices()[potato]->print();
-    }
     InverseQuantiser::performInverseQuantisation(picture);
-    InverseDCTransformer::performInverseDCT(picture);
+    //InverseDCTransformer::performIDCTNaive(picture);
+    InverseDCTransformer::performIDCTThreaded(picture);
+    for(size_t i = 0; i < picture->getNumSlices(); i++){
+        picture->getSlices()[i]->print();
+    }
     return picture;
 }
 
