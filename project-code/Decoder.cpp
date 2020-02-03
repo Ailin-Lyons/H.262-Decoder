@@ -3,6 +3,7 @@
 //
 
 
+#include <ctime>
 #include "ESParser.cpp"
 #include "VideoDecoder.h"
 
@@ -32,15 +33,23 @@ int displayMetaData() {
 }
 
 int main(int argc, char **argv) {
-    char relative_path[] = R"(../../test files/testvideo_noaudio.ts)";
-    char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO make a folder to save files
-    VideoDecoder *vDecoder = VideoDecoder::getInstance();
-    vDecoder->decodeToFile(relative_path, destination);
-    // TODO: split the file into 3 parts
+    clock_t t = clock();
+    try {
+        char relative_path[] = R"(../../test files/testvideo_noaudio.ts)";
+        char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO make a folder to save files
+        VideoDecoder *vDecoder = VideoDecoder::getInstance();
+        vDecoder->decodeToFile(relative_path, destination);
+        // TODO: split the file into 3 parts
 
 
 
-    // TODO: part2 and part 3??
+        // TODO: part2 and part 3??
+
+    } catch (PacketException e) {
+        printf("Gracefully shutting down after %f seconds.\n%s", ((float) (clock() - t)) / CLOCKS_PER_SEC, e.what());
+    } catch (VideoException e) {
+        printf("Gracefully shutting down after %f seconds.\n%s", ((float) (clock() - t)) / CLOCKS_PER_SEC, e.what());
+    }
 }
 
 
