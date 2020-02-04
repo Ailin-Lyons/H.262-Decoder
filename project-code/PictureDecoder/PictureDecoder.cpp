@@ -15,8 +15,15 @@ HPicture *PictureDecoder::buildPicture() {
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
     InverseScanner::performInverseScan(picture, alternate_scan);
     InverseQuantiser::performInverseQuantisation(picture);
-    //InverseDCTransformer::performIDCTNaive(picture);
-    InverseDCTransformer::performIDCTThreaded(picture);
+    /**
+     * Different IDCT implementations can be chosen here:
+     */
+        //InverseDCTransformer::performIDCTNaive(picture);
+        InverseDCTransformer::performIDCTThreaded(picture);
+    /**
+     *
+     */
+     // TODO motion compensation if applicable
     for(size_t i = 0; i < picture->getNumSlices(); i++){
         picture->getSlices()[i]->print();
     }
