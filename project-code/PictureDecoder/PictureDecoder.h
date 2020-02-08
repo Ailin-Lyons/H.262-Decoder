@@ -48,7 +48,7 @@ public:
     /**
      * Functions:
      */
-    HPicture * buildPicture();
+    HPicture * decodePicture();
     void updateMacroBlockModes(MacroblockModes *mbmodes, size_t address_increment);
     void updateCodedBlockPattern(CodedBlockPattern *cbPattern);
     void resetDctDcPred();

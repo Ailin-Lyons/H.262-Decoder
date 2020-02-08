@@ -14,6 +14,7 @@
 #include "../Util/FileInterface.h"
 #include "../Util/FileException.cpp"
 #include "../StreamParsers/ESParser.h"
+#include "PictureBuilder.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -22,6 +23,7 @@ VideoDecoder::VideoDecoder() {
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
+    sequenceNumber = 0;
     pictureDecoder = new PictureDecoder();
     loadFile(source);
     printf("\n***Loading Video Information...***\n");
@@ -31,7 +33,8 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
     do {
         loadExtensionUserData(0);
         do {
-            makePicture();
+            makePicture(destination);
+            sequenceNumber++;
         } while (nextVideoPacketIs(ESPacket::start_code::picture) || nextVideoPacketIs(ESPacket::start_code::group));
         if (!nextVideoPacketIs(ESPacket::start_code::sequence_end)) {
             loadVideoSequence();
@@ -77,7 +80,7 @@ void VideoDecoder::loadVideoSequence() {
     videoInfo->print();
 }
 
-void VideoDecoder::makePicture() {
+void VideoDecoder::makePicture(char *destination) {
     if (nextVideoPacketIs(ESPacket::start_code::group)) {
         loadGroupHeaderAndExtension();
         loadExtensionUserData(1);
@@ -85,7 +88,8 @@ void VideoDecoder::makePicture() {
     loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    pictureDecoder->buildPicture(); //TODO handle this picture. Perform motion compensation, Add to frame store, turn to bitmap
+    HPicture *decodedPicture = pictureDecoder->decodePicture();
+    savePNGtoFile(decodedPicture, destination);
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
@@ -176,4 +180,10 @@ void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *
 
 PictureDecoder *VideoDecoder::getPictureDecoder() const {
     return pictureDecoder;
+}
+
+void VideoDecoder::savePNGtoFile(HPicture *hPicture, char *destination) {
+    //TODO save image to file here
+    //PNG* pngPicture = PictureBuilder::makePNGfromHPicture(hPicture);//TODO transform PNG to hPicture here
+    //save png to file with a name that includes sequenceNumber (a static variable that is incremented with each picture)
 }

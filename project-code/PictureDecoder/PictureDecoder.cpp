@@ -8,7 +8,7 @@
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
 
-HPicture *PictureDecoder::buildPicture() {
+HPicture *PictureDecoder::decodePicture() {
     HPicture *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());

@@ -13,6 +13,8 @@ class VideoDecoder {
 private:
     static VideoDecoder *instance;
 
+    static unsigned int sequenceNumber;
+
     PictureDecoder *pictureDecoder;
 
     /**
@@ -32,6 +34,7 @@ public:
     static VideoDecoder *getInstance() {
         if (!instance) {
             instance = new VideoDecoder();
+            sequenceNumber = 0;
         }
         return instance;
     }
@@ -51,7 +54,7 @@ public:
 
     void handleVideoStream(ESPacket *pPacket);
 
-    void makePicture();
+    void makePicture(char *destination);
 
     void loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *pPacket);
 
@@ -60,6 +63,8 @@ public:
     bool nextVideoPacketIs(ESPacket::start_code startCode);
 
     PictureDecoder *getPictureDecoder() const;
+
+    void savePNGtoFile(HPicture *hPicture, char *destination);
 };
 
 
