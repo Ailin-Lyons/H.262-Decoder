@@ -9,8 +9,8 @@
 #include <ctime>
 
 #define C(x) ((x) == 0 ? (1/sqrt(2)) : 1)
-#define arg(x) (((2*(x)+1)*u*pi)/16)
-#define saturate(x) ((x) < -256 ? -256 : ((x) > 255 ? 255 : (x)))
+#define ARG(x) (((2*(x)+1)*u*pi)/16)
+#define SATURATE(x) ((x) < -256 ? -256 : ((x) > 255 ? 255 : (x)))
 
 void InverseDCTransformer::performIDCTNaive(HPicture *picture) {//TODO
     clock_t t = clock();
@@ -35,13 +35,13 @@ void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("InverseDCTransformer: received picture in incorrect state.\n");
     if (picture->getNumSlices() > 0) {
-        pthread_t *threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
+        auto threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
         for (size_t s = 0; s < picture->getNumSlices(); s++) {
             Slice *slice = picture->getSlices()[s];
-            pthread_create(&threads[s], NULL, performIDCTThreadHelper, slice);
+            pthread_create(&threads[s], nullptr, performIDCTThreadHelper, slice);
         }
-        for (size_t i; i < picture->getNumSlices(); i++) {
-            pthread_join(threads[i], NULL);
+        for (size_t i = 0; i < picture->getNumSlices(); i++) {
+            pthread_join(threads[i], nullptr);
         }
         free(threads);
     }
@@ -50,7 +50,7 @@ void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
 }
 
 void *InverseDCTransformer::performIDCTThreadHelper(void *slice) {
-    Slice *sl = (Slice *) slice;
+    auto sl = (Slice *) slice;
     for (size_t m = 0; m < sl->getNumMacroblocks(); m++) {
         Macroblock *macroblock = &sl->getMacroblocks()[m];
         for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
@@ -58,8 +58,8 @@ void *InverseDCTransformer::performIDCTThreadHelper(void *slice) {
             if (block) performIDCTBlockHelper(block);
         }
     }
-    pthread_exit(NULL);
-    return NULL;
+    pthread_exit(nullptr);
+    return nullptr;
 }
 
 void InverseDCTransformer::performIDCTBlockHelper(Block *block) {//TODO
@@ -77,8 +77,8 @@ int InverseDCTransformer::genCoff(size_t x, size_t y, const int *quantized) {
     double out = 0;
     for (size_t u = 0; u < 8; u++) {
         for (size_t v = 0; v < 8; v++) {
-            out += C(u) * C(v) * quantized[v * 8 + u] * cos(arg(x)) * cos(arg(y));
+            out += C(u) * C(v) * quantized[v * 8 + u] * cos(ARG(x)) * cos(ARG(y));
         }
     }
-    return saturate(round(0.25 * out));
+    return SATURATE(round(0.25 * out));
 }
