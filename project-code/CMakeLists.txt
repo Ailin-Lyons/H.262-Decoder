@@ -6,9 +6,11 @@ set(CMAKE_CXX_STANDARD 14)
 set(SOURCE_FILES Decoder.cpp)
 
 add_executable(decoder ${SOURCE_FILES})
-
 add_subdirectory(AllTests)
 
+# note - change the display flag to 1 if you want to use Cimg display
+
+set(DISPLAY_FLAG 0)
 
 # adding the PacketParsersTest
 include_directories("StreamParsers")
@@ -44,3 +46,22 @@ target_link_libraries(decoder "VideoDecoder")
 include_directories("PictureDecoder")
 add_subdirectory("PictureDecoder")
 target_link_libraries(decoder "PictureDecoder")
+
+#adding Cimg
+if (DISPLAY_FLAG)
+    find_package(X11 REQUIRED)
+    include_directories(${X11_INCLUDE_DIRS})
+    target_link_libraries(decoder ${X11_LIBRARIES})
+else()
+    target_compile_definitions(decoder PRIVATE cimg_display=0)
+endif()
+find_package(PNG REQUIRED)
+include_directories(${PNG_INCLUDE_DIRS})
+target_link_libraries(decoder ${PNG_LIBRARIES})
+target_compile_definitions(decoder PRIVATE cimg_use_png=1)
+
+#adding pthreads
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(decoder Threads::Threads)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
