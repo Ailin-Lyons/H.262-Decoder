@@ -9,7 +9,7 @@
 #include "DecodingStages/InverseDCTransformer.h"
 
 HPicture *PictureDecoder::buildPicture() {
-    HPicture *picture = new HPicture();
+    auto picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));

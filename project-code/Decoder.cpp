@@ -21,17 +21,6 @@ const static double e = 2.71828182845;
  *         display and parse separately
 */
 
-/**
- * @return
- */
-int parseMetaData() {
-    return -1; // TODO
-}
-
-int displayMetaData() {
-    return -1; // TODO
-}
-
 int main(int argc, char **argv) {
     clock_t t = clock();
     try {
@@ -39,15 +28,10 @@ int main(int argc, char **argv) {
         char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO make a folder to save files
         VideoDecoder *vDecoder = VideoDecoder::getInstance();
         vDecoder->decodeToFile(relative_path, destination);
-        // TODO: split the file into 3 parts
 
-
-
-        // TODO: part2 and part 3??
-
-    } catch (PacketException e) {
+    } catch (PacketException &e) {
         printf("Gracefully shutting down after %f seconds.\n%s", ((float) (clock() - t)) / CLOCKS_PER_SEC, e.what());
-    } catch (VideoException e) {
+    } catch (VideoException &e) {
         printf("Gracefully shutting down after %f seconds.\n%s", ((float) (clock() - t)) / CLOCKS_PER_SEC, e.what());
     }
 }
