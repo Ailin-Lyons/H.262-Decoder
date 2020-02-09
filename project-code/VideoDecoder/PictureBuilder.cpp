@@ -7,7 +7,8 @@
 cimg_library::CImg<int> *PictureBuilder::makePngFromHPicture(HPicture *picture) {
     if (picture->getState() == HPicture::decoding_state::discrete_cosine_transformed) {
         auto vi = VideoInformation::getInstance();
-        auto outImage = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize());
+        auto outImage = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize(), 1, 1);
+        outImage->fill(0);
         size_t xPos = 0, yPos = 0;
         for (size_t s = 0; s < picture->getNumSlices(); s++) {
             Slice *slice = picture->getSlices()[s];
@@ -25,7 +26,7 @@ void PictureBuilder::macroBlockHandler(cimg_library::CImg<int>* img, Macroblock*
         size_t x, size_t y) {
     // note - Assuming a 4:2:0
     size_t hSize = VideoInformation::getInstance()->getHorizontalSize();
-    int* data = img->_data;
+    //int* data = img->_data;
     size_t xStop = x + 16;
     size_t yStop = y + 16;
     Block** blocks = macroBlock->getBlocks();
@@ -35,22 +36,17 @@ void PictureBuilder::macroBlockHandler(cimg_library::CImg<int>* img, Macroblock*
         for (; x < xStop; x++) {
             size_t blockNum = -1;
             if (xStop - x > 8 && yStop - y > 8 && blocks[0]) {
-                data[y * hSize + x] =
-                        blocks[0]->getFdctransformed()[blockY * 8 + blockX];
-
+                blockNum = 0;
             } else if (xStop - x < 8 && yStop - y > 8 && blocks[1]) { // Use Block 2
-                data[y * hSize + x] =
-                        blocks[1]->getFdctransformed()[blockY * 8 + blockX];
-
+                blockNum = 1;
             } else if (xStop - x > 8 && yStop - y < 8 && blocks[2]) { // Use Block 3
-                data[y * hSize + x] =
-                        blocks[2]->getFdctransformed()[blockY * 8 + blockX];
+                blockNum = 2;
             } else if (xStop - x < 8 && yStop - y < 8 && blocks[3]) {// Use Block 4
-                data[y * hSize + x] =
-                        blocks[3]->getFdctransformed()[blockY * 8 + blockX];
-            } else { // TODO - make the image colored
-                data[y * hSize + x] = 0;
+                blockNum = 3;
             }
+            //data[y * hSize + x] = blockNum == -1 ? 0 : blocks[blockNum]->getFdctransformed()[blockY * 8 + blockX];
+            int fillValue = blockNum == -1 ? 0 : blocks[blockNum]->getFdctransformed()[blockY * 8 + blockX];
+            (*img)(x, y, 0, 0) = fillValue;
             blockX = (blockX + 1) % 8;
             blockY = blockX == 0 ? blockY + 1 : blockY;
         }

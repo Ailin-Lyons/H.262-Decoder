@@ -15,7 +15,10 @@
 #include "../Util/FileException.cpp"
 #include "../StreamParsers/ESParser.h"
 #include "PictureBuilder.h"
-#include "../CImg283/CImg.h"
+
+
+
+//#include "../CImg283/CImg.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
@@ -185,9 +188,13 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
 
 void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     auto pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
-    std::string fileName = destination + pngSequenceNumber;
+    std::string fileName = destination;
+    fileName.append(std::to_string(pngSequenceNumber));
     fileName.append(".png");
-    pngPicture->YCbCrtoRGB().save_png(fileName.c_str());
+    pngPicture->save_png(fileName.c_str());
+//    std::string fileName = std::to_string(pngSequenceNumber);
+//    fileName.append(".bmp");
+//    (*pngPicture).save_png("0.png");
     delete pngPicture;
 }
 
