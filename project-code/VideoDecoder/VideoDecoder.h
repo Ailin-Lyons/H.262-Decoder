@@ -18,6 +18,11 @@ private:
     PictureDecoder *pictureDecoder;
 
     /**
+     * Keep track of the Png Sequence
+     */
+    size_t PngSequenceNumber;
+
+    /**
      * A private constructor for the singleton
      */
     VideoDecoder();
@@ -25,6 +30,8 @@ private:
     static bool loadFile(char *relative_path);
 
     void loadVideoSequence();
+
+    void resetPngSequenceNumber();
 
 public:
     /**
@@ -64,7 +71,8 @@ public:
 
     PictureDecoder *getPictureDecoder() const;
 
-    void savePNGtoFile(HPicture *hPicture, char *destination);
+    void savePngToFile(HPicture *hPicture, char *destination);
+
 };
 
 

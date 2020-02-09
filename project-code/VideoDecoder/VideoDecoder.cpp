@@ -15,11 +15,13 @@
 #include "../Util/FileException.cpp"
 #include "../StreamParsers/ESParser.h"
 #include "PictureBuilder.h"
+#include "../CImg283/CImg.h"
 
 VideoDecoder *VideoDecoder::instance = nullptr;
 
 VideoDecoder::VideoDecoder() {
     pictureDecoder = nullptr;
+    PngSequenceNumber = 0;
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
@@ -89,7 +91,7 @@ void VideoDecoder::makePicture(char *destination) {
     loadPictureCodingExtension();
     loadExtensionUserData(2);
     HPicture *decodedPicture = pictureDecoder->decodePicture();
-    savePNGtoFile(decodedPicture, destination);
+    savePngToFile(decodedPicture, destination);
 }
 
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
@@ -182,8 +184,14 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
     return pictureDecoder;
 }
 
-void VideoDecoder::savePNGtoFile(HPicture *hPicture, char *destination) {
-    //TODO save image to file here
-    //PNG* pngPicture = PictureBuilder::makePNGfromHPicture(hPicture);//TODO transform PNG to hPicture here
-    //save png to file with a name that includes sequenceNumber (a static variable that is incremented with each picture)
+void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
+    auto pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
+    std::string fileName = destination + PngSequenceNumber;
+    fileName.append(".png");
+    pngPicture->YCbCrtoRGB().save_png(fileName.c_str());
+    delete pngPicture;
+}
+
+void VideoDecoder::resetPngSequenceNumber() {
+    PngSequenceNumber = 0;
 }
