@@ -13,14 +13,12 @@ class VideoDecoder {
 private:
     static VideoDecoder *instance;
 
-    static unsigned int sequenceNumber;
-
     PictureDecoder *pictureDecoder;
 
     /**
      * Keep track of the Png Sequence
      */
-    size_t PngSequenceNumber;
+    size_t pngSequenceNumber;
 
     /**
      * A private constructor for the singleton
@@ -41,7 +39,6 @@ public:
     static VideoDecoder *getInstance() {
         if (!instance) {
             instance = new VideoDecoder();
-            sequenceNumber = 0;
         }
         return instance;
     }

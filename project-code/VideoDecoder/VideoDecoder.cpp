@@ -21,11 +21,10 @@ VideoDecoder *VideoDecoder::instance = nullptr;
 
 VideoDecoder::VideoDecoder() {
     pictureDecoder = nullptr;
-    PngSequenceNumber = 0;
+    pngSequenceNumber = 0;
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
-    sequenceNumber = 0;
     pictureDecoder = new PictureDecoder();
     loadFile(source);
     printf("\n***Loading Video Information...***\n");
@@ -36,7 +35,7 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
         loadExtensionUserData(0);
         do {
             makePicture(destination);
-            sequenceNumber++;
+            pngSequenceNumber++;
         } while (nextVideoPacketIs(ESPacket::start_code::picture) || nextVideoPacketIs(ESPacket::start_code::group));
         if (!nextVideoPacketIs(ESPacket::start_code::sequence_end)) {
             loadVideoSequence();
@@ -186,12 +185,12 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
 
 void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     auto pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
-    std::string fileName = destination + PngSequenceNumber;
+    std::string fileName = destination + pngSequenceNumber;
     fileName.append(".png");
     pngPicture->YCbCrtoRGB().save_png(fileName.c_str());
     delete pngPicture;
 }
 
 void VideoDecoder::resetPngSequenceNumber() {
-    PngSequenceNumber = 0;
+    pngSequenceNumber = 0;
 }

@@ -33,7 +33,7 @@ void PictureBuilder::macroBlockHandler(cimg_library::CImg<int>* img, Macroblock*
     size_t blockY = 0;
     for (; y < yStop; y++) {
         for (; x < xStop; x++) {
-            // Use Block 1
+            size_t blockNum = -1;
             if (xStop - x > 8 && yStop - y > 8 && blocks[0]) {
                 data[y * hSize + x] =
                         blocks[0]->getFdctransformed()[blockY * 8 + blockX];
@@ -55,7 +55,7 @@ void PictureBuilder::macroBlockHandler(cimg_library::CImg<int>* img, Macroblock*
             blockY = blockX == 0 ? blockY + 1 : blockY;
         }
     }
-    if (blockX != 8 && blockY != 8) {
+    if (blockX != 0 && blockY != 8) {
         throw VideoException("PictureBuilder::macroBlockHandler failure");
     }
 }

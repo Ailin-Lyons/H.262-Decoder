@@ -2,8 +2,10 @@
 // Created by elnsa on 2020-01-16.
 //
 
-#include <string>
+#ifndef __VIDEOEXCEPTION
+#define __VIDEOEXCEPTION
 
+#include <string>
 /**
  * This exception is thrown when an unhandled value or an error occurs during the decoding process
  */
@@ -20,3 +22,5 @@ public:
         return message.c_str();
     }
 };
+
+#endif
