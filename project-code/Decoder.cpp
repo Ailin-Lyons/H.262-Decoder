@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
     clock_t t = clock();
     try {
         char relative_path[] = R"(../../test files/testvideo_noaudio.ts)";
-        char destination[] = R"(..\..\TODO\TODO\TODO)"; //TODO make a folder to save files
+        char destination[] = R"(../../test output/)"; //TODO clear destination folder before running the program
         VideoDecoder *vDecoder = VideoDecoder::getInstance();
         vDecoder->decodeToFile(relative_path, destination);
 

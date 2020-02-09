@@ -21,10 +21,10 @@ VideoDecoder *VideoDecoder::instance = nullptr;
 
 VideoDecoder::VideoDecoder() {
     pictureDecoder = nullptr;
-    pngSequenceNumber = 0;
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
+    pngSequenceNumber = 0;
     pictureDecoder = new PictureDecoder();
     loadFile(source);
     printf("\n***Loading Video Information...***\n");
@@ -86,10 +86,13 @@ void VideoDecoder::makePicture(char *destination) {
         loadGroupHeaderAndExtension();
         loadExtensionUserData(1);
     }
-    loadPictureHeader();
+    PictureHeaderPacket::picture_coding_types pctype = loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
     HPicture *decodedPicture = pictureDecoder->decodePicture();
+    if (pctype != PictureHeaderPacket::picture_coding_types::intra_coded) {
+        throw VideoException("temp throw videoDecoder");
+    }
     savePngToFile(decodedPicture, destination);
 }
 
@@ -137,13 +140,14 @@ void VideoDecoder::loadGroupHeaderAndExtension() {
            groupHeader->isBrokenLink() ? "yes" : "no");
 }
 
-void VideoDecoder::loadPictureHeader() {
+PictureHeaderPacket::picture_coding_types VideoDecoder::loadPictureHeader() {
     auto *pictureHeader = (PictureHeaderPacket *) getNextVideoPacket();
     pictureDecoder->setPictureCodingType(pictureHeader->getPictureCodingType());
     pictureDecoder->setTemporalReference(pictureHeader->getTemporalReference());
     printf("Decoding new HPicture Header: PictureCodingType = %s, TemporalReference = %hu\n",
            pictureHeader->getPictureCodingTypeString().c_str(),
            pictureHeader->getTemporalReference());
+    return pictureHeader->getPictureCodingType();
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
@@ -184,13 +188,9 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
 }
 
 void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
-    auto pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
-    std::string fileName = destination + pngSequenceNumber;
-    fileName.append(".png");
-    pngPicture->YCbCrtoRGB().save_png(fileName.c_str());
+    cimg_library::CImg<int> *pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
+    std::string fileName = destination;//TODO create file before saving to it
+    fileName.append("bla.bmp");//TODO print correct filename
+    pngPicture->YCbCrtoRGB().save_bmp(fileName.c_str());
     delete pngPicture;
-}
-
-void VideoDecoder::resetPngSequenceNumber() {
-    pngSequenceNumber = 0;
 }

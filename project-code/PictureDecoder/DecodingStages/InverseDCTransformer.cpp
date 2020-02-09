@@ -35,7 +35,7 @@ void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("InverseDCTransformer: received picture in incorrect state.\n");
     if (picture->getNumSlices() > 0) {
-        auto threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
+        pthread_t* threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
         for (size_t s = 0; s < picture->getNumSlices(); s++) {
             Slice *slice = picture->getSlices()[s];
             pthread_create(&threads[s], nullptr, performIDCTThreadHelper, slice);
@@ -50,7 +50,7 @@ void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
 }
 
 void *InverseDCTransformer::performIDCTThreadHelper(void *slice) {
-    auto sl = (Slice *) slice;
+    Slice* sl = (Slice *) slice;
     for (size_t m = 0; m < sl->getNumMacroblocks(); m++) {
         Macroblock *macroblock = &sl->getMacroblocks()[m];
         for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
