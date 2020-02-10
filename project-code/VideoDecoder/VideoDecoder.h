@@ -29,8 +29,6 @@ private:
 
     void loadVideoSequence();
 
-    void resetPngSequenceNumber();
-
 public:
     /**
    * Function to return a pointer to the singleton instance
@@ -52,7 +50,7 @@ public:
      */
     void loadGroupHeaderAndExtension();
 
-    void loadPictureHeader();
+    PictureHeaderPacket::picture_coding_types loadPictureHeader();
 
     void loadPictureCodingExtension();
 
