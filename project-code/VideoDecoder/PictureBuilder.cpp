@@ -60,11 +60,33 @@ void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlo
 }
 
 void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *crBlock, size_t topleft) {
-//TODO
+    VideoInformation *vi = VideoInformation::getInstance();
+    size_t h_size = vi->getHorizontalSize();
+    int *data = image->_data;
+    size_t cr = vi->getHorizontalSize() * vi->getVerticalSize();
+    for (size_t y = 0; y < 8; y++) {
+        for (size_t x = 0; x < 8; x++) {
+            data[topleft + (2 * y * h_size) + (2 * x) + cr] = crBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + 1] = crBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size] = crBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size + 1] = crBlock->getFdctransformed()[y * 8 + x];
+        }
+    }
 }
 
 void PictureBuilder::addCbBlockToCimg(cimg_library::CImg<int> *image, Block *cbBlock, size_t topleft) {
-//TODO
+    VideoInformation *vi = VideoInformation::getInstance();
+    size_t h_size = vi->getHorizontalSize();
+    int *data = image->_data;
+    size_t cb = 2 * vi->getHorizontalSize() * vi->getVerticalSize();
+    for (size_t y = 0; y < 8; y++) {
+        for (size_t x = 0; x < 8; x++) {
+            data[topleft + (2 * y * h_size) + (2 * x) + cb] = cbBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + 1] = cbBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size] = cbBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size + 1] = cbBlock->getFdctransformed()[y * 8 + x];
+        }
+    }
 }
 
 size_t PictureBuilder::getTopLeftIndex(size_t number) {
