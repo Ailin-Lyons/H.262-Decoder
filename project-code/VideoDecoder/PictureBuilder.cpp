@@ -3,66 +3,76 @@
 //
 
 #include "PictureBuilder.h"
+#include "VideoDecoder.h"
 
 cimg_library::CImg<int> *PictureBuilder::makePngFromHPicture(HPicture *picture) {
-    if (picture->getState() == HPicture::decoding_state::discrete_cosine_transformed) {
-        auto vi = VideoInformation::getInstance();
-        auto outImage = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize(), 1, 3);
-        size_t xPos = 0, yPos = 0;
-        for (size_t s = 0; s < picture->getNumSlices(); s++) {
-            Slice *slice = picture->getSlices()[s];
-            for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-                macroBlockHandler(outImage, &slice->getMacroblocks()[m], xPos, yPos);
-                updatePositions(&xPos, &yPos);
-            }
-        }
-        return outImage;
+    if (picture->getState() != HPicture::decoding_state::discrete_cosine_transformed) {
+        throw VideoException("PictureBuilder::makePngFromHPicture: received HPicture in incorrect decoding_state");
     }
-    throw VideoException("PictureBuilder::makePngFromHPicture received HPicture in incorrect decoding_state");
+    VideoInformation *vi = VideoInformation::getInstance();
+    cimg_library::CImg<int> *out = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize(), 1, 3);
+    if (vi->getHorizontalSize() % 16 != 0 || vi->getVerticalSize() % 16 != 0) {
+        throw VideoException("PictureBuilder::makePngFromHPicture: invalid resolution");
+    }
+    size_t horizontalNumMacroblocks = vi->getHorizontalSize() / 16;
+    size_t verticalNumMacroblocks = vi->getVerticalSize() / 16;
+    for (size_t currBlock = 0; currBlock < (horizontalNumMacroblocks * verticalNumMacroblocks); currBlock++) {
+        addMacroblockToCimg(out, getNthMacroblock(picture, currBlock), currBlock);
+    }
+    return out;
 }
 
-void PictureBuilder::macroBlockHandler(cimg_library::CImg<int> *img, Macroblock *macroBlock,
-                                       size_t x, size_t y) {
-    // note - Assuming a 4:2:0
-    size_t hSize = VideoInformation::getInstance()->getHorizontalSize();
-    int *data = img->_data;
-    size_t xStop = x + 16;
-    size_t yStop = y + 16;
-    Block **blocks = macroBlock->getBlocks();
-    size_t blockX = 0;
-    size_t blockY = 0;
-    for (; y < yStop; y++) {
-        for (; x < xStop; x++) {
-            size_t blockNum = -1;
-            if (xStop - x > 8 && yStop - y > 8 && blocks[0]) {
-                data[y * hSize + x] =
-                        blocks[0]->getFdctransformed()[blockY * 8 + blockX];
-
-            } else if (xStop - x < 8 && yStop - y > 8 && blocks[1]) { // Use Block 2
-                data[y * hSize + x] =
-                        blocks[1]->getFdctransformed()[blockY * 8 + blockX];
-
-            } else if (xStop - x > 8 && yStop - y < 8 && blocks[2]) { // Use Block 3
-                data[y * hSize + x] =
-                        blocks[2]->getFdctransformed()[blockY * 8 + blockX];
-            } else if (xStop - x < 8 && yStop - y < 8 && blocks[3]) {// Use Block 4
-                data[y * hSize + x] =
-                        blocks[3]->getFdctransformed()[blockY * 8 + blockX];
-            } else { // TODO - make the image colored
-                data[y * hSize + x] = 0;
-            }
-            blockX = (blockX + 1) % 8;
+Macroblock *PictureBuilder::getNthMacroblock(HPicture *pPicture, size_t n) {
+    for (size_t numSlices = 0; numSlices < pPicture->getNumSlices(); numSlices++) {
+        Slice *curr = pPicture->getSlices()[numSlices];
+        if (n >= curr->getNumMacroblocks()) {
+            n -= curr->getNumMacroblocks();
+        } else {
+            return &curr->getMacroblocks()[n];
         }
-        blockY = (blockY + 1) % 8;
     }
-    if (blockX != 0 && blockY != 8) {
-        throw VideoException("PictureBuilder::macroBlockHandler failure");
+    throw VideoException("PictureBuilder::getNthMacroblock: invalid index");
+}
+
+void
+PictureBuilder::addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *macroblock, size_t macroblockNumber) {
+    if (VideoInformation::getInstance()->getChromaFormat() != SequenceExtensionPacket::chroma_format_type::cf_420) {
+        throw VideoException("PictureBuilder::addMacroblockToCimg: chroma format not handled by decoder");
+    }
+    size_t h_size = VideoInformation::getInstance()->getHorizontalSize();
+    size_t topleft = getTopLeftIndex(macroblockNumber);
+    addYBlockToCimg(image, macroblock->getBlocks()[0], topleft);
+    addYBlockToCimg(image, macroblock->getBlocks()[1], topleft + 8);
+    addYBlockToCimg(image, macroblock->getBlocks()[2], topleft + (8 * h_size));
+    addYBlockToCimg(image, macroblock->getBlocks()[3], topleft + (8 * h_size) + 8);
+    addCrBlockToCimg(image, macroblock->getBlocks()[4], topleft);
+    addCbBlockToCimg(image, macroblock->getBlocks()[5], topleft);
+}
+
+void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft) {
+    size_t h_size = VideoInformation::getInstance()->getHorizontalSize();
+    int *data = image->_data;
+    for (size_t y = 0; y < 8; y++) {
+        for (size_t x = 0; x < 8; x++) {
+            data[topleft + (y * h_size) + x] = yBlock->getFdctransformed()[y * 8 + x];
+        }
     }
 }
 
-void PictureBuilder::updatePositions(size_t *x, size_t *y) {
-    *x = (*x + 16) % VideoInformation::getInstance()->getHorizontalSize();
-    if (*x == 0) {
-        *y = *y + 16;
+void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *crBlock, size_t topleft) {
+//TODO
+}
+
+void PictureBuilder::addCbBlockToCimg(cimg_library::CImg<int> *image, Block *cbBlock, size_t topleft) {
+//TODO
+}
+
+size_t PictureBuilder::getTopLeftIndex(size_t number) {
+    VideoInformation *vi = VideoInformation::getInstance();
+    size_t out = 0;
+    while (number > (vi->getHorizontalSize() / 16)) {
+        out += 16 * vi->getHorizontalSize();
+        number -= (vi->getHorizontalSize() / 16);
     }
+    return out + 16 * number;
 }
