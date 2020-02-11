@@ -22,9 +22,9 @@ private:
 
     static void addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft);
 
-    static void addCrBlockToCimg(cimg_library::CImg<int> *image, Block *crBlock, size_t topleft);
+    static void addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBlock, size_t topleft);
 
-    static void addCbBlockToCimg(cimg_library::CImg<int> *image, Block *cbBlock, size_t topleft);
+    static void addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBlock, size_t topleft);
 
     static size_t getTopLeftIndex(size_t number);
 };

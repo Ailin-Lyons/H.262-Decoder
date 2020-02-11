@@ -45,8 +45,8 @@ PictureBuilder::addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *
     addYBlockToCimg(image, macroblock->getBlocks()[1], topleft + 8);
     addYBlockToCimg(image, macroblock->getBlocks()[2], topleft + (8 * h_size));
     addYBlockToCimg(image, macroblock->getBlocks()[3], topleft + (8 * h_size) + 8);
-    addCrBlockToCimg(image, macroblock->getBlocks()[4], topleft);
-    addCbBlockToCimg(image, macroblock->getBlocks()[5], topleft);
+    addCbBlockToCimg(image, macroblock->getBlocks()[4], topleft);
+    addCrBlockToCimg(image, macroblock->getBlocks()[5], topleft);
 }
 
 void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft) {
@@ -59,32 +59,32 @@ void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlo
     }
 }
 
-void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *crBlock, size_t topleft) {
+void PictureBuilder::addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBlock, size_t topleft) {
     VideoInformation *vi = VideoInformation::getInstance();
     size_t h_size = vi->getHorizontalSize();
     int *data = image->_data;
     size_t cr = vi->getHorizontalSize() * vi->getVerticalSize();
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
-            data[topleft + (2 * y * h_size) + (2 * x) + cr] = crBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cr + 1] = crBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size] = crBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size + 1] = crBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr] = bBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + 1] = bBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size] = bBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cr + h_size + 1] = bBlock->getFdctransformed()[y * 8 + x];
         }
     }
 }
 
-void PictureBuilder::addCbBlockToCimg(cimg_library::CImg<int> *image, Block *cbBlock, size_t topleft) {
+void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBlock, size_t topleft) {
     VideoInformation *vi = VideoInformation::getInstance();
     size_t h_size = vi->getHorizontalSize();
     int *data = image->_data;
     size_t cb = 2 * vi->getHorizontalSize() * vi->getVerticalSize();
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
-            data[topleft + (2 * y * h_size) + (2 * x) + cb] = cbBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cb + 1] = cbBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size] = cbBlock->getFdctransformed()[y * 8 + x];
-            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size + 1] = cbBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb] = rBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + 1] = rBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size] = rBlock->getFdctransformed()[y * 8 + x];
+            data[topleft + (2 * y * h_size) + (2 * x) + cb + h_size + 1] = rBlock->getFdctransformed()[y * 8 + x];
         }
     }
 }
