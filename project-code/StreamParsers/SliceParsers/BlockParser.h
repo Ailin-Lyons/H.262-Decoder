@@ -47,13 +47,13 @@ private:
 
     static unsigned char getCC(size_t i);
 
-    static short readSign(unsigned char level);
+    static int readSign(int level);
 
     static bool checkEndCode(bool b);
 
     static vlc_signed getVLCCode(bool flag);
 
-    static void populateQFS(unsigned char *n, int *QFS, short signed_level, unsigned char run);
+    static void populateQFS(unsigned char *n, int *QFS, int signed_level, unsigned char run);
 
     static short escapeSignHelper(unsigned short signed12BitValue);
 

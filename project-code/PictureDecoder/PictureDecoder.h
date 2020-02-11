@@ -82,7 +82,7 @@ public:
     void setCbp(unsigned char coded_block_pattern);
     void setCodedBlockPattern1(unsigned char codedBlockPattern1);
     void setCodedBlockPattern2(unsigned char codedBlockPattern2);
-    void setDctDcPred(size_t i, unsigned int val);
+    void setDctDcPred(size_t i, int val);
     /**
      * Getters:
      */

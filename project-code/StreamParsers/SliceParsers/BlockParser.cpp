@@ -341,9 +341,9 @@ unsigned char BlockParser::getDctDcSize(unsigned char cc) {
     return cc == 0 ? getDctDcSizeLuminance() : getDctDcSizeChrominance();
 }
 
-short BlockParser::readSign(unsigned char level) {
+int BlockParser::readSign(int level) {
     bool isNegative = read(1);
-    return isNegative ? -((short) level) : (short) level;
+    return isNegative ? -((int) level) : (int) level;
 }
 
 bool BlockParser::checkEndCode(bool tableFlag) {
@@ -377,7 +377,7 @@ BlockParser::vlc_signed BlockParser::getVLCCode(bool tableFlag) {
     }
 }
 
-void BlockParser::populateQFS(unsigned char *n, int *QFS, short signed_level, unsigned char run) {
+void BlockParser::populateQFS(unsigned char *n, int *QFS, int signed_level, unsigned char run) {
     for (size_t m = 0; m < run; m++) {
         QFS[*n] = 0;
         *n = *n + 1;
@@ -416,14 +416,15 @@ void BlockParser::buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_diffe
 }
 
 void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS) {
-    short signed_level;
+    int signed_level;
     unsigned char run;
     if (*n == 0) {
         if (peek(1) == 1) {
             read(1);
             signed_level = readSign(1);
             run = 0;
-            return populateQFS(n, QFS, signed_level, run);
+            populateQFS(n, QFS, signed_level, run);
+            return;
         }
     }
     if (peek(6) == 0b000001) {
