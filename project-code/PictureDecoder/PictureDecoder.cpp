@@ -4,13 +4,14 @@
 
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
+#include <DecodingStages/AlternateIDCT.h>
 #include "DecodingStages/InverseScanner.h"
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
 #include "DecodingStages/AlternateQuantiser.h"
 
 HPicture *PictureDecoder::decodePicture() {
-    HPicture* picture = new HPicture();
+    HPicture *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
@@ -20,13 +21,14 @@ HPicture *PictureDecoder::decodePicture() {
     /**
      * Different IDCT implementations can be chosen here:
      */
-        //InverseDCTransformer::performIDCTNaive(picture);
-        InverseDCTransformer::performIDCTThreaded(picture);
+    //InverseDCTransformer::performIDCTNaive(picture);
+    //InverseDCTransformer::performIDCTThreaded(picture);
+    AlternateIDCT::performIDCTNaive(picture);
     /**
      *
      */
-     // TODO motion compensation if applicable
-    for(size_t i = 0; i < picture->getNumSlices(); i++){
+    // TODO motion compensation if applicable
+    for (size_t i = 0; i < picture->getNumSlices(); i++) {
         picture->getSlices()[i]->print();
     }
     return picture;

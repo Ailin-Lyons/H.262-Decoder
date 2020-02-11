@@ -343,7 +343,7 @@ unsigned char BlockParser::getDctDcSize(unsigned char cc) {
 
 int BlockParser::readSign(int level) {
     bool isNegative = read(1);
-    return isNegative ? -((int) level) : (int) level;
+    return isNegative ? -level : level;
 }
 
 bool BlockParser::checkEndCode(bool tableFlag) {
