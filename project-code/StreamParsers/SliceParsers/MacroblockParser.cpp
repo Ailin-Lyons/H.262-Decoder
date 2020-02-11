@@ -48,7 +48,7 @@ MacroblockParser::vlc MacroblockParser::table_b1[] = {{1,  1,  0b1}, //Excludes 
                                                       {11, 32, 0b00000011000},
                                                       {11, 33, 0b00000001000}};
 
-Macroblock *MacroblockParser::getNextPacket() {
+Macroblock *MacroblockParser::getNextPacket(unsigned char qsc) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
     Macroblock::initializerStruct init = {};
     init.macroblock_address_increment = getAddressIncrement();
@@ -56,6 +56,8 @@ Macroblock *MacroblockParser::getNextPacket() {
     pictureDecoder->updateMacroBlockModes(init.macroBlockModes, init.macroblock_address_increment);
     if (init.macroBlockModes->isMacroblockQuant()) {
         init.quantiser_scale_code = read(5);
+    } else {
+        init.quantiser_scale_code = qsc;
     }
     if (init.macroBlockModes->isMacroblockMotionForward() || (init.macroBlockModes->isMacroblockIntra() &&
                                                               pictureDecoder->isConcealmentMotionVectors())) {

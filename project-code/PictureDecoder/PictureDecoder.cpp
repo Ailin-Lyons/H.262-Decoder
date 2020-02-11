@@ -7,6 +7,7 @@
 #include "DecodingStages/InverseScanner.h"
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
+#include "DecodingStages/AlternateQuantiser.h"
 
 HPicture *PictureDecoder::decodePicture() {
     HPicture* picture = new HPicture();
@@ -15,6 +16,7 @@ HPicture *PictureDecoder::decodePicture() {
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
     InverseScanner::performInverseScan(picture, alternate_scan);
     InverseQuantiser::performInverseQuantisation(picture);
+    //AlternateQuantiser::performInverseQuantisation(picture);
     /**
      * Different IDCT implementations can be chosen here:
      */

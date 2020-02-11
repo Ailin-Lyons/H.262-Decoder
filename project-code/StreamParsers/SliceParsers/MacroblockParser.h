@@ -30,7 +30,7 @@ public:
      * and stores it in mb
      * H.262 6.2.5.1
      */
-    static Macroblock *getNextPacket();
+    static Macroblock *getNextPacket(unsigned char qsc);
 
 private:
     static size_t getAddressIncrement();
