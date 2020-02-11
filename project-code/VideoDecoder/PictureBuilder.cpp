@@ -92,7 +92,7 @@ void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBl
 size_t PictureBuilder::getTopLeftIndex(size_t number) {
     VideoInformation *vi = VideoInformation::getInstance();
     size_t out = 0;
-    while (number > (vi->getHorizontalSize() / 16)) {
+    while (number >= (vi->getHorizontalSize() / 16)) {
         out += 16 * vi->getHorizontalSize();
         number -= (vi->getHorizontalSize() / 16);
     }
