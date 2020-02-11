@@ -55,7 +55,7 @@ private:
 
     static void populateQFS(unsigned char *n, int *QFS, int signed_level, unsigned char run);
 
-    static short escapeSignHelper(unsigned short signed12BitValue);
+    static short escapeSignHelper(short signed12BitValue);
 
     static void buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_differential,
                                    unsigned char *n, int *QFS, unsigned char cc);
