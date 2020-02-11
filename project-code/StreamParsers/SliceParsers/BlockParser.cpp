@@ -439,9 +439,15 @@ void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS)
     populateQFS(n, QFS, signed_level, run);
 }
 
+/**
+ * Calculates base ^ exp. Does not handle edge cases that the decoder doesn't handle
+ * @param base
+ * @param exp
+ * @return
+ */
 int BlockParser::integerPow(int base, int exp) {
-    int out = base;
-    for (int i = 0; i < exp - 1; i++) {
+    int out = 1;
+    for (int i = 0; i < exp; i++) {
         out = out * base;
     }
     return out;
