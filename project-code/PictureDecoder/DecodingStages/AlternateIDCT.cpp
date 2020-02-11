@@ -102,8 +102,10 @@ void AlternateIDCT::performIDCTonBlock(Block *block) {
 }
 
 void AlternateIDCT::performRealIDCT(long double *realArray, int *sourceArray) {
-    for (size_t i = 0; i < 64; i++) {
-        realArray[i] = realIDCTHelper(i, sourceArray);
+    for (size_t y = 0; y < 8; y++) {
+        for (size_t x = 0; x < 8; x++) {
+            realArray[y * 8 + x] = realIDCTHelper(y, x, sourceArray);
+        }
     }
 }
 
@@ -120,8 +122,8 @@ void AlternateIDCT::performSaturation(int *array) {
     }
 }
 
-long double AlternateIDCT::realIDCTHelper(size_t i, int *sourceArray) {
-    long double div = (double) 4;
+long double AlternateIDCT::realIDCTHelper(size_t y, size_t x, int *sourceArray) {
+    long double div = (long double) 4;
     long double out = 0;
     for (size_t u = 0; u < 8; u++) {
         for (size_t v = 0; v < 8; v++) {
@@ -129,8 +131,8 @@ long double AlternateIDCT::realIDCTHelper(size_t i, int *sourceArray) {
             long double cv = 1;
             if (u == 0) cu = squirt;
             if (v == 0) cv = squirt;
-            long double arr = (long double) sourceArray[u * 8 + v];
-            out += (cu * cv * arr * cosab[u * 8 + (i % 8)] * cosab[v * 8 + (i / 8)]);
+            long double arr = (long double) sourceArray[v * 8 + u];
+            out += (cu * cv * arr * cosab[u * 8 + x] * cosab[v * 8 + y]);
         }
     }
     return out / div;

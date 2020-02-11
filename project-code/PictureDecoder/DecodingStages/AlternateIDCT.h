@@ -24,7 +24,7 @@ public:
 
     static void performSaturation(int *array);
 
-    static long double realIDCTHelper(size_t i, int *sourceArray);
+    static long double realIDCTHelper(size_t y, size_t x, int *sourceArray);
 };
 
 
