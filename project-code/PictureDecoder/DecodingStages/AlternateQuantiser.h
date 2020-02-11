@@ -23,13 +23,13 @@ private:
 public:
     static void performInverseQuantisation(HPicture *picture);
 
-    static void performIQonBlock(Block *block, int i);
+    static void performIQonBlock(Block *block, int i, bool b);
 
     static void performSaturation(int *array);
 
     static void performMistmatchControl(int *array);
 
-    static void performIQA(int *outArray, int *inArray, int i);
+    static void performIQA(int *outArray, int *inArray, int i, bool b);
 
     static int performDCQuantisation(int dcCoef);
 

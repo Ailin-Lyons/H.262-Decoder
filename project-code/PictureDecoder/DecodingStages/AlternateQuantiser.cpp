@@ -54,18 +54,19 @@ void AlternateQuantiser::performInverseQuantisation(HPicture *picture) {
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
             Macroblock *macroblock = &slice->getMacroblocks()[m];
             int quantiser_scale_code = macroblock->getQuantiserScaleCode();
+            bool intra = macroblock->getMacroBlockModes()->isMacroblockIntra();
             for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
                 Block *block = macroblock->getBlocks()[b];
-                if (block) performIQonBlock(block, quantiser_scale_code);
+                if (block) performIQonBlock(block, quantiser_scale_code, intra);
             }
         }
     }
     picture->setState(HPicture::decoding_state::inverse_quantised);
 }
 
-void AlternateQuantiser::performIQonBlock(Block *block, int quantiser_scale_code) {
+void AlternateQuantiser::performIQonBlock(Block *block, int quantiser_scale_code, bool intra) {
     int *array = (int *) malloc(sizeof(int) * 8 * 8);
-    performIQA(array, block->getQFscanned(), quantiser_scale_code);
+    performIQA(array, block->getQFscanned(), quantiser_scale_code, intra);
     performSaturation(array);
     performMistmatchControl(array);
     block->setFquantized(array);
@@ -92,10 +93,8 @@ void AlternateQuantiser::performMistmatchControl(int *array) {
     }
 }
 
-void AlternateQuantiser::performIQA(int *outArray, int *inArray, int quantiser_scale_code) {
-    PictureDecoder *pd = VideoDecoder::getInstance()->getPictureDecoder();
-    bool intra = pd->isMacroblockIntra();
-    bool q_scale_type = pd->isQScaleType();
+void AlternateQuantiser::performIQA(int *outArray, int *inArray, int quantiser_scale_code, bool intra) {
+    bool q_scale_type = VideoDecoder::getInstance()->getPictureDecoder()->isQScaleType();
     int quantiser_scale = getQuantiserScale(quantiser_scale_code, q_scale_type);
     for (size_t i = 0; i < 64; i++) {
         if (i == 0 && intra) {
