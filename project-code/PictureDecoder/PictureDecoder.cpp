@@ -4,27 +4,31 @@
 
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
+#include <DecodingStages/AlternateIDCT.h>
 #include "DecodingStages/InverseScanner.h"
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
+#include "DecodingStages/AlternateQuantiser.h"
 
 HPicture *PictureDecoder::decodePicture() {
-    HPicture* picture = new HPicture();
+    HPicture *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
     InverseScanner::performInverseScan(picture, alternate_scan);
-    InverseQuantiser::performInverseQuantisation(picture);
+    //InverseQuantiser::performInverseQuantisation(picture);
+    AlternateQuantiser::performInverseQuantisation(picture);
     /**
      * Different IDCT implementations can be chosen here:
      */
-        //InverseDCTransformer::performIDCTNaive(picture);
-        InverseDCTransformer::performIDCTThreaded(picture);
+    //InverseDCTransformer::performIDCTNaive(picture);
+    //InverseDCTransformer::performIDCTThreaded(picture);
+    AlternateIDCT::performIDCTNaive(picture);
     /**
      *
      */
-     // TODO motion compensation if applicable
-    for(size_t i = 0; i < picture->getNumSlices(); i++){
+    // TODO motion compensation if applicable
+    for (size_t i = 0; i < picture->getNumSlices(); i++) {
         picture->getSlices()[i]->print();
     }
     return picture;
@@ -246,7 +250,7 @@ int PictureDecoder::getDctDcPred(size_t i) {
     return dct_dc_pred[i];
 }
 
-void PictureDecoder::setDctDcPred(size_t i, unsigned int val) {
+void PictureDecoder::setDctDcPred(size_t i, int val) {
     dct_dc_pred[i] = val;
 }
 

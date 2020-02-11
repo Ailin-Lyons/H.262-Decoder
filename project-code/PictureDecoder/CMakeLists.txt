@@ -12,7 +12,9 @@ set(HEADER_FILES
         Slice/CodedBlockPattern.h
         DecodingStages/InverseScanner.h
         DecodingStages/InverseQuantiser.h
-        DecodingStages/InverseDCTransformer.h)
+        DecodingStages/InverseDCTransformer.h
+        DecodingStages/AlternateQuantiser.h
+        DecodingStages/AlternateIDCT.h)
 
 set(SOURCE_FILES
         PictureDecoder.cpp
@@ -26,6 +28,8 @@ set(SOURCE_FILES
         Slice/CodedBlockPattern.cpp
         DecodingStages/InverseScanner.cpp
         DecodingStages/InverseQuantiser.cpp
-        DecodingStages/InverseDCTransformer.cpp)
+        DecodingStages/InverseDCTransformer.cpp
+        DecodingStages/AlternateQuantiser.cpp
+        DecodingStages/AlternateIDCT.cpp)
 
 add_library(PictureDecoder STATIC ${SOURCE_FILES} ${HEADER_FILES})

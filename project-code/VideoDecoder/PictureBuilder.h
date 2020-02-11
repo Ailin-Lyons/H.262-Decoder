@@ -13,13 +13,21 @@
 #include "VideoInformation.h"
 
 class PictureBuilder {
+public:
+    static cimg_library::CImg<int> *makePngFromHPicture(HPicture *hPicture);
 
 private:
-    static void macroBlockHandler(cimg_library::CImg<int>* img, Macroblock*,size_t x, size_t y);
-    static void updatePositions(size_t *x, size_t* y);
+    static Macroblock *getNthMacroblock(HPicture *pPicture, size_t n);
 
-public:
-    static cimg_library::CImg<int>* makePngFromHPicture(HPicture* hPicture);
+    static void addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *macroblock, size_t macroblockNumber);
+
+    static void addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft);
+
+    static void addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBlock, size_t topleft);
+
+    static void addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBlock, size_t topleft);
+
+    static size_t getTopLeftIndex(size_t number);
 };
 
 

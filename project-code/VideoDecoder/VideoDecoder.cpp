@@ -21,6 +21,7 @@ VideoDecoder *VideoDecoder::instance = nullptr;
 
 VideoDecoder::VideoDecoder() {
     pictureDecoder = nullptr;
+    pngSequenceNumber = 0;
 }
 
 void VideoDecoder::decodeToFile(char *source, char *destination) {
@@ -189,8 +190,9 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
 
 void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     cimg_library::CImg<int> *pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
-    std::string fileName = destination;//TODO create file before saving to it
+    std::string fileName = destination;//TODO create folder if it doesnt exist
     fileName.append("bla.bmp");//TODO print correct filename
-    pngPicture->YCbCrtoRGB().save_bmp(fileName.c_str());
+    pngPicture->YCbCrtoRGB();
+    pngPicture->save_bmp(fileName.c_str());
     delete pngPicture;
 }
