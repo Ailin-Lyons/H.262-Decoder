@@ -13,4 +13,5 @@ project-code/AllTests/cmake-build-debug/
 *.xml
 project-code/cmake-build-debug-wsl/
 project-code/cmake-build-debug-mingw/
+/debug images/
 /test output/
