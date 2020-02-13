@@ -389,11 +389,11 @@ void BlockParser::populateQFS(unsigned char *n, int *QFS, int signed_level, unsi
     }
 }
 
-short BlockParser::escapeSignHelper(unsigned short signed12BitValue) {
-    if ((signed12BitValue >> 11) == 1) {
-        return (short) (0xF000 & signed12BitValue);
+short BlockParser::escapeSignHelper(short signed12BitValue) {
+    if ((signed12BitValue & 0b100000000000) == 0b100000000000) {
+        return 0xF000 | signed12BitValue;
     }
-    return (short) signed12BitValue;
+    return signed12BitValue;
 }
 
 void BlockParser::buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_differential, unsigned char *n,
@@ -430,7 +430,8 @@ void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS)
     if (peek(6) == 0b000001) {
         read(6);
         run = read(6);
-        signed_level = escapeSignHelper(read(12));
+        short signed12BitInteger = read(12);
+        signed_level = escapeSignHelper(signed12BitInteger);
     } else {
         vlc_signed code = getVLCCode(tableFlag);
         signed_level = readSign(code.level);
