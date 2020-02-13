@@ -31,7 +31,7 @@ Macroblock *PictureBuilder::getNthMacroblock(HPicture *pPicture, size_t n) {
             return &curr->getMacroblocks()[n];
         }
     }
-    throw VideoException("PictureBuilder::getNthMacroblock: invalid index");
+    throw VideoException("PictureBuilder::getNthMacroblock: picture is missing macroblocks");
 }
 
 void
@@ -41,12 +41,12 @@ PictureBuilder::addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *
     }
     size_t h_size = VideoInformation::getInstance()->getHorizontalSize();
     size_t topleft = getTopLeftIndex(macroblockNumber);
-    addYBlockToCimg(image, macroblock->getBlocks()[0], topleft);
-    addYBlockToCimg(image, macroblock->getBlocks()[1], topleft + 8);
-    addYBlockToCimg(image, macroblock->getBlocks()[2], topleft + (8 * h_size));
-    addYBlockToCimg(image, macroblock->getBlocks()[3], topleft + (8 * h_size) + 8);
-    addCbBlockToCimg(image, macroblock->getBlocks()[4], topleft);
-    addCrBlockToCimg(image, macroblock->getBlocks()[5], topleft);
+    if (macroblock->getBlocks()[0]) addYBlockToCimg(image, macroblock->getBlocks()[0], topleft);
+    if (macroblock->getBlocks()[1]) addYBlockToCimg(image, macroblock->getBlocks()[1], topleft + 8);
+    if (macroblock->getBlocks()[2]) addYBlockToCimg(image, macroblock->getBlocks()[2], topleft + (8 * h_size));
+    if (macroblock->getBlocks()[3]) addYBlockToCimg(image, macroblock->getBlocks()[3], topleft + (8 * h_size) + 8);
+    if (macroblock->getBlocks()[4]) addCbBlockToCimg(image, macroblock->getBlocks()[4], topleft);
+    if (macroblock->getBlocks()[5]) addCrBlockToCimg(image, macroblock->getBlocks()[5], topleft);
 }
 
 void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft) {
