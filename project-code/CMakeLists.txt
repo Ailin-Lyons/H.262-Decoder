@@ -8,9 +8,9 @@ set(SOURCE_FILES Decoder.cpp)
 add_executable(decoder ${SOURCE_FILES})
 add_subdirectory(AllTests)
 
-# note - change the display flag to 1 if you want to use Cimg display
-
-set(DISPLAY_FLAG 0)
+## note - change the display flag to 1 if you want to use Cimg display
+#
+#set(DISPLAY_FLAG 0)
 
 # adding the PacketParsersTest
 include_directories("StreamParsers")
@@ -47,19 +47,19 @@ include_directories("PictureDecoder")
 add_subdirectory("PictureDecoder")
 target_link_libraries(decoder "PictureDecoder")
 
-#adding Cimg
-if (DISPLAY_FLAG)
-    find_package(X11 REQUIRED)
-    include_directories(${X11_INCLUDE_DIRS})
-    target_link_libraries(decoder ${X11_LIBRARIES})
-    target_compile_definitions(decoder PRIVATE cimg_use_xrandr=1)
-else()
-    target_compile_definitions(decoder PRIVATE cimg_display=0)
-endif()
-find_package(PNG REQUIRED)
-include_directories(${PNG_INCLUDE_DIRS})
-target_link_libraries(decoder ${PNG_LIBRARIES})
-target_compile_definitions(decoder PRIVATE cimg_use_png=1)
+##adding Cimg
+#if (DISPLAY_FLAG)
+#    find_package(X11 REQUIRED)
+#    include_directories(${X11_INCLUDE_DIRS})
+#    target_link_libraries(decoder ${X11_LIBRARIES})
+#    target_compile_definitions(decoder PRIVATE cimg_use_xrandr=1)
+#else()
+#    target_compile_definitions(decoder PRIVATE cimg_display=0)
+#endif()
+#find_package(PNG REQUIRED)
+#include_directories(${PNG_INCLUDE_DIRS})
+#target_link_libraries(decoder ${PNG_LIBRARIES})
+#target_compile_definitions(decoder PRIVATE cimg_use_png=1)
 #target_compile_definitions(decoder PRIVATE cimg_use_=4)
 
 #adding pthreads

@@ -27,7 +27,7 @@ public:
 
     static void performSaturation(int *array);
 
-    static void performMistmatchControl(int *array);
+    static void performMismatchControl(int *array);
 
     static void performIQA(int *outArray, int *inArray, int i, bool b);
 

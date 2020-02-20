@@ -68,7 +68,7 @@ void AlternateQuantiser::performIQonBlock(Block *block, int quantiser_scale_code
     int *array = (int *) malloc(sizeof(int) * 8 * 8);
     performIQA(array, block->getQFscanned(), quantiser_scale_code, intra);
     performSaturation(array);
-    performMistmatchControl(array);
+    performMismatchControl(array);
     block->setFquantized(array);
 }
 
@@ -79,7 +79,7 @@ void AlternateQuantiser::performSaturation(int *array) {
     }
 }
 
-void AlternateQuantiser::performMistmatchControl(int *array) {
+void AlternateQuantiser::performMismatchControl(int *array) {
     int sum = 0;
     for (size_t i = 0; i < 64; i++) {
         sum += array[i];
