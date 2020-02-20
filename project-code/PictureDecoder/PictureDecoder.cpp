@@ -5,6 +5,7 @@
 #include <../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h>
 #include <VideoDecoder.h>
 #include <DecodingStages/AlternateIDCT.h>
+#include <DecodingStages/FCTTransformer.h>
 #include "DecodingStages/InverseScanner.h"
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
@@ -23,8 +24,9 @@ HPicture *PictureDecoder::decodePicture() {
      * Different IDCT implementations can be chosen here:
      */
     //InverseDCTransformer::performIDCTNaive(picture);
-    //InverseDCTransformer::performIDCTThreaded(picture);
-    AlternateIDCT::performIDCTNaive(picture);
+    InverseDCTransformer::performIDCTThreaded(picture);
+    //AlternateIDCT::performIDCTNaive(picture);
+    //FCTTransformer::performIDCTThreaded(picture);
     /**
      *
      */

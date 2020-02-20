@@ -9,15 +9,14 @@
 #include <HPicture.h>
 
 class InverseDCTransformer {
-
-public:
-    constexpr const static double pi = 3.14159265359;
-    static void performIDCTNaive(HPicture *picture);
-    static void performIDCTThreaded(HPicture *picture);
-
+private:
+    static double cosab[64];
     static void *performIDCTThreadHelper(void *slice);
     static void performIDCTBlockHelper(Block *block);
     static int genCoff(size_t x, size_t y, const int* quantized);
+public:
+    static void performIDCTNaive(HPicture *picture);
+    static void performIDCTThreaded(HPicture *picture);
 };
 
 
