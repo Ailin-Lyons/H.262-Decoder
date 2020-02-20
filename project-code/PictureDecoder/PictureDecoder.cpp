@@ -9,6 +9,7 @@
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
 #include "DecodingStages/AlternateQuantiser.h"
+#include "DecodingStages/MotionCompensator.h"
 
 HPicture *PictureDecoder::decodePicture() {
     HPicture *picture = new HPicture();
@@ -27,6 +28,7 @@ HPicture *PictureDecoder::decodePicture() {
     /**
      *
      */
+    MotionCompensator::performMotionCompensation(picture);
     // TODO motion compensation if applicable
     for (size_t i = 0; i < picture->getNumSlices(); i++) {
         picture->getSlices()[i]->print();

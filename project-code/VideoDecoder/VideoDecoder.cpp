@@ -87,13 +87,11 @@ void VideoDecoder::makePicture(char *destination) {
         loadGroupHeaderAndExtension();
         loadExtensionUserData(1);
     }
-    PictureHeaderPacket::picture_coding_types pctype = loadPictureHeader();
+    loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
     HPicture *decodedPicture = pictureDecoder->decodePicture();
-    if (pctype != PictureHeaderPacket::picture_coding_types::intra_coded) {
-        throw VideoException("temp throw videoDecoder");
-    }
+
     savePngToFile(decodedPicture, destination);
 }
 
@@ -190,8 +188,12 @@ PictureDecoder *VideoDecoder::getPictureDecoder() const {
 
 void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     cimg_library::CImg<int> *pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
+
     std::string fileName = destination;//TODO create folder if it doesnt exist
-    fileName.append("bla.bmp");//TODO print correct filename
+    fileName.append("frame_");
+    fileName.append(std::to_string(pngSequenceNumber));
+    fileName.append(".bmp");
+
     pngPicture->YCbCrtoRGB();
     pngPicture->save_bmp(fileName.c_str());
     delete pngPicture;
