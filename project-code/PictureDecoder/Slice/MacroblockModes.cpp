@@ -74,3 +74,7 @@ unsigned char MacroblockModes::getFieldMotionType() const {
 unsigned char MacroblockModes::getSpatialTemporalWeightClasses() const {
     return spatial_temporal_weight_classes;
 }
+
+void MacroblockModes::setFrameMotionType(unsigned char frameMotionType) {
+    frame_motion_type = frameMotionType;
+}

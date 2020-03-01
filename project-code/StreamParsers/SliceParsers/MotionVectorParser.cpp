@@ -90,15 +90,15 @@ unsigned char MotionVectorParser::parse_motion_residual(bool s, bool t) {
 unsigned char MotionVectorParser::parse_fcode(bool s, bool flag) {
     if (s == 0) {
         if (flag) {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode01();
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(0, 1);
         } else {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode00();
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(0, 0);
         }
     } else {
         if (flag) {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode11();
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(1, 1);
         } else {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCode10();
+            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(1, 0);
         }
     }
 }

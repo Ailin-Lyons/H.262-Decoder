@@ -56,6 +56,8 @@ public:
 
     unsigned char getFrameMotionType() const;
 
+    void setFrameMotionType(unsigned char frameMotionType);
+
     unsigned char getFieldMotionType() const;
 
     unsigned char getSpatialTemporalWeightClasses() const;

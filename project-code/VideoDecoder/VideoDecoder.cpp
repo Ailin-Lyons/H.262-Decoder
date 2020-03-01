@@ -87,11 +87,10 @@ void VideoDecoder::makePicture(char *destination) {
         loadGroupHeaderAndExtension();
         loadExtensionUserData(1);
     }
-    loadPictureHeader();
+    PictureHeaderPacket::picture_coding_types pctype = loadPictureHeader();
     loadPictureCodingExtension();
     loadExtensionUserData(2);
-    HPicture *decodedPicture = pictureDecoder->decodePicture();
-
+    HPicture *decodedPicture = pictureDecoder->decodePicture(pctype);
     savePngToFile(decodedPicture, destination);
 }
 

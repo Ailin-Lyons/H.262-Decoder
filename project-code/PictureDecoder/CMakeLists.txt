@@ -15,8 +15,9 @@ set(HEADER_FILES
         DecodingStages/InverseDCTransformer.h
         DecodingStages/AlternateQuantiser.h
         DecodingStages/AlternateIDCT.h
-        DecodingStages/MotionCompensator.h
-        DecodingStages/FCTTransformer.h)
+        DecodingStages/MCompensator.h
+        DecodingStages/FCTTransformer.h
+        DecodingStages/Framestores.h)
 
 set(SOURCE_FILES
         PictureDecoder.cpp
@@ -33,8 +34,9 @@ set(SOURCE_FILES
         DecodingStages/InverseDCTransformer.cpp
         DecodingStages/AlternateQuantiser.cpp
         DecodingStages/AlternateIDCT.cpp
-        DecodingStages/MotionCompensator.cpp
+        DecodingStages/MCompensator.cpp
         DecodingStages/FCTTransformer.cpp
-        DecodingStages/ForeignIDCT.cpp)
+        DecodingStages/ForeignIDCT.cpp
+        DecodingStages/Framestores.cpp)
 
 add_library(PictureDecoder STATIC ${SOURCE_FILES} ${HEADER_FILES})

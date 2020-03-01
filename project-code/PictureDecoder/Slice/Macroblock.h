@@ -59,6 +59,18 @@ public:
     unsigned char getQuantiserScaleCode() const;
 
     MacroblockModes *getMacroBlockModes() const;
+
+    MotionVectors *getForwardMotionVectors() const;
+
+    void setForwardMotionVectors(MotionVectors *forwardMotionVectors);
+
+    MotionVectors *getBackwardMotionVectors() const;
+
+    void setBackwardMotionVectors(MotionVectors *backwardMotionVectors);
+
+    size_t getMacroblockAddressIncrement() const;
+
+    CodedBlockPattern *getCodedBlockPattern() const;
 };
 
 

@@ -36,6 +36,22 @@ public:
     bool operator==(const MotionVectors &rhs) const;
 
     bool operator!=(const MotionVectors &rhs) const;
+
+    bool isS() const;
+
+    bool isMotionVerticalFieldSelect0S() const;
+
+    bool isMotionVerticalFieldSelect1S() const;
+
+    MotionVector *getMotionVector0S() const;
+
+    void setMotionVector0S(MotionVector *motionVector0S);
+
+    MotionVector *getMotionVector1S() const;
+
+    void setMotionVector1S(MotionVector *motionVector1S);
+
+    static MotionVectors *buildZeroVectors(bool s);
 };
 
 

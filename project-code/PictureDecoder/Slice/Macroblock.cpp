@@ -92,3 +92,27 @@ unsigned char Macroblock::getQuantiserScaleCode() const {
 MacroblockModes *Macroblock::getMacroBlockModes() const {
     return macroBlockModes;
 }
+
+MotionVectors *Macroblock::getForwardMotionVectors() const {
+    return forwardMotionVectors;
+}
+
+void Macroblock::setForwardMotionVectors(MotionVectors *forwardMotionVectors) {
+    Macroblock::forwardMotionVectors = forwardMotionVectors;
+}
+
+MotionVectors *Macroblock::getBackwardMotionVectors() const {
+    return backwardMotionVectors;
+}
+
+void Macroblock::setBackwardMotionVectors(MotionVectors *backwardMotionVectors) {
+    Macroblock::backwardMotionVectors = backwardMotionVectors;
+}
+
+size_t Macroblock::getMacroblockAddressIncrement() const {
+    return macroblock_address_increment;
+}
+
+CodedBlockPattern *Macroblock::getCodedBlockPattern() const {
+    return codedBlockPattern;
+}

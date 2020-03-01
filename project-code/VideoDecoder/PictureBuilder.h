@@ -5,7 +5,7 @@
 #ifndef PROJECT_CODE_PICTUREBUILDER_H
 #define PROJECT_CODE_PICTUREBUILDER_H
 
-#define cimg_use_png
+//#define cimg_use_png
 
 #include "../CImg283/CImg.h"
 #include "../PictureDecoder/HPicture.h"

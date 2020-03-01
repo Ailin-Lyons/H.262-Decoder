@@ -10,9 +10,9 @@
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
 #include "DecodingStages/AlternateQuantiser.h"
-#include "DecodingStages/MotionCompensator.h"
+#include "DecodingStages/MCompensator.h"
 
-HPicture *PictureDecoder::decodePicture() {
+HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_types pictureType) {
     HPicture *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
@@ -30,8 +30,8 @@ HPicture *PictureDecoder::decodePicture() {
     /**
      *
      */
-    MotionCompensator::performMotionCompensation(picture);
-    // TODO motion compensation if applicable
+    MCompensator *mComp = new MCompensator(pictureType, isConcealmentMotionVectors());
+    mComp->performMComp(picture);
     for (size_t i = 0; i < picture->getNumSlices(); i++) {
         picture->getSlices()[i]->print();
     }
@@ -194,19 +194,11 @@ void PictureDecoder::setSpatialTemporalWeightClass(unsigned char spatialTemporal
     spatial_temporal_weight_classes = spatialTemporalWeightClass;
 }
 
-unsigned char PictureDecoder::getFCode00() const {
-    return f_code_0_0;
-}
-
-unsigned char PictureDecoder::getFCode01() const {
-    return f_code_0_1;
-}
-
-unsigned char PictureDecoder::getFCode10() const {
-    return f_code_1_0;
-}
-
-unsigned char PictureDecoder::getFCode11() const {
+unsigned char PictureDecoder::getFCodeST(bool s, bool t) const {
+    if (!s && !t) return f_code_0_0;
+    if (!s && t) return f_code_0_1;
+    if (s && !t) return f_code_1_0;
+    //if (s && t)
     return f_code_1_1;
 }
 
