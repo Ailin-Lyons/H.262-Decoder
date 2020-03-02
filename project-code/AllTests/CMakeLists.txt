@@ -18,7 +18,7 @@ set(TEST_FILES
         PacketParsersTest/ESPacketParserTest/SeqExtensionParserTest.cpp
         PacketParsersTest/ESPacketParserTest/SeqHeaderParserTest.cpp
         PacketParsersTest/ESPacketParserTest/SliceParserTest.cpp
-        PictureDecoderTest/InverseScannerTest.cpp)
+        PictureDecoderTest/InverseScannerTest.cpp PictureDecoderTest/IDCTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
 
