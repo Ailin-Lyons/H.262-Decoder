@@ -9,11 +9,16 @@
 
 class frameTest : public ::testing::Test {
 protected:
-    static int countNumFiles() {
+
+    // note - change dirPath to the directory containing the testFrames as needed
+
+    std::string dirPath = "../../../testFiles/testFrames/";
+
+    int countNumFiles() {
         DIR *dp;
         int i = 0;
         struct dirent *ep;
-        dp = opendir ("../../../testFiles/testFrames/");
+        dp = opendir (dirPath.c_str());
 
         if (dp != nullptr)
         {
@@ -25,12 +30,12 @@ protected:
         return i-2;
     }
 
-    static std::string genFileName(int i) {
+    std::string genFileName(int i) {
         std::string frameNum = std::to_string(i);
         while(frameNum.length() < 3) {
             frameNum.insert(0, 1, '0');
         }
-        frameNum.insert(0, "../../../testFiles/testFrames/frame");
+        frameNum.insert(0, dirPath + "frame");
         frameNum.append(".bmp");
         return frameNum;
     }
@@ -40,7 +45,7 @@ protected:
 TEST_F(frameTest, frameTest_OverallTest) {
     int frame = 0;
     int totalFrames = countNumFiles();
-    while (frame <= totalFrames) {
+    while (frame < totalFrames) {
         frame++;
         std::string frameNum = genFileName(frame);
         try {
