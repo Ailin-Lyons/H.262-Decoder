@@ -12,7 +12,7 @@ TEST(AllTest, PESParser_Test) {
     PESPacket::PES_extension_fields ppef = {};
     PESPacket expected = PESPacket(ESPacket::start_code::video_stream, 0xE0, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 5,
                                    pts_dts, 0, 0, dsmtmf, 0, 0, ppef, 0, 0);
-    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../testFiles/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) !=

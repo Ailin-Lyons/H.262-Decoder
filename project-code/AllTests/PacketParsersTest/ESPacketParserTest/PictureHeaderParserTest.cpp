@@ -13,7 +13,7 @@ TEST(AllTest, PictureHeaderPacket_Test) {
     init.temporal_reference = 0x0;
     init.vbv_delay = 0xFFFF;
     PictureHeaderPacket expected = PictureHeaderPacket(init);
-    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../testFiles/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) != ESPacket::start_code::picture) {

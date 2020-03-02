@@ -9,7 +9,7 @@
 
 TEST(AllTest, SliceParser_Test) {
     Slice expected = Slice({});//TODO
-    char relative_path[] = R"(../../../test files/Single Packets/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../testFiles/Single Packets/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) !=

@@ -14,12 +14,12 @@ private:
 //    static bool initFlag;
     static double cosab[64];
     static void *performIDCTThreadHelper(void *slice);
-    static void performIDCTBlockHelper(Block *block);
     static void performIdctRow(int* arr, const int* quantized);
     static void performIdctCol(int* arr, const int* quantized);
 
 public:
     static void performIDCTThreaded(HPicture *picture);
+    static void performIDCTBlockHelper(Block *block);
 };
 
 

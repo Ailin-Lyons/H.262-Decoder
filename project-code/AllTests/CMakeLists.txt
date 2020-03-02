@@ -18,7 +18,7 @@ set(TEST_FILES
         PacketParsersTest/ESPacketParserTest/SeqExtensionParserTest.cpp
         PacketParsersTest/ESPacketParserTest/SeqHeaderParserTest.cpp
         PacketParsersTest/ESPacketParserTest/SliceParserTest.cpp
-        PictureDecoderTest/InverseScannerTest.cpp PictureDecoderTest/IDCTest.cpp)
+        PictureDecoderTest/InverseScannerTest.cpp PictureDecoderTest/IDCTest.cpp PictureDecoderTest/AllFramesTest.cpp)
 
 add_executable(AllTests ${TEST_FILES})
 
@@ -40,3 +40,9 @@ target_link_libraries(AllTests ESPackets)
 target_link_libraries(AllTests TSPayloadSections)
 target_link_libraries(AllTests VideoDecoder)
 target_link_libraries(AllTests PictureDecoder)
+
+#adding pthreads
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+target_link_libraries(AllTests Threads::Threads)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")

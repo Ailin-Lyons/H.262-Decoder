@@ -21,7 +21,7 @@ TEST(AllTest, SequenceExtension_Parser_Test) {
     init.frame_rate_extension_n = 0;
     init.frame_rate_extension_d = 0;
     SequenceExtensionPacket expected = SequenceExtensionPacket(init);
-    char relative_path[] = R"(../../../test files/testvideo_noaudio.ts)";
+    char relative_path[] = R"(../../../testFiles/testvideo_noaudio.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     ESParser::getInstance()->initiateStream();
     while (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) !=

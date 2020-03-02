@@ -8,7 +8,7 @@
 #include "../../StreamParsers/TransportStreamParsers/PMSParser.cpp"
 
 TEST(AllTest, PASPMSParser_Test) {
-    char relative_path[] = R"(../../../test files/Single Packets/testvideo_noaudio_PASPMS.ts)";
+    char relative_path[] = R"(../../../testFiles/Single Packets/testvideo_noaudio_PASPMS.ts)";
     FileInterface::getInstance()->setInstance(relative_path);
     TSPayloadSections::ts_payload_header_fields expectedPAS_header = {};
     expectedPAS_header.table_id = 0x00;
