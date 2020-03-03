@@ -16,9 +16,9 @@
 
 class FileInterface {
 private:
-    std::ifstream *rf;
-    int file_size;
-    int num_packets;
+    std::ifstream *rf{};
+    int file_size{};
+    int num_packets{};
     int index = 0;
     static FileInterface *instance;
 
@@ -32,8 +32,7 @@ private:
     * @return length of file in bytes || -1 if error
     */
     static int getFileSize(char *relative_path) {
-        struct stat results;
-
+        struct stat results = {};
         if (stat(relative_path, &results) == 0)
             return results.st_size;
         else return -1;

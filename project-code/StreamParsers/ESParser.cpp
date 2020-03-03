@@ -68,7 +68,7 @@ bool ESParser::bytealigned() {
 
 unsigned char ESParser::nextESPacketID() {
     next_start_code();
-    unsigned int startcode_and_id = peekNBits(32);
+    auto startcode_and_id = (unsigned int) peekNBits(32);
     auto stream_id = (unsigned char) startcode_and_id;
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     if (!ESPacket::isHandled(packet_type)) {
@@ -81,7 +81,7 @@ unsigned char ESParser::nextESPacketID() {
 ESPacket *ESParser::getNextPacket() {
     next_start_code();
     popNBits(24); //bypass start_code
-    unsigned char stream_id = popNBits(8);
+    auto stream_id = (unsigned char) popNBits(8);
     ESPacket::start_code packet_type = ESPacket::getStartCode(stream_id);
     switch (packet_type) {
         case ESPacket::start_code::video_stream:
@@ -104,7 +104,7 @@ ESPacket *ESParser::getNextPacket() {
 unsigned long long ESParser::peekNBits(unsigned int numBits) {
     if (numBits > 64) throw PacketException("ESParser::peekNBits: requesting too many bytes\n");
     if (numBits <= numBitsRemaining()) {
-        return (unsigned long long) BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
+        return BitManipulator::readNBitsOffset(currPos, currOffset, numBits);
     } else {
         unsigned int part1 = numBitsRemaining();
         unsigned int part2 = numBits - part1;
@@ -147,12 +147,12 @@ unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
         nextTP = findNextTSPacket();
     }
     if (numBits > (nextTP->getDataLength() * 8)) {
-        printf("Data length %x\n", nextTP->getDataLength());
+        printf("Data length %x\n", (unsigned int) nextTP->getDataLength());
         nextTP->print();
         throw PacketException(
                 "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
     }
-    return (unsigned long long) BitManipulator::readNBits(nextTP->getData(), numBits);
+    return BitManipulator::readNBits(nextTP->getData(), numBits);
 }
 
 void ESParser::incrementOffset(unsigned int numBits) {
@@ -166,7 +166,7 @@ void ESParser::incrementOffset(unsigned int numBits) {
     }
     currPos += (numBits / 8);
     if (numBits != 0) {
-        currOffset = numBits % 8;
+        currOffset = (unsigned short) (numBits % 8);
     }
 }
 
@@ -179,7 +179,7 @@ TransportPacket *ESParser::findNextTSPacket() {
 }
 
 ESPacket *ESParser::getExtensionPacket() {
-    unsigned char extension_start_code_identifier = popNBits(4);
+    auto extension_start_code_identifier = (unsigned char) popNBits(4);
     ExtensionPacket::extension_type e_type = ExtensionPacket::getExtensionCode(extension_start_code_identifier);
     switch (e_type) {
         case ExtensionPacket::extension_type::sequence:

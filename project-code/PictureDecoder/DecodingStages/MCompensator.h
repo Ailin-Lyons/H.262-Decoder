@@ -11,7 +11,7 @@
 
 class MCompensator {
 
-    int PMV[2][2][2]; //PMV[r][s][t]
+    int PMV[2][2][2]{}; //PMV[r][s][t]
     PictureHeaderPacket::picture_coding_types frameType;
     bool concealment_motion_vectors;
 
@@ -34,22 +34,22 @@ public:
 
     void updateRemainingPredictors(Macroblock *macroblock);
 
-    void handleMissingPredictors(Macroblock *macroblock);
+    static void handleMissingPredictors(Macroblock *macroblock);
 
     void makeChromVectors(Macroblock *macroblock);
 
-    void makeChromVectors420(MotionVectors *motionVectors);
+    static void makeChromVectors420(MotionVectors *motionVectors);
 
     void checkResetPMV(Macroblock *macroblock);
 
-    void addMissingMacroblocks(HPicture *picture);
+    static void addMissingMacroblocks(HPicture *picture);
 
     /**
      * @requires there are no missing macroblocks in picture
      * Sets the macroblock_address field for all macroblocks in picture
      * @param picture
      */
-    void setMacroblockAddresses(HPicture *picture);
+    static void setMacroblockAddresses(HPicture *picture);
 };
 
 

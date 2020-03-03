@@ -15,7 +15,7 @@ Block::Block(Block::initializerStruct init) {
 }
 
 void Block::print() {
-    printf("\tBlock[%x]: cc %x, dc_sc_size = %x, diff %x\n", i, cc, dct_dc_size,
+    printf("\tBlock[%x]: cc %x, dc_sc_size = %x, diff %x\n", (int) i, cc, dct_dc_size,
            dct_dc_differential);
     printf("VLC Table:\n");
     for (int i = 0; i < 8; i++) {

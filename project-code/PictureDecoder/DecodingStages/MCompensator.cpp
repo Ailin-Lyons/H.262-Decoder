@@ -120,17 +120,17 @@ void MCompensator::decodeVectorPrime(MotionVector *motionVector) {
                                                           motionVector->getMotionResidualRS0(),
                                                           motionVector->isR(),
                                                           motionVector->isS(),
-                                                          0));
+                                                          0)); // NOLINT(modernize-use-bool-literals)
     motionVector->setLumVectorRS1(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
                                                           motionVector->getMotionResidualRS0(),
                                                           motionVector->isR(),
                                                           motionVector->isS(),
-                                                          1));
+                                                          1)); // NOLINT(modernize-use-bool-literals)
 }
 
 int MCompensator::decodeVectorPrimeHelper(char vectorCode, unsigned char residual, bool r, bool s, bool t) {
-    unsigned int r_size = VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1;
-    int f = 1 << r_size;
+    unsigned int r_size = (unsigned int) VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1;
+    int f = 1 << r_size; // NOLINT(hicpp-signed-bitwise)
     int high = (16 * f) - 1;
     int low = ((-16) * f);
     int range = (32 * f);
@@ -188,7 +188,7 @@ void MCompensator::handleMissingPredictors(Macroblock *macroblock) {
     if (!macroblock->getMacroBlockModes()->isMacroblockMotionForward() &&
         !macroblock->getMacroBlockModes()->isMacroblockIntra()) {
         macroblock->getMacroBlockModes()->setFrameMotionType(0b10);
-        macroblock->setForwardMotionVectors(MotionVectors::buildZeroVectors(0));
+        macroblock->setForwardMotionVectors(MotionVectors::buildZeroVectors(0)); // NOLINT(modernize-use-bool-literals)
     }
 }
 
@@ -210,7 +210,7 @@ void MCompensator::makeChromVectors(Macroblock *macroblock) {
 }
 
 /**
- * Initialize Chrominance Vectors according to H.262 7.6.3.7 when chroma_format = 4:2:0
+ * Initialize chrominance Vectors according to H.262 7.6.3.7 when chroma_format = 4:2:0
  * @param motionVectors
  */
 void MCompensator::makeChromVectors420(MotionVectors *motionVectors) {
@@ -243,7 +243,7 @@ void MCompensator::checkResetPMV(Macroblock *macroblock) {
  * Helper for checkResetPMV that resets all predictors to 0
  */
 void MCompensator::resetPMV() {
-    for (size_t r = 0; r < 2; r++) {
+    for (size_t r = 0; r < 2; r++) { // NOLINT(modernize-loop-convert)
         for (size_t s = 0; s < 2; s++) {
             for (size_t t = 0; t < 2; t++) {
                 PMV[r][s][t] = 0;
@@ -256,7 +256,7 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock* mb = &slice->getMacroblocks()[m];
+            Macroblock *mb = &slice->getMacroblocks()[m];
             if (mb->getMacroblockAddressIncrement() > 1) {
                 slice->insertZeroVectorMacroblock(m);
             }
@@ -269,10 +269,10 @@ void MCompensator::setMacroblockAddresses(HPicture *picture) {
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock* mb = &slice->getMacroblocks()[m];
+            Macroblock *mb = &slice->getMacroblocks()[m];
             mb->setMacroblockAddress(index);
             index++;
-            printf("%4d ",mb->getMacroblockAddress());
+            printf("%4d ", (int) mb->getMacroblockAddress());
         }
         printf("\n");
     }

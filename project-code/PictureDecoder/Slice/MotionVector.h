@@ -12,16 +12,16 @@ class MotionVector {
 private:
     bool r;
     bool s;
-    char motion_code_r_s_0;
-    unsigned char motion_residual_r_s_0;
-    char dmvector_0;
-    char motion_code_r_s_1;
-    unsigned char motion_residual_r_s_1;
-    char dmvector_1;
-    int lum_vector_r_s_0;
-    int lum_vector_r_s_1;
-    int chrom_vector_r_s_0;
-    int chrom_vector_r_s_1;
+    char motion_code_r_s_0{};
+    unsigned char motion_residual_r_s_0{};
+    char dmvector_0{};
+    char motion_code_r_s_1{};
+    unsigned char motion_residual_r_s_1{};
+    char dmvector_1{};
+    int lum_vector_r_s_0{};
+    int lum_vector_r_s_1{};
+    int chrom_vector_r_s_0{};
+    int chrom_vector_r_s_1{};
 
     MotionVector(bool r, bool s);
 
@@ -37,7 +37,7 @@ public:
         char dmvector_1;
     };
 
-    MotionVector(initializerStruct init);
+    explicit MotionVector(initializerStruct init);
 
     ~MotionVector() = default;
 

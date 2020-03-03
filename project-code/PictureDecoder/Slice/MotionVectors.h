@@ -27,7 +27,7 @@ public:
         MotionVector *motion_vector_1_s;
     };
 
-    MotionVectors(initializerStruct init);
+    explicit MotionVectors(initializerStruct init);
 
     ~MotionVectors();
 

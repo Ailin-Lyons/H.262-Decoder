@@ -18,7 +18,7 @@
 class MacroblockParser {
 private:
     struct vlc {
-        unsigned char numbits;
+        unsigned char numBits;
         unsigned char value;
         unsigned short key;
     };

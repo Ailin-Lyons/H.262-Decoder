@@ -51,7 +51,7 @@ bool VideoDecoder::loadFile(char *relative_path) {
         FileInterface::getInstance()->setInstance(relative_path);
         ESParser *esp = ESParser::getInstance();
         esp->initiateStream();
-        printf("***Loading file... Done!***\n", relative_path);
+        printf("***Loading file %s Done!***\n", relative_path);
         return true;
     } catch (FileException &) {
         printf("Error loading file!\n");
@@ -66,12 +66,12 @@ void VideoDecoder::loadVideoSequence() {
         throw VideoException("VideoDecoder::loadVideoSequence: Unhandled coding standard");
     }
     auto *seq_ex = (SequenceExtensionPacket *) getNextVideoPacket();
-    videoInfo->setHorizontalSize(seq_hed->getHVal() + (seq_ex->getHExt() << 12));
-    videoInfo->setVerticalSize(seq_hed->getVVal() + (seq_ex->getVExt() << 12));
+    videoInfo->setHorizontalSize(seq_hed->getHVal() + (seq_ex->getHExt() << 12u));
+    videoInfo->setVerticalSize(seq_hed->getVVal() + (seq_ex->getVExt() << 12u));
     videoInfo->setAspectRatio(seq_hed->getAspectRatioInformation());
     videoInfo->setFrameRate(seq_hed->getFrameRate(), seq_ex->getFrameExtN(), seq_ex->getFrameExtD());
-    videoInfo->setBitRate((seq_ex->getBitRateExt() << 12) + seq_hed->getBitRateVal());
-    videoInfo->setVBVBufSize((seq_ex->getVBVBufVal() << 10) + seq_hed->getVBVBufVal());
+    videoInfo->setBitRate((seq_ex->getBitRateExt() << 12u) + seq_hed->getBitRateVal());
+    videoInfo->setVBVBufSize((seq_ex->getVBVBufVal() << 10u) + seq_hed->getVBVBufVal());
     if (seq_hed->getCPFlag()) throw PacketException("VideoDecoder::loadVideoSequence: Unhandled coding standard");
     if (seq_hed->isLoadIntraQuantiserMatrix() || seq_hed->isLoadNonIntraQuantiserMatrix())
         throw VideoException("VideoDecoder::loadVideoSequence: IQM NIQM not supported");

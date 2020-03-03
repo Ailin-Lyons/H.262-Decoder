@@ -81,27 +81,27 @@ public:
         PESPacket::P_STD *p_std;
     };
     struct pack_header {
-        unsigned long long system_clock_reference;
-        unsigned int program_mux_rate;
+        unsigned long long system_clock_reference{};
+        unsigned int program_mux_rate{};
         PESPacket::system_header system_header{};
     };
     struct PES_extension_fields {
-        unsigned char PES_private_data_flag; //1-bit
-        unsigned char pack_header_field_flag; //1-bit
-        unsigned char program_packet_sequence_counter_flag; //1-bit
-        unsigned char P_STD_buffer_flag; //1-bit
-        unsigned char PES_extension_flag_2; //1-bit
-        unsigned char pack_field_length; //8-bit
+        unsigned char PES_private_data_flag{}; //1-bit
+        unsigned char pack_header_field_flag{}; //1-bit
+        unsigned char program_packet_sequence_counter_flag{}; //1-bit
+        unsigned char P_STD_buffer_flag{}; //1-bit
+        unsigned char PES_extension_flag_2{}; //1-bit
+        unsigned char pack_field_length{}; //8-bit
         PESPacket::pack_header pack_header{};
-        unsigned char program_packet_sequence_counter; //7-bit
-        unsigned char MPEG1_MPEG2_identifier; //1-bit
-        unsigned char original_stuff_length; //6-bit
-        unsigned char P_STD_buffer_scale; //1-bit
-        unsigned short P_STD_buffer_size; //13-bit
-        unsigned char PES_extension_field_length; //7-bit
+        unsigned char program_packet_sequence_counter{}; //7-bit
+        unsigned char MPEG1_MPEG2_identifier{}; //1-bit
+        unsigned char original_stuff_length{}; //6-bit
+        unsigned char P_STD_buffer_scale{}; //1-bit
+        unsigned short P_STD_buffer_size{}; //13-bit
+        unsigned char PES_extension_field_length{}; //7-bit
     };
 
-    void print();
+    void print() override;
 
     bool operator==(const PESPacket &rhs) const;
 

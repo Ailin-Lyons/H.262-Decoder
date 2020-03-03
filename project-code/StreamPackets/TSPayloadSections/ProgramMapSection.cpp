@@ -50,4 +50,4 @@ bool ProgramMapSection::operator==(const ProgramMapSection &rhs) const {
 
 bool ProgramMapSection::operator!=(const ProgramMapSection &rhs) const {
     return !(rhs == *this);
-};
+}

@@ -16,9 +16,9 @@ private:
     unsigned char dct_dc_size;
     short dct_dc_differential;
     int *QFS;
-    int *QFscanned;
-    int *Fquantized;
-    int *fdctransformed;
+    int *QFscanned{};
+    int *Fquantized{};
+    int *fdctransformed{};
 public:
     int *getQfs() const;
 
@@ -47,7 +47,7 @@ public:
         int *QFS;
     };
 
-    Block(initializerStruct init);
+    explicit Block(initializerStruct init);
 
     ~Block();
 

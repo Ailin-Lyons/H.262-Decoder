@@ -13,7 +13,7 @@
 #include "DecodingStages/MCompensator.h"
 
 HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_types pictureType) {
-    HPicture *picture = new HPicture();
+    auto *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
@@ -30,7 +30,7 @@ HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_type
     /**
      *
      */
-    MCompensator *mComp = new MCompensator(pictureType, isConcealmentMotionVectors());
+    auto *mComp = new MCompensator(pictureType, isConcealmentMotionVectors());
     mComp->performMComp(picture);
     for (size_t i = 0; i < picture->getNumSlices(); i++) {
         picture->getSlices()[i]->print();
@@ -69,8 +69,6 @@ void PictureDecoder::resetDctDcPred() {
         case PictureCodingExtensionPacket::intra_dc_precision_bits::p_11:
             dct_dc_pred[0] = dct_dc_pred[1] = dct_dc_pred[2] = 1024;
             break;
-        default:
-            throw PacketException("PictureDecoder::resetDctDcPred: reset failed");
     }
 }
 
@@ -195,11 +193,13 @@ void PictureDecoder::setSpatialTemporalWeightClass(unsigned char spatialTemporal
 }
 
 unsigned char PictureDecoder::getFCodeST(bool s, bool t) const {
-    if (!s && !t) return f_code_0_0;
-    if (!s && t) return f_code_0_1;
-    if (s && !t) return f_code_1_0;
-    //if (s && t)
-    return f_code_1_1;
+    if (s) {
+        if (t)return f_code_1_1;
+        else return f_code_1_0;
+    } else {
+        if (t)return f_code_0_1;
+        else return f_code_0_0;
+    }
 }
 
 bool PictureDecoder::isMacroblockIntra() const {

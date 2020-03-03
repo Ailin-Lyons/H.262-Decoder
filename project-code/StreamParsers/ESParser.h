@@ -15,14 +15,14 @@
  */
 class ESParser {
 public:
-    TransportPacket *currTP; //The TransportPacket currently being parsed
-    TransportPacket *nextTP = 0; //The next Transport packet to be used. if this is 0 request a new packet instead
-    ProgramAssociationSection *programAssociationSection;
-    ProgramMapSection *programMapSection;
-    unsigned char *currPos; //The address of currTP that will be parsed next
+    TransportPacket *currTP{}; //The TransportPacket currently being parsed
+    TransportPacket *nextTP = nullptr; //The next Transport packet to be used. if this is 0 request a new packet instead
+    ProgramAssociationSection *programAssociationSection{};
+    ProgramMapSection *programMapSection{};
+    unsigned char *currPos{}; //The address of currTP that will be parsed next
     unsigned short currOffset; //The bit offset of the current index
-    unsigned char *endPos; //if currPos >= endPos then a new packet must be fetched
-    unsigned int program_pid; //the PID of the program being decoded
+    unsigned char *endPos{}; //if currPos >= endPos then a new packet must be fetched
+    unsigned int program_pid{}; //the PID of the program being decoded
 
     static ESParser *instance;
 
@@ -78,12 +78,6 @@ private:
      * A private constructor for the singleton
      */
     ESParser();
-
-    /**
-     * Searches the TS for the next ESPacket that is handled.
-     * Parses and returns that packet
-     */
-    ESPacket *getNextVideoPacket(ESPacket::start_code scode, unsigned char stream_id);
 
     /**
      * See H.262 5.2.3

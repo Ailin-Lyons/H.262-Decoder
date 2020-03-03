@@ -72,7 +72,7 @@ public:
     /**
      * Constructor
      */
-    PictureCodingExtensionPacket(initializerStruct init);
+    explicit PictureCodingExtensionPacket(initializerStruct init);
 
     static intra_dc_precision_bits getIntraDCPrecisionType(unsigned char i_dc_p);
 

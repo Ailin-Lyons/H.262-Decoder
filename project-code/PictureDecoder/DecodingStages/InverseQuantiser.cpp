@@ -8,7 +8,7 @@
 #include "InverseScanner.h"
 
 #define WEIGHT (generateWeightingValue(u, v, w, intra))
-#define Sign(val) ((val) > 0 ? 1 : ((val == 0) ? 0 : -1))
+#define Sign(val) ((val) > 0 ? 1 : (((val) == 0) ? 0 : -1))
 
 unsigned char InverseQuantiser::qsc = 0;
 

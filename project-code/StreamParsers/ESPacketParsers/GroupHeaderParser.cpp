@@ -13,9 +13,9 @@ public:
     static GroupOfPicturesHeaderPacket *getNextPacket() {
         ESParser *esParser = ESParser::getInstance();
         GroupOfPicturesHeaderPacket::initializerStruct init = {};
-        init.time_code = esParser->popNBits(25);
-        init.closed_gop = esParser->popNBits(1);
-        init.broken_link = esParser->popNBits(1);
+        init.time_code = (unsigned int) esParser->popNBits(25);
+        init.closed_gop = (bool) esParser->popNBits(1);
+        init.broken_link = (bool) esParser->popNBits(1);
         return new GroupOfPicturesHeaderPacket(init);
     }
 };

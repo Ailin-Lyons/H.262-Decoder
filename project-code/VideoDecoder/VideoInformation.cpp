@@ -4,8 +4,8 @@
 #include "VideoInformation.h"
 #include "VideoException.cpp"
 
-const char *VideoInformation::asprectRatioStrings[] = {"            ", "     1:1    ", "     3:4    ", "     9:16   ",
-                                                       "    1:2.21  "};
+const char *VideoInformation::aspectRatioStrings[] = {"            ", "     1:1    ", "     3:4    ", "     9:16   ",
+                                                      "    1:2.21  "};
 
 VideoInformation *VideoInformation::instance = nullptr;
 
@@ -89,12 +89,12 @@ void VideoInformation::setVBVBufSize(unsigned int vbvBufferSize) {
 }
 
 void VideoInformation::setProfileLevel(unsigned char profile_and_level_indication) {
-    bool escape = (bool) (profile_and_level_indication & 0b1000000) >> 7;
+    bool escape = (bool) (profile_and_level_indication & 0b1000000u) >> 7u;
     if (escape) {
         throw VideoException("VideoInformation::setProfileLevel: Unhandled profile_level_indication\n");
     }
-    setProfile((profile_and_level_indication & 0b0111000) >> 4);
-    setLevel(profile_and_level_indication & 0b0001111);
+    setProfile((unsigned char) (profile_and_level_indication & 0b0111000u) >> 4u);
+    setLevel((unsigned char) (profile_and_level_indication & 0b0001111u));
 }
 
 void VideoInformation::setProfile(unsigned char profile_bits) {
@@ -158,7 +158,7 @@ void VideoInformation::setLowDelay(bool d) {
 void VideoInformation::print() {//TODO make a pretty print for this class
     printf("+----------------------------+\n");
     printf("| %8d x %-4d pixels     |\n", horizontal_size, vertical_size);
-    printf("|    %s            |\n", asprectRatioStrings[(char) aspectRatio]);
+    printf("|    %s            |\n", aspectRatioStrings[(char) aspectRatio]);
     printf("|     %5.0f FPS              |\n", frameRate);
     printf("|%10i bits/s           |\n", bit_rate);
     printf("+----------------------------+\n");

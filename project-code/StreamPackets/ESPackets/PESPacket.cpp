@@ -50,22 +50,23 @@ void PESPacket::print() {
            this->pes_extension_fields.pack_header.system_header.system_video_lock_flag,
            this->pes_extension_fields.pack_header.system_header.video_bound,
            this->pes_extension_fields.pack_header.system_header.packet_rate_restriction_flag,
-           this->pes_extension_fields.pack_header.system_header.numPSTD,
+           (unsigned int) this->pes_extension_fields.pack_header.system_header.numPSTD,
            this->pes_extension_fields.pack_header.system_header.p_std);
 
     for (size_t i = 0; i < this->pes_extension_fields.pack_header.system_header.numPSTD; i++) {
         printf("\t\t\t\t P_STD[%u]:\n"
                "\t\t\t\t\t stream_id = %s, P_STD_buffer_bound_scale = %hhu, P_STD_buffer_size_bound = %hhu\n",
-               i, getName(this->pes_extension_fields.pack_header.system_header.p_std[i].stream_id),
-               i, this->pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale,
-               i, this->pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound);
+               (unsigned int) i, getName(this->pes_extension_fields.pack_header.system_header.p_std[i].stream_id),
+               this->pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_bound_scale,
+               this->pes_extension_fields.pack_header.system_header.p_std[i].P_STD_buffer_size_bound);
     }
 
     printf("\t MPEG1_MPEG2_identifier = %hhu, original_stuff_length = %hhu, P_STD_buffer_scale = %hhu, "
            "P_STD_buffer_size = %hu, PES_extension_field_length = %hhu\n data_length = %u\ndata : %p\n\t",
            this->pes_extension_fields.MPEG1_MPEG2_identifier, this->pes_extension_fields.original_stuff_length,
            this->pes_extension_fields.P_STD_buffer_scale, this->pes_extension_fields.P_STD_buffer_size,
-           this->pes_extension_fields.PES_extension_field_length, this->data_length, this->data);
+           this->pes_extension_fields.PES_extension_field_length, (unsigned int) this->data_length,
+           (void *) this->data);
 
     for (size_t i = 0; i < this->data_length; i++) {
         if (i == 0) {

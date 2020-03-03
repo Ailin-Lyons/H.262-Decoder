@@ -13,9 +13,9 @@ public:
     static PictureHeaderPacket *getNextPacket() {
         ESParser *esParser = ESParser::getInstance();
         PictureHeaderPacket::initializerStruct init = {};
-        init.temporal_reference = esParser->popNBits(10);
-        init.picture_coding_type = PictureHeaderPacket::toPictureCodingType(esParser->popNBits(3));
-        init.vbv_delay = esParser->popNBits(16);
+        init.temporal_reference = (unsigned short) esParser->popNBits(10);
+        init.picture_coding_type = PictureHeaderPacket::toPictureCodingType((unsigned char) esParser->popNBits(3));
+        init.vbv_delay = (unsigned short) esParser->popNBits(16);
         if (init.picture_coding_type == PictureHeaderPacket::picture_coding_types::predictive_coded
             ||
             init.picture_coding_type == PictureHeaderPacket::picture_coding_types::bidirectionally_predictive_coded) {

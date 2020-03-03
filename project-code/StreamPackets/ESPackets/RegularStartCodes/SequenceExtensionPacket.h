@@ -45,7 +45,7 @@ public:
     /**
      * Constructor
      */
-    SequenceExtensionPacket(initializerStruct init);
+    explicit SequenceExtensionPacket(initializerStruct init);
 
     void print() override;
 

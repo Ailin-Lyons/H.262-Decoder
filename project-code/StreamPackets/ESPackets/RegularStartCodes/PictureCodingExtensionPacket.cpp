@@ -24,11 +24,11 @@ PictureCodingExtensionPacket::PictureCodingExtensionPacket(PictureCodingExtensio
     chroma_420_type = init.chroma_420_type;
     progressive_frame = init.progressive_frame;
     composite_display_flag = init.composite_display_flag;
-    v_axis = init.top_field_first;
-    field_sequence = init.frame_pred_frame_dct;
-    sub_carrier = init.concealment_motion_vectors;
-    burst_amplitude = init.q_scale_type;
-    sub_carrier_phase = init.intra_vlc_format;
+    v_axis = init.v_axis;
+    field_sequence = init.field_sequence;
+    sub_carrier = init.sub_carrier;
+    burst_amplitude = init.burst_amplitude;
+    sub_carrier_phase = init.sub_carrier_phase;
 }
 
 PictureCodingExtensionPacket::intra_dc_precision_bits

@@ -27,7 +27,7 @@ public:
     /**
      * Constructor
      */
-    PictureHeaderPacket(initializerStruct init);
+    explicit PictureHeaderPacket(initializerStruct init);
 
     void print() override;
 

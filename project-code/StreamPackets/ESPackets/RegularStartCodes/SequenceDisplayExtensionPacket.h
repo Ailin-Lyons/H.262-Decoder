@@ -32,7 +32,7 @@ public:
     /**
      * Constructor
      */
-    SequenceDisplayExtensionPacket(initializerStruct init);
+    explicit SequenceDisplayExtensionPacket(initializerStruct init);
 
     void print() override;
 

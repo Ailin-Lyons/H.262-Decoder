@@ -37,14 +37,14 @@ PictureHeaderPacket::picture_coding_types PictureHeaderPacket::getPictureCodingT
 
 std::string PictureHeaderPacket::getPictureCodingTypeString() const {
     switch (picture_coding_type) {
-        default:
-            return "wrong picture type";
         case picture_coding_types::intra_coded :
             return "intra_coded (I-frames)";
         case picture_coding_types::predictive_coded :
             return "predictive_coded (P-frames)";
         case picture_coding_types::bidirectionally_predictive_coded :
             return "bidirectionally_predictive_coded (I-frames)";
+        default:
+            return "wrong picture type";
     }
 }
 

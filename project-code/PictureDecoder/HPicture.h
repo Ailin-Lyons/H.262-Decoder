@@ -30,7 +30,7 @@ public:
 
     decoding_state getState() const;
 
-    void setState(decoding_state state);
+    void setState(decoding_state s);
 
     size_t getNumSlices() const;
 

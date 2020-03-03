@@ -18,7 +18,8 @@ Macroblock::Macroblock(Macroblock::initializerStruct init) {
 }
 
 void Macroblock::print() {
-    printf("\tMacroblock: mai = %x, qsc = %x, block_count = %x\n", macroblock_address_increment, quantiser_scale_code,
+    printf("\tMacroblock: mai = %x, qsc = %x, block_count = %x\n", (int) macroblock_address_increment,
+           quantiser_scale_code,
            block_count);
     macroBlockModes->print();
     if (forwardMotionVectors != nullptr) {

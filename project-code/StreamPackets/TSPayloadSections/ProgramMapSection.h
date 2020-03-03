@@ -90,12 +90,12 @@ protected:
     /**
      * ProgramMapSection Fields
      */
-    TSPayloadSections::ts_payload_header_fields headerFields;
+    TSPayloadSections::ts_payload_header_fields headerFields{};
     unsigned short program_number;
-    TSPayloadSections::ts_payload_version_section_fields versionSectionFields;
+    TSPayloadSections::ts_payload_version_section_fields versionSectionFields{};
     unsigned short PCR_PID;
     unsigned short program_info_length;
-    program_element video_stream_element; //This decoder discards all elements that don't have stream_type video
+    program_element video_stream_element{}; //This decoder discards all elements that don't have stream_type video
 
 public:
     ProgramMapSection(TSPayloadSections::ts_payload_header_fields hfs, unsigned short prognum,

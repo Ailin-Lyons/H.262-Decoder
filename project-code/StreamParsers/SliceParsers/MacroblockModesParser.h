@@ -17,7 +17,7 @@ private:
         bool macroblock_intra;
         bool spatial_temporal_weight_code_flag;
         unsigned char spatial_temporal_weight_classes;
-        unsigned char numbits;
+        unsigned char numBits;
         unsigned short key;
     };
     static vlc table_b2[];

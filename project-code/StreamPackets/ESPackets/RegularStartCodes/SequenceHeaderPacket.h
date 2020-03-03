@@ -42,7 +42,7 @@ public:
     /**
      * Constructor
      */
-    SequenceHeaderPacket(initializerStruct init);
+    explicit SequenceHeaderPacket(initializerStruct init);
 
     void print() override;
 

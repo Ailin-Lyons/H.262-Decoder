@@ -4,6 +4,8 @@
 #ifndef __BITMANIPULATOR
 #define __BITMANIPULATOR
 
+#include <cstdlib>
+
 class BitManipulator {
 public:
     /**
@@ -13,17 +15,17 @@ public:
      * @param numBits: number of bits to be read
      * @return a long long containing lowest order n bits
      */
-    static long long readNBits(unsigned char *address, unsigned int numBits) {
+    static unsigned long long readNBits(const unsigned char *address, unsigned int numBits) {
         unsigned long long out = 0;
         if (numBits == 0) {
             return out;
         }
-        int i; // declared here as it is used as address in second loop body
+        size_t i; // declared here as it is used as address in second loop body
         for (i = 0; i < numBits / 8; i++) {
-            out = (out << 8) + address[i];
+            out = (out << 8u) + address[i];
         }
-        for (int j = 1; j <= numBits % 8; j++) {
-            out = (out << 1) + ((address[i] >> (8 - j)) & 0x1);
+        for (size_t j = 1; j <= numBits % 8; j++) {
+            out = (out << 1u) + ((unsigned int) address[i] >> ((unsigned int) (8 - j)) & 0x1u);
         }
         return out;
     }
@@ -36,13 +38,13 @@ public:
      * @param offset: 0-7: bits to offset from index
      * @returna a long long containing lowest order n bits
      */
-    static long long readNBitsOffset(unsigned char *address, unsigned int offset, unsigned int numBits) {
+    static unsigned long long readNBitsOffset(unsigned char *address, unsigned int offset, unsigned int numBits) {
         unsigned long long out = 0;
         if (numBits == 0) {
             return out;
         }
-        for (int o = offset; o < 8; o++) {
-            out = (out << 1) + ((address[0] >> (7 - o)) & 0x1);
+        for (size_t o = offset; o < 8; o++) {
+            out = (out << 1u) + (((unsigned int) address[0] >> (7 - o)) & 0x1u);
             numBits--;
             if (numBits <= 0) {
                 return out;

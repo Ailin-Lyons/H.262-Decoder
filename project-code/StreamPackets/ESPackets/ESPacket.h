@@ -49,8 +49,8 @@ public:
     };
 
 protected:
-    start_code packet_type;
-    unsigned char stream_id;
+    start_code packet_type = start_code::reserved_code;
+    unsigned char stream_id{};
 
 public:
     virtual void print() = 0;

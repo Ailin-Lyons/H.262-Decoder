@@ -21,11 +21,11 @@ private:
 
     static void addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *macroblock, size_t macroblockNumber);
 
-    static void addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topleft);
+    static void addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topLeft);
 
-    static void addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBlock, size_t topleft);
+    static void addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBlock, size_t topLeft);
 
-    static void addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBlock, size_t topleft);
+    static void addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBlock, size_t topLeft);
 
     static size_t getTopLeftIndex(size_t number);
 };

@@ -23,7 +23,7 @@ public:
     /**
      * Constructor
      */
-    GroupOfPicturesHeaderPacket(initializerStruct init);
+    explicit GroupOfPicturesHeaderPacket(initializerStruct init);
 
     void print() override;
 

@@ -5,8 +5,8 @@
 #include "ProgramAssociationSection.h"
 
 ProgramAssociationSection::ProgramAssociationSection(
-        TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields, unsigned char transport_stream_id,
-        TSPayloadSections::ts_payload_version_section_fields versionSectionFields, unsigned int numPasPrograms,
+        TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields, unsigned short transport_stream_id,
+        TSPayloadSections::ts_payload_version_section_fields versionSectionFields, size_t numPasPrograms,
         ProgramAssociationSection::pas_program *pas_program) {
 
     this->headerFields = tsPayloadHeaderFields;
@@ -25,7 +25,8 @@ void ProgramAssociationSection::print() {
            "numPASPrograms = %x\n", headerFields.table_id, headerFields.section_syntax_indicator,
            headerFields.section_length,
            transport_stream_id, versionSectionFields.version_number, versionSectionFields.current_next_indicator,
-           versionSectionFields.section_number, versionSectionFields.last_section_number, numPasPrograms);
+           versionSectionFields.section_number, versionSectionFields.last_section_number,
+           (unsigned int) numPasPrograms);
     if (pasPrograms != nullptr) {
         for (unsigned int i = 0; i < numPasPrograms; i++) {
             std::printf("PAS_Program[%x]: \n\t"

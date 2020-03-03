@@ -20,11 +20,11 @@ public:
 
     static void performRealIDCT(long double *realArray, int *sourceArray);
 
-    static void performRound(int *destArray, long double *sourceArray);
+    static void performRound(int *destArray, const long double *sourceArray);
 
     static void performSaturation(int *array);
 
-    static long double realIDCTHelper(size_t y, size_t x, int *sourceArray);
+    static long double realIDCTHelper(size_t y, size_t x, const int *sourceArray);
 };
 
 

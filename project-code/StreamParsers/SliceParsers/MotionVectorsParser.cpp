@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-bool-literals"
 //
 // Created by elnsa on 2020-01-19.
 //
@@ -33,15 +35,17 @@ public:
         }
         if (motion_vector_count == 1) {
             if (!mv_format && !dmv) {
-                init.motion_vertical_field_select_0_s = read(1);
+                init.motion_vertical_field_select_0_s = (bool) read(1);
             }
             init.motion_vector_0_s = MotionVectorParser::getNextPacket(0, s);
         } else {
-            init.motion_vertical_field_select_0_s = read(1);
+            init.motion_vertical_field_select_0_s = (bool) read(1);
             init.motion_vector_0_s = MotionVectorParser::getNextPacket(0, s);
-            init.motion_vertical_field_select_1_s = read(1);
+            init.motion_vertical_field_select_1_s = (bool) read(1);
             init.motion_vector_1_s = MotionVectorParser::getNextPacket(1, s);
         }
         return new MotionVectors(init);
     }
 };
+
+#pragma clang diagnostic pop

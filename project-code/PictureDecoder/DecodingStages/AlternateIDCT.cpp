@@ -109,7 +109,7 @@ void AlternateIDCT::performRealIDCT(long double *realArray, int *sourceArray) {
     }
 }
 
-void AlternateIDCT::performRound(int *destArray, long double *sourceArray) {
+void AlternateIDCT::performRound(int *destArray, const long double *sourceArray) {
     for (size_t i = 0; i < 64; i++) {
         destArray[i] = (int) (sourceArray[i] + 0.5 - (sourceArray[i] < 0));
     }
@@ -122,8 +122,8 @@ void AlternateIDCT::performSaturation(int *array) {
     }
 }
 
-long double AlternateIDCT::realIDCTHelper(size_t y, size_t x, int *sourceArray) {
-    long double div = (long double) 4;
+long double AlternateIDCT::realIDCTHelper(size_t y, size_t x, const int *sourceArray) {
+    long double div = 4;
     long double out = 0;
     for (size_t u = 0; u < 8; u++) {
         for (size_t v = 0; v < 8; v++) {
@@ -131,7 +131,7 @@ long double AlternateIDCT::realIDCTHelper(size_t y, size_t x, int *sourceArray) 
             long double cv = 1;
             if (u == 0) cu = squirt;
             if (v == 0) cv = squirt;
-            long double arr = (long double) sourceArray[v * 8 + u];
+            auto arr = (long double) sourceArray[v * 8 + u];
             out += (cu * cv * arr * cosab[u * 8 + x] * cosab[v * 8 + y]);
         }
     }

@@ -50,7 +50,7 @@ public:
      * @param parsed_pid
      * @return PID
      */
-    static PID getPID(unsigned short parsed_pid) {
+    static PID getPID(unsigned int parsed_pid) {
         if (parsed_pid == 0x0) {
             return PID::ProgramAssociationTable;
         } else if (parsed_pid == 0x1) {
@@ -119,7 +119,7 @@ private:
      */
     transport_header_fields header_fields{};
     AdaptationField adaptationField;
-    unsigned int data_length;
+    size_t data_length;
     unsigned char *data;
 
 public:
@@ -130,8 +130,7 @@ public:
      * @param d an array of bytes representing data
      */
     TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField,
-                    unsigned int dl,
-                    unsigned char *d);
+                    size_t dl, unsigned char *d);
 
     void print();
 
@@ -139,7 +138,7 @@ public:
 
     bool operator!=(const TransportPacket &rhs) const;
 
-    unsigned int getDataLength() const;
+    size_t getDataLength() const;
 
     unsigned char *getData() const;
 

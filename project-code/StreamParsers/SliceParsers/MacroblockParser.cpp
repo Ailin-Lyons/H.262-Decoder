@@ -55,16 +55,16 @@ Macroblock *MacroblockParser::getNextPacket(unsigned char qsc) {
     init.macroBlockModes = MacroblockModesParser::macroblock_modes();
     pictureDecoder->updateMacroBlockModes(init.macroBlockModes, init.macroblock_address_increment);
     if (init.macroBlockModes->isMacroblockQuant()) {
-        init.quantiser_scale_code = read(5);
+        init.quantiser_scale_code = (unsigned char) read(5);
     } else {
         init.quantiser_scale_code = qsc;
     }
     if (init.macroBlockModes->isMacroblockMotionForward() || (init.macroBlockModes->isMacroblockIntra() &&
                                                               pictureDecoder->isConcealmentMotionVectors())) {
-        init.forwardMotionVectors = MotionVectorsParser::motion_vectors(0);
+        init.forwardMotionVectors = MotionVectorsParser::motion_vectors(0); // NOLINT(modernize-use-bool-literals)
     }
     if (init.macroBlockModes->isMacroblockMotionBackward()) {
-        init.backwardMotionVectors = MotionVectorsParser::motion_vectors(1);
+        init.backwardMotionVectors = MotionVectorsParser::motion_vectors(1); // NOLINT(modernize-use-bool-literals)
     }
     if (init.macroBlockModes->isMacroblockIntra() && pictureDecoder->isConcealmentMotionVectors()) {
         read(1);//marker bit
@@ -75,7 +75,7 @@ Macroblock *MacroblockParser::getNextPacket(unsigned char qsc) {
     }
     init.block_count = getBlockCount(VideoInformation::getInstance()->getChromaFormat());
     init.blocks = (Block **) calloc(init.block_count, sizeof(void *));
-    for (int i = 0; i < init.block_count; i++) {
+    for (size_t i = 0; i < init.block_count; i++) {
         BlockParser::block(i, &init.blocks[i]);
     }
     return new Macroblock(init);
@@ -88,8 +88,8 @@ size_t MacroblockParser::getAddressIncrement() {
         out += 33;
     }
     for (vlc code: table_b1) {
-        if (peek(code.numbits) == code.key) {
-            read(code.numbits);
+        if (peek(code.numBits) == code.key) {
+            read(code.numBits);
             return out + code.value;
         }
     }

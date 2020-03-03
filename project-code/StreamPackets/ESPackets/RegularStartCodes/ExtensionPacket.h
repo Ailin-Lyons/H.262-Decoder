@@ -67,7 +67,7 @@ public:
     }
 
 protected:
-    ExtensionPacket::extension_type e_type;
+    ExtensionPacket::extension_type e_type = extension_type::reserved;
 };
 
 #endif //PROJECT_CODE_EXTENSIONPACKET_H

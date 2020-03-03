@@ -21,7 +21,7 @@ public:
         unsigned char coded_block_pattern_2;
     };
 
-    CodedBlockPattern(initializerStruct init);
+    explicit CodedBlockPattern(initializerStruct init);
 
     ~CodedBlockPattern() = default;
 

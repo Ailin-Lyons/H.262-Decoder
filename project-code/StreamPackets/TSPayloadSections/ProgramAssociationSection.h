@@ -23,9 +23,9 @@ public:
     };
 
     ProgramAssociationSection(TSPayloadSections::ts_payload_header_fields tsPayloadHeaderFields,
-                              unsigned char transport_stream_id,
+                              unsigned short transport_stream_id,
                               TSPayloadSections::ts_payload_version_section_fields versionSectionFields,
-                              unsigned int numPasPrograms,
+                              size_t numPasPrograms,
                               pas_program *pas_program);
 
     ~ProgramAssociationSection();
@@ -42,7 +42,7 @@ private:
     TSPayloadSections::ts_payload_header_fields headerFields{};
     unsigned short transport_stream_id;
     TSPayloadSections::ts_payload_version_section_fields versionSectionFields{};
-    unsigned int numPasPrograms;
+    size_t numPasPrograms;
     pas_program *pasPrograms;
 
 };

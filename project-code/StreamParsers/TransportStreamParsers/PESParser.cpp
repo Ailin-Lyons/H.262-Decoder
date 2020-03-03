@@ -23,7 +23,7 @@ public:
      * start_code_prefix != 0x000001 || called functions throw the error
      */
     static PESPacket *getNextPesPacket(ESPacket::start_code start_code) {
-        unsigned short PES_packet_length = read(16);
+        auto PES_packet_length = (unsigned short) read(16);
         if (start_code != ESPacket::start_code::program_stream_map &&
             start_code != ESPacket::start_code::padding_stream &&
             start_code != ESPacket::start_code::private_stream_2 &&
@@ -33,25 +33,25 @@ public:
             start_code != ESPacket::start_code::DSMCC_stream &&
             start_code != ESPacket::start_code::MMATM_E_stream) {
             marker(2, 0b10);
-            unsigned char PES_scrambling_control = read(2);
-            unsigned char PES_priority = read(1);
-            unsigned char data_alignment_indicator = read(1);
-            unsigned char copyright = read(1);
-            unsigned char original_or_copy = read(1);
-            unsigned char PTS_DTS_flags = read(2);
-            unsigned char ESCR_flag = read(1);
-            unsigned char ES_rate_flag = read(1);
-            unsigned char DSM_trick_mode_flag = read(1);
-            unsigned char additional_copy_info_flag = read(1);
-            unsigned char PES_CRC_flag = read(1);
-            unsigned char PES_extension_flag = read(1);
-            unsigned char PES_header_data_length = read(8);
+            auto PES_scrambling_control = (unsigned char) read(2);
+            auto PES_priority = (unsigned char) read(1);
+            auto data_alignment_indicator = (unsigned char) read(1);
+            auto copyright = (unsigned char) read(1);
+            auto original_or_copy = (unsigned char) read(1);
+            auto PTS_DTS_flags = (unsigned char) read(2);
+            auto ESCR_flag = (unsigned char) read(1);
+            auto ES_rate_flag = (unsigned char) read(1);
+            auto DSM_trick_mode_flag = (unsigned char) read(1);
+            auto additional_copy_info_flag = (unsigned char) read(1);
+            auto PES_CRC_flag = (unsigned char) read(1);
+            auto PES_extension_flag = (unsigned char) read(1);
+            auto PES_header_data_length = (unsigned char) read(8);
             PESPacket::pts_dts_fields pts_dts = handlePTSDTSFlags(PTS_DTS_flags);
             unsigned long long ESCR = ESCR_flag == 0x1 ? handleESCRFlag() : 0;
             unsigned int ES_rate = ES_rate_flag == 0x1 ? handleESRate() : 0;
             PESPacket::dsm_trick_mode_fields dsm_trick_mode = handleDSMTrickModeFlag(DSM_trick_mode_flag);
             unsigned char additional_copy_info = handleCopyInfo(additional_copy_info_flag);  //7-bit
-            unsigned short previous_PES_packet_CRC = PES_CRC_flag == 0x1 ? read(16) : 0; //16-bit
+            auto previous_PES_packet_CRC = (unsigned short) (PES_CRC_flag == 0x1 ? read(16) : 0); //16-bit
             PESPacket::PES_extension_fields pes_extension_fields = handlePESExtension(PES_extension_flag);
             while (peek(8) == 0xFF) {
                 read(8);
@@ -60,9 +60,9 @@ public:
             unsigned char *data = nullptr;
             while (peek(24) != 0x000001) {
                 data = (unsigned char *) realloc(data, sizeof(unsigned char) * (data_length + 3));
-                data[data_length++] = read(8);
-                data[data_length++] = read(8);
-                data[data_length++] = read(8);
+                data[data_length++] = (unsigned char) read(8);
+                data[data_length++] = (unsigned char) read(8);
+                data[data_length++] = (unsigned char) read(8);
             }
             return new PESPacket(ESPacket::start_code::video_stream, 0xE0, PES_packet_length, PES_scrambling_control,
                                  PES_priority, data_alignment_indicator, copyright, original_or_copy, PTS_DTS_flags,
@@ -95,7 +95,7 @@ private:
     static unsigned char handleCopyInfo(unsigned char flag) {
         if (flag == 0x1) {
             mark1;
-            return read(7);
+            return (unsigned char) read(7);
         }
         return 0;
     }
@@ -103,32 +103,32 @@ private:
     static PESPacket::PES_extension_fields handlePESExtension(unsigned char flag) {
         PESPacket::PES_extension_fields out{};
         if (flag == 0x1) {
-            out.PES_private_data_flag = read(1);
-            out.pack_header_field_flag = read(1);
-            out.program_packet_sequence_counter_flag = read(1);
-            out.P_STD_buffer_flag = read(1);
+            out.PES_private_data_flag = (unsigned char) read(1);
+            out.pack_header_field_flag = (unsigned char) read(1);
+            out.program_packet_sequence_counter_flag = (unsigned char) read(1);
+            out.P_STD_buffer_flag = (unsigned char) read(1);
             marker(3, 0b111);
-            out.PES_extension_flag_2 = read(1);
+            out.PES_extension_flag_2 = (unsigned char) read(1);
             if (out.PES_private_data_flag == 0x1) { read(128); }
             if (out.pack_header_field_flag == 0x1) {
-                out.pack_field_length = read(8);
+                out.pack_field_length = (unsigned char) read(8);
                 out.pack_header = parsePackHeader();
             }
             if (out.program_packet_sequence_counter_flag == 0x1) {
                 mark1;
-                out.program_packet_sequence_counter = read(7);
+                out.program_packet_sequence_counter = (unsigned char) read(7);
                 mark1;
-                out.MPEG1_MPEG2_identifier = read(1);
-                out.original_stuff_length = read(6);
+                out.MPEG1_MPEG2_identifier = (unsigned char) read(1);
+                out.original_stuff_length = (unsigned char) read(6);
             }
             if (out.P_STD_buffer_flag == 0x1) {
                 marker(2, 0b01);
-                out.P_STD_buffer_scale = read(1);
-                out.P_STD_buffer_size = read(13);
+                out.P_STD_buffer_scale = (unsigned char) read(1);
+                out.P_STD_buffer_size = (unsigned short) read(13);
             }
             if (out.PES_extension_flag_2 == 0x1) {
                 mark1;
-                out.PES_extension_field_length = read(7);
+                out.PES_extension_field_length = (unsigned char) read(7);
                 for (unsigned int i = 0; i < out.PES_extension_field_length; i++) {
                     marker(8, 0xFF);
                 }
@@ -145,15 +145,15 @@ private:
         marker(2, 0b01);
         out.system_clock_reference = read(3);
         mark1;
-        out.system_clock_reference = (out.system_clock_reference << 15) + read(15);
+        out.system_clock_reference = (out.system_clock_reference << 15u) + read(15);
         mark1;
-        out.system_clock_reference = (out.system_clock_reference << 15) + read(15);
+        out.system_clock_reference = (out.system_clock_reference << 15u) + read(15);
         mark1;
         out.system_clock_reference = out.system_clock_reference * 300 + read(9); //Equation 2-19
         mark1;
-        out.program_mux_rate = read(22);
+        out.program_mux_rate = (unsigned int) read(22);
         marker(7, 0b1111111);
-        unsigned char pack_stuffing_length = read(3);
+        auto pack_stuffing_length = (unsigned char) read(3);
         for (unsigned int i = 0; i < pack_stuffing_length; i++) {
             marker(8, 0xFF);
         }
@@ -166,28 +166,28 @@ private:
         if (read(32) != 0x000001BB) {
             throw PacketException("PESParser::parsePackHeader: system_header_start_code != 0x000001BB\n");
         }
-        out.header_length = read(16);
+        out.header_length = (unsigned short) read(16);
         mark1;
-        out.rate_bound = read(1);
+        out.rate_bound = (unsigned int) read(1);
         mark1;
-        out.audio_bound = read(6);
-        out.fixed_flag = read(1);
-        out.CSPS_flag = read(1);
-        out.system_audio_lock_flag = read(1);
-        out.system_video_lock_flag = read(1);
+        out.audio_bound = (unsigned char) read(6);
+        out.fixed_flag = (unsigned char) read(1);
+        out.CSPS_flag = (unsigned char) read(1);
+        out.system_audio_lock_flag = (unsigned char) read(1);
+        out.system_video_lock_flag = (unsigned char) read(1);
         mark1;
-        out.video_bound = read(5);
-        out.packet_rate_restriction_flag = read(1);
+        out.video_bound = (unsigned char) read(5);
+        out.packet_rate_restriction_flag = (unsigned char) read(1);
         marker(7, 0x7F);
-        size_t malloc_size = ((out.header_length * 8) - 47) / 25; // TODO - check calc
+        size_t malloc_size = (size_t) ((out.header_length * 8) - 47) / 25; // TODO - check calc
         out.p_std = (PESPacket::P_STD *) malloc(sizeof(PESPacket::P_STD) * malloc_size);
         out.numPSTD = malloc_size;
         unsigned int index = 0;
         while (read(1) == 0x1 && index < malloc_size) {
-            out.p_std[index].stream_id = ESPacket::getStartCode(read(8));
+            out.p_std[index].stream_id = ESPacket::getStartCode((unsigned char) read(8));
             marker(2, 0b11);
-            out.p_std[index].P_STD_buffer_bound_scale = read(1);
-            out.p_std[index].P_STD_buffer_size_bound = read(13);
+            out.p_std[index].P_STD_buffer_bound_scale = (unsigned char) read(1);
+            out.p_std[index].P_STD_buffer_size_bound = (unsigned short) read(13);
             index++;
         }
         return out;
@@ -202,25 +202,25 @@ private:
             marker(4, 0b0010);
             out.PTS = read(3);
             mark1;
-            out.PTS = (out.PTS << 15) + read(15);
+            out.PTS = (out.PTS << 15u) + read(15);
             mark1;
-            out.PTS = (out.PTS << 15) + read(15);
+            out.PTS = (out.PTS << 15u) + read(15);
             mark1;
         }
         if (flag == 0b11) {
             marker(4, 0b0011);
             out.PTS = read(3);
             mark1;
-            out.PTS = (out.PTS << 15) + read(15);
+            out.PTS = (out.PTS << 15u) + read(15);
             mark1;
-            out.PTS = (out.PTS << 15) + read(15);
+            out.PTS = (out.PTS << 15u) + read(15);
             mark1;
             marker(4, 0b0001);
             out.DTS = read(3);
             mark1;
-            out.DTS = (out.DTS << 15) + read(15);
+            out.DTS = (out.DTS << 15u) + read(15);
             mark1;
-            out.DTS = (out.DTS << 15) + read(15);
+            out.DTS = (out.DTS << 15u) + read(15);
             mark1;
         }
         return out;
@@ -233,9 +233,9 @@ private:
         marker(2, 0b11);
         unsigned long long out = read(3);
         mark1;
-        out = (out << 15) + read(15);
+        out = (out << 15u) + read(15);
         mark1;
-        out = (out << 15) + read(15);
+        out = (out << 15u) + read(15);
         mark1;
         out = out * 300 + read(9); //Equation 2-13
         mark1;
@@ -244,7 +244,7 @@ private:
 
     static unsigned int handleESRate() {
         mark1;
-        unsigned int out = read(22);
+        auto out = (unsigned int) read(22);
         read(1);
         mark1;
         return out;
@@ -256,14 +256,14 @@ private:
             out.trick_mode_control = PESPacket::getType(read(3));
             if (out.trick_mode_control == PESPacket::trick_mode_control_values::fast_reverse ||
                 out.trick_mode_control == PESPacket::trick_mode_control_values::fast_forward) {
-                out.field_id = read(2);
-                out.intra_slice_refresh = read(1);
-                out.frequency_truncation = read(2);
+                out.field_id = (unsigned char) read(2);
+                out.intra_slice_refresh = (unsigned char) read(1);
+                out.frequency_truncation = (unsigned char) read(2);
             } else if (out.trick_mode_control == PESPacket::trick_mode_control_values::slow_motion ||
                        out.trick_mode_control == PESPacket::trick_mode_control_values::slow_reverse) {
-                out.rep_cntrl = read(5);
+                out.rep_cntrl = (unsigned char) read(5);
             } else if (out.trick_mode_control == PESPacket::trick_mode_control_values::freeze_frame) {
-                out.field_id = read(2);
+                out.field_id = (unsigned char) read(2);
                 marker(3, 0b111);
             } else {
                 marker(5, 0b11111);

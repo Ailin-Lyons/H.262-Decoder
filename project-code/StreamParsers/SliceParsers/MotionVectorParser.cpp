@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-bool-literals"
 //
 // Created by elnsa on 2020-01-19.
 //
@@ -84,7 +86,7 @@ bool MotionVectorParser::parse_dmv() {
 }
 
 unsigned char MotionVectorParser::parse_motion_residual(bool s, bool t) {
-    return read(parse_fcode(s, t == 1) - 1);
+    return (unsigned char) read((unsigned int) parse_fcode(s, t == 1) - 1);
 }
 
 unsigned char MotionVectorParser::parse_fcode(bool s, bool flag) {
@@ -113,3 +115,5 @@ char MotionVectorParser::parse_dmvector() {
     throw PacketException("MotionVectorParser::parse_dmvector: Unexpected value\n");
 }
 
+
+#pragma clang diagnostic pop

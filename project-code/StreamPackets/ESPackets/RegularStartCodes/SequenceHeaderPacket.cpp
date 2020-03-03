@@ -22,10 +22,10 @@ SequenceHeaderPacket::SequenceHeaderPacket(SequenceHeaderPacket::initializerStru
 
 void SequenceHeaderPacket::print() {
     printf(
-            "SequenceHeaderPacket: hsv %x, vsv %x, ari %x, frc %x, brv %x, vbv_buf %x, cpf %x, liqm %x, iqm %x, lniqm %x, niqm %x.\n",
+            "SequenceHeaderPacket: hsv %x, vsv %x, ari %x, frc %x, brv %x, vbv_buf %x, cpf %x, liqm %x, iqm %p, lniqm %x, niqm %p.\n",
             horizontal_size_value, vertical_size_value, aspect_ratio_information, frame_rate_code,
             bit_rate_value, vbv_buffer_size_value, constrained_parameters_flag, load_intra_quantiser_matrix,
-            intra_quantiser_matrix, load_non_intra_quantiser_matrix, non_intra_quantiser_matrix);
+            (void *) intra_quantiser_matrix, load_non_intra_quantiser_matrix, (void *) non_intra_quantiser_matrix);
 }
 
 bool SequenceHeaderPacket::operator==(const SequenceHeaderPacket &rhs) const {

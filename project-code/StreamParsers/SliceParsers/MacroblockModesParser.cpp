@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "modernize-use-bool-literals"
 //
 // Created by elnsa on 2020-01-19.
 //
@@ -47,15 +49,15 @@ MacroblockModes *MacroblockModesParser::macroblock_modes() {
     if (init.macroblock_motion_forward || init.macroblock_motion_backward) {
         if (pictureDecoder->getPictureStructure() == PictureCodingExtensionPacket::picture_structure_types::frame) {
             if (!pictureDecoder->isFramePredFrameDct()) {
-                init.frame_motion_type = read(2);
+                init.frame_motion_type = (unsigned char) read(2);
             }
         } else {
-            init.field_motion_type = read(2);
+            init.field_motion_type = (unsigned char) read(2);
         }
     }
     if (pictureDecoder->getPictureStructure() == PictureCodingExtensionPacket::picture_structure_types::frame &&
         !pictureDecoder->isFramePredFrameDct() && (init.macroblock_intra || init.macroblock_pattern)) {
-        init.dct_type = read(1);
+        init.dct_type = (bool) read(1);
     }
     if (pictureDecoder->isFramePredFrameDct() || pictureDecoder->isConcealmentMotionVectors()) {
         init.frame_motion_type = 0b10;
@@ -90,8 +92,8 @@ void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStr
     }
     for (int i = 0; i < size; i++) {
         vlc code = table[i];
-        if (peek(code.numbits) == code.key) {
-            read(code.numbits);
+        if (peek(code.numBits) == code.key) {
+            read(code.numBits);
             init->macroblock_quant = code.macroblock_quant;
             init->macroblock_motion_forward = code.macroblock_motion_forward;
             init->macroblock_motion_backward = code.macroblock_motion_backward;
@@ -108,3 +110,5 @@ void MacroblockModesParser::decodeMacroblockType(MacroblockModes::initializerStr
     }
     throw PacketException("MacroblockModesParser::decodeMacroblockTypeHelper: Unexpected vlc code\n");
 }
+
+#pragma clang diagnostic pop

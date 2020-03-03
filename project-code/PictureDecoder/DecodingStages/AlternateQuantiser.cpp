@@ -127,7 +127,7 @@ int AlternateQuantiser::performDCQuantisation(int dcCoef) {
 }
 
 int AlternateQuantiser::getQuantiserScale(int code, bool type) {
-    for (size_t i = 0; i < 32; i++) {
+    for (size_t i = 0; i < 32; i++) { // NOLINT(modernize-loop-convert)
         if (conversion_table[i].quantiser_scale_code == code) {
             if (type) return conversion_table[i].scale_type_1;
             else return conversion_table[i].scale_type_0;

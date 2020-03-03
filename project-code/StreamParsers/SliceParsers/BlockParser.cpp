@@ -271,7 +271,7 @@ void BlockParser::block(size_t i, Block **destination) {
         if (pictureDecoder->isMacroblockIntra()) {
             init.dct_dc_size = getDctDcSize(init.cc);
             if (init.dct_dc_size != 0) {
-                init.dct_dc_differential = read(init.dct_dc_size);
+                init.dct_dc_differential = (short) read(init.dct_dc_size);
             }
             buildDCCoefficient(init.dct_dc_size, init.dct_dc_differential, &n, init.QFS,
                                init.cc); //Handle First Coefficient
@@ -312,18 +312,18 @@ void BlockParser::initializePatternCode(bool *pattern_code) {
     }
     if (pictureDecoder->isMacroblockPattern()) {
         for (int i = 0; i < 6; i++) {
-            if (pictureDecoder->getCbp() & (1 << (5 - i))) pattern_code[i] = true;
+            if (pictureDecoder->getCbp() & (1u << (5u - i))) pattern_code[i] = true;
         }
         if (VideoInformation::getInstance()->getChromaFormat() ==
             SequenceExtensionPacket::chroma_format_type::cf_422) {
             for (int i = 6; i < 8; i++) {
-                if (pictureDecoder->getCodedBlockPattern1() & (1 << (7 - i))) pattern_code[i] = true;
+                if (pictureDecoder->getCodedBlockPattern1() & (1u << (7u - i))) pattern_code[i] = true;
             }
         }
         if (VideoInformation::getInstance()->getChromaFormat() ==
             SequenceExtensionPacket::chroma_format_type::cf_444) {
             for (int i = 6; i < 12; i++) {
-                if (pictureDecoder->getCodedBlockPattern2() & (1 << (11 - i))) pattern_code[i] = true;
+                if (pictureDecoder->getCodedBlockPattern2() & (1u << (11u - i))) pattern_code[i] = true;
             }
         }
     }
@@ -333,7 +333,7 @@ unsigned char BlockParser::getCC(size_t i) {
     if (i < 4) {
         return 0;
     } else {
-        return i % 2 + 1;
+        return (unsigned char) (i % 2 + 1);
     }
 }
 
@@ -342,7 +342,7 @@ unsigned char BlockParser::getDctDcSize(unsigned char cc) {
 }
 
 int BlockParser::readSign(int level) {
-    bool isNegative = read(1);
+    bool isNegative = (bool) read(1);
     return isNegative ? -level : level;
 }
 
@@ -380,18 +380,18 @@ BlockParser::vlc_signed BlockParser::getVLCCode(bool tableFlag) {
 void BlockParser::populateQFS(unsigned char *n, int *QFS, int signed_level, unsigned char run) {
     for (size_t m = 0; m < run; m++) {
         QFS[*n] = 0;
-        *n = *n + 1;
+        (*n)++;
     }
     QFS[*n] = signed_level;
-    *n = *n + 1;
+    (*n)++;
     if (*n > 64) {
         throw PacketException("BlockParser::populateQFS: error decoding VLC, out of bounds write\n");
     }
 }
 
 short BlockParser::escapeSignHelper(short signed12BitValue) {
-    if ((signed12BitValue & 0b100000000000) == 0b100000000000) {
-        return 0xF000 | signed12BitValue;
+    if ((signed12BitValue & 0b100000000000) == 0b100000000000) { // NOLINT(hicpp-signed-bitwise)
+        return (short) (0xF000 | signed12BitValue); // NOLINT(hicpp-signed-bitwise)
     }
     return signed12BitValue;
 }
@@ -412,7 +412,7 @@ void BlockParser::buildDCCoefficient(unsigned char dct_dc_size, int dct_dc_diffe
     }
     QFS[0] = pictureDecoder->getDctDcPred(cc) + dct_diff;
     pictureDecoder->setDctDcPred(cc, QFS[0]);
-    *n = *n + 1;
+    (*n)++;
 }
 
 void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS) {
@@ -429,8 +429,8 @@ void BlockParser::handleCoefficients(bool tableFlag, unsigned char *n, int *QFS)
     }
     if (peek(6) == 0b000001) {
         read(6);
-        run = read(6);
-        short signed12BitInteger = read(12);
+        run = (unsigned char) read(6);
+        auto signed12BitInteger = (short) read(12);
         signed_level = escapeSignHelper(signed12BitInteger);
     } else {
         vlc_signed code = getVLCCode(tableFlag);

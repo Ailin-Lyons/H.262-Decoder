@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "hicpp-signed-bitwise"
 /* idct.c, inverse fast discrete cosine transform */
 
 #ifndef FOREIGNIDCT
@@ -204,3 +206,4 @@ public:
 };
 
 #endif
+#pragma clang diagnostic pop

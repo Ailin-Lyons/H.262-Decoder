@@ -11,17 +11,16 @@ TransportPacket::~TransportPacket() {
 
 void TransportPacket::print() {
     printf(
-            "TransportHeader:\nsync: %hhx, tei: %hhx, pusi: %hhx, tp: %hhx, pid_type: %x, program_pid: %hx, tsc: %hhx, afc: %hhx, cc: %hhx, afptr: %x, datalen: %i dataptr: %x\n \n",
+            "TransportHeader:\nsync: %hhx, tei: %hhx, pusi: %hhx, tp: %hhx, pid_type: %x, program_pid: %hx, tsc: %hhx, afc: %hhx, cc: %hhx, afptr: %p, datalen: %u dataptr: %p\n \n",
             header_fields.sync_byte, header_fields.transport_error_indicator,
             header_fields.payload_unit_start_indicator, header_fields.transport_priority, header_fields.pid_type,
             header_fields.pid, header_fields.transport_scrambling_control, header_fields.adaptation_field_control,
-            header_fields.continuity_counter, &adaptationField, data_length, data);
+            header_fields.continuity_counter, &adaptationField, (unsigned int) data_length, (void *) data);
     adaptationField.print();
 }
 
 TransportPacket::TransportPacket(TransportPacket::transport_header_fields thf, const AdaptationField &adaptationField,
-                                 unsigned int dl,
-                                 unsigned char *d) : adaptationField(adaptationField) {
+                                 size_t dl, unsigned char *d) : adaptationField(adaptationField) {
     header_fields = thf;
     data_length = dl;
     data = d;
@@ -52,7 +51,7 @@ bool TransportPacket::operator!=(const TransportPacket &rhs) const {
     return !(rhs == *this);
 }
 
-unsigned int TransportPacket::getDataLength() const {
+size_t TransportPacket::getDataLength() const {
     return data_length;
 }
 

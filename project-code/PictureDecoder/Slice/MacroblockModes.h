@@ -34,7 +34,7 @@ public:
         bool dct_type;
     };
 
-    MacroblockModes(initializerStruct init);
+    explicit MacroblockModes(initializerStruct init);
 
     ~MacroblockModes() = default;
 
