@@ -4,4 +4,11 @@
 
 #include "Framestores.h"
 
-//TODO implement
+void Framestores::updateFramestores(HPicture p) {
+//TODO destroy old picture? refcount?
+picture = p;
+}
+
+Macroblock *Framestores::getPredictionXY(MotionVector mv) {
+    return nullptr; //TODO
+}

@@ -17,6 +17,7 @@
  */
 class Macroblock {
 private:
+    size_t macroblock_address; //This field is used in the motion compensation phase
     size_t macroblock_address_increment;
     MacroblockModes *macroBlockModes;
     unsigned char quantiser_scale_code;
@@ -71,6 +72,10 @@ public:
     size_t getMacroblockAddressIncrement() const;
 
     CodedBlockPattern *getCodedBlockPattern() const;
+
+    size_t getMacroblockAddress() const;
+
+    void setMacroblockAddress(size_t macroblockAddress);
 };
 
 

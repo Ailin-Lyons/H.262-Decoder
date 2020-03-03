@@ -116,3 +116,11 @@ size_t Macroblock::getMacroblockAddressIncrement() const {
 CodedBlockPattern *Macroblock::getCodedBlockPattern() const {
     return codedBlockPattern;
 }
+
+size_t Macroblock::getMacroblockAddress() const {
+    return macroblock_address;
+}
+
+void Macroblock::setMacroblockAddress(size_t macroblockAddress) {
+    macroblock_address = macroblockAddress;
+}

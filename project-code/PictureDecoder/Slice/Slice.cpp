@@ -72,3 +72,20 @@ void Slice::setMacroblocks(Macroblock *m) {
 unsigned char Slice::getQuantiserScaleCode() const {
     return quantiser_scale_code;
 }
+
+/**
+ * This function only handles chroma format 4:2:0
+ */
+void Slice::insertZeroVectorMacroblock(size_t index) {
+//    Macroblock::initializerStruct init = {};
+//    init.forwardMotionVectors = MotionVectors::buildZeroVectors(0);
+//    init.block_count = 6;
+//    init.macroBlockModes = new MacroblockModes(MacroblockModes::initializerStruct{false,true});
+//    Macroblock* toAdd = new Macroblock(init);
+//    macroblocks = (Macroblock*) realloc(macroblocks, sizeof(macroblocks) + sizeof(Macroblock));
+//    for(size_t i = numMacroblocks - 1; i >= index; i--){
+//        macroblocks[i+1] = macroblocks[i];
+//    }
+//    macroblocks[index] = new Macroblock(init);
+//TODO first make macroblocks a ** instead of a * and then finish this function
+}

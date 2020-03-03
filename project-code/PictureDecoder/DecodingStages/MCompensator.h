@@ -18,9 +18,9 @@ class MCompensator {
 public:
     void performMComp(HPicture *picture);
 
-    void performMCompHelper(HPicture *picture);
+    void performMcompPPicture(HPicture *picture);
 
-    void mCompFrameHelper(Macroblock *macroblock);
+    void performMCompMacroblock(Macroblock *macroblock);
 
     void resetPMV();
 
@@ -36,9 +36,20 @@ public:
 
     void handleMissingPredictors(Macroblock *macroblock);
 
-    void makeChrominanceVectors(Macroblock *macroblock);
+    void makeChromVectors(Macroblock *macroblock);
 
-    void makeChrominanceVectorsHelper(MotionVectors *motionVectors);
+    void makeChromVectors420(MotionVectors *motionVectors);
+
+    void checkResetPMV(Macroblock *macroblock);
+
+    void addMissingMacroblocks(HPicture *picture);
+
+    /**
+     * @requires there are no missing macroblocks in picture
+     * Sets the macroblock_address field for all macroblocks in picture
+     * @param picture
+     */
+    void setMacroblockAddresses(HPicture *picture);
 };
 
 

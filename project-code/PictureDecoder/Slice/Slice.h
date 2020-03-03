@@ -62,6 +62,12 @@ public:
 
     unsigned char getQuantiserScaleCode() const;
 
+    /**
+     * Creates a macroblock with frame_motion_type "Frame-based" and a zero motion vector
+     * and inserts the macroblock into macroblocks[index+1]
+     * increases the size of macroblocks by 1 and pushes all later macroblocks one index higher
+     */
+    void insertZeroVectorMacroblock(size_t index);
 };
 
 
