@@ -194,6 +194,7 @@ void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     fileName.append(".bmp");
 
     pngPicture->YCbCrtoRGB();
-    pngPicture->save_bmp(fileName.c_str());
+    printf("Skipped picture %d\n",pngSequenceNumber);
+    //pngPicture->save_bmp(fileName.c_str());
     delete pngPicture;
 }

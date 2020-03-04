@@ -54,7 +54,7 @@ bool FileInterface::hasNextPacket() {
  */
 void FileInterface::getNextPacketData(char *file_buffer) {
     if (!hasNextPacket()) {
-        throw PacketException("FileInterface::getNextPacketData: hasNextPacket returned false\n");
+        throw PacketException("End of File\n");
     }
     if (rf->good()) {
         rf->read(file_buffer, 188);

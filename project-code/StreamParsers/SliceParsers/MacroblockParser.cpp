@@ -45,8 +45,8 @@ MacroblockParser::vlc MacroblockParser::table_b1[] = {{1,  1,  0b1}, //Excludes 
                                                       {11, 29, 0b00000011100},
                                                       {11, 30, 0b00000011011},
                                                       {11, 31, 0b00000011010},
-                                                      {11, 32, 0b00000011000},
-                                                      {11, 33, 0b00000001000}};
+                                                      {11, 32, 0b00000011001},
+                                                      {11, 33, 0b00000011000}};
 
 Macroblock *MacroblockParser::getNextPacket(unsigned char qsc) {
     PictureDecoder *pictureDecoder = VideoDecoder::getInstance()->getPictureDecoder();
