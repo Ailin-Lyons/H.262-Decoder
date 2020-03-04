@@ -134,24 +134,24 @@ void VideoDecoder::loadGroupHeaderAndExtension() {
     auto *groupHeader = (GroupOfPicturesHeaderPacket *) getNextVideoPacket();
     pictureDecoder->setClosedGop(groupHeader->isClosedGop());
     pictureDecoder->setBrokenLink(groupHeader->isBrokenLink());
-    printf("Decoding new Group of Pictures: Closed? %s, Broken? %s\n", groupHeader->isClosedGop() ? "yes" : "no",
-           groupHeader->isBrokenLink() ? "yes" : "no");
+//    printf("Decoding new Group of Pictures: Closed? %s, Broken? %s\n", groupHeader->isClosedGop() ? "yes" : "no",
+//           groupHeader->isBrokenLink() ? "yes" : "no");
 }
 
 PictureHeaderPacket::picture_coding_types VideoDecoder::loadPictureHeader() {
     auto *pictureHeader = (PictureHeaderPacket *) getNextVideoPacket();
     pictureDecoder->setPictureCodingType(pictureHeader->getPictureCodingType());
     pictureDecoder->setTemporalReference(pictureHeader->getTemporalReference());
-    printf("Decoding new HPicture Header: PictureCodingType = %s, TemporalReference = %hu\n",
-           pictureHeader->getPictureCodingTypeString().c_str(),
-           pictureHeader->getTemporalReference());
+//    printf("Decoding new HPicture Header: PictureCodingType = %s, TemporalReference = %hu\n",
+//           pictureHeader->getPictureCodingTypeString().c_str(),
+//           pictureHeader->getTemporalReference());
     return pictureHeader->getPictureCodingType();
 }
 
 void VideoDecoder::loadPictureCodingExtension() {
     auto *pictureCodingExtension = (PictureCodingExtensionPacket *) getNextVideoPacket();
-    printf("Decoding new HPicture Coding Extension: ");
-    pictureCodingExtension->print();
+    //printf("Decoding new HPicture Coding Extension: ");
+    //pictureCodingExtension->print();
     pictureDecoder->setFCode00(pictureCodingExtension->getFCode00());
     pictureDecoder->setFCode01(pictureCodingExtension->getFCode01());
     pictureDecoder->setFCode10(pictureCodingExtension->getFCode10());
@@ -178,14 +178,14 @@ void VideoDecoder::handleVideoStream(ESPacket *pPacket) {
 
 
 void VideoDecoder::loadSequenceDisplayExtension(SequenceDisplayExtensionPacket *sdePacket) {
-    printf("VideoDecoder: SequenceDisplayExtensionPacket Discarded\n"); // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
+    //printf("VideoDecoder: SequenceDisplayExtensionPacket Discarded\n"); // Dropping SequenceDisplayExtensionPacket as it is not used in the decoding process H262 6.3.6
 }
 
 PictureDecoder *VideoDecoder::getPictureDecoder() const {
     return pictureDecoder;
 }
 
-void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
+void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {//TODO put this function into FileInterface
     cimg_library::CImg<int> *pngPicture = PictureBuilder::makePngFromHPicture(hPicture);
 
     std::string fileName = destination;//TODO create folder if it doesnt exist
@@ -194,7 +194,7 @@ void VideoDecoder::savePngToFile(HPicture *hPicture, char *destination) {
     fileName.append(".bmp");
 
     pngPicture->YCbCrtoRGB();
-    printf("Skipped picture %d\n",pngSequenceNumber);
-    //pngPicture->save_bmp(fileName.c_str());
+    //printf("Skipped picture %d\n",pngSequenceNumber);
+    pngPicture->save_bmp(fileName.c_str());
     delete pngPicture;
 }
