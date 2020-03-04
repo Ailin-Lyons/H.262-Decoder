@@ -258,7 +258,10 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
             Macroblock *mb = slice->getMacroblocks()[m];
             if (mb->getMacroblockAddressIncrement() > 1) {
-                slice->insertZeroVectorMacroblock(m);
+                for(size_t i = mb->getMacroblockAddressIncrement(); i > 1; i--){
+                    slice->insertZeroVectorMacroblock(m);
+                    m++;//increment past inserted macroblock
+                }
             }
         }
     }
@@ -272,8 +275,6 @@ void MCompensator::setMacroblockAddresses(HPicture *picture) {
             Macroblock *mb = slice->getMacroblocks()[m];
             mb->setMacroblockAddress(index);
             index++;
-            printf("%4d ", (int) mb->getMacroblockAddress());
         }
-        printf("\n");
     }
 }

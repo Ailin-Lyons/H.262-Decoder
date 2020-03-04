@@ -32,9 +32,9 @@ HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_type
      */
     auto *mComp = new MCompensator(pictureType, isConcealmentMotionVectors());
     mComp->performMComp(picture);
-    for (size_t i = 0; i < picture->getNumSlices(); i++) {
-        picture->getSlices()[i]->print();
-    }
+//    for (size_t i = 0; i < picture->getNumSlices(); i++) {
+//        picture->getSlices()[i]->print();
+//    }
     return picture;
 }
 

@@ -10,7 +10,7 @@ cimg_library::CImg<int> *PictureBuilder::makePngFromHPicture(HPicture *picture) 
         throw VideoException("PictureBuilder::makePngFromHPicture: received HPicture in incorrect decoding_state");
     }
     VideoInformation *vi = VideoInformation::getInstance();
-    auto *out = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize(), 1,3);
+    auto *out = new cimg_library::CImg<int>(vi->getHorizontalSize(), vi->getVerticalSize(), 1, 3);
     if (vi->getHorizontalSize() % 16 != 0 || vi->getVerticalSize() % 16 != 0) {
         throw VideoException("PictureBuilder::makePngFromHPicture: invalid resolution");
     }
@@ -41,12 +41,14 @@ PictureBuilder::addMacroblockToCimg(cimg_library::CImg<int> *image, Macroblock *
     }
     size_t h_size = VideoInformation::getInstance()->getHorizontalSize();
     size_t topLeft = getTopLeftIndex(macroblockNumber);
-    if (macroblock->getBlocks()[0]) addYBlockToCimg(image, macroblock->getBlocks()[0], topLeft);
-    if (macroblock->getBlocks()[1]) addYBlockToCimg(image, macroblock->getBlocks()[1], topLeft + 8);
-    if (macroblock->getBlocks()[2]) addYBlockToCimg(image, macroblock->getBlocks()[2], topLeft + (8 * h_size));
-    if (macroblock->getBlocks()[3]) addYBlockToCimg(image, macroblock->getBlocks()[3], topLeft + (8 * h_size) + 8);
-    if (macroblock->getBlocks()[4]) addCbBlockToCimg(image, macroblock->getBlocks()[4], topLeft);
-    if (macroblock->getBlocks()[5]) addCrBlockToCimg(image, macroblock->getBlocks()[5], topLeft);
+    if (macroblock && macroblock->getBlocks()) {
+        if (macroblock->getBlocks()[0]) addYBlockToCimg(image, macroblock->getBlocks()[0], topLeft);
+        if (macroblock->getBlocks()[1]) addYBlockToCimg(image, macroblock->getBlocks()[1], topLeft + 8);
+        if (macroblock->getBlocks()[2]) addYBlockToCimg(image, macroblock->getBlocks()[2], topLeft + (8 * h_size));
+        if (macroblock->getBlocks()[3]) addYBlockToCimg(image, macroblock->getBlocks()[3], topLeft + (8 * h_size) + 8);
+        if (macroblock->getBlocks()[4]) addCbBlockToCimg(image, macroblock->getBlocks()[4], topLeft);
+        if (macroblock->getBlocks()[5]) addCrBlockToCimg(image, macroblock->getBlocks()[5], topLeft);
+    }
 }
 
 void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlock, size_t topLeft) {
