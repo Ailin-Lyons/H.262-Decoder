@@ -38,7 +38,7 @@ bool Slice::operator==(const Slice &rhs) const {
               numMacroblocks == rhs.numMacroblocks;
     if (!eq)return eq;
     for (int i = 0; i < numMacroblocks; i++) {
-        if (macroblocks[i] != rhs.macroblocks[i])return false;
+        if (*macroblocks[i] != *rhs.macroblocks[i])return false;
     }
     return true;
 }
@@ -49,7 +49,7 @@ bool Slice::operator!=(const Slice &rhs) const {
 
 Slice::~Slice() {
     for (int i = 0; i < numMacroblocks; i++) {
-        delete (&macroblocks[i]);
+        delete (macroblocks[i]);
     }
 }
 
@@ -61,11 +61,11 @@ void Slice::setNumMacroblocks(unsigned int num) {
     numMacroblocks = num;
 }
 
-Macroblock *Slice::getMacroblocks() const {
+Macroblock **Slice::getMacroblocks() const {
     return macroblocks;
 }
 
-void Slice::setMacroblocks(Macroblock *m) {
+void Slice::setMacroblocks(Macroblock **m) {
     macroblocks = m;
 }
 

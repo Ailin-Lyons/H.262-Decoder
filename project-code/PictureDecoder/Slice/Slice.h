@@ -22,7 +22,7 @@ private:
     unsigned char slice_picture_id;
     // extra_information_slice: A decoder conforming to this Specification that encounters extra_information_slice in a bitstream shall ignore it.
     unsigned int numMacroblocks;
-    Macroblock *macroblocks;
+    Macroblock **macroblocks;
 
 public:
     struct initializerStruct {
@@ -36,7 +36,7 @@ public:
         unsigned char slice_picture_id;
         // extra_information_slice: A decoder conforming to this Specification that encounters extra_information_slice in a bitstream shall ignore
         unsigned int numMacroblocks;
-        Macroblock *macroblocks;
+        Macroblock **macroblocks;
     };
 
     /**
@@ -56,9 +56,9 @@ public:
 
     void setNumMacroblocks(unsigned int num);
 
-    Macroblock *getMacroblocks() const;
+    Macroblock **getMacroblocks() const;
 
-    void setMacroblocks(Macroblock *m);
+    void setMacroblocks(Macroblock **m);
 
     unsigned char getQuantiserScaleCode() const;
 

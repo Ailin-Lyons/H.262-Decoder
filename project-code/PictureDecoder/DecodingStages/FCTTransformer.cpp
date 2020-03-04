@@ -117,7 +117,7 @@ void FCTTransformer::performIDCTThreaded(HPicture *picture) {
 void *FCTTransformer::performIDCTThreadHelper(void *slice) {
     auto* sl = (Slice *) slice;
     for (size_t m = 0; m < sl->getNumMacroblocks(); m++) {
-        Macroblock *macroblock = &sl->getMacroblocks()[m];
+        Macroblock *macroblock = sl->getMacroblocks()[m];
         for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
             Block *block = macroblock->getBlocks()[b];
             if (block) performIDCTBlockHelper(block);

@@ -22,7 +22,7 @@ void InverseScanner::performInverseScan(HPicture *picture, bool alternate_scan) 
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *macroblock = &slice->getMacroblocks()[m];
+            Macroblock *macroblock = slice->getMacroblocks()[m];
             for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
                 Block *block = macroblock->getBlocks()[b];
                 if (block) performInverseScanHelper(block);

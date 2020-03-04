@@ -28,7 +28,7 @@ Macroblock *PictureBuilder::getNthMacroblock(HPicture *pPicture, size_t n) {
         if (n >= curr->getNumMacroblocks()) {
             n -= curr->getNumMacroblocks();
         } else {
-            return &curr->getMacroblocks()[n];
+            return curr->getMacroblocks()[n];
         }
     }
     throw VideoException("PictureBuilder::getNthMacroblock: picture is missing macroblocks");

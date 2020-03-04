@@ -63,7 +63,7 @@ void InverseQuantiser::performInverseQuantisation(HPicture *picture) {//TODO
             qsc = slice->getQuantiserScaleCode();
         }
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *macroblock = &slice->getMacroblocks()[m];
+            Macroblock *macroblock = slice->getMacroblocks()[m];
             if (qsc == 0 || (macroblock->getQuantiserScaleCode() != 0 && qsc != macroblock->getQuantiserScaleCode())) {
                 qsc = macroblock->getQuantiserScaleCode();
             }

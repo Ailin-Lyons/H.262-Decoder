@@ -52,7 +52,7 @@ void AlternateQuantiser::performInverseQuantisation(HPicture *picture) {
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *macroblock = &slice->getMacroblocks()[m];
+            Macroblock *macroblock = slice->getMacroblocks()[m];
             int quantiser_scale_code = macroblock->getQuantiserScaleCode();
             bool intra = macroblock->getMacroBlockModes()->isMacroblockIntra();
             for (size_t b = 0; b < macroblock->getBlockCount(); b++) {

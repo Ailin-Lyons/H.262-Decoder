@@ -75,7 +75,7 @@ void MCompensator::performMcompPPicture(HPicture *picture) {
         Slice *slice = picture->getSlices()[s];
         resetPMV(); //At the start of each slice H.262 7.6.3.4
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *macroblock = &slice->getMacroblocks()[m];
+            Macroblock *macroblock = slice->getMacroblocks()[m];
             if (macroblock->getMacroBlockModes()->getFrameMotionType() != 0b10) {
                 throw VideoException("MCompensator::performMcompPPicture: Prediction type not handled by decoder.");
             }
@@ -256,7 +256,7 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *mb = &slice->getMacroblocks()[m];
+            Macroblock *mb = slice->getMacroblocks()[m];
             if (mb->getMacroblockAddressIncrement() > 1) {
                 slice->insertZeroVectorMacroblock(m);
             }
@@ -269,7 +269,7 @@ void MCompensator::setMacroblockAddresses(HPicture *picture) {
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
         Slice *slice = picture->getSlices()[s];
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
-            Macroblock *mb = &slice->getMacroblocks()[m];
+            Macroblock *mb = slice->getMacroblocks()[m];
             mb->setMacroblockAddress(index);
             index++;
             printf("%4d ", (int) mb->getMacroblockAddress());
