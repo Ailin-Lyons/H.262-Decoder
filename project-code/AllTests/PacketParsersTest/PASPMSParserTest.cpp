@@ -23,7 +23,7 @@ TEST(AllTest, PASPMSParser_Test) {
     auto expected_pasPrograms = (ProgramAssociationSection::pas_program*) malloc(sizeof(ProgramAssociationSection));
     expected_pasPrograms->program_number = 0x1;
     expected_pasPrograms->assosciated_pid = 0x20;
-    ProgramAssociationSection PASexpected = ProgramAssociationSection(expectedPAS_header, (unsigned char) 0x9391,
+    ProgramAssociationSection PASexpected = ProgramAssociationSection(expectedPAS_header, (unsigned short) 0x9391,
                                                                       expectedPAS_vsf, 1, expected_pasPrograms);
     TSPayloadSections::ts_payload_header_fields expectedPMS_header = {};
     expectedPMS_header.table_id = 0x02;
