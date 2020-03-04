@@ -16,7 +16,8 @@
 class ESParser {
 public:
     TransportPacket *currTP{}; //The TransportPacket currently being parsed
-    TransportPacket *nextTP = nullptr; //The next Transport packet to be used. if this is 0 request a new packet instead
+    TransportPacket *peekTP = nullptr; //The next Transport packet to be used. if this is 0 request a new packet instead
+    TransportPacket *peek2TP = nullptr;
     ProgramAssociationSection *programAssociationSection{};
     ProgramMapSection *programMapSection{};
     unsigned char *currPos{}; //The address of currTP that will be parsed next

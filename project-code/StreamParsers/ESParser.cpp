@@ -27,7 +27,7 @@ ESParser::ESParser() {
 }
 
 void ESParser::initiateStream() {
-    nextTP = nullptr;
+    peekTP = nullptr;
     program_pid = 0x00;
     loadNextTSPacket();
     programAssociationSection = PASParser::getPASPacket();
@@ -42,9 +42,10 @@ void ESParser::initiateStream() {
 }
 
 void ESParser::loadNextTSPacket() {
-    if (nextTP != nullptr) {
-        currTP = nextTP;
-        nextTP = nullptr;
+    if (peekTP != nullptr) {
+        currTP = peekTP;
+        peekTP = peek2TP;
+        peek2TP = nullptr;
     } else {
         currTP = findNextTSPacket();
     }
@@ -143,16 +144,19 @@ unsigned int ESParser::numBitsRemaining() {
 }
 
 unsigned long long ESParser::peekNextPacket(unsigned int numBits) {
-    if (nextTP == nullptr) {
-        nextTP = findNextTSPacket();
+    if (peekTP == nullptr) {
+        peekTP = findNextTSPacket();
     }
-    if (numBits > (nextTP->getDataLength() * 8)) {
-        printf("Data length %x\n", (unsigned int) nextTP->getDataLength());
-        nextTP->print();
-        throw PacketException(
-                "ESParser::peekNextPacket: next packet is too short\n         <(^_^)>\n\n   ...shutting down...\n\n    ...gracefully....\n\n         <(~_~)>\n");
+    if (numBits > (peekTP->getDataLength() * 8)) {
+        if (peek2TP == nullptr) {
+            peek2TP = findNextTSPacket();
+        }
+        unsigned char *peek2Data = peek2TP->getData();
+        unsigned long long out = BitManipulator::readNBits(peekTP->getData(), peekTP->getDataLength() * 8);
+        return (out << (peekTP->getDataLength() * 8)) +
+               BitManipulator::readNBits(peek2Data, numBits - (peekTP->getDataLength() * 8));
     }
-    return BitManipulator::readNBits(nextTP->getData(), numBits);
+    return BitManipulator::readNBits(peekTP->getData(), numBits);
 }
 
 void ESParser::incrementOffset(unsigned int numBits) {
