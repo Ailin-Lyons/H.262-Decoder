@@ -83,9 +83,8 @@ void Slice::insertZeroVectorMacroblock(size_t index) {
     init.macroBlockModes = new MacroblockModes(MacroblockModes::initializerStruct{false, true});
     init.macroBlockModes->setFrameMotionType(0b10);
     numMacroblocks++;
-    macroblocks = (Macroblock **) realloc(macroblocks,
-                                          sizeof(Macroblock *) * numMacroblocks); // NOLINT(bugprone-sizeof-expression)
-    for (size_t i = numMacroblocks - 1; i >= index; i--) {
+    macroblocks = (Macroblock **) realloc(macroblocks, sizeof(void *) * numMacroblocks);
+    for (size_t i = numMacroblocks - 2; i >= index; i--) {
         macroblocks[i + 1] = macroblocks[i];
     }
     macroblocks[index] = new Macroblock(init);

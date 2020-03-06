@@ -74,8 +74,8 @@ void MotionVectors::setMotionVector1S(MotionVector *motionVector1S) {
 }
 
 MotionVectors *MotionVectors::buildZeroVectors(bool s) {
-    MotionVectors::initializerStruct init = {s, 0, 0, // NOLINT(modernize-use-bool-literals)
-                                             MotionVector::buildZeroVector(0, s), // NOLINT(modernize-use-bool-literals)
-                                             MotionVector::buildZeroVector(1, s)}; // NOLINT(modernize-use-bool-literals)
+    MotionVectors::initializerStruct init = {s, 0,
+                                             0,
+                                             MotionVector::buildZeroVector(0, s)};
     return new MotionVectors(init);
 }

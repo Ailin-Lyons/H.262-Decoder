@@ -4,11 +4,18 @@
 
 #include "Framestores.h"
 
-void Framestores::updateFramestores(HPicture p) {
-//TODO destroy old picture? refcount?
-picture = p;
+Framestores *Framestores::instance = nullptr;
+
+void Framestores::updateFramestores(HPicture *p) {
+    delete picture;
+    picture = p;
 }
 
-Macroblock *Framestores::getPredictionXY(MotionVector mv) {
-    return nullptr; //TODO
+/**
+ *
+ * @param mv
+ * @return a Macroblock or nullptr
+ */
+Macroblock *Framestores::getPredictionXY(MotionVector* mv) {
+    return picture->getSlices()[0]->getMacroblocks()[0]; //TODO
 }

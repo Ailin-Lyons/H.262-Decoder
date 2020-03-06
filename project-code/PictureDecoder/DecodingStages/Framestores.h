@@ -11,7 +11,7 @@
 class Framestores {//TODO implement
 private:
     static Framestores *instance;
-    HPicture picture;
+    HPicture* picture;
 
     /**
     * A private constructor for the singleton
@@ -26,9 +26,9 @@ public:
         return instance;
     }
 
-    void updateFramestores(HPicture p);
+    void updateFramestores(HPicture* p);
 
-    Macroblock* getPredictionXY(MotionVector mv);
+    Macroblock* getPredictionXY(MotionVector* mv);
 };
 
 
