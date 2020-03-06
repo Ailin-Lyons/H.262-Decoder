@@ -17,5 +17,9 @@ void Framestores::updateFramestores(HPicture *p) {
  * @return a Macroblock or nullptr
  */
 Macroblock *Framestores::getPredictionXY(MotionVector* mv) {
-    return picture->getSlices()[0]->getMacroblocks()[0]; //TODO
+    if(picture){
+        return picture->getSlices()[0]->getMacroblocks()[0];
+    }else{
+        return nullptr; //TODO
+    }
 }

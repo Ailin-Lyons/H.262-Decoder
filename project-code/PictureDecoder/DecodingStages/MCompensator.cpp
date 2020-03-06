@@ -7,6 +7,7 @@
 #include <VideoInformation.h>
 #include "MCompensator.h"
 #include "../../VideoDecoder/VideoException.cpp"
+#include "Framestores.h"
 
 /**
  * TODO (remove these) Notes:
@@ -28,11 +29,11 @@
  * [X] 7.6.3.9
  * [ ] 7.6.4
  * [ ] 7.6.5
- * [ ] 7.6.6
- * [ ] 7.6.6.1
- * [ ] 7.6.6.2
- * [ ] 7.6.6.3
- * [ ] 7.6.6.4
+ * [X] 7.6.6
+ * [X] 7.6.6.1
+ * [X] 7.6.6.2
+ * [X] 7.6.6.3
+ * [X] 7.6.6.4
  * [ ] 7.6.7
  * [ ] 7.6.7.1
  * [ ] 7.6.7.2
@@ -55,12 +56,12 @@ MCompensator::MCompensator(PictureHeaderPacket::picture_coding_types frameType, 
 void MCompensator::performMComp(HPicture *picture) {
     switch (frameType) {
         case PictureHeaderPacket::picture_coding_types::intra_coded:
-            printf("TODO MComp handle I-frame\n");
             setMacroblockAddresses(picture);
-            //TODO handle I-frame: add to framestore + anything else?
+            Framestores::getInstance()->updateFramestores(picture);
             break;
         case PictureHeaderPacket::picture_coding_types::predictive_coded:
             performMcompPPicture(picture);
+            Framestores::getInstance()->updateFramestores(picture);
             break;
         default:
             throw VideoException(
@@ -81,7 +82,6 @@ void MCompensator::performMcompPPicture(HPicture *picture) {
             }
             //This code only handles Frame pictures
             performMCompMacroblock(macroblock);
-            //TODO continue here once helper is done
         }
     }
 }
@@ -92,9 +92,7 @@ void MCompensator::performMCompMacroblock(Macroblock *macroblock) {
     updateRemainingPredictors(macroblock); // Updates predictors according to H.262 7.6.3.3
     handleMissingPredictors(macroblock); // Makes missing vectors according to H.262 7.6.3.5
     makeChromVectors(macroblock); // Builds chrominace vectors from luminance vectors according to H.262 7.6.3.7
-
-    //TODO implement
-    //TODO continue with 7.6.4 here
+    handlePredictions(macroblock);
 }
 
 /**
@@ -258,7 +256,7 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
         for (size_t m = 0; m < slice->getNumMacroblocks(); m++) {
             Macroblock *mb = slice->getMacroblocks()[m];
             if (mb->getMacroblockAddressIncrement() > 1) {
-                for(size_t i = mb->getMacroblockAddressIncrement(); i > 1; i--){
+                for (size_t i = mb->getMacroblockAddressIncrement(); i > 1; i--) {
                     slice->insertZeroVectorMacroblock(m);
                     m++;//increment past inserted macroblock
                 }
@@ -275,6 +273,54 @@ void MCompensator::setMacroblockAddresses(HPicture *picture) {
             Macroblock *mb = slice->getMacroblocks()[m];
             mb->setMacroblockAddress(index);
             index++;
+        }
+    }
+}
+
+/**
+ * This function forms and merges predictions from motion vectors for Frame-Pictures
+ */
+void MCompensator::handlePredictions(Macroblock *macroblock) {
+    if (!macroblock->getMacroBlockModes()->isMacroblockIntra()) {//if(!intra)
+        if (macroblock->getMacroBlockModes()->isMacroblockMotionBackward()) {
+            throw VideoException(
+                    "MCompensator::handlePredictions: backwards motion vectors not handled by this decoder\n");
+        }
+        Framestores *fs = Framestores::getInstance();
+        Macroblock *prediction = fs->getPredictionXY(macroblock->getForwardMotionVectors()->getMotionVector0S());
+        combinePrediction(macroblock, prediction);
+    }
+}
+
+/**
+ * Merges Prediction and Coefficient data into macroblock according to H.262 7.6.8
+ * and deletes prediction
+ */
+void MCompensator::combinePrediction(Macroblock *macroblock, Macroblock *prediction) {
+    addMissingBlocks(macroblock);
+    for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
+        if(prediction->getBlock(b)){
+            int *dest = macroblock->getBlock(b)->getData();
+            int *source = prediction->getBlock(b)->getData();
+            for (size_t i = 0; i < 64; i++) {
+                dest[i] = source[i] + dest[i];
+                if (dest[i] < 0) dest[i] = 0;
+                if (dest[i] > 255) dest[i] = 255;
+            }
+        }
+    }
+}
+
+void MCompensator::addMissingBlocks(Macroblock *macroblock) {
+    if (!macroblock->getBlocks())
+        macroblock->setBlocks((Block **) malloc(sizeof(void *) * macroblock->getBlockCount()));
+    for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
+        if (!macroblock->getBlock(b)) {
+            macroblock->setBlock(b, new Block(Block::initializerStruct{b}));
+        }
+        Block *block = macroblock->getBlock(b);
+        if (!block->getData()) {
+            block->setData((int *) calloc(64, sizeof(int)));
         }
     }
 }

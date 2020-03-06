@@ -50,6 +50,12 @@ public:
      * @param picture
      */
     static void setMacroblockAddresses(HPicture *picture);
+
+    void handlePredictions(Macroblock *macroblock);
+
+    void combinePrediction(Macroblock *macroblock, Macroblock *prediction);
+
+    static void addMissingBlocks(Macroblock *macroblock);
 };
 
 
