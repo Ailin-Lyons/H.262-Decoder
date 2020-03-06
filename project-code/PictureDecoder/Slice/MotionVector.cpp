@@ -40,20 +40,20 @@ bool MotionVector::operator!=(const MotionVector &rhs) const {
     return !(rhs == *this);
 }
 
-int MotionVector::getLumVectorRS0() const {
-    return lum_vector_r_s_0;
+int MotionVector::getVectorRS0() const {
+    return vector_r_s_0;
 }
 
-void MotionVector::setLumVectorRS0(int vectorPrimeRS0) {
-    lum_vector_r_s_0 = vectorPrimeRS0;
+void MotionVector::setVectorRS0(int vectorPrimeRS0) {
+    vector_r_s_0 = vectorPrimeRS0;
 }
 
-int MotionVector::getLumVectorRS1() const {
-    return lum_vector_r_s_1;
+int MotionVector::getVectorRS1() const {
+    return vector_r_s_1;
 }
 
-void MotionVector::setLumVectorRS1(int vectorPrimeRS1) {
-    lum_vector_r_s_1 = vectorPrimeRS1;
+void MotionVector::setVectorRS1(int vectorPrimeRS1) {
+    vector_r_s_1 = vectorPrimeRS1;
 }
 
 bool MotionVector::isR() const {
@@ -95,22 +95,6 @@ MotionVector *MotionVector::buildZeroVector(bool r, bool s) {
 MotionVector::MotionVector(bool r, bool s) {
     this->r = r;
     this->s = s;
-    lum_vector_r_s_0 = 0;
-    lum_vector_r_s_1 = 0;
-}
-
-int MotionVector::getChromVectorRS0() const {
-    return chrom_vector_r_s_0;
-}
-
-void MotionVector::setChromVectorRS0(int chromVectorRS0) {
-    chrom_vector_r_s_0 = chromVectorRS0;
-}
-
-int MotionVector::getChromVectorRS1() const {
-    return chrom_vector_r_s_1;
-}
-
-void MotionVector::setChromVectorRS1(int chromVectorRS1) {
-    chrom_vector_r_s_1 = chromVectorRS1;
+    vector_r_s_0 = 0;
+    vector_r_s_1 = 0;
 }

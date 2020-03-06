@@ -2,6 +2,9 @@
 // Created by elnsa on 2020-01-18.
 //
 
+#include "../../VideoDecoder/VideoInformation.h"
+#include "../../VideoDecoder/VideoDecoder.h"
+#include "../../PictureDecoder/PictureDecoder.h"
 #include <cstdio>
 #include <cstdlib>
 #include "Block.h"
@@ -60,4 +63,12 @@ void Block::setData(int *block_data) {
 
 unsigned char Block::getCc() const {
     return cc;
+}
+
+unsigned char Block::calculateCC(size_t i) {
+    if (i < 4) {
+        return 0;
+    } else {
+        return (unsigned char) (i % 2 + 1);
+    }
 }

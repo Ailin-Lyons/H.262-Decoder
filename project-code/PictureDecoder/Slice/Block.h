@@ -42,6 +42,8 @@ public:
     bool operator==(const Block &rhs) const;
 
     bool operator!=(const Block &rhs) const;
+
+    static unsigned char calculateCC(size_t i);
 };
 
 

@@ -4,43 +4,9 @@
 
 #include <PictureDecoder.h>
 #include <VideoDecoder.h>
-#include <VideoInformation.h>
 #include "MCompensator.h"
 #include "../../VideoDecoder/VideoException.cpp"
 #include "Framestores.h"
-
-/**
- * TODO (remove these) Notes:
- * In  P-pictures  prediction  shall  be  made  from  the  most  recently  reconstructed  reference  frame.  This  is  illustrated  in  Figure 7-10.
- * [ ] 7.6
- * [X] 7.6.1
- * [X] 7.6.2
- * [X] 7.6.2.1
- * [X] 7.6.2.2
- * [X] 7.6.3
- * [X] 7.6.3.1
- * [X] 7.6.3.2
- * [X] 7.6.3.3
- * [X] 7.6.3.4
- * [X] 7.6.3.5
- * [X] 7.6.3.6
- * [X] 7.6.3.7
- * [X] 7.6.3.8
- * [X] 7.6.3.9
- * [ ] 7.6.4
- * [ ] 7.6.5
- * [X] 7.6.6
- * [X] 7.6.6.1
- * [X] 7.6.6.2
- * [X] 7.6.6.3
- * [X] 7.6.6.4
- * [ ] 7.6.7
- * [ ] 7.6.7.1
- * [ ] 7.6.7.2
- * [ ] 7.6.7.3
- * [ ] 7.6.7.4
- * [ ] 7.6.8
- */
 
 /**
  * Constructor
@@ -91,7 +57,6 @@ void MCompensator::performMCompMacroblock(Macroblock *macroblock) {
     decodeMotionVectors(macroblock); // Decodes motion vectors according to H.262 7.6.3.1
     updateRemainingPredictors(macroblock); // Updates predictors according to H.262 7.6.3.3
     handleMissingPredictors(macroblock); // Makes missing vectors according to H.262 7.6.3.5
-    makeChromVectors(macroblock); // Builds chrominace vectors from luminance vectors according to H.262 7.6.3.7
     handlePredictions(macroblock);
 }
 
@@ -114,16 +79,16 @@ void MCompensator::decodeMotionVectors(Macroblock *macroblock) {
 }
 
 void MCompensator::decodeVectorPrime(MotionVector *motionVector) {
-    motionVector->setLumVectorRS0(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
-                                                          motionVector->getMotionResidualRS0(),
-                                                          motionVector->isR(),
-                                                          motionVector->isS(),
-                                                          0)); // NOLINT(modernize-use-bool-literals)
-    motionVector->setLumVectorRS1(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
-                                                          motionVector->getMotionResidualRS0(),
-                                                          motionVector->isR(),
-                                                          motionVector->isS(),
-                                                          1)); // NOLINT(modernize-use-bool-literals)
+    motionVector->setVectorRS0(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
+                                                       motionVector->getMotionResidualRS0(),
+                                                       motionVector->isR(),
+                                                       motionVector->isS(),
+                                                       0)); // NOLINT(modernize-use-bool-literals)
+    motionVector->setVectorRS1(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
+                                                       motionVector->getMotionResidualRS0(),
+                                                       motionVector->isR(),
+                                                       motionVector->isS(),
+                                                       1)); // NOLINT(modernize-use-bool-literals)
 }
 
 int MCompensator::decodeVectorPrimeHelper(char vectorCode, unsigned char residual, bool r, bool s, bool t) {
@@ -191,40 +156,6 @@ void MCompensator::handleMissingPredictors(Macroblock *macroblock) {
 }
 
 /**
- * Initialize Chrominance Vectors according to H.262 7.6.3.7
- * @param motionVectors
- */
-void MCompensator::makeChromVectors(Macroblock *macroblock) {
-    SequenceExtensionPacket::chroma_format_type chromaType = VideoInformation::getInstance()->getChromaFormat();
-    switch (chromaType) { // NOLINT(hicpp-multiway-paths-covered)
-        case SequenceExtensionPacket::chroma_format_type::cf_420:
-            if (macroblock->getForwardMotionVectors()) makeChromVectors420(macroblock->getForwardMotionVectors());
-            if (macroblock->getBackwardMotionVectors()) makeChromVectors420(macroblock->getBackwardMotionVectors());
-            break;
-            //4:2:2 and 4:4:4 cases should branch here
-        default:
-            throw VideoException("MCompensator::makeChromVectors: Unhandled chroma format.\n");
-    }
-}
-
-/**
- * Initialize chrominance Vectors according to H.262 7.6.3.7 when chroma_format = 4:2:0
- * @param motionVectors
- */
-void MCompensator::makeChromVectors420(MotionVectors *motionVectors) {
-    MotionVector *mv0s = motionVectors->getMotionVector0S();
-    MotionVector *mv1s = motionVectors->getMotionVector1S();
-    if (mv0s) {
-        mv0s->setChromVectorRS0(mv0s->getLumVectorRS0() / 2);
-        mv0s->setChromVectorRS1(mv0s->getLumVectorRS1() / 2);
-    }
-    if (mv1s) {
-        mv1s->setChromVectorRS0(mv1s->getLumVectorRS0() / 2);
-        mv1s->setChromVectorRS1(mv1s->getLumVectorRS1() / 2);
-    }
-}
-
-/**
  * Decides whether to reset predictors according to H.262 7.6.3.4
  */
 void MCompensator::checkResetPMV(Macroblock *macroblock) {
@@ -258,6 +189,7 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
             if (mb->getMacroblockAddressIncrement() > 1) {
                 for (size_t i = mb->getMacroblockAddressIncrement(); i > 1; i--) {
                     slice->insertZeroVectorMacroblock(m);
+                    Macroblock *test = slice->getMacroblocks()[m];
                     m++;//increment past inserted macroblock
                 }
             }
@@ -299,7 +231,7 @@ void MCompensator::handlePredictions(Macroblock *macroblock) {
 void MCompensator::combinePrediction(Macroblock *macroblock, Macroblock *prediction) {
     addMissingBlocks(macroblock);
     for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
-        if(prediction->getBlock(b)){
+        if (prediction->getBlock(b)) {
             int *dest = macroblock->getBlock(b)->getData();
             int *source = prediction->getBlock(b)->getData();
             for (size_t i = 0; i < 64; i++) {
@@ -313,10 +245,10 @@ void MCompensator::combinePrediction(Macroblock *macroblock, Macroblock *predict
 
 void MCompensator::addMissingBlocks(Macroblock *macroblock) {
     if (!macroblock->getBlocks())
-        macroblock->setBlocks((Block **) malloc(sizeof(void *) * macroblock->getBlockCount()));
+        macroblock->setBlocks((Block **) calloc(macroblock->getBlockCount(), sizeof(void *)));
     for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
         if (!macroblock->getBlock(b)) {
-            macroblock->setBlock(b, new Block(Block::initializerStruct{b}));
+            macroblock->getBlocks()[b] = new Block(Block::initializerStruct{b, Block::calculateCC(b)});
         }
         Block *block = macroblock->getBlock(b);
         if (!block->getData()) {

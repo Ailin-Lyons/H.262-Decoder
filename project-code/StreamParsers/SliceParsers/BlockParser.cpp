@@ -265,7 +265,7 @@ void BlockParser::block(size_t i, Block **destination) {
     // tableFlag = true means use Table B.15, otherwise use Table B.14
     bool tableFlag = pictureDecoder->isMacroblockIntra() && pictureDecoder->isIntraVlcFormat();
     initializePatternCode(pattern_code);
-    init.cc = getCC(i);
+    init.cc = Block::calculateCC(i);
     if (pattern_code[i]) {
         unsigned char n = 0;
         if (pictureDecoder->isMacroblockIntra()) {
@@ -326,14 +326,6 @@ void BlockParser::initializePatternCode(bool *pattern_code) {
                 if (pictureDecoder->getCodedBlockPattern2() & (1u << (11u - i))) pattern_code[i] = true;
             }
         }
-    }
-}
-
-unsigned char BlockParser::getCC(size_t i) {
-    if (i < 4) {
-        return 0;
-    } else {
-        return (unsigned char) (i % 2 + 1);
     }
 }
 

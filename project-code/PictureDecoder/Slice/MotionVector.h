@@ -18,10 +18,8 @@ private:
     char motion_code_r_s_1{};
     unsigned char motion_residual_r_s_1{};
     char dmvector_1{};
-    int lum_vector_r_s_0{};
-    int lum_vector_r_s_1{};
-    int chrom_vector_r_s_0{};
-    int chrom_vector_r_s_1{};
+    int vector_r_s_0{};
+    int vector_r_s_1{};
 
     MotionVector(bool r, bool s);
 
@@ -63,21 +61,13 @@ public:
 
     char getDmvector1() const;
 
-    int getLumVectorRS0() const;
+    int getVectorRS0() const;
 
-    void setLumVectorRS0(int vectorPrimeRS0);
+    void setVectorRS0(int vectorPrimeRS0);
 
-    int getLumVectorRS1() const;
+    int getVectorRS1() const;
 
-    void setLumVectorRS1(int vectorPrimeRS1);
-
-    int getChromVectorRS0() const;
-
-    void setChromVectorRS0(int chromVectorRS0);
-
-    int getChromVectorRS1() const;
-
-    void setChromVectorRS1(int chromVectorRS1);
+    void setVectorRS1(int vectorPrimeRS1);
 
     static MotionVector *buildZeroVector(bool r, bool s);
 };

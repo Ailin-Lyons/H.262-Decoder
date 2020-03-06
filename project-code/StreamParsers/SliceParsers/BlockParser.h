@@ -45,8 +45,6 @@ private:
 
     static void initializePatternCode(bool pattern_code[12]);
 
-    static unsigned char getCC(size_t i);
-
     static int readSign(int level);
 
     static bool checkEndCode(bool b);

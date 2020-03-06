@@ -36,10 +36,6 @@ public:
 
     static void handleMissingPredictors(Macroblock *macroblock);
 
-    void makeChromVectors(Macroblock *macroblock);
-
-    static void makeChromVectors420(MotionVectors *motionVectors);
-
     void checkResetPMV(Macroblock *macroblock);
 
     static void addMissingMacroblocks(HPicture *picture);

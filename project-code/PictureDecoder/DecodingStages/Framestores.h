@@ -11,12 +11,18 @@
 class Framestores {//TODO implement
 private:
     static Framestores *instance;
-    HPicture* picture;
+    size_t x_res;
+    size_t y_res;
+    int* lum;
+    int* cr;
+    int* cb;
 
     /**
     * A private constructor for the singleton
     */
-    Framestores() = default;
+    Framestores();
+
+    ~Framestores();
 
 public:
     static Framestores *getInstance() {
@@ -29,6 +35,14 @@ public:
     void updateFramestores(HPicture* p);
 
     Macroblock* getPredictionXY(MotionVector* mv);
+
+    static size_t divTruncNeg(int top, int bottom);
+
+    Block *predictLumBlock(size_t x, size_t y, bool half_x, bool half_y);
+
+    Block *predictChromBlock(int *arr, size_t x, size_t y, bool half_x, bool half_y);
+
+    void updateFramestoresMacroblock(size_t index, Macroblock *mb);
 };
 
 
