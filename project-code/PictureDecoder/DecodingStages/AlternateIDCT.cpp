@@ -94,11 +94,11 @@ void AlternateIDCT::performIDCTNaive(HPicture *picture) {
 }
 
 void AlternateIDCT::performIDCTonBlock(Block *block) {
-    block->setFdctransformed((int *) malloc(sizeof(int) * 8 * 8));
+    block->setData((int *) malloc(sizeof(int) * 8 * 8));
     long double realArray[64];
-    performRealIDCT((long double *) &realArray, block->getFquantized());
-    performRound(block->getFdctransformed(), (long double *) &realArray);
-    performSaturation(block->getFdctransformed());
+    performRealIDCT((long double *) &realArray, block->getData());
+    performRound(block->getData(), (long double *) &realArray);
+    performSaturation(block->getData());
 }
 
 void AlternateIDCT::performRealIDCT(long double *realArray, int *sourceArray) {

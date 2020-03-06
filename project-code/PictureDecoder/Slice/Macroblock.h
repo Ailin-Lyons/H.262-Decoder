@@ -53,9 +53,13 @@ public:
 
     void setBlocks(Block **blocks);
 
+    void setBlock(size_t index, Block* block);
+
     unsigned char getBlockCount() const;
 
     Block **getBlocks() const;
+
+    Block* getBlock(size_t index) const;
 
     unsigned char getQuantiserScaleCode() const;
 

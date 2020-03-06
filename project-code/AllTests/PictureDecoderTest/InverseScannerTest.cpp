@@ -29,7 +29,7 @@ TEST(AllTest, AllTest_InverseScanner_Test) {
     InverseScanner::performInverseScanHelper(b);
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            ASSERT_EQ(post[i][j], b->getQFscanned()[i * 8 + j]);
+            ASSERT_EQ(post[i][j], b->getData()[i * 8 + j]);
         }
     }
 }

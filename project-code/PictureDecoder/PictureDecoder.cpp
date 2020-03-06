@@ -6,6 +6,7 @@
 #include <VideoDecoder.h>
 #include <DecodingStages/AlternateIDCT.h>
 #include <DecodingStages/FCTTransformer.h>
+#include <ctime>
 #include "DecodingStages/InverseScanner.h"
 #include "DecodingStages/InverseQuantiser.h"
 #include "DecodingStages/InverseDCTransformer.h"
@@ -13,28 +14,36 @@
 #include "DecodingStages/MCompensator.h"
 
 HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_types pictureType) {
+    clock_t t = clock();
+    //printf("Begin Decoding picture %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     auto *picture = new HPicture();
     do {
         picture->addSlice((Slice *) VideoDecoder::getInstance()->getNextVideoPacket());
     } while (VideoDecoder::getInstance()->nextVideoPacketIs(ESPacket::start_code::slice));
+    //printf("    Reading file took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     InverseScanner::performInverseScan(picture, alternate_scan);
+    //printf("    Inverse Scan took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     //InverseQuantiser::performInverseQuantisation(picture);
     AlternateQuantiser::performInverseQuantisation(picture);
+    //printf("    Alternate Quantisation %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     /**
      * Different IDCT implementations can be chosen here:
      */
     //InverseDCTransformer::performIDCTNaive(picture);
     InverseDCTransformer::performIDCTThreaded(picture);
+    //printf("    IDCT took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     //AlternateIDCT::performIDCTNaive(picture);
     //FCTTransformer::performIDCTThreaded(picture);
     /**
      *
      */
     auto *mComp = new MCompensator(pictureType, isConcealmentMotionVectors());
+    //printf("MComp too %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     mComp->performMComp(picture);
 //    for (size_t i = 0; i < picture->getNumSlices(); i++) {
 //        picture->getSlices()[i]->print();
 //    }
+    printf("Decoding picture took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     return picture;
 }
 

@@ -15,26 +15,12 @@ private:
     unsigned char cc;
     unsigned char dct_dc_size;
     short dct_dc_differential;
-    int *QFS;
-    int *QFscanned{};
-    int *Fquantized{};
-    int *fdctransformed{};
+    int *data;
+
 public:
-    int *getQfs() const;
+    int *getData() const;
 
-    void setQfs(int *qfs);
-
-    int *getQFscanned() const;
-
-    void setQFscanned(int *qFscanned);
-
-    int *getFquantized() const;
-
-    void setFquantized(int *fquantized);
-
-    int *getFdctransformed() const;
-
-    void setFdctransformed(int *fdctransformed);
+    void setData(int *block_data);
 
     unsigned char getCc() const;
 

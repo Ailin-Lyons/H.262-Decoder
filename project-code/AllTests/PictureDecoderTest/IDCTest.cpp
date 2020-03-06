@@ -19,9 +19,9 @@ TEST(AllTest, AllTest_IDCTtest_Test) {
 
     Block::initializerStruct init = {0, 0, 0, 0, nullptr};
     auto b = new Block(init);
-    b->setFquantized(pre);
+    b->setData(pre);
     FCTTransformer::performIDCTBlockHelper(b);
-    auto result = b->getFdctransformed();
+    auto result = b->getData();
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             ASSERT_EQ(post[i * 8 + j], result[i * 8 + j]);

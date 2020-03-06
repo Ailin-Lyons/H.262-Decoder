@@ -36,8 +36,8 @@ void InverseScanner::performInverseScanHelper(Block *block) {
     int *qf = (int *) malloc(sizeof(int) * 8 * 8);
     for (size_t v = 0; v < 8; v++) {
         for (size_t u = 0; u < 8; u++) {
-            qf[v * 8 + u] = block->getQfs()[scan_0[v][u]];
+            qf[v * 8 + u] = block->getData()[scan_0[v][u]];
         }
     }
-    block->setQFscanned(qf);
+    block->setData(qf);
 }

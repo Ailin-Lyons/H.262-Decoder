@@ -56,7 +56,7 @@ void PictureBuilder::addYBlockToCimg(cimg_library::CImg<int> *image, Block *yBlo
     int *data = image->_data;
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
-            data[topLeft + (y * h_size) + x] = yBlock->getFdctransformed()[y * 8 + x];
+            data[topLeft + (y * h_size) + x] = yBlock->getData()[y * 8 + x];
         }
     }
 }
@@ -68,10 +68,10 @@ void PictureBuilder::addCbBlockToCimg(cimg_library::CImg<int> *image, Block *bBl
     size_t cr = vi->getHorizontalSize() * vi->getVerticalSize();
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
-            data[topLeft + (2 * y * h_size) + (2 * x) + cr] = bBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cr + 1] = bBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cr + h_size] = bBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cr + h_size + 1] = bBlock->getFdctransformed()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cr] = bBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cr + 1] = bBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cr + h_size] = bBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cr + h_size + 1] = bBlock->getData()[y * 8 + x];
         }
     }
 }
@@ -83,10 +83,10 @@ void PictureBuilder::addCrBlockToCimg(cimg_library::CImg<int> *image, Block *rBl
     size_t cb = (size_t) 2 * vi->getHorizontalSize() * vi->getVerticalSize();
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
-            data[topLeft + (2 * y * h_size) + (2 * x) + cb] = rBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cb + 1] = rBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cb + h_size] = rBlock->getFdctransformed()[y * 8 + x];
-            data[topLeft + (2 * y * h_size) + (2 * x) + cb + h_size + 1] = rBlock->getFdctransformed()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cb] = rBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cb + 1] = rBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cb + h_size] = rBlock->getData()[y * 8 + x];
+            data[topLeft + (2 * y * h_size) + (2 * x) + cb + h_size + 1] = rBlock->getData()[y * 8 + x];
         }
     }
 }

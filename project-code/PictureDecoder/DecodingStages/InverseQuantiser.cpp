@@ -83,7 +83,7 @@ void InverseQuantiser::performInverseQuantisationHelp(Block *block, Macroblock *
     int intra_dc_mult = precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_8 ? 8 :
                         (precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_9 ? 4 :
                          (precisionBits == PictureCodingExtensionPacket::intra_dc_precision_bits::p_10 ? 2 : 1));
-    int *qFScanned = block->getQFscanned();
+    int *qFScanned = block->getData();
     int *fPrimePrime = (int *) malloc(sizeof(int) * 8 * 8);
     int *fPrime = (int *) malloc(sizeof(int) * 8 * 8);
     int *quantized = (int *) malloc(sizeof(int) * 8 * 8);
@@ -126,7 +126,7 @@ void InverseQuantiser::performInverseQuantisationHelp(Block *block, Macroblock *
             quantized[7 * 8 + 7] = fPrime[7 * 8 + 7] + 1;
         }
     }
-    block->setFquantized(quantized);
+    block->setData(quantized);
     free(fPrimePrime);
     free(fPrime);
 }

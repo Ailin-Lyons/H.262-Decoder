@@ -33,8 +33,10 @@ void Macroblock::print() {
     if (codedBlockPattern != nullptr) {
         codedBlockPattern->print();
     }
-    for (size_t i = 0; i < block_count; i++) {
-        if (blocks[i] != nullptr) blocks[i]->print();
+    if (blocks) {
+        for (size_t i = 0; i < block_count; i++) {
+            if (blocks[i] != nullptr) blocks[i]->print();
+        }
     }
 }
 
@@ -64,10 +66,13 @@ Macroblock::~Macroblock() {
     delete forwardMotionVectors;
     delete backwardMotionVectors;
     delete codedBlockPattern;
-    for (int i = 0; i < block_count; i++) {
-        if (blocks[i]) delete (blocks[i]);
+    if (blocks) {
+        for (int i = 0; i < block_count; i++) {
+            if (blocks[i]) delete (blocks[i]);
+        }
+        free(blocks);
     }
-    free(blocks);
+
 }
 
 unsigned char Macroblock::getBlockCount() const {
@@ -124,4 +129,17 @@ size_t Macroblock::getMacroblockAddress() const {
 
 void Macroblock::setMacroblockAddress(size_t macroblockAddress) {
     macroblock_address = macroblockAddress;
+}
+
+void Macroblock::setBlock(size_t index, Block *block) {
+    if (blocks) {
+        blocks[index] = block;
+    }
+}
+
+Block *Macroblock::getBlock(size_t index) const {
+    if (blocks) {
+        return blocks[index];
+    }
+    return nullptr;
 }

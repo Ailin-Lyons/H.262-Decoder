@@ -6,7 +6,6 @@
 #include "../VideoDecoder/VideoException.cpp"
 #include <cmath>
 #include <pthread.h>
-#include <ctime>
 
 
 double InverseDCTransformer::cosab[64] = {1,
@@ -87,7 +86,6 @@ double InverseDCTransformer::cosab[64] = {1,
 #define SATURATE(x) ((x) < -256 ? -256 : ((x) > 255 ? 255 : (x)))
 
 void InverseDCTransformer::performIDCTNaive(HPicture *picture) {//TODO
-    clock_t t = clock();
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("InverseScanner: received picture in incorrect state.\n");
     for (size_t s = 0; s < picture->getNumSlices(); s++) {
@@ -100,12 +98,10 @@ void InverseDCTransformer::performIDCTNaive(HPicture *picture) {//TODO
             }
         }
     }
-    printf("IDCTNaive on picture took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     picture->setState(HPicture::decoding_state::discrete_cosine_transformed);
 }
 
 void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
-    clock_t t = clock();
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("InverseDCTransformer: received picture in incorrect state.\n");
     if (picture->getNumSlices() > 0) {
@@ -119,7 +115,6 @@ void InverseDCTransformer::performIDCTThreaded(HPicture *picture) {
         }
         free(threads);
     }
-    printf("IDCT on picture took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     picture->setState(HPicture::decoding_state::discrete_cosine_transformed);
 }
 
@@ -137,14 +132,14 @@ void *InverseDCTransformer::performIDCTThreadHelper(void *slice) {
 }
 
 void InverseDCTransformer::performIDCTBlockHelper(Block *block) {//TODO
-    int *quantized = block->getFquantized();
+    int *quantized = block->getData();
     auto idctFinal = (int *) malloc(sizeof(double) * 8 * 8);
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
             idctFinal[y * 8 + x] = genCoff(x, y, quantized);
         }
     }
-    block->setFdctransformed(idctFinal);
+    block->setData(idctFinal);
 }
 
 int InverseDCTransformer::genCoff(size_t x, size_t y, const int *quantized) {

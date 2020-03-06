@@ -129,8 +129,8 @@ void *FCTTransformer::performIDCTThreadHelper(void *slice) {
 
 void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
     auto idctFinal = (int *) malloc(sizeof(int) * 8 * 8);
-    auto quantized = block->getFquantized();
-    memcpy(idctFinal, block->getFquantized(), sizeof(int)*64);
+    auto quantized = block->getData();
+    memcpy(idctFinal, block->getData(), sizeof(int) * 64);
     int i;
     for (i = 0; i < 8; i++) {
         performIdctRow(idctFinal + (8 * i), quantized + (8 * i));
@@ -144,7 +144,7 @@ void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
 //            performIdctRow(idctFinal, x, y);
 //        }
 //    }
-    block->setFdctransformed(idctFinal);
+    block->setData(idctFinal);
 }
 
 void FCTTransformer::performIdctRow(int* arr, const int* quantized) {

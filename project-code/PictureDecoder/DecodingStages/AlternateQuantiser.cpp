@@ -66,10 +66,10 @@ void AlternateQuantiser::performInverseQuantisation(HPicture *picture) {
 
 void AlternateQuantiser::performIQonBlock(Block *block, int quantiser_scale_code, bool intra) {
     int *array = (int *) malloc(sizeof(int) * 8 * 8);
-    performIQA(array, block->getQFscanned(), quantiser_scale_code, intra);
+    performIQA(array, block->getData(), quantiser_scale_code, intra);
     performSaturation(array);
     performMismatchControl(array);
-    block->setFquantized(array);
+    block->setData(array);
 }
 
 void AlternateQuantiser::performSaturation(int *array) {
