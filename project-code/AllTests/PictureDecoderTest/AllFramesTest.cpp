@@ -37,7 +37,7 @@ protected:
         while(frameNum.length() < std::to_string(total).length()) {
             frameNum.insert(0, 1, '0');
         }
-        frameNum.insert(0, dirPath + "frame");
+        frameNum.insert(0, dirPath);
         frameNum.append(".bmp");
         return frameNum;
     }
