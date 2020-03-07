@@ -31,9 +31,9 @@ HPicture *PictureDecoder::decodePicture(PictureHeaderPacket::picture_coding_type
      */
     //InverseDCTransformer::performIDCTNaive(picture);
     InverseDCTransformer::performIDCTThreaded(picture);
-    //printf("    IDCT took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     //AlternateIDCT::performIDCTNaive(picture);
     //FCTTransformer::performIDCTThreaded(picture);
+    //printf("    IDCT took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     /**
      *
      */

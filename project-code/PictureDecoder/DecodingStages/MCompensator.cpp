@@ -47,16 +47,18 @@ void MCompensator::performMcompPPicture(HPicture *picture) {
                 throw VideoException("MCompensator::performMcompPPicture: Prediction type not handled by decoder.");
             }
             //This code only handles Frame pictures
-            performMCompMacroblock(macroblock);
+            checkResetPMV(macroblock);
+            if (!macroblock->getMacroBlockModes()->isMacroblockIntra()) performMCompMacroblock(macroblock);
         }
     }
 }
 
 void MCompensator::performMCompMacroblock(Macroblock *macroblock) {
-    checkResetPMV(macroblock);
-    decodeMotionVectors(macroblock); // Decodes motion vectors according to H.262 7.6.3.1
-    updateRemainingPredictors(macroblock); // Updates predictors according to H.262 7.6.3.3
-    handleMissingPredictors(macroblock); // Makes missing vectors according to H.262 7.6.3.5
+    if (macroblock->getMacroblockAddressIncrement() != 0) {
+        decodeMotionVectors(macroblock); // Decodes motion vectors according to H.262 7.6.3.1
+        updateRemainingPredictors(macroblock); // Updates predictors according to H.262 7.6.3.3
+        handleMissingPredictors(macroblock); // Makes missing vectors according to H.262 7.6.3.5
+    }
     handlePredictions(macroblock);
 }
 
@@ -70,10 +72,10 @@ void MCompensator::decodeMotionVectors(Macroblock *macroblock) {
         MotionVector *mv1s = macroblock->getForwardMotionVectors()->getMotionVector1S();
         if (mv1s) decodeVectorPrime(mv1s);
     }
-    if (macroblock->getForwardMotionVectors()) {
-        MotionVector *bv0s = macroblock->getForwardMotionVectors()->getMotionVector0S();
+    if (macroblock->getBackwardMotionVectors()) {
+        MotionVector *bv0s = macroblock->getBackwardMotionVectors()->getMotionVector0S();
         if (bv0s) decodeVectorPrime(bv0s);
-        MotionVector *bv1s = macroblock->getForwardMotionVectors()->getMotionVector1S();
+        MotionVector *bv1s = macroblock->getBackwardMotionVectors()->getMotionVector1S();
         if (bv1s) decodeVectorPrime(bv1s);
     }
 }
@@ -84,24 +86,24 @@ void MCompensator::decodeVectorPrime(MotionVector *motionVector) {
                                                        motionVector->isR(),
                                                        motionVector->isS(),
                                                        0)); // NOLINT(modernize-use-bool-literals)
-    motionVector->setVectorRS1(decodeVectorPrimeHelper(motionVector->getMotionCodeRS0(),
-                                                       motionVector->getMotionResidualRS0(),
+    motionVector->setVectorRS1(decodeVectorPrimeHelper(motionVector->getMotionCodeRS1(),
+                                                       motionVector->getMotionResidualRS1(),
                                                        motionVector->isR(),
                                                        motionVector->isS(),
                                                        1)); // NOLINT(modernize-use-bool-literals)
 }
 
-int MCompensator::decodeVectorPrimeHelper(char vectorCode, unsigned char residual, bool r, bool s, bool t) {
-    unsigned int r_size = (unsigned int) VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1;
+int MCompensator::decodeVectorPrimeHelper(char motion_code, unsigned char residual, bool r, bool s, bool t) {
+    int r_size = (int) (VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1);
     int f = 1 << r_size; // NOLINT(hicpp-signed-bitwise)
     int high = (16 * f) - 1;
-    int low = ((-16) * f);
+    int low = (-16 * f);
     int range = (32 * f);
     int delta;
-    if ((f == 1) || (vectorCode == 0)) delta = vectorCode;
+    if ((f == 1) || (motion_code == 0)) delta = motion_code;
     else {
-        delta = ((abs(vectorCode) - 1) * f) + residual + 1;
-        if (vectorCode < 0) delta = -delta;
+        delta = ((abs(motion_code) - 1) * f) + residual + 1;
+        if (motion_code < 0) delta = -delta;
     }
     int prediction = PMV[r][s][t];
     /**
@@ -189,7 +191,6 @@ void MCompensator::addMissingMacroblocks(HPicture *picture) {
             if (mb->getMacroblockAddressIncrement() > 1) {
                 for (size_t i = mb->getMacroblockAddressIncrement(); i > 1; i--) {
                     slice->insertZeroVectorMacroblock(m);
-                    Macroblock *test = slice->getMacroblocks()[m];
                     m++;//increment past inserted macroblock
                 }
             }
@@ -219,7 +220,8 @@ void MCompensator::handlePredictions(Macroblock *macroblock) {
                     "MCompensator::handlePredictions: backwards motion vectors not handled by this decoder\n");
         }
         Framestores *fs = Framestores::getInstance();
-        Macroblock *prediction = fs->getPredictionXY(macroblock->getForwardMotionVectors()->getMotionVector0S());
+        Macroblock *prediction = fs->getPredictionXY(macroblock->getMacroblockAddress(),
+                                                     macroblock->getForwardMotionVectors()->getMotionVector0S());
         combinePrediction(macroblock, prediction);
     }
 }

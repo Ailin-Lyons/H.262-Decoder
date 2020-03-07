@@ -39,8 +39,6 @@ private:
 
     static unsigned char parse_motion_residual(bool s, bool t);
 
-    static unsigned char parse_fcode(bool s, bool flag);
-
     static char parse_dmvector();
 };
 

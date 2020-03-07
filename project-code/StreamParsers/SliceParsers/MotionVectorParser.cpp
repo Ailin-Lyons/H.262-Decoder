@@ -54,14 +54,15 @@ MotionVector *MotionVectorParser::getNextPacket(bool r, bool s) {
     init.r = r;
     init.s = s;
     init.motion_code_r_s_0 = parse_motion_code();
-    if ((parse_fcode(s, false) != 1) && (init.motion_code_r_s_0 != 0)) {
+    if ((VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, false) != 1) &&
+        (init.motion_code_r_s_0 != 0)) {
         init.motion_residual_r_s_0 = parse_motion_residual(s, 0);
     }
     if (parse_dmv()) {
         init.dmvector_0 = parse_dmvector();
     }
     init.motion_code_r_s_1 = parse_motion_code();
-    if ((parse_fcode(s, true) != 1) && (init.motion_code_r_s_1 != 0)) {
+    if ((VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, true) != 1) && (init.motion_code_r_s_1 != 0)) {
         init.motion_residual_r_s_1 = parse_motion_residual(s, 1);
     }
     if (parse_dmv()) {
@@ -86,23 +87,7 @@ bool MotionVectorParser::parse_dmv() {
 }
 
 unsigned char MotionVectorParser::parse_motion_residual(bool s, bool t) {
-    return (unsigned char) read((unsigned int) parse_fcode(s, t == 1) - 1);
-}
-
-unsigned char MotionVectorParser::parse_fcode(bool s, bool flag) {
-    if (s == 0) {
-        if (flag) {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(0, 1);
-        } else {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(0, 0);
-        }
-    } else {
-        if (flag) {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(1, 1);
-        } else {
-            return VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(1, 0);
-        }
-    }
+    return (unsigned char) read((unsigned int) (VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1));
 }
 
 char MotionVectorParser::parse_dmvector() {

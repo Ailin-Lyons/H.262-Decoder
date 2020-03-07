@@ -30,7 +30,7 @@ public:
 
     void decodeVectorPrime(MotionVector *motionVector);
 
-    int decodeVectorPrimeHelper(char vectorCode, unsigned char residual, bool r, bool s, bool t);
+    int decodeVectorPrimeHelper(char motion_code, unsigned char residual, bool r, bool s, bool t);
 
     void updateRemainingPredictors(Macroblock *macroblock);
 
