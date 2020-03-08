@@ -100,7 +100,7 @@ void FCTTransformer::performIDCTThreaded(HPicture *picture) {
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("FCTTransformer: received picture in incorrect state.\n");
     if (picture->getNumSlices() > 0) {
-        auto* threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
+        pthread_t* threads = (pthread_t *) malloc(sizeof(pthread_t) * picture->getNumSlices());
         for (size_t s = 0; s < picture->getNumSlices(); s++) {
             Slice *slice = picture->getSlices()[s];
             pthread_create(&threads[s], nullptr, performIDCTThreadHelper, slice);
@@ -115,7 +115,7 @@ void FCTTransformer::performIDCTThreaded(HPicture *picture) {
 }
 
 void *FCTTransformer::performIDCTThreadHelper(void *slice) {
-    auto* sl = (Slice *) slice;
+    Slice* sl = (Slice *) slice;
     for (size_t m = 0; m < sl->getNumMacroblocks(); m++) {
         Macroblock *macroblock = sl->getMacroblocks()[m];
         for (size_t b = 0; b < macroblock->getBlockCount(); b++) {
@@ -128,42 +128,61 @@ void *FCTTransformer::performIDCTThreadHelper(void *slice) {
 }
 
 void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
+    int *quantized = block->getData();
     auto idctFinal = (int *) malloc(sizeof(int) * 8 * 8);
-    auto quantized = block->getData();
-    memcpy(idctFinal, block->getData(), sizeof(int) * 64);
-    int i;
-    for (i = 0; i < 8; i++) {
-        performIdctRow(idctFinal + (8 * i), quantized + (8 * i));
-    }
-    for (i = 0; i < 8; i++) {
-        performIdctCol(idctFinal + i, quantized + i);
-    }
-//    for (size_t y = 0; y < 8; y++) {
-//        for (size_t x = 0; x < 8; x++) {
-//            performIdctCol(idctFinal, x, y);
-//            performIdctRow(idctFinal, x, y);
+    auto tempRowMem = (double*) malloc(sizeof(double) * 8 * 8);
+    auto finalMem = (double*) malloc(sizeof(double) * 8 * 8);
+//    for (size_t i = 0; i < 8; i++) {
+//        for (size_t j = 0; j < 8; j++) {
+//            idctFinal[i * 8 + j] = genCoff(i, j, quantized);
 //        }
 //    }
+    for (size_t i = 0; i < 8; i++) {
+        performIdctRow(tempRowMem + 8*i, quantized + 8*i, i);
+    }
+    for (size_t j = 0; j < 8; j++) {
+        performIdctCol(finalMem + j, tempRowMem + j, j);
+    }
+    performSaturation(idctFinal, finalMem);
     block->setData(idctFinal);
 }
 
-void FCTTransformer::performIdctRow(int* arr, const int* quantized) {
-    double temp = 0;
-    for (int n = 0; n < 8; n++) {
-        for (int k = 0; k < 8; k++) {
-            temp += C(k) * arr[k] * cos(ARG(n, k));
+void FCTTransformer::performSaturation(int* arr, const double* final) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            arr[i*8+j] = SATURATE(round(final[i*8+j]));
         }
-        arr[n] = (int) round(temp);
     }
 }
 
-void FCTTransformer::performIdctCol(int* arr, const int* quantized) {
+int FCTTransformer::genCoff(int i, int j, const int* quantized) {
+    double temp = 0;
+    for (int v = 0; v < 8; v++) {
+        temp += C(v) * quantized[i * 8 + v] * cos(ARG(j, v));
+    }
+    for (int u = 0; u < 8; u++) {
+        temp += C(u) * quantized[u * 8 + j] * cos(ARG(i, u));
+    }
+    return SATURATE(round(temp * 0.25));
+}
+
+void FCTTransformer::performIdctRow(double* arr, const int* quantized, int row) {
     double temp = 0;
     for (int n = 0; n < 8; n++) {
         for (int k = 0; k < 8; k++) {
-            temp += C(k) * arr[k * 8] * cos(ARG(n, k));
+            temp += C(k) * quantized[k] * cos(ARG(n, k));
         }
-        arr[n * 8] = (int) SATURATE(round(temp * 0.25));
+        arr[n] = temp;
+    }
+}
+
+void FCTTransformer::performIdctCol(double* arr, const double* quantized, int col) {
+    double temp = 0;
+    for (int n = 0; n < 8; n++) {
+        for (int k = 0; k < 8; k++) {
+            temp += C(k) * quantized[k * 8] * cos(ARG(n, k));
+        }
+        arr[n * 8] = temp * 0.25;
     }
 }
 

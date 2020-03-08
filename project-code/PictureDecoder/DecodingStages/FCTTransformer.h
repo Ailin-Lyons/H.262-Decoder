@@ -14,8 +14,10 @@ private:
 //    static bool initFlag;
     static double cosab[64];
     static void *performIDCTThreadHelper(void *slice);
-    static void performIdctRow(int* arr, const int* quantized);
-    static void performIdctCol(int* arr, const int* quantized);
+    static void performIdctRow(double* arr, const int* quantized, int row);
+    static void performIdctCol(double* arr, const double* quantized, int col);
+    static void performSaturation(int* arr, const double* final);
+    static int genCoff(int i, int j, const int* quantized);
 
 public:
     static void performIDCTThreaded(HPicture *picture);
