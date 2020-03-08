@@ -5,9 +5,10 @@
 #ifndef PROJECT_CODE_VIDEODECODER_H
 #define PROJECT_CODE_VIDEODECODER_H
 
-#include <../StreamPackets/ESPackets/ESPacket.h>
-#include <../PictureDecoder/PictureDecoder.h>
+#include "../StreamPackets/ESPackets/ESPacket.h"
+#include "../PictureDecoder/PictureDecoder.h"
 #include "../StreamPackets/ESPackets/RegularStartCodes/SequenceDisplayExtensionPacket.h"
+#include "../CImg283/CImg.h"
 
 class VideoDecoder {
 private:
@@ -25,7 +26,7 @@ private:
      */
     VideoDecoder();
 
-    static bool loadFile(char *relative_path);
+    static bool loadFile(const char *relative_path);
 
     void loadVideoSequence();
 
@@ -40,6 +41,10 @@ public:
         }
         return instance;
     }
+
+    HPicture* makeOnePicture();
+
+    cimg_library::CImg<int>** decodeToArray(const char* source);
 
     void decodeToFile(char *source, char *destination);
 

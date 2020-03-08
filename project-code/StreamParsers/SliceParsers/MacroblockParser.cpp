@@ -4,7 +4,6 @@
 #include "ESParser.h"
 #include "../../PictureDecoder/Slice/Macroblock.h"
 #include "MacroblockParser.h"
-#include "../../VideoDecoder/VideoDecoder.h"
 #include "MotionVectorsParser.cpp"
 #include "CodedBlockPatternParser.h"
 #include "BlockParser.h"

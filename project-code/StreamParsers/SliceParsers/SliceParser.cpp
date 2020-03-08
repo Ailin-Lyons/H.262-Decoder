@@ -8,7 +8,7 @@
 #include "MacroblockParser.h"
 #include "../../VideoDecoder/VideoDecoder.h"
 
-#define read(n) (ESParser::getInstance()->popNBits((n)))
+#define READ(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
 
 class SliceParser {
@@ -22,24 +22,24 @@ public:
         Slice::initializerStruct init = {};
         init.stream_id = stream_id;
         if (VideoInformation::getInstance()->getVerticalSize() > 2800) {
-            init.slice_vertical_position_extension = (unsigned char) read(3);
+            init.slice_vertical_position_extension = (unsigned char) READ(3);
         }
 //        if(<sequence_scalable_extension() is present in the bitstream>) { //This feature is not covered by this decoder
 //            if (scalable_mode == 0x00) {
 //                priority_breakpoint = read(7);
 //            }
 //        }
-        init.quantiser_scale_code = (unsigned char) read(5);
+        init.quantiser_scale_code = (unsigned char) READ(5);
         if (peek(1) == 1) {
-            init.slice_extension_flag = (bool) read(1);
-            init.intra_slice = (bool) read(1);
-            init.slice_picture_id_enable = (bool) read(1);
-            init.slice_picture_id = (unsigned char)read(6);
+            init.slice_extension_flag = (bool) READ(1);
+            init.intra_slice = (bool) READ(1);
+            init.slice_picture_id_enable = (bool) READ(1);
+            init.slice_picture_id = (unsigned char)READ(6);
             while (peek(1) == 1) {
-                read(9); //extra_information_slice is not handled by this decoder
+                READ(9); //extra_information_slice is not handled by this decoder
             }
         }
-        read(1); //extra_bit_slice
+        READ(1); //extra_bit_slice
         init.numMacroblocks = 0;
         init.macroblocks = (Macroblock **) malloc(sizeof(Macroblock*) * 1);
         do {

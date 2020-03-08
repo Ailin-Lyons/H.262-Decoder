@@ -31,7 +31,7 @@ private:
     * @param relative_path: relative path to load the file from with respect to FileInterface.h
     * @return length of file in bytes || -1 if error
     */
-    static int getFileSize(char *relative_path) {
+    static int getFileSize(const char *relative_path) {
         struct stat results = {};
         if (stat(relative_path, &results) == 0)
             return results.st_size;
@@ -58,7 +58,7 @@ public:
      * @param relativePath: relative path to load the file from with respect to FileInterface.cpp
      * @throws FileException: if file cannot be opened or the file has invalid size
      */
-    void setInstance(char *relativePath);
+    void setInstance(const char *relativePath);
 
     /**
      * Check if more packets are available. Closes the file if no more packets are available

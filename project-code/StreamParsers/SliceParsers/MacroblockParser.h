@@ -12,9 +12,6 @@
 #include "MacroblockModesParser.h"
 #include "../../StreamPackets/ESPackets/RegularStartCodes/SequenceExtensionPacket.h"
 
-#define read(n) (ESParser::getInstance()->popNBits((n)))
-#define peek(n) (ESParser::getInstance()->peekNBits((n)))
-
 class MacroblockParser {
 private:
     struct vlc {

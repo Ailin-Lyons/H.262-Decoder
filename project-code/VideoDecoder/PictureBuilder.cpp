@@ -3,7 +3,6 @@
 //
 
 #include "PictureBuilder.h"
-#include "VideoDecoder.h"
 
 cimg_library::CImg<int> *PictureBuilder::makePngFromHPicture(HPicture *picture) {
     if (picture->getState() != HPicture::decoding_state::discrete_cosine_transformed) {

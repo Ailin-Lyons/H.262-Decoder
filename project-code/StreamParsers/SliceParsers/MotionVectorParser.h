@@ -8,7 +8,7 @@
 #include "ESParser.h"
 #include "../../PictureDecoder/Slice/MotionVector.h"
 
-#define read(n) (ESParser::getInstance()->popNBits((n)))
+#define READ(n) (ESParser::getInstance()->popNBits((n)))
 #define peek(n) (ESParser::getInstance()->peekNBits((n)))
 
 class MotionVectorParser {

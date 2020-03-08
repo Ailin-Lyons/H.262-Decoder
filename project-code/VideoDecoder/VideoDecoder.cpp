@@ -45,7 +45,35 @@ void VideoDecoder::decodeToFile(char *source, char *destination) {
     printf("\n***Decoding process done...***\n");
 }
 
-bool VideoDecoder::loadFile(char *relative_path) {
+cimg_library::CImg<int>** VideoDecoder::decodeToArray(const char* source) {
+    cimg_library::CImg<int>** outBuffer = nullptr;
+    pngSequenceNumber = 0;
+    pictureDecoder = new PictureDecoder();
+    loadFile(source);
+    printf("\n***Loading Video Information...***\n");
+    loadVideoSequence();
+    printf("***Loading Video Information...Done!***\n");
+    printf("\n***Beginning Decoding process...***\n");
+    do {
+        loadExtensionUserData(0);
+        do {
+            cimg_library::CImg<int>* image = PictureBuilder::makePngFromHPicture(makeOnePicture());
+            if (image != nullptr) {
+                pngSequenceNumber++;
+                outBuffer = (cimg_library::CImg<int>**) realloc(outBuffer, pngSequenceNumber*
+                sizeof(cimg_library::CImg<int>*));
+                outBuffer[pngSequenceNumber-1] = image;
+            }
+        } while (nextVideoPacketIs(ESPacket::start_code::picture) || nextVideoPacketIs(ESPacket::start_code::group));
+        if (!nextVideoPacketIs(ESPacket::start_code::sequence_end)) {
+            loadVideoSequence();
+        }
+    } while (!nextVideoPacketIs(ESPacket::start_code::sequence_end));
+    printf("\n***Decoding process done...***\n");
+    return outBuffer;
+}
+
+bool VideoDecoder::loadFile(const char *relative_path) {
     printf("\n**Loading file: %s ***\n", relative_path);
     try {
         FileInterface::getInstance()->setInstance(relative_path);
@@ -94,6 +122,17 @@ void VideoDecoder::makePicture(char *destination) {
     savePngToFile(decodedPicture, destination);
 }
 
+HPicture* VideoDecoder::makeOnePicture() {
+    if (nextVideoPacketIs(ESPacket::start_code::group)) {
+        loadGroupHeaderAndExtension();
+        loadExtensionUserData(1);
+    }
+    PictureHeaderPacket::picture_coding_types pctype = loadPictureHeader();
+    loadPictureCodingExtension();
+    loadExtensionUserData(2);
+    return pictureDecoder->decodePicture(pctype);
+}
+
 bool VideoDecoder::nextVideoPacketIs(ESPacket::start_code startCode) {
     if (ESPacket::getStartCode(ESParser::getInstance()->nextESPacketID()) == ESPacket::start_code::video_stream) {
         handleVideoStream(ESParser::getInstance()->getNextPacket());
@@ -115,7 +154,7 @@ ESPacket *VideoDecoder::getNextVideoPacket() {
 void VideoDecoder::loadExtensionUserData(unsigned char i) {
     while (nextVideoPacketIs(ESPacket::start_code::extension) || nextVideoPacketIs(ESPacket::start_code::user_data)) {
         if (i != 1 && nextVideoPacketIs(ESPacket::start_code::extension)) {
-            auto *extension_data = (ExtensionPacket *) getNextVideoPacket();
+            auto extension_data = (ExtensionPacket *) getNextVideoPacket();
             switch (extension_data->getExtensionType()) {
                 case ExtensionPacket::extension_type::sequence_display:
                     loadSequenceDisplayExtension((SequenceDisplayExtensionPacket *) extension_data);

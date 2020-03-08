@@ -19,6 +19,9 @@ protected:
 
     std::string dirPath = "../../../testFiles/testFrames/";
     double allowedRmsError = 0; // todo set it to a reasonable number
+    int currFrameNumber = 0;
+    cimg_library::CImg<int>** framesArray = nullptr;
+    std::string testFilePath = "(../../../testFiles/testvideo.ts)";
 
     int countNumFiles() {
         DIR *dp;
@@ -65,7 +68,10 @@ protected:
     }
 
     cimg_library::CImg<int>* generateNextFrame() {
-        return nullptr; // todo
+        if (framesArray == nullptr) {
+            framesArray = VideoDecoder::getInstance()->decodeToArray(testFilePath.c_str());
+        }
+        return framesArray[currFrameNumber++];
     }
 };
 

@@ -6,7 +6,7 @@
 #define PROJECT_CODE_PICTUREDECODER_H
 
 
-#include <../StreamPackets/ESPackets/RegularStartCodes/PictureHeaderPacket.h>
+#include "../StreamPackets/ESPackets/RegularStartCodes/PictureHeaderPacket.h"
 #include "../StreamPackets/ESPackets/RegularStartCodes/PictureCodingExtensionPacket.h"
 #include "../PictureDecoder/Slice/MacroblockModes.h"
 #include "../PictureDecoder/Slice/CodedBlockPattern.h"

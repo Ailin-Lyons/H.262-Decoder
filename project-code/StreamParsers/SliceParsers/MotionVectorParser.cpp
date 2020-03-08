@@ -74,7 +74,7 @@ MotionVector *MotionVectorParser::getNextPacket(bool r, bool s) {
 char MotionVectorParser::parse_motion_code() {
     for (vlc code: table_b10) {
         if (peek(code.numbits) == code.key) {
-            read(code.numbits);
+            READ(code.numbits);
             return code.value;
         }
     }
@@ -87,13 +87,13 @@ bool MotionVectorParser::parse_dmv() {
 }
 
 unsigned char MotionVectorParser::parse_motion_residual(bool s, bool t) {
-    return (unsigned char) read((unsigned int) (VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1));
+    return (unsigned char) READ((unsigned int) (VideoDecoder::getInstance()->getPictureDecoder()->getFCodeST(s, t) - 1));
 }
 
 char MotionVectorParser::parse_dmvector() {
     for (vlc code: table_b11) {
         if (peek(code.numbits) == code.key) {
-            read(code.numbits);
+            READ(code.numbits);
             return code.value;
         }
     }
