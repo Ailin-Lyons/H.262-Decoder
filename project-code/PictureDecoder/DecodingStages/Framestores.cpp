@@ -29,24 +29,24 @@ Macroblock *Framestores::getPredictionXY(int macroblock_index, MotionVector *mv)
     Macroblock::initializerStruct init = {};
     init.block_count = 6;
     init.blocks = (Block **) calloc(6, sizeof(void *));
-    int int_vec0 = div2TruncNeg(mv->getVectorRS0());
-    bool half_flag0 = (mv->getVectorRS0() - (2 * int_vec0)) ? 0 : 1; // NOLINT(modernize-use-bool-literals)
-    int int_vec1 = div2TruncNeg(mv->getVectorRS1());
-    bool half_flag1 = (mv->getVectorRS1() - (2 * int_vec1)) ? 0 : 1; // NOLINT(modernize-use-bool-literals)
+    int int_vec0 = div2TruncNeg(mv->getVectorRS0()); //x offset in pixels
+    bool half_flag0 = (mv->getVectorRS0() - (2 * int_vec0)) != 0 ? 1 : 0; // NOLINT(modernize-use-bool-literals)
+    int int_vec1 = div2TruncNeg(mv->getVectorRS1()); //y offset in pixels
+    bool half_flag1 = (mv->getVectorRS1() - (2 * int_vec1)) != 0 ? 1 : 0; // NOLINT(modernize-use-bool-literals)
 
-    int x_index = macroblock_index % (x_res / 16);
-    int y_index = macroblock_index / (x_res / 16);
+    int x_index = macroblock_index % (int) (x_res / 16); //x index of macroblock
+    int y_index = macroblock_index / (int) (x_res / 16); //y index of macroblock
 
-    int lum_base_x = x_index * 16 + int_vec0;
-    int lum_base_y = y_index * 16 + int_vec1;
+    int lum_base_x = x_index * 16 + int_vec0; //x index of pixel
+    int lum_base_y = y_index * 16 + int_vec1; //y index of pixel
 
-    int chrom_vec_0 = div2TruncNeg(mv->getVectorRS0() / 2);
-    bool chrom_half_flag0 = ((mv->getVectorRS0() / 2) - (2 * chrom_vec_0)) ? 0 : 1;
-    int chrom_vec_1 = div2TruncNeg(mv->getVectorRS1() / 2);
-    bool chrom_half_flag1 = ((mv->getVectorRS1() / 2) - (2 * chrom_vec_1)) ? 0 : 1;
+    int chrom_vec_0 = div2TruncNeg(mv->getVectorRS0() / 2); //x offset in pixels
+    bool chrom_half_flag0 = ((mv->getVectorRS0() / 2) - (2 * chrom_vec_0)) != 0 ? 1 : 0;
+    int chrom_vec_1 = div2TruncNeg(mv->getVectorRS1() / 2); //y offset in pixels
+    bool chrom_half_flag1 = ((mv->getVectorRS1() / 2) - (2 * chrom_vec_1)) != 0 ? 1 : 0;
 
-    int chrom_base_x = x_index * 8 + chrom_vec_0;
-    int chrom_base_y = y_index * 8 + chrom_vec_1;
+    int chrom_base_x = x_index * 8 + chrom_vec_0; //x index of pixel
+    int chrom_base_y = y_index * 8 + chrom_vec_1; //y index of pixel
 
     init.blocks[0] = predictBlock(0, lum, x_res, y_res, lum_base_x, lum_base_y, half_flag0, half_flag1);
     init.blocks[1] = predictBlock(1, lum, x_res, y_res, lum_base_x + 8, lum_base_y, half_flag0, half_flag1);
@@ -73,10 +73,6 @@ Block *Framestores::predictBlock(size_t block_index, const int *arr, size_t widt
                                  int x_base, int y_base, bool half_x, bool half_y) {
     auto *out = new Block(Block::initializerStruct{block_index, Block::calculateCC(block_index)});
     out->setData((int *) calloc(64, sizeof(int)));
-
-    if (x_base + 7 + 1 >= width)half_x = false;
-    if (y_base + 7 + 1 >= height)half_y = false;
-
     for (size_t y = 0; y < 8; y++) {
         for (size_t x = 0; x < 8; x++) {
             int *data = out->getData();
@@ -126,6 +122,7 @@ void Framestores::addBlock(int *targetArray, size_t width, size_t x_base, size_t
 
 /**
  * H.262 "DIV" operator
+ * Tested ok
  */
 int Framestores::div2TruncNeg(int numerator) {
     if (numerator < 0) numerator -= 1;
