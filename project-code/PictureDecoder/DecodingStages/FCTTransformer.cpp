@@ -132,27 +132,30 @@ void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
     auto idctFinal = (int *) malloc(sizeof(int) * 8 * 8);
     auto tempRowMem = (double*) malloc(sizeof(double) * 8 * 8);
     auto finalMem = (double*) malloc(sizeof(double) * 8 * 8);
-    for (size_t i = 0; i < 8; i++) {
-        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
-    }
-    for (size_t j = 0; j < 8; j++) {
-        performIdctCol(finalMem + j, tempRowMem + j);
-    }
-    performSaturation(idctFinal, finalMem);
-//    auto tempQuantized = (double*) malloc(sizeof(double) * 8 * 8);
-//    for (size_t a = 0; a < 7; a++) {
-//        for (size_t b = 0; b < 7; b++) {
-//            tempQuantized[a*8+b] = (double) quantized[a*8+b];
-//        }
-//    }
 //    for (size_t i = 0; i < 8; i++) {
-//        chenIdct(1, tempRowMem + 8*i, tempQuantized + 8*i);
+//        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
 //    }
 //    for (size_t j = 0; j < 8; j++) {
-//        chenIdct(8,finalMem + j, tempRowMem + j);
+//        performIdctCol(finalMem + j, tempRowMem + j);
 //    }
-//    performChenSaturation(idctFinal, finalMem);
+//    performSaturation(idctFinal, finalMem);
+    auto tempQuantized = (double*) malloc(sizeof(double) * 8 * 8);
+    for (size_t a = 0; a < 7; a++) {
+        for (size_t b = 0; b < 7; b++) {
+            tempQuantized[a*8+b] = (double) quantized[a*8+b];
+        }
+    }
+    for (size_t i = 0; i < 8; i++) {
+        chenIdct(1, tempRowMem + 8*i, tempQuantized + 8*i);
+    }
+    for (size_t j = 0; j < 8; j++) {
+        chenIdct(8,finalMem + j, tempRowMem + j);
+    }
+    performChenSaturation(idctFinal, finalMem);
     block->setData(idctFinal);
+//    free(tempRowMem);
+//    free(finalMem);
+//    free(tempQuantized);
 }
 
 void FCTTransformer::performSaturation(int* arr, const double* final) {

@@ -120,6 +120,7 @@ void VideoDecoder::makePicture(char *destination) {
     loadExtensionUserData(2);
     HPicture *decodedPicture = pictureDecoder->decodePicture(pctype);
     savePngToFile(decodedPicture, destination);
+    free(decodedPicture);
 }
 
 HPicture* VideoDecoder::makeOnePicture() {
