@@ -9,9 +9,12 @@ class IdctTest : public ::testing::Test {
 protected:
     Block::initializerStruct init = {0, 0, 0, 0, nullptr};
     Block* b = new Block(init);
-    int pre[64] = {1432, -6, -7, 8, 0, 0, 0, 0, -78, -30, 0, -9, 0, 0, 0, 0, 35, -41, -9, -10, 0, 0, 0, 0, 41, 0, -19,
+    double pre[64] = {1432, -6, -7, 8, 0, 0, 0, 0, -78, -30, 0, -9, 0, 0, 0, 0, 35, -41, -9, -10, 0, 0, 0, 0, 41, 0, -19,
                    0, 0, 0, 0, 0, 16, 19, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                    0, 0, 0, 0, 1};
+    int pre2[64] = {1432, -6, -7, 8, 0, 0, 0, 0, -78, -30, 0, -9, 0, 0, 0, 0, 35, -41, -9, -10, 0, 0, 0, 0, 41, 0, -19,
+                      0, 0, 0, 0, 0, 16, 19, 0, 0, 0, 0, 0, 0, 0, 10, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                      0, 0, 0, 0, 1};
 };
 
 TEST_F(IdctTest, Full_IDCTtest) {
@@ -19,7 +22,7 @@ TEST_F(IdctTest, Full_IDCTtest) {
                       154, 157, 161, 165, 167, 189, 180, 170, 164, 163, 163, 161, 159, 193, 189, 186, 185, 186, 181,
                       172, 164, 187, 187, 189, 194, 197, 195, 186, 178, 194, 192, 190, 191, 194, 194, 192, 189, 193,
                       193, 193, 194, 196, 196, 195, 194};
-    b->setData(pre);
+    b->setData(pre2);
     FCTTransformer::performIDCTBlockHelper(b);
     auto result = b->getData();
     for (int i = 0; i < 8; i++) {
@@ -31,26 +34,33 @@ TEST_F(IdctTest, Full_IDCTtest) {
     std::cout << std::endl << std::endl << std::endl;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-           std::cout << "(" << result[i*8+j] << ", " << post[i*8+j] << "), ";
+            std::cout << result[i*8+j] << ", " << post[i*8+j] << ", " << result[i*8+j]/post[i*8+j] << std::endl;
         }
-        std::cout <<  std::endl;
     }
 
-    std::cout << std::endl << std::endl << std::endl << "Actual values" << std::endl;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            std::cout << result[i*8+j] << ", ";
-        }
-        std::cout <<  std::endl;
-    }
-
-    std::cout << std::endl << std::endl << std::endl << "Expected Values" << std::endl;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            std::cout << post[i*8+j] << ", ";
-        }
-        std::cout <<  std::endl;
-    }
+//    std::cout << std::endl << std::endl << std::endl;
+//    for (int i = 0; i < 8; i++) {
+//        for (int j = 0; j < 8; j++) {
+//           std::cout << "(" << result[i*8+j] << ", " << post[i*8+j] << "), ";
+//        }
+//        std::cout <<  std::endl;
+//    }
+//
+//    std::cout << std::endl << std::endl << std::endl << "Actual values" << std::endl;
+//    for (int i = 0; i < 8; i++) {
+//        for (int j = 0; j < 8; j++) {
+//            std::cout << result[i*8+j] << ", ";
+//        }
+//        std::cout <<  std::endl;
+//    }
+//
+//    std::cout << std::endl << std::endl << std::endl << "Expected Values" << std::endl;
+//    for (int i = 0; i < 8; i++) {
+//        for (int j = 0; j < 8; j++) {
+//            std::cout << post[i*8+j] << ", ";
+//        }
+//        std::cout <<  std::endl;
+//    }
 }
 
 TEST_F(IdctTest, RowIDCTtest) {
@@ -66,7 +76,7 @@ TEST_F(IdctTest, RowIDCTtest) {
 
     auto arr = (double*) malloc(sizeof(double)*8*8);
     for (size_t i = 0; i < 8; i++) {
-        FCTTransformer::performIdctRow(arr + 8*i, pre + 8*i);
+        FCTTransformer::chenIdct(1, arr + 8*i, pre + 8*i);
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
@@ -74,12 +84,12 @@ TEST_F(IdctTest, RowIDCTtest) {
         }
     }
 
-//    std::cout << std::endl << std::endl << std::endl;
-//    for (int i = 0; i < 8; i++) {
-//        for (int j = 0; j < 8; j++) {
-//           std::cout << arr[i*8+j] << ", " << post[i*8+j]*0.5 << std::endl;
-//        }
-//    }
+    std::cout << std::endl << std::endl << std::endl;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+           std::cout << arr[i*8+j] << ", " << post[i*8+j]*0.5 << ", " << arr[i*8+j]/(post[i*8+j]*0.5) << std::endl;
+        }
+    }
 }
 
 TEST_F(IdctTest, ColumnIDCTtest) {
@@ -113,11 +123,17 @@ TEST_F(IdctTest, ColumnIDCTtest) {
 
     auto arr = (double*) malloc(sizeof(double)*8*8);
     for (size_t i = 0; i < 8; i++) {
-        FCTTransformer::performIdctCol(arr + i, pre + i);
+        FCTTransformer::chenIdct(8, arr + i, pre + i);
     }
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             EXPECT_NEAR(arr[i * 8 + j],  post[j * 8 + i] * 0.5, 0.00000001);
+        }
+    }
+    std::cout << std::endl << std::endl << std::endl;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            std::cout << arr[i*8+j] << ", " << post[i*8+j]*0.5 << ", " << arr[i*8+j]/(post[i*8+j]*0.5) << std::endl;
         }
     }
 }

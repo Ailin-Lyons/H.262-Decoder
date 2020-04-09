@@ -15,6 +15,7 @@ private:
     static double cosab[64];
     static void *performIDCTThreadHelper(void *slice);
     static void performSaturation(int* arr, const double* final);
+    static void performChenSaturation(int* arr, const double* final);
     static int genCoff(int i, int j, const int* quantized);
 
 public:

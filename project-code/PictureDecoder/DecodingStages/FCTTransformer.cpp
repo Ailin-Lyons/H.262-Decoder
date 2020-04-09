@@ -129,35 +129,43 @@ void *FCTTransformer::performIDCTThreadHelper(void *slice) {
 
 void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
     int *quantized = block->getData();
-    auto tempQuantized = (double*) malloc(sizeof(int) * 8 * 8);
-    for (size_t a = 0; a < 7; a++) {
-        for (size_t b = 0; b < 7; b++) {
-            tempQuantized[a*8+b] = (double) quantized[a*8+b];
-        }
-    }
     auto idctFinal = (int *) malloc(sizeof(int) * 8 * 8);
     auto tempRowMem = (double*) malloc(sizeof(double) * 8 * 8);
     auto finalMem = (double*) malloc(sizeof(double) * 8 * 8);
-//    for (size_t i = 0; i < 8; i++) {
-//        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
-//    }
-//    for (size_t j = 0; j < 8; j++) {
-//        performIdctCol(finalMem + j, tempRowMem + j);
-//    }
     for (size_t i = 0; i < 8; i++) {
-        chenIdct(1, tempRowMem + 8*i, tempQuantized + 8*i);
+        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
     }
     for (size_t j = 0; j < 8; j++) {
-        chenIdct(8,finalMem + j, tempRowMem + j);
+        performIdctCol(finalMem + j, tempRowMem + j);
     }
     performSaturation(idctFinal, finalMem);
+//    auto tempQuantized = (double*) malloc(sizeof(double) * 8 * 8);
+//    for (size_t a = 0; a < 7; a++) {
+//        for (size_t b = 0; b < 7; b++) {
+//            tempQuantized[a*8+b] = (double) quantized[a*8+b];
+//        }
+//    }
+//    for (size_t i = 0; i < 8; i++) {
+//        chenIdct(1, tempRowMem + 8*i, tempQuantized + 8*i);
+//    }
+//    for (size_t j = 0; j < 8; j++) {
+//        chenIdct(8,finalMem + j, tempRowMem + j);
+//    }
+//    performChenSaturation(idctFinal, finalMem);
     block->setData(idctFinal);
 }
 
 void FCTTransformer::performSaturation(int* arr, const double* final) {
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
-            arr[i*8+j] = (int) SATURATE(round(0.25 * final[i*8+j]));
+            arr[i*8+j] = ((int) SATURATE(round(0.25 * final[i*8+j])));
+        }
+    }
+}
+void FCTTransformer::performChenSaturation(int* arr, const double* final) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            arr[i*8+j] = 2*((int) SATURATE(round(final[i*8+j])));
         }
     }
 }
@@ -213,21 +221,21 @@ void FCTTransformer::performIdctCol(double* arr, const double* quantized) {
     }
 
 }
-
+#define ROOT_2 (sqrt(2))
 // constants
-double s7 = sin(7*M_PI/16);
-double s5 = sin(5*M_PI/16);
-double s3 = sin(3*M_PI/16);
-double s1 = sin(1*M_PI/16);
-double c7 = cos(7*M_PI/16);
-double c5 = cos(5*M_PI/16);
-double c3 = cos(3*M_PI/16);
-double c1 = cos(1*M_PI/16);
-double c14 = cos(1*M_PI/4);
-double c38 = cos(3*M_PI/8);
-double c18 = cos(1*M_PI/8);
-double s38 = sin(3*M_PI/8);
-double s18 = sin(1*M_PI/8);
+double s7 = sin(7*M_PI/16) * ROOT_2;
+double s5 = sin(5*M_PI/16) * ROOT_2;
+double s3 = sin(3*M_PI/16) * ROOT_2;
+double s1 = sin(1*M_PI/16) * ROOT_2;
+double c7 = cos(7*M_PI/16) * ROOT_2;
+double c5 = cos(5*M_PI/16) * ROOT_2;
+double c3 = cos(3*M_PI/16) * ROOT_2;
+double c1 = cos(1*M_PI/16) * ROOT_2;
+double c14 = cos(1*M_PI/4) * ROOT_2;
+double c38 = cos(3*M_PI/8) * ROOT_2;
+double c18 = cos(1*M_PI/8) * ROOT_2;
+double s38 = sin(3*M_PI/8) * ROOT_2;
+double s18 = sin(1*M_PI/8) * ROOT_2;
 
 void FCTTransformer::chenIdct(int rowCol, double* arr, const double* quantized) {
     // 1D chen implementation
