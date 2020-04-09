@@ -129,14 +129,26 @@ void *FCTTransformer::performIDCTThreadHelper(void *slice) {
 
 void FCTTransformer::performIDCTBlockHelper(Block *block) {//TODO
     int *quantized = block->getData();
+    auto tempQuantized = (double*) malloc(sizeof(int) * 8 * 8);
+    for (size_t a = 0; a < 7; a++) {
+        for (size_t b = 0; b < 7; b++) {
+            tempQuantized[a*8+b] = (double) quantized[a*8+b];
+        }
+    }
     auto idctFinal = (int *) malloc(sizeof(int) * 8 * 8);
     auto tempRowMem = (double*) malloc(sizeof(double) * 8 * 8);
     auto finalMem = (double*) malloc(sizeof(double) * 8 * 8);
+//    for (size_t i = 0; i < 8; i++) {
+//        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
+//    }
+//    for (size_t j = 0; j < 8; j++) {
+//        performIdctCol(finalMem + j, tempRowMem + j);
+//    }
     for (size_t i = 0; i < 8; i++) {
-        performIdctRow(tempRowMem + 8*i, quantized + 8*i);
+        chenIdct(1, tempRowMem + 8*i, tempQuantized + 8*i);
     }
     for (size_t j = 0; j < 8; j++) {
-        performIdctCol(finalMem + j, tempRowMem + j);
+        chenIdct(8,finalMem + j, tempRowMem + j);
     }
     performSaturation(idctFinal, finalMem);
     block->setData(idctFinal);
@@ -199,5 +211,66 @@ void FCTTransformer::performIdctCol(double* arr, const double* quantized) {
         }
         arr[k*8] = temp + (C(0) * quantized[0]);
     }
+
 }
 
+// constants
+double s7 = sin(7*M_PI/16);
+double s5 = sin(5*M_PI/16);
+double s3 = sin(3*M_PI/16);
+double s1 = sin(1*M_PI/16);
+double c7 = cos(7*M_PI/16);
+double c5 = cos(5*M_PI/16);
+double c3 = cos(3*M_PI/16);
+double c1 = cos(1*M_PI/16);
+double c14 = cos(1*M_PI/4);
+double c38 = cos(3*M_PI/8);
+double c18 = cos(1*M_PI/8);
+double s38 = sin(3*M_PI/8);
+double s18 = sin(1*M_PI/8);
+
+void FCTTransformer::chenIdct(int rowCol, double* arr, const double* quantized) {
+    // 1D chen implementation
+
+    // Butterfly 1
+    double x0 = quantized[0*rowCol];
+    double x1 = quantized[4*rowCol];
+    double x2 = quantized[2*rowCol];
+    double x3 = quantized[6*rowCol];
+    double x4 = c7 * quantized[1*rowCol] - c1 * quantized[7*rowCol];
+    double x7 = s7 * quantized[1*rowCol] + s1 * quantized[7*rowCol];
+    double x5 = c3 * quantized[5*rowCol] - c5 * quantized[3*rowCol];
+    double x6 = s3 * quantized[5*rowCol] + s5 * quantized[3*rowCol];
+
+    // Butterfly 2
+    double y0 = c14 * x0 + c14 * x1;
+    double y1 = c14 * x0 - c14 * x1;
+    double y2 = c38 * x2 - c18 * x3;
+    double y3 = s38 * x2 + s18 * x3;
+    double y4 = 0.5 * x4 + 0.5 * x5;
+    double y5 = 0.5 * x4 - 0.5 * x5;
+    double y6 = -0.5 * x6 + 0.5 * x7;
+    double y7 = 0.5 * x6 + 0.5 * x7;
+
+    // Butterfly 3
+
+    double z0 = 0.5 * y0 + 0.5 * y3;
+    double z3 = 0.5 * y0 - 0.5 * y3;
+    double z1 = 0.5 * y1 + 0.5 * y2;
+    double z2 = 0.5 * y1 - 0.5 * y2;
+    double z4 = y4;
+    double z5 = -c14 * y5 + c14 * y6;
+    double z6 = c14 * y5 + c14 * y6;
+    double z7 = y7;
+
+    //Butterfly 4
+
+    arr[0*rowCol] = 0.5 * z0 + 0.5 * z7;
+    arr[7*rowCol] = 0.5 * z0 - 0.5 * z7;
+    arr[1*rowCol] = 0.5 * z1 + 0.5 * z6;
+    arr[6*rowCol] = 0.5 * z1 - 0.5 * z6;
+    arr[2*rowCol] = 0.5 * z2 + 0.5 * z5;
+    arr[5*rowCol] = 0.5 * z2 - 0.5 * z5;
+    arr[3*rowCol] = 0.5 * z3 + 0.5 * z4;
+    arr[4*rowCol] = 0.5 * z3 - 0.5 * z4;
+}

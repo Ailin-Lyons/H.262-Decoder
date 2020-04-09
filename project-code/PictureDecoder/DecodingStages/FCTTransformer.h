@@ -22,6 +22,7 @@ public:
     static void performIDCTBlockHelper(Block *block);
     static void performIdctRow(double* arr, const int* quantized);
     static void performIdctCol(double* arr, const double* quantized);
+    static void chenIdct(int rowCol, double* arr, const double* quantized);
 };
 
 
