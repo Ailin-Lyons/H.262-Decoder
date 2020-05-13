@@ -22,3 +22,6 @@ set(HEADER_FILES
         RegularStartCodes/PictureCodingExtensionPacket.h)
 
 add_library(ESPackets STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+#adding profiler required debug info
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gstabs+")

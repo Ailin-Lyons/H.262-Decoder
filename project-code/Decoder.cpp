@@ -12,7 +12,7 @@
 // DESIGN - use builtin math
 
 
-const static double e = 2.71828182845;
+//const static double e = 2.71828182845;
 
 
 /* TODO: display the information in part 1

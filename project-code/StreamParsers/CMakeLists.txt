@@ -30,3 +30,6 @@ set(HEADER_FILES
         ESParser.h)
 
 add_library(StreamParsers STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+#adding profiler required debug info
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gstabs+")

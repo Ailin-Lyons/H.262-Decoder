@@ -11,3 +11,6 @@ set(HEADER_FILES
         )
 
 add_library(TSPayloadSections ${SOURCE_FILES} ${HEADER_FILES})
+
+#adding profiler required debug info
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gstabs+")

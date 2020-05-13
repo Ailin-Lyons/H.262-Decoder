@@ -96,7 +96,7 @@ void FCTTransformer::performIDCTThreaded(HPicture *picture) {
 //        ForeignIDCT::init_idct();
 //        initFlag = true;
 //    }
-    //clock_t t = clock();
+    clock_t t = clock();
     if (picture->getState() != HPicture::decoding_state::inverse_quantised)
         throw VideoException("FCTTransformer: received picture in incorrect state.\n");
     if (picture->getNumSlices() > 0) {
@@ -110,7 +110,7 @@ void FCTTransformer::performIDCTThreaded(HPicture *picture) {
         }
         free(threads);
     }
-    //printf("IDCT on picture took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
+    printf("IDCT on picture took %f seconds\n", ((float) clock() - t) / CLOCKS_PER_SEC);
     picture->setState(HPicture::decoding_state::discrete_cosine_transformed);
 }
 

@@ -9,3 +9,6 @@ set(SOURCE_FILES
         FileException.cpp)
 
 add_library(Util STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+#adding profiler required debug info
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -gstabs+")
